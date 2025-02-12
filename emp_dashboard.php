@@ -1,64 +1,128 @@
 <?php
 session_start();
-require "includes/db_connect.php"; // Ensure database connection is included
+include 'includes/db_connect.php';
 
-// Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
+    header("Location: emp_login.php");
     exit();
 }
 
-// Retrieve user ID from session
 $user_id = $_SESSION['user_id'];
 
-// Fetch user details from `tbl_employee`
-$stmt = $conn->prepare("SELECT firstName, lastName, emailAddress, country, companyNumber FROM tbl_employee WHERE user_id = ?");
+$query = "SELECT firstName, lastName, emailAddress, address, gender, mobileNumber, relationship_status FROM tbl_employee WHERE user_id = ?";
+$stmt = $conn->prepare($query);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
-
-if ($result->num_rows === 1) {
-    $user = $result->fetch_assoc();
-} else {
-    echo "User not found!";
-    exit();
-}
+$employee = $result->fetch_assoc();
 $stmt->close();
-$conn->close();
-?>
 
+// Fetch Career History
+$query = "SELECT jobTitle, companyName, started, ended, still_in_role, description FROM tbl_careerhistory WHERE user_id = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$careerHistory = $stmt->get_result();
+$stmt->close();
+
+// Fetch Certifications
+$query = "SELECT licenceName, issuingOrganization, issueDate, expiryDate, description FROM tbl_certification WHERE user_id = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$certifications = $stmt->get_result();
+$stmt->close();
+
+// Fetch Educational Background
+$query = "SELECT course, institution, finished, course_highlights FROM tbl_educback WHERE user_id = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$education = $stmt->get_result();
+$stmt->close();
+
+// Fetch Languages
+$query = "SELECT language FROM tbl_language WHERE user_id = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$languages = $stmt->get_result();
+$stmt->close();
+
+// Fetch Resume
+$query = "SELECT resumeFile FROM tbl_resume WHERE user_id = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$resume = $stmt->get_result()->fetch_assoc();
+$stmt->close();
+
+// Fetch Skills
+$query = "SELECT skillName FROM tbl_skills WHERE user_id = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$skills = $stmt->get_result();
+$stmt->close();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Dashboard</title>
-    <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f4f4; text-align: center; padding: 50px; }
-        .container { background: white; padding: 20px; border-radius: 8px; width: 400px; margin: auto; }
-        .btn { display: inline-block; padding: 10px 15px; margin-top: 10px; text-decoration: none; background: #007BFF; color: white; border-radius: 5px; }
-        .btn:hover { background: #0056b3; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
-    </style>
+    <title>Employee Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <h2>Welcome, <?php echo htmlspecialchars($employee['firstName'] . ' ' . $employee['lastName']); ?></h2>
+    <p>Email: <?php echo htmlspecialchars($employee['emailAddress']); ?></p>
+    <p>Address: <?php echo htmlspecialchars($employee['address']); ?></p>
+    <p>Gender: <?php echo htmlspecialchars($employee['gender']); ?></p>
+    <p>Mobile Number: <?php echo htmlspecialchars($employee['mobileNumber']); ?></p>
+    <p>Relationship Status: <?php echo htmlspecialchars($employee['relationship_status']); ?></p>
+    
+    <h3>Career History</h3>
+    <ul>
+        <?php while ($row = $careerHistory->fetch_assoc()) { ?>
+            <li><?php echo htmlspecialchars($row['jobTitle'] . ' at ' . $row['companyName']); ?></li>
+        <?php } ?>
+    </ul>
 
-    <div class="container">
-        <h2>Welcome, <?php echo htmlspecialchars($user['firstName']); ?>!</h2>
-        <p><strong>Email:</strong> <?php echo htmlspecialchars($user['emailAddress']); ?></p>
-        
-        <h3>Your Information</h3>
-        <table>
-            <tr><th>First Name:</th><td><?php echo htmlspecialchars($user['firstName']); ?></td></tr>
-            <tr><th>Last Name:</th><td><?php echo htmlspecialchars($user['lastName']); ?></td></tr>
-            <tr><th>Country:</th><td><?php echo htmlspecialchars($user['country']); ?></td></tr>
-            <tr><th>Company Number:</th><td><?php echo htmlspecialchars($user['companyNumber']); ?></td></tr>
-        </table>
+    <h3>Certifications</h3>
+    <ul>
+        <?php while ($row = $certifications->fetch_assoc()) { ?>
+            <li><?php echo htmlspecialchars($row['licenceName'] . ' from ' . $row['issuingOrganization']); ?></li>
+        <?php } ?>
+    </ul>
 
-        <br>
-        <a href="includes/logout.php" class="btn" style="background: red;">Logout</a>
-    </div>
+    <h3>Educational Background</h3>
+    <ul>
+        <?php while ($row = $education->fetch_assoc()) { ?>
+            <li><?php echo htmlspecialchars($row['course'] . ' at ' . $row['institution']); ?></li>
+        <?php } ?>
+    </ul>
 
+    <h3>Languages</h3>
+    <ul>
+        <?php while ($row = $languages->fetch_assoc()) { ?>
+            <li><?php echo htmlspecialchars($row['language']); ?></li>
+        <?php } ?>
+    </ul>
+
+    <h3>Resume</h3>
+    <?php if ($resume) { ?>
+        <a href="uploads/<?php echo htmlspecialchars($resume['resumeFile']); ?>" download>Download Resume</a>
+    <?php } else { ?>
+        <p>No resume uploaded.</p>
+    <?php } ?>
+
+    <h3>Skills</h3>
+    <ul>
+        <?php while ($row = $skills->fetch_assoc()) { ?>
+            <li><?php echo htmlspecialchars($row['skillName']); ?></li>
+        <?php } ?>
+    </ul>
+
+    <a href="includes/logout.php">Logout</a>
 </body>
 </html>
