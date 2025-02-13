@@ -65,13 +65,7 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee Registration</title>
-    <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f4f4; text-align: center; padding: 50px; }
-        form { background: white; padding: 20px; border-radius: 8px; width: 300px; margin: auto; }
-        input, button { width: 100%; padding: 10px; margin: 5px 0; }
-        .message { color: red; margin-top: 10px; }
-        .success { color: green; }
-    </style>
+    <link rel="stylesheet" href="style/style.css">
 </head>
 <body>
     <h2>Employee Registration</h2>

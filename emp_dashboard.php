@@ -54,7 +54,7 @@ unset($_SESSION['success_message'], $_SESSION['error_message']);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee Dashboard</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style/style.css">
     <script>
         function openModal(category, data = {}) {
             document.getElementById('editCategory').value = category;
@@ -86,67 +86,6 @@ unset($_SESSION['success_message'], $_SESSION['error_message']);
             }
         }
     </script>
-    <style>
-        .modal {
-            display: none;
-            position: fixed;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            justify-content: center;
-            align-items: center;
-        }
-        .modal-content {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 80%;
-            max-width: 500px;
-            text-align: center;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-        }
-        th {
-            background-color: #f2f2f2;
-            text-align: left;
-        }
-        .category-header {
-            background-color: #4CAF50;
-            color: white;
-            text-align: center;
-        }
-        .edit-button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            cursor: pointer;
-        }
-        .edit-button:hover {
-            background-color: #45a049;
-        }
-        .close-button {
-            background-color: #f44336;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            cursor: pointer;
-        }
-        .close-button:hover {
-            background-color: #e53935;
-        }
-    </style>
 </head>
 <body>
     <h2>Welcome, <?php echo htmlspecialchars($employee['firstName'] . ' ' . $employee['lastName']); ?></h2>
@@ -156,7 +95,7 @@ unset($_SESSION['success_message'], $_SESSION['error_message']);
         <tr class="category-header">
             <th>Field</th>
             <th>Value</th>
-            <th>Action</th>
+            <th class="table-column-action">Action</th>
         </tr>
         <tr>
             <td>Email</td>
@@ -200,7 +139,7 @@ unset($_SESSION['success_message'], $_SESSION['error_message']);
             <th>End Date</th>
             <th>Still in Role</th>
             <th>Job Description</th>
-            <th>Action</th>
+            <th class="table-column-action">Action</th>
         </tr>
         <?php foreach ($career_history as $job): ?>
         <tr>
@@ -231,7 +170,7 @@ unset($_SESSION['success_message'], $_SESSION['error_message']);
             <th>Institution</th>
             <th>End Date</th>
             <th>Course Highlights</th>
-            <th>Action</th>
+            <th class="table-column-action">Action</th>
         </tr>
         <?php foreach ($education as $edu): ?>
         <tr>
@@ -255,7 +194,7 @@ unset($_SESSION['success_message'], $_SESSION['error_message']);
     <table>
         <tr class="category-header">
             <th>Language</th>
-            <th>Action</th>
+            <th class="table-column-action">Action</th>
         </tr>
         <?php foreach ($languages as $lang): ?>
         <tr>
