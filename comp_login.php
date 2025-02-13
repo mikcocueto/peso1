@@ -1,5 +1,5 @@
 <?php require "includes/db_connect.php"; ?>
-
+<?php require "includes/nav.php"; ?>
 <?php
 // START SESSION
 session_start();
