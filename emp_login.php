@@ -1,5 +1,6 @@
 <?php
 require "includes/db_connect.php"; // Database connection
+require "includes/nav.php"; // Navigation bar
 
 $loginMessage = "";
 

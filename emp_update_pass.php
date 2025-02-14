@@ -1,6 +1,6 @@
 <?php
 require "includes/db_connect.php"; // Database connection
-
+require "includes/nav.php";
 $updateMessage = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

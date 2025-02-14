@@ -27,8 +27,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $still_in_role = isset($_POST['still_in_role']) ? 1 : 0;
             $description = trim($_POST['description']);
 
-            $stmt = $conn->prepare("UPDATE tbl_careerhistory SET job_title = ?, company_name = ?, start_date = ?, end_date = ?, still_in_role = ?, description = ? WHERE id = ? AND user_id = ?");
-            $stmt->bind_param("ssssisis", $job_title, $company_name, $start_date, $end_date, $still_in_role, $description, $id, $user_id);
+            if ($id) {
+                $stmt = $conn->prepare("UPDATE tbl_careerhistory SET job_title = ?, company_name = ?, start_date = ?, end_date = ?, still_in_role = ?, description = ? WHERE id = ? AND user_id = ?");
+                $stmt->bind_param("ssssisis", $job_title, $company_name, $start_date, $end_date, $still_in_role, $description, $id, $user_id);
+            } else {
+                $stmt = $conn->prepare("INSERT INTO tbl_careerhistory (user_id, job_title, company_name, start_date, end_date, still_in_role, description) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                $stmt->bind_param("issssis", $user_id, $job_title, $company_name, $start_date, $end_date, $still_in_role, $description);
+            }
             break;
 
         case 'education':

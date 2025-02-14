@@ -1,4 +1,5 @@
 <?php require "includes/db_connect.php"; ?>
+<?php require "includes/nav.php"; ?>
 
 <?php
 // FORM HANDLING

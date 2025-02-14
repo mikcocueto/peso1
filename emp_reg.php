@@ -1,5 +1,6 @@
 <?php
 require "includes/db_connect.php"; // Ensure this file correctly connects to your database.
+require "includes/nav.php"; 
 
 $registrationMessage = "";
 
