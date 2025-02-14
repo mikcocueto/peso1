@@ -39,6 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->close();
     }
 }
+// Close the connection
 $conn->close();
 ?>
 
@@ -68,5 +69,6 @@ $conn->close();
         <input type="password" name="password" placeholder="Password" required>
         <button type="submit">Login</button>
     </form>
+    <p><a href="emp_update_pass.php">Forgot Password?</a></p>
 </body>
 </html>

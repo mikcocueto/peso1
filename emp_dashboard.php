@@ -28,7 +28,7 @@ $career_history = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
 
 // Fetch educational background
-$query = "SELECT id, course, institution, end_date, course_highlights FROM tbl_educback WHERE user_id = ?";
+$query = "SELECT id, course, institution, ending_date, course_highlights FROM tbl_educback WHERE user_id = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
@@ -47,6 +47,9 @@ $stmt->close();
 $success_message = isset($_SESSION['success_message']) ? $_SESSION['success_message'] : '';
 $error_message = isset($_SESSION['error_message']) ? $_SESSION['error_message'] : '';
 unset($_SESSION['success_message'], $_SESSION['error_message']);
+
+// Close the connection
+$conn->close();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -77,12 +80,19 @@ unset($_SESSION['success_message'], $_SESSION['error_message']);
         function closeMessageModal() {
             document.getElementById('messageModal').style.display = 'none';
         }
+        function openPasswordModal() {
+            document.getElementById('passwordModal').style.display = 'block';
+        }
+        function closePasswordModal() {
+            document.getElementById('passwordModal').style.display = 'none';
+        }
         window.onload = function() {
-            var successMessage = "<?php echo $success_message; ?>";
-            var errorMessage = "<?php echo $error_message; ?>";
+            var successMessage = "<?php echo isset($_SESSION['success_message']) ? $_SESSION['success_message'] : ''; ?>";
+            var errorMessage = "<?php echo isset($_SESSION['error_message']) ? $_SESSION['error_message'] : ''; ?>";
             if (successMessage || errorMessage) {
                 document.getElementById('messageModal').style.display = 'block';
                 document.getElementById('messageContent').innerText = successMessage || errorMessage;
+                <?php unset($_SESSION['success_message'], $_SESSION['error_message']); ?>
             }
         }
     </script>
@@ -141,7 +151,7 @@ unset($_SESSION['success_message'], $_SESSION['error_message']);
             <th>Job Description</th>
             <th class="table-column-action">Action</th>
         </tr>
-        <?php foreach ($career_history as $job): ?>
+        <?php foreach ($career_history as $index => $job): ?>
         <tr>
             <td><?php echo htmlspecialchars($job['job_title']); ?></td>
             <td><?php echo htmlspecialchars($job['company_name']); ?></td>
@@ -176,13 +186,13 @@ unset($_SESSION['success_message'], $_SESSION['error_message']);
         <tr>
             <td><?php echo htmlspecialchars($edu['course']); ?></td>
             <td><?php echo htmlspecialchars($edu['institution']); ?></td>
-            <td><?php echo htmlspecialchars($edu['end_date']); ?></td>
+            <td><?php echo htmlspecialchars($edu['ending_date']); ?></td>
             <td><?php echo htmlspecialchars($edu['course_highlights']); ?></td>
             <td><button class="edit-button" onclick="openModal('education', {
                 id: '<?php echo $edu['id']; ?>',
                 course: '<?php echo htmlspecialchars($edu['course']); ?>',
                 institution: '<?php echo htmlspecialchars($edu['institution']); ?>',
-                end_date: '<?php echo htmlspecialchars($edu['end_date']); ?>',
+                ending_date: '<?php echo htmlspecialchars($edu['ending_date']); ?>',
                 course_highlights: '<?php echo htmlspecialchars($edu['course_highlights']); ?>'
             })">Edit</button></td>
         </tr>
@@ -208,6 +218,8 @@ unset($_SESSION['success_message'], $_SESSION['error_message']);
     </table>
     <button class="edit-button" onclick="openModal('languages')">Add Language</button>
     
+    <button class="edit-button" onclick="openPasswordModal()">Change Password</button>
+
     <div id="editModal" class="modal">
         <div class="modal-content">
             <h3>Edit Information</h3>
@@ -245,8 +257,8 @@ unset($_SESSION['success_message'], $_SESSION['error_message']);
                     <input type="text" id="course" name="course"><br>
                     <label for="institution">Institution:</label>
                     <input type="text" id="institution" name="institution"><br>
-                    <label for="end_date">End Date:</label>
-                    <input type="date" id="end_date" name="end_date"><br>
+                    <label for="ending_date">End Date:</label>
+                    <input type="date" id="ending_date" name="ending_date"><br>
                     <label for="course_highlights">Course Highlights:</label>
                     <input type="text" id="course_highlights" name="course_highlights"><br>
                 </div>
@@ -256,6 +268,23 @@ unset($_SESSION['success_message'], $_SESSION['error_message']);
                 </div>
                 <button type="submit">Save</button>
                 <button type="button" class="close-button" onclick="closeModal()">Cancel</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <h3>Change Password</h3>
+            <form method="POST" action="includes/emp_update_pass.php">
+                <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
+                <label for="oldPassword">Old Password:</label>
+                <input type="password" id="oldPassword" name="oldPassword" required><br>
+                <label for="newPassword">New Password:</label>
+                <input type="password" id="newPassword" name="newPassword" required><br>
+                <label for="confirmPassword">Confirm New Password:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required><br>
+                <button type="submit">Change Password</button>
+                <button type="button" class="close-button" onclick="closePasswordModal()">Cancel</button>
             </form>
         </div>
     </div>

@@ -1,14 +1,15 @@
 <?php
-session_start();
-include 'includes/db_connect.php';
-include 'includes/nav.php';
+session_start(); // Start the session
+include 'includes/db_connect.php'; // Include database connection
+include 'includes/nav.php'; // Include navigation bar
 
+// Check if the company is logged in
 if (!isset($_SESSION['company_id'])) {
-    header("Location: comp_login.php");
+    header("Location: comp_login.php"); // Redirect to login page if not logged in
     die();
 }
 
-$company_id = $_SESSION['company_id'];
+$company_id = $_SESSION['company_id']; // Get the company ID from the session
 
 // Fetch company details
 $query = "SELECT firstName, lastName, companyName, country, companyNumber FROM tbl_company WHERE company_id = ?";
@@ -32,6 +33,7 @@ unset($_SESSION['success_message'], $_SESSION['error_message']);
     <title>Company Dashboard</title>
     <link rel="stylesheet" href="style/style.css">
     <script>
+        // Function to open the modal with pre-filled data
         function openModal(category, data = {}) {
             document.getElementById('editCategory').value = category;
             document.querySelectorAll('.modal-fields').forEach(div => div.style.display = 'none');
@@ -43,12 +45,18 @@ unset($_SESSION['success_message'], $_SESSION['error_message']);
             }
             document.getElementById('editModal').style.display = 'block';
         }
+
+        // Function to close the modal
         function closeModal() {
             document.getElementById('editModal').style.display = 'none';
         }
+
+        // Function to close the message modal
         function closeMessageModal() {
             document.getElementById('messageModal').style.display = 'none';
         }
+
+        // Display success or error message if available
         window.onload = function() {
             var successMessage = "<?php echo $success_message; ?>";
             var errorMessage = "<?php echo $error_message; ?>";
@@ -102,6 +110,7 @@ unset($_SESSION['success_message'], $_SESSION['error_message']);
         </tr>
     </table>
     
+    <!-- Modal for editing information -->
     <div id="editModal" class="modal">
         <div class="modal-content">
             <h3>Edit Information</h3>
@@ -126,6 +135,7 @@ unset($_SESSION['success_message'], $_SESSION['error_message']);
         </div>
     </div>
 
+    <!-- Modal for displaying messages -->
     <div id="messageModal" class="modal">
         <div class="modal-content">
             <span id="messageContent"></span><br>

@@ -1,15 +1,17 @@
 <?php
-session_start();
-include __DIR__ . '/db_connect.php'; // Ensure correct path
+session_start(); // Start the session
+include __DIR__ . '/db_connect.php'; // Include database connection
 
+// Check if the company is logged in and category is set
 if (!isset($_SESSION['company_id']) || !isset($_POST['category'])) {
-    header("Location: ../comp_dashboard.php"); // Updated redirection path
+    header("Location: ../comp_dashboard.php"); // Redirect to dashboard if not logged in
     die(); // Terminate script execution
 }
 
-$company_id = $_SESSION['company_id'];
-$category = $_POST['category'];
+$company_id = $_SESSION['company_id']; // Get the company ID from the session
+$category = $_POST['category']; // Get the category from the POST request
 
+// Determine the table and fields to update based on the category
 switch ($category) {
     case 'company':
         $table = 'tbl_company';
@@ -47,6 +49,6 @@ if ($stmt->execute()) {
 $stmt->close();
 $conn->close();
 
-header("Location: ../comp_dashboard.php"); // Ensure correct redirection
+header("Location: ../comp_dashboard.php"); // Redirect to dashboard
 die(); // Ensure no further execution
 ?>
