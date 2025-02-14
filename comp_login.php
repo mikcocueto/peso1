@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['company_id'] = $company_id;
                 $_SESSION['email'] = $email;
                 echo "Login successful! Redirecting...";
-                header("refresh:2; url=dashboard.php"); // Redirect to dashboard
+                header("refresh:2; url=comp_dashboard.php"); // Redirect to dashboard
                 exit();
             } else {
                 echo "Invalid password.";

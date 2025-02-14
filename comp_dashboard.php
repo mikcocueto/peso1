@@ -1,0 +1,138 @@
+<?php
+session_start();
+include 'includes/db_connect.php';
+include 'includes/nav.php';
+
+if (!isset($_SESSION['company_id'])) {
+    header("Location: comp_login.php");
+    die();
+}
+
+$company_id = $_SESSION['company_id'];
+
+// Fetch company details
+$query = "SELECT firstName, lastName, companyName, country, companyNumber FROM tbl_company WHERE company_id = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $company_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$company = $result->fetch_assoc();
+$stmt->close();
+
+// Check for success or error messages
+$success_message = isset($_SESSION['success_message']) ? $_SESSION['success_message'] : '';
+$error_message = isset($_SESSION['error_message']) ? $_SESSION['error_message'] : '';
+unset($_SESSION['success_message'], $_SESSION['error_message']);
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Dashboard</title>
+    <link rel="stylesheet" href="style/style.css">
+    <script>
+        function openModal(category, data = {}) {
+            document.getElementById('editCategory').value = category;
+            document.querySelectorAll('.modal-fields').forEach(div => div.style.display = 'none');
+            document.getElementById(category + 'Fields').style.display = 'block';
+            for (const key in data) {
+                if (data.hasOwnProperty(key)) {
+                    document.getElementById(key).value = data[key];
+                }
+            }
+            document.getElementById('editModal').style.display = 'block';
+        }
+        function closeModal() {
+            document.getElementById('editModal').style.display = 'none';
+        }
+        function closeMessageModal() {
+            document.getElementById('messageModal').style.display = 'none';
+        }
+        window.onload = function() {
+            var successMessage = "<?php echo $success_message; ?>";
+            var errorMessage = "<?php echo $error_message; ?>";
+            if (successMessage || errorMessage) {
+                document.getElementById('messageModal').style.display = 'block';
+                document.getElementById('messageContent').innerText = successMessage || errorMessage;
+            }
+        }
+    </script>
+</head>
+<body>
+    <h2>Welcome, <?php echo htmlspecialchars($company['firstName'] . ' ' . $company['lastName']); ?></h2>
+    
+    <h3>Company Information</h3>
+    <table>
+        <tr class="category-header">
+            <th>Field</th>
+            <th>Value</th>
+            <th class="table-column-action">Action</th>
+        </tr>
+        <tr>
+            <td>First Name</td>
+            <td><?php echo htmlspecialchars($company['firstName']); ?></td>
+            <td><button class="edit-button" onclick="openModal('company', {
+                firstName: '<?php echo htmlspecialchars($company['firstName']); ?>',
+                lastName: '<?php echo htmlspecialchars($company['lastName']); ?>',
+                companyName: '<?php echo htmlspecialchars($company['companyName']); ?>',
+                country: '<?php echo htmlspecialchars($company['country']); ?>',
+                companyNumber: '<?php echo htmlspecialchars($company['companyNumber']); ?>'
+            })">Edit</button></td>
+        </tr>
+        <tr>
+            <td>Last Name</td>
+            <td><?php echo htmlspecialchars($company['lastName']); ?></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Company Name</td>
+            <td><?php echo htmlspecialchars($company['companyName']); ?></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Country</td>
+            <td><?php echo htmlspecialchars($company['country']); ?></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Company Number</td>
+            <td><?php echo htmlspecialchars($company['companyNumber']); ?></td>
+            <td></td>
+        </tr>
+    </table>
+    
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <h3>Edit Information</h3>
+            <form method="POST" action="includes/comp_update_profile.php">
+                <input type="hidden" id="editCategory" name="category">
+                <input type="hidden" id="id" name="id">
+                <div id="companyFields" class="modal-fields">
+                    <label for="firstName">First Name:</label>
+                    <input type="text" id="firstName" name="firstName"><br>
+                    <label for="lastName">Last Name:</label>
+                    <input type="text" id="lastName" name="lastName"><br>
+                    <label for="companyName">Company Name:</label>
+                    <input type="text" id="companyName" name="companyName"><br>
+                    <label for="country">Country:</label>
+                    <input type="text" id="country" name="country"><br>
+                    <label for="companyNumber">Company Number:</label>
+                    <input type="text" id="companyNumber" name="companyNumber"><br>
+                </div>
+                <button type="submit">Save</button>
+                <button type="button" class="close-button" onclick="closeModal()">Cancel</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="messageModal" class="modal">
+        <div class="modal-content">
+            <span id="messageContent"></span><br>
+            <button class="close-button" onclick="closeMessageModal()">Close</button>
+        </div>
+    </div>
+
+    <a href="includes/logout.php">Logout</a>
+</body>
+</html>
