@@ -71,5 +71,6 @@ $conn->close();
         <button type="submit">Login</button>
     </form>
     <p><a href="emp_update_pass.php">Forgot Password?</a></p>
+    <p><a href="emp_reg.php">Register</a></p>
 </body>
 </html>

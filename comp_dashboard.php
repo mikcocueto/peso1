@@ -143,7 +143,7 @@ unset($_SESSION['success_message'], $_SESSION['error_message']);
         </div>
     </div>
 
-    <a href="includes/logout.php">Logout</a><br>
+    <a href="includes/comp_logout.php">Logout</a><br>
     <a href="comp_job_post.php" class="btn btn-primary w-100 mt-2">Post Job</a>
 </body>
 </html>

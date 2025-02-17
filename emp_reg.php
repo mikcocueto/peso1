@@ -84,5 +84,6 @@ $conn->close();
         <input type="password" name="password" placeholder="Password" required>
         <button type="submit">Register</button>
     </form>
+    <p><a href="emp_login.php">Back to Login</a></p>
 </body>
 </html>

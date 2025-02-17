@@ -296,6 +296,6 @@ $conn->close();
         </div>
     </div>
 
-    <a href="includes/logout.php">Logout</a>
+    <a href="includes/emp_logout.php">Logout</a>
 </body>
 </html>

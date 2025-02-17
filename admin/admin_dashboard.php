@@ -14,6 +14,10 @@ $stmt->execute();
 $stmt->bind_result($firstName, $lastName);
 $stmt->fetch();
 $stmt->close();
+
+// Fetch the count of active job listings
+$active_jobs_count = $conn->query("SELECT COUNT(*) AS count FROM tbl_job_listing WHERE status = 'active'")->fetch_assoc()['count'];
+
 $conn->close();
 ?>
 
@@ -106,8 +110,8 @@ $conn->close();
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center">
-                                <span class="text-muted">Jobs for You</span>
-                                <img alt="Jobs for You" height="40" src="https://storage.googleapis.com/a1aa/image/bk8gZkz1VCII6cy5KmZe8NpWv1Pi_wGUvc8KSp_NAj4.jpg" width="40"/>
+                                <span class="text-muted">Current active listings</span>
+                                <span class="text-primary display-4"><?= $active_jobs_count ?></span>
                             </div>
                             <a class="text-primary" href="#">View all jobs</a>
                         </div>

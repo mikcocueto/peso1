@@ -71,13 +71,14 @@ $categories = $conn->query("SELECT category_id, category_name FROM tbl_job_categ
                                 <?php while ($category = $categories->fetch_assoc()): ?>
                                     <option value="<?= $category['category_id'] ?>"><?= htmlspecialchars($category['category_name']) ?></option>
                                 <?php endwhile; ?>
-                            </select>
+                            </select>   
                         </div>
                         <div class="mb-3">
                             <label for="expiry_date" class="form-label">Expiry Date</label>
                             <input type="date" class="form-control" name="expiry_date" required>
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Create Job Listing</button>
+                        <a href="comp_dashboard.php">back to company dash</a><br>
                     </form>
                 </div>
             </div>
