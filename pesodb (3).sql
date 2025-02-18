@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 14, 2025 at 05:32 AM
+-- Generation Time: Feb 18, 2025 at 01:07 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.1.25
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -34,6 +34,13 @@ CREATE TABLE `tbl_admin` (
   `emailAddress` varchar(255) NOT NULL,
   `role` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_admin`
+--
+
+INSERT INTO `tbl_admin` (`admin_id`, `firstName`, `lastName`, `emailAddress`, `role`) VALUES
+(1, 'admin', 'admin', 'admin@admin.com', 'admin');
 
 -- --------------------------------------------------------
 
@@ -110,7 +117,8 @@ INSERT INTO `tbl_company` (`company_id`, `firstName`, `lastName`, `companyName`,
 (3, '', '', 'adeson', '', 0),
 (4, '', '', 'adeson', '', 0),
 (5, 'ade', 'son', '', 'Philippines', 0),
-(6, 'shan', 'shan', 'adeson', 'Philippines', 123456789);
+(6, 'shan', 'shan', 'adeson', 'Philippines', 123456789),
+(7, 'q', 'q', 'q', 'q', 1);
 
 -- --------------------------------------------------------
 
@@ -164,7 +172,57 @@ INSERT INTO `tbl_employee` (`user_id`, `firstName`, `lastName`, `address`, `emai
 (11, 'Mikco', 'Cueto', '', 'cuetomikco08@gmail.com', '', '', '2025-02-12 04:39:53', ''),
 (12, 'justine', 'justine', 'aa', 'justine@gmail.com', 'dd', '111', '2025-02-12 05:33:23', ''),
 (13, 'Mikco', 'Cueto', 'aaaa', 'cueto@gmail.com', 'a', '', '2025-02-13 04:43:07', ''),
-(14, 'Mikco', 'Cueto', 'Sta. Maria SPC', 'c@gmail.com', 'Female', '099999999999', '2025-02-14 03:58:48', '');
+(14, 'Mikco', 'Cueto', 'Sta. Maria SPC', 'c@gmail.com', 'Female', '099999999999', '2025-02-14 03:58:48', ''),
+(15, 'q', 'q', '', 'q@gmail.com', '', '', '2025-02-17 05:23:39', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_job_category`
+--
+
+CREATE TABLE `tbl_job_category` (
+  `category_id` int(11) NOT NULL,
+  `category_name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_job_category`
+--
+
+INSERT INTO `tbl_job_category` (`category_id`, `category_name`) VALUES
+(1, 'category test');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_job_listing`
+--
+
+CREATE TABLE `tbl_job_listing` (
+  `job_id` int(11) NOT NULL,
+  `employer_id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `requirements` text NOT NULL,
+  `employment_type` varchar(255) NOT NULL,
+  `location` varchar(255) NOT NULL,
+  `salary_min` decimal(11,2) NOT NULL,
+  `salary_max` decimal(11,2) NOT NULL,
+  `currency` varchar(10) NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `posted_date` timestamp NULL DEFAULT NULL,
+  `expiry_date` timestamp NULL DEFAULT NULL,
+  `status` varchar(32) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_job_listing`
+--
+
+INSERT INTO `tbl_job_listing` (`job_id`, `employer_id`, `title`, `description`, `requirements`, `employment_type`, `location`, `salary_min`, `salary_max`, `currency`, `category_id`, `posted_date`, `expiry_date`, `status`) VALUES
+(1, 7, 'ttest', 'dtest', 'rtest', 'Full-time', 'spc', 1.00, 2.00, 'php', 1, '2025-02-16 16:00:00', '2025-02-16 16:00:00', 'active'),
+(2, 7, 'test2 title', 'test2 desc', 'test2 reqs', 'Internship', 'test2 loc', 122.00, 123.00, 'ddd', 1, '2025-02-16 16:00:00', '2025-02-27 16:00:00', 'active');
 
 -- --------------------------------------------------------
 
@@ -201,6 +259,13 @@ CREATE TABLE `tbl_loginadmin` (
   `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `tbl_loginadmin`
+--
+
+INSERT INTO `tbl_loginadmin` (`id`, `admin_id`, `emailAddress`, `password`) VALUES
+(1, 1, 'admin@admin.com', 'admin');
+
 -- --------------------------------------------------------
 
 --
@@ -222,7 +287,8 @@ CREATE TABLE `tbl_logincompany` (
 INSERT INTO `tbl_logincompany` (`id`, `company_id`, `emailAddress`, `password`, `salt`) VALUES
 (1, 4, 'adeson@gmail.com', '$2y$10$h3vdK7cpQwMQJdw8QJMgD.UtjDbuwtkN9UY2iRVkhBnMELZTZ4aRi', '3d1a64c872938f48146fb600ec96c78c'),
 (2, 5, 'adeson1@gmail.com', '$2y$10$/Cjt4cyNfgBbl3IatSK.xuoakBt327e1uJkMdic6xPAJD252LGqMW', 'a25c966579687b597ef4cd0e1f804918'),
-(3, 6, 'shan@gmail.com', '$2y$10$vnZVehA.yLVcJ/zY/ySncOxjy2RjCPtnmm21zdyZW6IKKPlD0HDfq', '98b61b11f9f4b1d838c874721d3295b3');
+(3, 6, 'shan@gmail.com', '$2y$10$vnZVehA.yLVcJ/zY/ySncOxjy2RjCPtnmm21zdyZW6IKKPlD0HDfq', '98b61b11f9f4b1d838c874721d3295b3'),
+(4, 7, 'q@gmail.com', '$2y$10$78acVWX/E7FaN6Id1y4FQurGB4ahoafy2zZBjnu95AYVpRsowiwa6', '881a3819116611b7de23d30d93f45960');
 
 -- --------------------------------------------------------
 
@@ -247,7 +313,8 @@ INSERT INTO `tbl_loginuser` (`id`, `user_id`, `emailAddress`, `password`, `salt`
 (10, 11, 'cuetomikco08@gmail.com', '$2y$10$hTMLkqKv006/lwrlk1WcAOLUDchO2D6lM5uUSoy8ILswdNfUP1L5O', '753f35da13e88a872743ae37d867ac5a'),
 (11, 12, 'justine@gmail.com', '$2y$10$.nbCJ8wHDZUmazJzvJhhkeFMSMOhgxoPFXa2x9GlmZJ8nMzrmgE5C', 'c2f763fb243319d7208bd24fc979bb91'),
 (12, 13, 'cueto@gmail.com', '$2y$10$k3VtnDTQt35lRgxdzhzW4uQbMztzHzRpKe1tZgdoxmTOANh8K8Qpi', '8048c80311572e2c9e7ce1aba032413b'),
-(13, 14, 'c@gmail.com', '$2y$10$fUXskg4AvXWTJZZZ5ILYz.h5MMuVOO3ccphPfYSh5gVh2d7WYrKma', '486ea598f824510eae98f97997aee1c9');
+(13, 14, 'c@gmail.com', '$2y$10$fUXskg4AvXWTJZZZ5ILYz.h5MMuVOO3ccphPfYSh5gVh2d7WYrKma', '486ea598f824510eae98f97997aee1c9'),
+(14, 15, 'q@gmail.com', '$2y$10$bjfjhWI0opTVQy7FnWki8.TS15bneUmQFWnnARkSspDC3BpgaFl2W', '6f6429bb85ba085f101e84969eb8ef6d');
 
 -- --------------------------------------------------------
 
@@ -317,6 +384,20 @@ ALTER TABLE `tbl_employee`
   ADD PRIMARY KEY (`user_id`);
 
 --
+-- Indexes for table `tbl_job_category`
+--
+ALTER TABLE `tbl_job_category`
+  ADD PRIMARY KEY (`category_id`);
+
+--
+-- Indexes for table `tbl_job_listing`
+--
+ALTER TABLE `tbl_job_listing`
+  ADD PRIMARY KEY (`job_id`),
+  ADD KEY `cat fk` (`category_id`),
+  ADD KEY `emp fk` (`employer_id`);
+
+--
 -- Indexes for table `tbl_language`
 --
 ALTER TABLE `tbl_language`
@@ -366,7 +447,7 @@ ALTER TABLE `tbl_skills`
 -- AUTO_INCREMENT for table `tbl_admin`
 --
 ALTER TABLE `tbl_admin`
-  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_careerhistory`
@@ -384,7 +465,7 @@ ALTER TABLE `tbl_certification`
 -- AUTO_INCREMENT for table `tbl_company`
 --
 ALTER TABLE `tbl_company`
-  MODIFY `company_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `company_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tbl_educback`
@@ -396,7 +477,19 @@ ALTER TABLE `tbl_educback`
 -- AUTO_INCREMENT for table `tbl_employee`
 --
 ALTER TABLE `tbl_employee`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT for table `tbl_job_category`
+--
+ALTER TABLE `tbl_job_category`
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `tbl_job_listing`
+--
+ALTER TABLE `tbl_job_listing`
+  MODIFY `job_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tbl_language`
@@ -408,19 +501,19 @@ ALTER TABLE `tbl_language`
 -- AUTO_INCREMENT for table `tbl_loginadmin`
 --
 ALTER TABLE `tbl_loginadmin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_logincompany`
 --
 ALTER TABLE `tbl_logincompany`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tbl_loginuser`
 --
 ALTER TABLE `tbl_loginuser`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `tbl_resume`
@@ -455,6 +548,13 @@ ALTER TABLE `tbl_certification`
 --
 ALTER TABLE `tbl_educback`
   ADD CONSTRAINT `ideduc` FOREIGN KEY (`user_id`) REFERENCES `tbl_employee` (`user_id`);
+
+--
+-- Constraints for table `tbl_job_listing`
+--
+ALTER TABLE `tbl_job_listing`
+  ADD CONSTRAINT `cat fk` FOREIGN KEY (`category_id`) REFERENCES `tbl_job_category` (`category_id`),
+  ADD CONSTRAINT `emp fk` FOREIGN KEY (`employer_id`) REFERENCES `tbl_company` (`company_id`);
 
 --
 -- Constraints for table `tbl_language`
