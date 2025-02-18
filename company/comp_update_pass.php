@@ -1,45 +1,52 @@
 <?php
-session_start();
 require "../includes/db_connect.php"; // Database connection
+
+$updateMessage = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = trim($_POST['emailAddress']);
-    $password = trim($_POST['password']);
+    $new_password = trim($_POST['new_password']);
+    $confirm_new_password = trim($_POST['confirm_new_password']);
 
-    // Validate input
-    if (empty($email) || empty($password)) {
-        $error_message = "All fields are required.";
+    // Basic validation
+    if (empty($email) || empty($new_password) || empty($confirm_new_password)) {
+        $updateMessage = "All fields are required.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $error_message = "Invalid email format.";
+        $updateMessage = "Invalid email format.";
+    } elseif ($new_password !== $confirm_new_password) {
+        $updateMessage = "Passwords do not match.";
     } else {
-        // Retrieve company credentials from database
-        $stmt = $conn->prepare("SELECT company_id, password, salt FROM tbl_logincompany WHERE emailAddress = ?");
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $stmt->store_result();
+        // Check if email exists in `tbl_logincompany`
+        $checkStmt = $conn->prepare("SELECT id FROM tbl_logincompany WHERE emailAddress = ?");
+        $checkStmt->bind_param("s", $email);
+        $checkStmt->execute();
+        $checkStmt->store_result();
 
-        if ($stmt->num_rows > 0) {
-            $stmt->bind_result($company_id, $hashedPassword, $salt);
-            $stmt->fetch();
+        if ($checkStmt->num_rows > 0) {
+            $checkStmt->close();
 
-            // Hash the entered password with the retrieved salt
-            if (password_verify($password . $salt, $hashedPassword)) {
-                // Successful login
-                $_SESSION['company_id'] = $company_id;
-                $_SESSION['email'] = $email;
+            // Generate a new salt and hash the new password
+            $salt = bin2hex(random_bytes(16)); // Generate a random 16-character salt
+            $hashedPassword = password_hash($new_password . $salt, PASSWORD_BCRYPT);
 
-                header("Location: comp_dashboard.php"); // Redirect to a dashboard or home page
+            // Update the password in `tbl_logincompany`
+            $stmt = $conn->prepare("UPDATE tbl_logincompany SET password = ?, salt = ? WHERE emailAddress = ?");
+            $stmt->bind_param("sss", $hashedPassword, $salt, $email);
+
+            if ($stmt->execute()) {
+                $updateMessage = "Password updated successfully!";
+                header("Location: comp_login.php");
                 exit();
             } else {
-                $error_message = "Invalid password.";
+                $updateMessage = "Error updating password: " . $stmt->error;
             }
+            $stmt->close();
         } else {
-            $error_message = "No account found with that email.";
+            $updateMessage = "No account found with that email.";
+            $checkStmt->close();
         }
-        $stmt->close();
     }
 }
-// Close the connection
 $conn->close();
 ?>
 <!DOCTYPE html>
@@ -48,7 +55,7 @@ $conn->close();
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Star Admin Premium Bootstrap Admin Dashboard Template</title>
+    <title>Update Password</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="../assets/vendors/iconfonts/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="../assets/vendors/iconfonts/ionicons/dist/css/ionicons.css">
@@ -70,6 +77,7 @@ $conn->close();
           <div class="row w-100">
             <div class="col-lg-4 mx-auto">
               <div class="auto-form-wrapper">
+                <h2 class="text-center mb-4">Update Password</h2>
                 <form action="" method="POST">
                   <div class="form-group">
                     <label class="label">Email Address</label>
@@ -83,9 +91,9 @@ $conn->close();
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="label">Password</label>
+                    <label class="label">New Password</label>
                     <div class="input-group">
-                      <input type="password" name="password" class="form-control" placeholder="*********" required>
+                      <input type="password" name="new_password" class="form-control" placeholder="New Password" required>
                       <div class="input-group-append">
                         <span class="input-group-text">
                           <i class="mdi mdi-check-circle-outline"></i>
@@ -93,30 +101,30 @@ $conn->close();
                       </div>
                     </div>
                   </div>
-                  <?php if (isset($error_message)): ?>
+                  <div class="form-group">
+                    <label class="label">Confirm New Password</label>
+                    <div class="input-group">
+                      <input type="password" name="confirm_new_password" class="form-control" placeholder="Confirm New Password" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">
+                          <i class="mdi mdi-check-circle-outline"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <?php if (!empty($updateMessage)): ?>
                     <div class="form-group">
                       <div class="alert alert-danger" role="alert">
-                        <?php echo $error_message; ?>
+                        <?php echo $updateMessage; ?>
                       </div>
                     </div>
                   <?php endif; ?>
                   <div class="form-group">
-                    <button class="btn btn-primary submit-btn btn-block">Login</button>
-                  </div>
-                  <div class="form-group d-flex justify-content-between">
-                    <div class="form-check form-check-flat mt-0">
-                      <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input" checked> Keep me signed in </label>
-                    </div>
-                    <a href="comp_update_pass.php" class="text-small forgot-password text-black">Forgot Password</a>
-                  </div>
-                  <div class="form-group">
-                    <button class="btn btn-block g-login">
-                      <img class="mr-3" src="../assets/images/file-icons/icon-google.svg" alt="">Log in with Google</button>
+                    <button class="btn btn-primary submit-btn btn-block">Update Password</button>
                   </div>
                   <div class="text-block text-center my-3">
-                    <span class="text-small font-weight-semibold">Not a member ?</span>
-                    <a href="comp_reg.php" class="text-black text-small">Create new account</a>
+                    <span class="text-small font-weight-semibold">Remembered your password?</span>
+                    <a href="comp_login.php" class="text-black text-small">Login</a>
                   </div>
                 </form>
               </div>
