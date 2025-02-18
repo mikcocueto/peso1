@@ -73,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->close();
     $conn->close();
 
-    header("Location: ../emp_dashboard.php");
+    header("Location: ../employee/emp_dashboard.php");
     exit();
 }
 ?>

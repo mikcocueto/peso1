@@ -55,7 +55,7 @@ th {
 /* Modal Styles */
 .modal {
     display: none;
-    position: fixed;
+    position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
@@ -107,8 +107,11 @@ input, button {
     box-sizing: border-box;
 }
 
+
+
 .navbar {
     display: flex;
+    width: 100;
     justify-content: space-between;
     align-items: center;
     background: #333;

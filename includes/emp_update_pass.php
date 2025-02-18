@@ -1,5 +1,5 @@
 <?php
-require "db_connect.php"; // Database connection
+require "../includes/db_connect.php"; // Database connection
 
 session_start();
 $updateMessage = "";
@@ -54,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Close the connection
 $conn->close();
 
-header("Location: ../emp_dashboard.php");
+header("Location: ../employee/emp_dashboard.php");
 exit();
 ?>
 <!DOCTYPE html>

@@ -1,6 +1,7 @@
 <?php
 session_start();
+session_unset();
 session_destroy();
-header("Location: ../emp_login.php");
+header("Location: ../employee/emp_login.php");
 exit();
 ?>
