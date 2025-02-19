@@ -7,19 +7,45 @@ $jobs_posted_count = $conn->query("SELECT COUNT(*) AS count FROM tbl_job_listing
 $jobs_filled_count = $conn->query("SELECT COUNT(*) AS count FROM tbl_job_listing WHERE status = 'filled'")->fetch_assoc()['count'];
 $companies_count = $conn->query("SELECT COUNT(*) AS count FROM tbl_company")->fetch_assoc()['count'];
 
+// Fetch job categories from the database
+$categories_result = $conn->query("SELECT category_id, category_name FROM tbl_job_category");
+$categories = [];
+while ($row = $categories_result->fetch_assoc()) {
+    $categories[] = $row;
+}
+
+// Handle search
+$search_title = isset($_POST['search_title']) ? $_POST['search_title'] : '';
+$search_category = isset($_POST['search_category']) ? $_POST['search_category'] : [];
+$search_type = isset($_POST['search_type']) ? $_POST['search_type'] : '';
+
+$query = "SELECT jl.title, jl.description, jl.requirements, jl.employment_type, jl.location, jl.salary_min, jl.salary_max, jl.currency, jl.expiry_date, c.companyName, jc.category_name 
+          FROM tbl_job_listing jl 
+          JOIN tbl_company c ON jl.employer_id = c.company_id 
+          JOIN tbl_job_category jc ON jl.category_id = jc.category_id 
+          WHERE jl.status = 'active'";
+
+if ($search_title) {
+    $query .= " AND (jl.title LIKE '%$search_title%' OR c.companyName LIKE '%$search_title%')";
+}
+
+if (!empty($search_category)) {
+    $category_ids = implode(',', array_map('intval', $search_category));
+    $query .= " AND jl.category_id IN ($category_ids)";
+}
+
+if ($search_type) {
+    $query .= " AND jl.employment_type = '$search_type'";
+}
+
+$jobs = $conn->query($query);
+
 $conn->close();
 ?>
 <!doctype html>
 <html lang="en">
   <head>
     <title>PESO &mdash; Website Template by Colorlib</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="" />
-    <meta name="keywords" content="" />
-    <meta name="author" content="Free-Template.co" />
-    <link rel="shortcut icon" href="fortest/ftco-32x32.png">
-    
     <link rel="stylesheet" href="fortest/style2/custom-bs.css">
     <link rel="stylesheet" href="fortest/style2/jquery.fancybox.min.css">
     <link rel="stylesheet" href="fortest/style2/bootstrap-select.min.css">
@@ -30,6 +56,22 @@ $conn->close();
 
     <!-- MAIN CSS -->
     <link rel="stylesheet" href="fortest/style2/style.css">    
+    <style>
+      .job-box {
+        border: 1px solid #ddd;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+      }
+      .job-title {
+        font-size: 1.5em;
+        font-weight: bold;
+      }
+      .job-details {
+        margin-top: 10px;
+      }
+    </style>
   </head>
   <body id="top">
 
@@ -115,25 +157,23 @@ $conn->close();
             <form method="post" class="search-jobs-form">
               <div class="row mb-5">
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                  <input type="text" class="form-control form-control-lg" placeholder="Job title, Company...">
+                  <input type="text" class="form-control form-control-lg" name="search_title" placeholder="Job title, Company...">
                 </div>
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                  <select class="selectpicker" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select Region">
-                    <option>Anywhere</option>
-                    <option>San Francisco</option>
-                    <option>Palo Alto</option>
-                    <option>New York</option>
-                    <option>Manhattan</option>
-                    <option>Ontario</option>
-                    <option>Toronto</option>
-                    <option>Kansas</option>
-                    <option>Mountain View</option>
+                  <select class="selectpicker" name="search_category[]" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select Category" multiple>
+                    <?php foreach ($categories as $category): ?>
+                      <option value="<?php echo $category['category_id']; ?>"><?php echo $category['category_name']; ?></option>
+                    <?php endforeach; ?>
                   </select>
                 </div>
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                  <select class="selectpicker" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select Job Type">
-                    <option>Part Time</option>
-                    <option>Full Time</option>
+                  <select class="selectpicker" name="search_type" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select Job Type">
+                    <option value="">All</option>
+                    <option value="Part Time">Part Time</option>
+                    <option value="Full Time">Full Time</option>
+                    <option value="Contract">Contract</option>
+                    <option value="Temporary">Temporary</option>
+                    <option value="Internship">Internship</option>
                   </select>
                 </div>
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
@@ -151,7 +191,35 @@ $conn->close();
       </a>
 
     </section>
+
+    <!-- job preview -->
+    <section class="site-section">
+      <div class="container">
+        <h2 class="text-center mb-4">Current Job Listings</h2>
+        <div class="row" style="max-height: 400px; overflow-y: auto;">
+          <?php while ($job = $jobs->fetch_assoc()): ?>
+            <div class="col-md-6">
+              <div class="job-box">
+                <div class="job-title"><?= htmlspecialchars($job['title']) ?></div>
+                <div class="job-details">
+                  <p><strong>Company:</strong> <?= htmlspecialchars($job['companyName']) ?></p>
+                  <p><strong>Description:</strong> <?= htmlspecialchars($job['description']) ?></p>
+                  <p><strong>Requirements:</strong> <?= htmlspecialchars($job['requirements']) ?></p>
+                  <p><strong>Employment Type:</strong> <?= htmlspecialchars($job['employment_type']) ?></p>
+                  <p><strong>Location:</strong> <?= htmlspecialchars($job['location']) ?></p>
+                  <p><strong>Salary:</strong> <?= htmlspecialchars($job['salary_min']) ?> - <?= htmlspecialchars($job['salary_max']) ?> <?= htmlspecialchars($job['currency']) ?></p>
+                  <p><strong>Category:</strong> <?= htmlspecialchars($job['category_name']) ?></p>
+                  <p><strong>Expiry Date:</strong> <?= htmlspecialchars($job['expiry_date']) ?></p>
+                </div>
+              </div>
+            </div>
+          <?php endwhile; ?>
+        </div>
+      </div>
+    </section>
     
+
+    <!-- site stats -->
     <section class="py-5 bg-image overlay-primary fixed overlay" id="next" style="background-image: url('fortest/images/hero_1.jpg');">
       <div class="container">
         <div class="row mb-5 justify-content-center">

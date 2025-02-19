@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 18, 2025 at 01:07 AM
+-- Generation Time: Feb 19, 2025 at 08:46 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- PHP Version: 8.1.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -191,7 +191,10 @@ CREATE TABLE `tbl_job_category` (
 --
 
 INSERT INTO `tbl_job_category` (`category_id`, `category_name`) VALUES
-(1, 'category test');
+(1, 'category test'),
+(2, 'Accounting'),
+(3, 'Construction'),
+(4, 'Engineering');
 
 -- --------------------------------------------------------
 
@@ -222,7 +225,11 @@ CREATE TABLE `tbl_job_listing` (
 
 INSERT INTO `tbl_job_listing` (`job_id`, `employer_id`, `title`, `description`, `requirements`, `employment_type`, `location`, `salary_min`, `salary_max`, `currency`, `category_id`, `posted_date`, `expiry_date`, `status`) VALUES
 (1, 7, 'ttest', 'dtest', 'rtest', 'Full-time', 'spc', 1.00, 2.00, 'php', 1, '2025-02-16 16:00:00', '2025-02-16 16:00:00', 'active'),
-(2, 7, 'test2 title', 'test2 desc', 'test2 reqs', 'Internship', 'test2 loc', 122.00, 123.00, 'ddd', 1, '2025-02-16 16:00:00', '2025-02-27 16:00:00', 'active');
+(2, 7, 'test2 title', 'test2 desc', 'test2 reqs', 'Internship', 'test2 loc', 122.00, 123.00, 'ddd', 1, '2025-02-16 16:00:00', '2025-02-27 16:00:00', 'active'),
+(3, 6, '3', '3', '3', 'Full-time', '3', 3.00, 3.00, 'php', 2, '2025-02-18 16:00:00', '2025-02-18 16:00:00', 'active'),
+(4, 6, '4', '4', '4', 'Internship', '4', 4.00, 4.00, '4', 3, '2025-02-18 16:00:00', '2025-02-18 16:00:00', 'active'),
+(5, 6, '5', '5', '5', 'Contract', '5', 5.00, 5.00, '5', 4, '2025-02-18 16:00:00', '2025-02-18 16:00:00', 'active'),
+(7, 6, 'IT professional', 'magaling it', 'it maalam', 'Full time', 'san pablo', 12.00, 120.00, 'php', 4, '2025-02-18 16:00:00', '2025-02-25 16:00:00', 'active');
 
 -- --------------------------------------------------------
 
@@ -287,7 +294,7 @@ CREATE TABLE `tbl_logincompany` (
 INSERT INTO `tbl_logincompany` (`id`, `company_id`, `emailAddress`, `password`, `salt`) VALUES
 (1, 4, 'adeson@gmail.com', '$2y$10$h3vdK7cpQwMQJdw8QJMgD.UtjDbuwtkN9UY2iRVkhBnMELZTZ4aRi', '3d1a64c872938f48146fb600ec96c78c'),
 (2, 5, 'adeson1@gmail.com', '$2y$10$/Cjt4cyNfgBbl3IatSK.xuoakBt327e1uJkMdic6xPAJD252LGqMW', 'a25c966579687b597ef4cd0e1f804918'),
-(3, 6, 'shan@gmail.com', '$2y$10$vnZVehA.yLVcJ/zY/ySncOxjy2RjCPtnmm21zdyZW6IKKPlD0HDfq', '98b61b11f9f4b1d838c874721d3295b3'),
+(3, 6, 'shan@gmail.com', '$2y$10$wq4sgzuIPXJLHDsbMjbk6eQYFd.BhXnXVo3i9hqh/M.NQWfVL6ev.', '999312668b481428a3b67a6cb281c90d'),
 (4, 7, 'q@gmail.com', '$2y$10$78acVWX/E7FaN6Id1y4FQurGB4ahoafy2zZBjnu95AYVpRsowiwa6', '881a3819116611b7de23d30d93f45960');
 
 -- --------------------------------------------------------
@@ -483,13 +490,13 @@ ALTER TABLE `tbl_employee`
 -- AUTO_INCREMENT for table `tbl_job_category`
 --
 ALTER TABLE `tbl_job_category`
-  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tbl_job_listing`
 --
 ALTER TABLE `tbl_job_listing`
-  MODIFY `job_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `job_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tbl_language`

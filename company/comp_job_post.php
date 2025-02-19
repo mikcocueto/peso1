@@ -26,7 +26,7 @@ $categories = $conn->query("SELECT category_id, category_name FROM tbl_job_categ
             <div class="card shadow-lg">
                 <div class="card-body">
                     <h3 class="text-center">Create Job Listing</h3>
-                    <form action="includes/comp_job_process.php" method="POST">
+                    <form action="../includes/comp_job_process.php" method="POST">
                         <div class="mb-3">
                             <label for="title" class="form-label">Job Title</label>
                             <input type="text" class="form-control" name="title" required>
@@ -42,8 +42,8 @@ $categories = $conn->query("SELECT category_id, category_name FROM tbl_job_categ
                         <div class="mb-3">
                             <label for="employment_type" class="form-label">Employment Type</label>
                             <select class="form-select" name="employment_type" required>
-                                <option value="Full-time">Full-time</option>
-                                <option value="Part-time">Part-time</option>
+                                <option value="Full time">Full-time</option>
+                                <option value="Part time">Part-time</option>
                                 <option value="Contract">Contract</option>
                                 <option value="Temporary">Temporary</option>
                                 <option value="Internship">Internship</option>
