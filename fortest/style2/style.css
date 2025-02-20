@@ -187,7 +187,7 @@
 .site-mobile-menu {
   width: 300px;
   position: fixed;
-  left: -300px; /* Hide offcanvas menu by default */
+  right: -300px; /* Hide offcanvas menu by default */
   top: 0;
   bottom: 0;
   z-index: 2000;
@@ -199,7 +199,7 @@
 }
 
 .offcanvas-menu .site-mobile-menu {
-  left: 0; /* Show offcanvas menu when active */
+  right: 0; /* Show offcanvas menu when active */
 }
 
 .site-mobile-menu .site-mobile-menu-header {
@@ -234,7 +234,7 @@
       .site-mobile-menu .site-mobile-menu-header .site-mobile-menu-logo a:hover {
         text-decoration: none; }
 .site-mobile-menu .site-mobile-menu-body {
-  overflow-y: scroll;
+  overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   position: relative;
   padding: 0 20px 20px 20px;

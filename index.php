@@ -41,6 +41,34 @@ if ($search_type) {
 
 $jobs = $conn->query($query);
 
+// Fetch saved jobs for the logged-in user
+$saved_jobs = [];
+if (isset($_SESSION['user_id'])) {
+    $user_id = $_SESSION['user_id'];
+    $saved_jobs_query = $conn->prepare("SELECT job_id FROM tbl_emp_saved_jobs WHERE user_id = ?");
+    $saved_jobs_query->bind_param("i", $user_id);
+    $saved_jobs_query->execute();
+    $saved_jobs_result = $saved_jobs_query->get_result();
+    while ($row = $saved_jobs_result->fetch_assoc()) {
+        $saved_jobs[] = $row['job_id'];
+    }
+    $saved_jobs_query->close();
+}
+
+// Fetch user name if logged in
+$user_name = '';
+if (isset($_SESSION['user_id'])) {
+    $user_id = $_SESSION['user_id'];
+    $user_query = $conn->prepare("SELECT firstName FROM tbl_employee WHERE user_id = ?");
+    $user_query->bind_param("i", $user_id);
+    $user_query->execute();
+    $user_result = $user_query->get_result();
+    if ($user_result->num_rows > 0) {
+        $user_name = $user_result->fetch_assoc()['firstName'];
+    }
+    $user_query->close();
+}
+
 $conn->close();
 ?>
 <!doctype html>
@@ -132,8 +160,8 @@ $conn->close();
               <li><a href="blog.html">Blog</a></li>
               <li><a href="contact.html">Contact</a></li>
               <?php if (isset($_SESSION['user_id'])): ?>
-              <li class="has-children">
-                <a href="#"><span class="icon-user"></span> Profile</a>
+              <li class="d-lg-none has-children">
+                <a href="#"><span class="icon-user"></span> <?= htmlspecialchars($user_name) ?></a>
                 <ul class="dropdown">
                   <li><a href="employee/emp_dashboard.php">Profile</a></li>
                   <li><a href="includes/emp_logout.php">Logout</a></li>
@@ -149,9 +177,9 @@ $conn->close();
           <div class="right-cta-menu text-right d-flex align-items-center col-6">
             <div class="ml-auto">
               <?php if (isset($_SESSION['user_id'])): ?>
-                <div class="dropdown">
-                  <a href="#" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block dropdown-toggle" id="profileDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="mr-2 icon-user"></span>Profile
+                <div class="dropdown d-none d-lg-inline-block">
+                  <a href="#" class="btn btn-outline-white border-width-2 dropdown-toggle" id="profileDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="mr-2 icon-user"></span><?= htmlspecialchars($user_name) ?>
                   </a>
                   <div class="dropdown-menu" aria-labelledby="profileDropdown">
                     <a class="dropdown-item" href="employee/emp_dashboard.php">Profile</a>
@@ -238,9 +266,13 @@ $conn->close();
                   <p><strong>Expiry Date:</strong> <?= htmlspecialchars($job['expiry_date']) ?></p>
                 </div>
                 <?php if (isset($_SESSION['user_id'])): ?>
-                  <form method="post" action="save_job.php" class="save-job-btn">
+                  <form method="post" action="includes/save_job_process.php" class="save-job-btn">
                     <input type="hidden" name="job_id" value="<?= $job['job_id'] ?>">
-                    <button type="submit" class="btn btn-outline-primary">Save</button>
+                    <?php if (in_array($job['job_id'], $saved_jobs)): ?>
+                      <button type="submit" name="action" value="unsave" class="btn btn-outline-danger">Unsave</button>
+                    <?php else: ?>
+                      <button type="submit" name="action" value="save" class="btn btn-outline-primary">Save</button>
+                    <?php endif; ?>
                   </form>
                 <?php endif; ?>
               </div>

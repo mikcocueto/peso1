@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 19, 2025 at 08:46 AM
+-- Generation Time: Feb 20, 2025 at 08:49 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -178,6 +178,26 @@ INSERT INTO `tbl_employee` (`user_id`, `firstName`, `lastName`, `address`, `emai
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_emp_saved_jobs`
+--
+
+CREATE TABLE `tbl_emp_saved_jobs` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `job_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_emp_saved_jobs`
+--
+
+INSERT INTO `tbl_emp_saved_jobs` (`id`, `user_id`, `job_id`) VALUES
+(1, 12, 1),
+(2, 12, 2);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_job_category`
 --
 
@@ -318,7 +338,7 @@ CREATE TABLE `tbl_loginuser` (
 INSERT INTO `tbl_loginuser` (`id`, `user_id`, `emailAddress`, `password`, `salt`) VALUES
 (9, 10, 'eric@gmail.com', '$2y$10$/d6fBmmnmsFRz.0CSlV7XOTp4CDpvAdBQ82R20Ks6dY2XpBlQOY3W', '0c01646028237de56270ee1677160546'),
 (10, 11, 'cuetomikco08@gmail.com', '$2y$10$hTMLkqKv006/lwrlk1WcAOLUDchO2D6lM5uUSoy8ILswdNfUP1L5O', '753f35da13e88a872743ae37d867ac5a'),
-(11, 12, 'justine@gmail.com', '$2y$10$.nbCJ8wHDZUmazJzvJhhkeFMSMOhgxoPFXa2x9GlmZJ8nMzrmgE5C', 'c2f763fb243319d7208bd24fc979bb91'),
+(11, 12, 'justine@gmail.com', '$2y$10$GSBTIdrXBY8Js7OCJKkEG.tamNV9J.aM3/U7R2hFZ0AQ.J9lk6hzW', 'ff9c76c3f6759c670e43981ec211c2da'),
 (12, 13, 'cueto@gmail.com', '$2y$10$k3VtnDTQt35lRgxdzhzW4uQbMztzHzRpKe1tZgdoxmTOANh8K8Qpi', '8048c80311572e2c9e7ce1aba032413b'),
 (13, 14, 'c@gmail.com', '$2y$10$fUXskg4AvXWTJZZZ5ILYz.h5MMuVOO3ccphPfYSh5gVh2d7WYrKma', '486ea598f824510eae98f97997aee1c9'),
 (14, 15, 'q@gmail.com', '$2y$10$bjfjhWI0opTVQy7FnWki8.TS15bneUmQFWnnARkSspDC3BpgaFl2W', '6f6429bb85ba085f101e84969eb8ef6d');
@@ -389,6 +409,14 @@ ALTER TABLE `tbl_educback`
 --
 ALTER TABLE `tbl_employee`
   ADD PRIMARY KEY (`user_id`);
+
+--
+-- Indexes for table `tbl_emp_saved_jobs`
+--
+ALTER TABLE `tbl_emp_saved_jobs`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `empsave` (`user_id`),
+  ADD KEY `jobsave` (`job_id`);
 
 --
 -- Indexes for table `tbl_job_category`
@@ -487,6 +515,12 @@ ALTER TABLE `tbl_employee`
   MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
+-- AUTO_INCREMENT for table `tbl_emp_saved_jobs`
+--
+ALTER TABLE `tbl_emp_saved_jobs`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `tbl_job_category`
 --
 ALTER TABLE `tbl_job_category`
@@ -555,6 +589,13 @@ ALTER TABLE `tbl_certification`
 --
 ALTER TABLE `tbl_educback`
   ADD CONSTRAINT `ideduc` FOREIGN KEY (`user_id`) REFERENCES `tbl_employee` (`user_id`);
+
+--
+-- Constraints for table `tbl_emp_saved_jobs`
+--
+ALTER TABLE `tbl_emp_saved_jobs`
+  ADD CONSTRAINT `empsave` FOREIGN KEY (`user_id`) REFERENCES `tbl_employee` (`user_id`),
+  ADD CONSTRAINT `jobsave` FOREIGN KEY (`job_id`) REFERENCES `tbl_job_listing` (`job_id`);
 
 --
 -- Constraints for table `tbl_job_listing`
