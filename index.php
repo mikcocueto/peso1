@@ -20,7 +20,7 @@ $search_title = isset($_POST['search_title']) ? $_POST['search_title'] : '';
 $search_category = isset($_POST['search_category']) ? $_POST['search_category'] : [];
 $search_type = isset($_POST['search_type']) ? $_POST['search_type'] : '';
 
-$query = "SELECT jl.title, jl.description, jl.requirements, jl.employment_type, jl.location, jl.salary_min, jl.salary_max, jl.currency, jl.expiry_date, c.companyName, jc.category_name 
+$query = "SELECT jl.job_id, jl.title, jl.description, jl.requirements, jl.employment_type, jl.location, jl.salary_min, jl.salary_max, jl.currency, jl.expiry_date, c.companyName, jc.category_name 
           FROM tbl_job_listing jl 
           JOIN tbl_company c ON jl.employer_id = c.company_id 
           JOIN tbl_job_category jc ON jl.category_id = jc.category_id 
@@ -58,7 +58,23 @@ $conn->close();
     <!-- MAIN CSS -->
     <link rel="stylesheet" href="fortest/style2/style.css">    
     <style>
-      
+      .job-box {
+        border: 1px solid #ddd;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+      }
+      .job-title {
+        font-size: 1.5em;
+        font-weight: bold;
+      }
+      .job-details {
+        margin-top: 10px;
+      }
+      .save-job-btn {
+        margin-top: 10px;
+      }
     </style>
   </head>
   <body id="top">
@@ -115,7 +131,18 @@ $conn->close();
               </li>
               <li><a href="blog.html">Blog</a></li>
               <li><a href="contact.html">Contact</a></li>
-              
+              <?php if (isset($_SESSION['user_id'])): ?>
+              <li class="has-children">
+                <a href="#"><span class="icon-user"></span> Profile</a>
+                <ul class="dropdown">
+                  <li><a href="employee/emp_dashboard.php">Profile</a></li>
+                  <li><a href="includes/emp_logout.php">Logout</a></li>
+                </ul>
+              </li>
+              <?php else: ?>
+              <li class="d-lg-none"><a href="company/comp_login.php"><span class="mr-2">+</span> Company Log In</a></li>
+              <li class="d-lg-none"><a href="employee/emp_login.php">Log In</a></li>
+              <?php endif; ?>
             </ul>
           </nav>
           
@@ -210,6 +237,12 @@ $conn->close();
                   <p><strong>Category:</strong> <?= htmlspecialchars($job['category_name']) ?></p>
                   <p><strong>Expiry Date:</strong> <?= htmlspecialchars($job['expiry_date']) ?></p>
                 </div>
+                <?php if (isset($_SESSION['user_id'])): ?>
+                  <form method="post" action="save_job.php" class="save-job-btn">
+                    <input type="hidden" name="job_id" value="<?= $job['job_id'] ?>">
+                    <button type="submit" class="btn btn-outline-primary">Save</button>
+                  </form>
+                <?php endif; ?>
               </div>
             </div>
           <?php endwhile; ?>
