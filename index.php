@@ -58,20 +58,7 @@ $conn->close();
     <!-- MAIN CSS -->
     <link rel="stylesheet" href="fortest/style2/style.css">    
     <style>
-      .job-box {
-        border: 1px solid #ddd;
-        padding: 20px;
-        margin-bottom: 20px;
-        border-radius: 5px;
-        background-color: #f9f9f9;
-      }
-      .job-title {
-        font-size: 1.5em;
-        font-weight: bold;
-      }
-      .job-details {
-        margin-top: 10px;
-      }
+      
     </style>
   </head>
   <body id="top">
@@ -128,31 +115,22 @@ $conn->close();
               </li>
               <li><a href="blog.html">Blog</a></li>
               <li><a href="contact.html">Contact</a></li>
-              <?php if (isset($_SESSION['user_id'])): ?>
-              <li class="has-children">
-                <a href="#"><span class="icon-user"></span> Profile</a>
-                <ul class="dropdown">
-                  <li><a href="employee/emp_dashboard.php">Profile</a></li>
-                  <li><a href="includes/emp_logout.php">Logout</a></li>
-                </ul>
-              </li>
-              <?php else: ?>
-              <li class="d-lg-none"><a href="company/comp_login.php"><span class="mr-2">+</span> Company Log In</a></li>
-              <li class="d-lg-none"><a href="employee/emp_login.php">Log In</a></li>
-              <?php endif; ?>
+              
             </ul>
           </nav>
           
-          <div class="right-cta-menu text-right d-flex aligin-items-center col-6">
+          <div class="right-cta-menu text-right d-flex align-items-center col-6">
             <div class="ml-auto">
               <?php if (isset($_SESSION['user_id'])): ?>
-                <li class="has-children">
-              <a href="#" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-user"></span>Profile</a>
-              <ul class="dropdown">
-                  <li><a href="employee/emp_dashboard.php">Profile</a></li>
-                  <li><a href="includes/emp_logout.php">Logout</a></li>
-                </ul>
-              </li>
+                <div class="dropdown">
+                  <a href="#" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block dropdown-toggle" id="profileDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="mr-2 icon-user"></span>Profile
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="profileDropdown">
+                    <a class="dropdown-item" href="employee/emp_dashboard.php">Profile</a>
+                    <a class="dropdown-item" href="includes/emp_logout.php">Logout</a>
+                  </div>
+                </div>
               <?php else: ?>
               <a href="company/comp_login.php" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Company Log In</a>
               <a href="employee/emp_login.php" class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-lock_outline"></span>Log In</a>
@@ -423,4 +401,4 @@ $conn->close();
 
      
   </body>
-</html></html>
+</html>
