@@ -1,4 +1,5 @@
 <?php
+session_start();
 require "includes/db_connect.php"; // Database connection
 
 // Fetch counts from the database
@@ -45,7 +46,7 @@ $conn->close();
 <!doctype html>
 <html lang="en">
   <head>
-    <title>PESO &mdash; Website Template by Colorlib</title>
+    <title>Public Employment Service Office</title>
     <link rel="stylesheet" href="fortest/style2/custom-bs.css">
     <link rel="stylesheet" href="fortest/style2/jquery.fancybox.min.css">
     <link rel="stylesheet" href="fortest/style2/bootstrap-select.min.css">
@@ -99,7 +100,7 @@ $conn->close();
     <header class="site-navbar mt-3">
       <div class="container-fluid">
         <div class="row align-items-center">
-          <div class="site-logo col-6"><a href="index.php">JobBoard</a></div>
+          <div class="site-logo col-6"><a href="index.php"> PESO Job Hiring</a></div>
 
           <nav class="mx-auto site-navigation">
             <ul class="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
@@ -127,15 +128,35 @@ $conn->close();
               </li>
               <li><a href="blog.html">Blog</a></li>
               <li><a href="contact.html">Contact</a></li>
+              <?php if (isset($_SESSION['user_id'])): ?>
+              <li class="has-children">
+                <a href="#"><span class="icon-user"></span> Profile</a>
+                <ul class="dropdown">
+                  <li><a href="employee/emp_dashboard.php">Profile</a></li>
+                  <li><a href="includes/emp_logout.php">Logout</a></li>
+                </ul>
+              </li>
+              <?php else: ?>
               <li class="d-lg-none"><a href="company/comp_login.php"><span class="mr-2">+</span> Company Log In</a></li>
               <li class="d-lg-none"><a href="employee/emp_login.php">Log In</a></li>
+              <?php endif; ?>
             </ul>
           </nav>
           
           <div class="right-cta-menu text-right d-flex aligin-items-center col-6">
             <div class="ml-auto">
+              <?php if (isset($_SESSION['user_id'])): ?>
+                <li class="has-children">
+              <a href="#" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-user"></span>Profile</a>
+              <ul class="dropdown">
+                  <li><a href="employee/emp_dashboard.php">Profile</a></li>
+                  <li><a href="includes/emp_logout.php">Logout</a></li>
+                </ul>
+              </li>
+              <?php else: ?>
               <a href="company/comp_login.php" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Company Log In</a>
               <a href="employee/emp_login.php" class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-lock_outline"></span>Log In</a>
+              <?php endif; ?>
             </div>
             <a href="#" class="site-menu-toggle js-menu-toggle d-inline-block d-xl-none mt-lg-2 ml-3"><span class="icon-menu h3 m-0 p-0 mt-2"></span></a>
           </div>
@@ -145,14 +166,14 @@ $conn->close();
     </header>
 
     <!-- HOME -->
-    <section class="home-section section-hero overlay bg-image" style="background-image: url('fortest/images/hero_1.jpg');" id="home-section">
+    <section class="home-section section-hero overlay bg-image" style="background-image: url('fortest/images/HOMEBG.jpg');" id="home-section">
 
       <div class="container">
         <div class="row align-items-center justify-content-center">
           <div class="col-md-12">
             <div class="mb-5 text-center">
-              <h1 class="text-white font-weight-bold">The Easiest Way To Get Your Dream Job</h1>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate est, consequuntur perferendis.</p>
+              <h1 class="text-white font-weight-bold">Public Employment Service Office</h1>
+              <p>San Pablo City, Laguna.</p>
             </div>
             <form method="post" class="search-jobs-form">
               <div class="row mb-5">
@@ -177,7 +198,7 @@ $conn->close();
                   </select>
                 </div>
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                  <button type="submit" class="btn btn-primary btn-lg btn-block text-white btn-search"><span class="icon-search icon mr-2"></span>Search Job</button>
+                  <button type="submit" class="btn btn-primary btn-lg btn-block btn-search"><span class="icon-search icon mr-2"></span>Search Job</button>
                 </div>
               </div>
               
@@ -220,8 +241,8 @@ $conn->close();
     
 
     <!-- site stats -->
-    <section class="py-5 bg-image overlay-primary fixed overlay" id="next" style="background-image: url('fortest/images/hero_1.jpg');">
-      <div class="container">
+    <section class="py-5 bg-image overlay-primary fixed overlay" id="next" style="background-image: url('fortest/images/HOMEBG.jpg');">
+      <div class="container" style="background-color: #6267FF">
         <div class="row mb-5 justify-content-center">
           <div class="col-md-7 text-center">
             <h2 class="section-title mb-2 text-white">JobBoard Site Stats</h2>
@@ -270,16 +291,16 @@ $conn->close();
     </section>
 
     <section class="py-5 bg-image overlay-primary fixed overlay" style="background-image: url('fortest/images/hero_1.jpg');">
-    <div class="container text-center py-5">
-        <h2 class="section-title">Apply Process</h2>
-        <h1 class="display-4 font-weight-bold mt-2">How it works</h1>
+    <div class="container text-center py-5 ">
+        <h2 class="section-title text-white">Apply Process</h2>
+        <h1 class="display-4 font-weight-bold mt-2 text-white">How it works</h1>
     </div>
     <div class="container">
         <div class="row text-center">
             <div class="col-md-4 mb-4">
                 <div class="card p-4">
                     <img src="https://storage.googleapis.com/a1aa/image/-B1FBR_Shx4RkCN2nVEy4ksyaapLS-I4yXDpLzecEc4.jpg" class="card-img-top mx-auto" alt="Icon representing job search" style="width: 64px; height: 64px;">
-                    <div class="card-body">
+                    <div class="card-body text-black">
                         <h5 class="card-title">1. Search a job</h5>
                         <p class="card-text">Sorem spsum dolor sit amsectetur adipisclit, seddo eiusmod tempor incididunt ut laborea.</p>
                     </div>
@@ -288,7 +309,7 @@ $conn->close();
             <div class="col-md-4 mb-4">
                 <div class="card p-4">
                     <img src="https://storage.googleapis.com/a1aa/image/YIYYs-dEqsNdyJqJEfJLDAe1cON3DEbtamQpaM3pE04.jpg" class="card-img-top mx-auto" alt="Icon representing job application" style="width: 64px; height: 64px;">
-                    <div class="card-body">
+                    <div class="card-body text-black">
                         <h5 class="card-title">2. Apply for job</h5>
                         <p class="card-text">Sorem spsum dolor sit amsectetur adipisclit, seddo eiusmod tempor incididunt ut laborea.</p>
                     </div>
@@ -297,7 +318,7 @@ $conn->close();
             <div class="col-md-4 mb-4">
                 <div class="card p-4">
                     <img src="https://storage.googleapis.com/a1aa/image/SPg_obwdygMCcsDWmQUBKKDLkSV4aF42IDTrT0c9R9g.jpg" class="card-img-top mx-auto" alt="Icon representing getting a job" style="width: 64px; height: 64px;">
-                    <div class="card-body">
+                    <div class="card-body text-black">
                         <h5 class="card-title">3. Get your job</h5>
                         <p class="card-text">Sorem spsum dolor sit amsectetur adipisclit, seddo eiusmod tempor incididunt ut laborea.</p>
                     </div>
@@ -402,4 +423,4 @@ $conn->close();
 
      
   </body>
-</html>
+</html></html>

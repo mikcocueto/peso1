@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['user_id'] = $user_id;
                 $_SESSION['email'] = $email;
 
-                header("Location: emp_dashboard.php"); // Redirect to a dashboard or home page
+                header("Location: ../index.php"); // Redirect to index page
                 exit();
             } else {
                 $error_message = "Invalid password.";
@@ -46,7 +46,7 @@ $conn->close();
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Star Admin Premium Bootstrap Admin Dashboard Template</title>
+    <title>Employee Login</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="../assets/vendors/iconfonts/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="../assets/vendors/iconfonts/ionicons/dist/css/ionicons.css">

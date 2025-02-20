@@ -574,7 +574,7 @@ h1, h2, h3, h4 {
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(137, 186, 22, 0.9);
+      background: #6267FF;
       z-index: 1; }
     .bg-image.overlay-primary > .container {
       position: relative;
@@ -904,7 +904,7 @@ h1, h2, h3, h4 {
       text-decoration: none; }
       .popular-keywords .keywords li a:hover {
         background: #fff;
-        color: #89ba16; }
+        color: #0897f6; }
 
 .btn:after, .btn:before {
   display: none; }
@@ -915,10 +915,12 @@ h1, h2, h3, h4 {
   box-shadow: none !important; }
 
 .btn.btn-primary {
+  background-color: #007bff;
   color: #fff; }
   .btn.btn-primary:hover {
-    background: #90c317;
-    border-color: #90c317; }
+    background: white;
+    color: #000;
+    border-color: blue; }
 
 .btn.btn-outline-white {
   background: transparent;
@@ -926,14 +928,14 @@ h1, h2, h3, h4 {
   border-color: #fff;
   color: #fff; }
   .btn.btn-outline-white:hover {
-    background: #fff;
+    background:#6267ff;
     color: #000; }
 
 .btn.btn-outline-primary {
-  color: #89ba16; }
+  color: #6267FF; }
   .btn.btn-outline-primary:hover {
     color: #fff;
-    background: #89ba16; }
+    background: #6267FF; }
 
 .custom-pagination a {
   width: 30px;
@@ -1349,7 +1351,7 @@ h1, h2, h3, h4 {
   width: 40px;
   height: 40px;
   position: relative;
-  background: #89ba16;
+  background: #6267FF;
   border-radius: 50%;
   text-decoration: none !important; }
   .footer-social a > span, .social a > span {
@@ -1363,7 +1365,7 @@ h1, h2, h3, h4 {
   .footer-social a:hover, .social a:hover {
     background: #fff; }
     .footer-social a:hover span, .social a:hover span {
-      color: #89ba16; }
+      color: black; }
 
 .social a:hover {
   background: #343a40; }
@@ -1667,3 +1669,38 @@ h1, h2, h3, h4 {
   -webkit-transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%); }
+
+#btnsubmit {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+}
+#btnsubmit:hover {
+  background-color: white;
+  color: #007bff;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+  color: white;
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+  background-color: white;
+  color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-outline-white {
+  color: #007bff;
+  border-color: #007bff;
+}
+.btn-outline-white:hover, .btn-outline-white:focus, .btn-outline-white:active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
