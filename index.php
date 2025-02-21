@@ -131,12 +131,21 @@ $conn->close();
     <header class="site-navbar mt-3">
       <div class="container-fluid">
         <div class="row align-items-center">
-          <div class="site-logo col-6"><a href="index.php"> PESO Job Hiring</a></div>
+          <div class="site-logo col-6">
+            <a href="index.php">
+              <img src="fortest/images/peso_icons.png" alt="PESO Logo" style="height: 150px;">
+              <div style="display: inline-block; vertical-align: middle; margin-left: 10px;">
+                <div>PESO</div>
+                <div>Job Hiring</div>
+              </div>
+            </a>
+          </div>
+          
 
           <nav class="mx-auto site-navigation">
             <ul class="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
               <li><a href="index.html" class="nav-link active">Home</a></li>
-              <li><a href="about.html">About</a></li>
+              
               <li class="has-children">
                 <a href="job-listings.html">Job Listings</a>
                 <ul class="dropdown">
@@ -144,6 +153,7 @@ $conn->close();
                   <li><a href="post-job.html">Post a Job</a></li>
                 </ul>
               </li>
+              <li><a href="about.html">About</a></li>
               <li class="has-children">
                 <a href="services.html">Pages</a>
                 <ul class="dropdown">
@@ -157,7 +167,7 @@ $conn->close();
                   <li><a href="gallery.html">Gallery</a></li>
                 </ul>
               </li>
-              <li><a href="blog.html">Blog</a></li>
+              
               <li><a href="contact.html">Contact</a></li>
               <?php if (isset($_SESSION['user_id'])): ?>
               <li class="d-lg-none has-children">
@@ -240,7 +250,7 @@ $conn->close();
         </div>
       </div>
 
-      <a href="#next" class="scroll-button smoothscroll">
+      <a href="#footer" class="scroll-button smoothscroll">
         <span class=" icon-keyboard_arrow_down"></span>
       </a>
 
@@ -388,7 +398,7 @@ $conn->close();
       
     </section>
     
-    <footer class="site-footer">
+    <footer class="site-footer" id="footer">
 
       <a href="#top" class="smoothscroll scroll-top">
         <span class="icon-keyboard_arrow_up"></span>
@@ -435,14 +445,7 @@ $conn->close();
           </div>
         </div>
 
-        <div class="row text-center">
-          <div class="col-12">
-            <p class="copyright"><small>
-              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" >Colorlib</a>
-            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></small></p>
-          </div>
-        </div>
+       
       </div>
     </footer>
   

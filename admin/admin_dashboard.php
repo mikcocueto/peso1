@@ -29,6 +29,13 @@ $conn->close();
     <title>Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    
+    <style>
+      .nav-link:hover {
+    background-color: #495057;
+    border-radius: 5px;
+    }
+    </style>
 </head>
 <body class="bg-light">
 <div class="container-fluid">
@@ -68,7 +75,7 @@ $conn->close();
                     </li>
                 </ul>
                 <div class="mt-auto">
-                    <img alt="Add New Job" class="w-100" height="150" src="https://storage.googleapis.com/a1aa/image/UNiLmCEN0pF7peY8Ih-93Oyh4tlYqeuuLFQIELAE6Oo.jpg" width="150"/>
+                    
                     <button class="btn btn-primary w-100 mt-2">Add New Job</button>
                 </div>
             </div>
@@ -122,7 +129,7 @@ $conn->close();
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center">
                                 <span class="text-muted">My Earnings</span>
-                                <img alt="My Earnings" height="40" src="https://storage.googleapis.com/a1aa/image/cV6UMvC3M5FoJ37U-xpmqtlS0tV6BdaQ2SYrcPwtcyU.jpg" width="40"/>
+                                
                             </div>
                             <a class="text-primary" href="#">View earnings</a>
                         </div>
@@ -133,7 +140,7 @@ $conn->close();
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center">
                                 <span class="text-muted">My Bookings</span>
-                                <img alt="My Bookings" height="40" src="https://storage.googleapis.com/a1aa/image/8h3vRHlCGtPz8LM_nHsoPwp-tnWRl9PXO7OXXPre6TM.jpg" width="40"/>
+                                
                             </div>
                             <a class="text-primary" href="#">View bookings</a>
                         </div>
@@ -148,7 +155,7 @@ $conn->close();
                                 <span class="text-muted">Talent Demographics</span>
                                 <span class="text-muted">ABC</span>
                             </div>
-                            <img alt="Talent Demographics Chart" class="img-fluid" src="https://storage.googleapis.com/a1aa/image/HA2JM21zIxKV8T4Ea5hP03ddnyPgKF2NAnZZa_HFhSI.jpg"/>
+                            
                         </div>
                     </div>
                 </div>
@@ -159,7 +166,7 @@ $conn->close();
                                 <span class="text-muted">Talent Projects</span>
                                 <span class="text-muted">XYZ</span>
                             </div>
-                            <img alt="Talent Projects Chart" class="img-fluid" src="https://storage.googleapis.com/a1aa/image/KAvwK7jy3rbr1OGnfyWV9SNIeI-tSaVlqAh397FBrWg.jpg"/>
+                            
                         </div>
                     </div>
                 </div>
@@ -172,7 +179,7 @@ $conn->close();
                                 <span class="text-muted">Top Active Jobs</span>
                                 <span class="text-muted">ABC</span>
                             </div>
-                            <img alt="Top Active Jobs Chart" class="img-fluid" src="https://storage.googleapis.com/a1aa/image/UUQnKNORN_YY3eG6BSXvRTKr_03RtDBK2co2dxp_ogw.jpg"/>
+                            
                         </div>
                     </div>
                 </div>
@@ -183,7 +190,7 @@ $conn->close();
                                 <span class="text-muted">Job Progress</span>
                                 <span class="text-muted">XYZ</span>
                             </div>
-                            <img alt="Job Progress Chart" class="img-fluid" src="https://storage.googleapis.com/a1aa/image/ccSzr2obhKPszajncWgOg0I3Mg-P97paz4K9ouqhMF0.jpg"/>
+                            
                         </div>
                     </div>
                 </div>
@@ -196,7 +203,7 @@ $conn->close();
                                 <span class="text-muted">Applications</span>
                                 <span class="text-muted">ABC</span>
                             </div>
-                            <img alt="Applications Chart" class="img-fluid" src="https://storage.googleapis.com/a1aa/image/D0Yw0VAmvGONt0ZGaYyOjLVKKnJ8ZoAVL2A0VRLBkI0.jpg"/>
+                            
                         </div>
                     </div>
                 </div>
