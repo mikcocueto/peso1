@@ -12,7 +12,7 @@ if (!isset($_SESSION['company_id'])) {
 $company_id = $_SESSION['company_id']; // Get the company ID from the session
 
 // Fetch company details
-$query = "SELECT firstName, lastName, companyName, country, companyNumber FROM tbl_company WHERE company_id = ?";
+$query = "SELECT firstName, lastName, companyName, country, companyNumber, comp_logo_dir FROM tbl_company WHERE company_id = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $company_id);
 $stmt->execute();
@@ -71,6 +71,9 @@ unset($_SESSION['success_message'], $_SESSION['error_message']);
     <h2>Welcome, <?php echo htmlspecialchars($company['firstName'] . ' ' . $company['lastName']); ?></h2>
     
     <h3>Company Information</h3>
+    <div class="company-logo">
+        <img src="<?php echo $company['comp_logo_dir'] ? htmlspecialchars($company['comp_logo_dir']) : 'path/to/placeholder.png'; ?>" alt="Company Logo" class="logo-img">
+    </div>
     <table>
         <tr class="category-header">
             <th>Field</th>
@@ -114,7 +117,7 @@ unset($_SESSION['success_message'], $_SESSION['error_message']);
     <div id="editModal" class="modal">
         <div class="modal-content">
             <h3>Edit Information</h3>
-            <form method="POST" action="../includes/comp_update_profile.php">
+            <form method="POST" action="../includes/comp_update_profile.php" enctype="multipart/form-data">
                 <input type="hidden" id="editCategory" name="category">
                 <input type="hidden" id="id" name="id">
                 <div id="companyFields" class="modal-fields">
@@ -128,6 +131,8 @@ unset($_SESSION['success_message'], $_SESSION['error_message']);
                     <input type="text" id="country" name="country"><br>
                     <label for="companyNumber">Company Number:</label>
                     <input type="text" id="companyNumber" name="companyNumber"><br>
+                    <label for="comp_logo">Company Logo:</label>
+                    <input type="file" id="comp_logo" name="comp_logo"><br>
                 </div>
                 <button type="submit">Save</button>
                 <button type="button" class="close-button" onclick="closeModal()">Cancel</button>

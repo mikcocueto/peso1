@@ -30,6 +30,27 @@ foreach ($fields as $field) {
     }
 }
 
+if (!empty($_FILES['comp_logo']['name'])) {
+    $target_dir = "../db/images/company/logo/";
+    $target_file = $target_dir . basename($_FILES["comp_logo"]["name"]);
+    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+    $check = getimagesize($_FILES["comp_logo"]["tmp_name"]);
+    if ($check !== false) {
+        if (move_uploaded_file($_FILES["comp_logo"]["tmp_name"], $target_file)) {
+            $update_fields[] = "comp_logo_dir = ?";
+            $update_values[] = $target_file;
+        } else {
+            $_SESSION['error_message'] = "Failed to upload logo.";
+            header("Location: ../company/comp_dashboard.php");
+            die();
+        }
+    } else {
+        $_SESSION['error_message'] = "File is not an image.";
+        header("Location: ../company/comp_dashboard.php");
+        die();
+    }
+}
+
 if (empty($update_fields)) {
     die("No valid fields to update.");
 }

@@ -1,6 +1,7 @@
 <?php
 session_start();
 require "includes/db_connect.php"; // Database connection
+require "nav_index.php"; // Database connection
 
 // Fetch counts from the database
 $employee_count = $conn->query("SELECT COUNT(*) AS count FROM tbl_employee")->fetch_assoc()['count'];
@@ -127,86 +128,7 @@ $conn->close();
     </div> <!-- .site-mobile-menu -->
     
 
-    <!-- NAVBAR -->
-    <header class="site-navbar mt-3">
-      <div class="container-fluid">
-        <div class="row align-items-center">
-          <div class="site-logo col-6">
-            <a href="index.php">
-              <img src="fortest/images/peso_icons.png" alt="PESO Logo" style="height: 150px;">
-              <div style="display: inline-block; vertical-align: middle; margin-left: 10px;">
-                <div>PESO</div>
-                <div>Job Hiring</div>
-              </div>
-            </a>
-          </div>
-          
-
-          <nav class="mx-auto site-navigation">
-            <ul class="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
-              <li><a href="index.html" class="nav-link active">Home</a></li>
-              
-              <li class="has-children">
-                <a href="job-listings.html">Job Listings</a>
-                <ul class="dropdown">
-                  <li><a href="job-single.html">Job Single</a></li>
-                  <li><a href="post-job.html">Post a Job</a></li>
-                </ul>
-              </li>
-              <li><a href="about.html">About</a></li>
-              <li class="has-children">
-                <a href="services.html">Pages</a>
-                <ul class="dropdown">
-                  <li><a href="services.html">Services</a></li>
-                  <li><a href="service-single.html">Service Single</a></li>
-                  <li><a href="blog-single.html">Blog Single</a></li>
-                  <li><a href="portfolio.html">Portfolio</a></li>
-                  <li><a href="portfolio-single.html">Portfolio Single</a></li>
-                  <li><a href="testimonials.html">Testimonials</a></li>
-                  <li><a href="faq.html">Frequently Ask Questions</a></li>
-                  <li><a href="gallery.html">Gallery</a></li>
-                </ul>
-              </li>
-              
-              <li><a href="contact.html">Contact</a></li>
-              <?php if (isset($_SESSION['user_id'])): ?>
-              <li class="d-lg-none has-children">
-                <a href="#"><span class="icon-user"></span> <?= htmlspecialchars($user_name) ?></a>
-                <ul class="dropdown">
-                  <li><a href="employee/emp_dashboard.php">Profile</a></li>
-                  <li><a href="includes/emp_logout.php">Logout</a></li>
-                </ul>
-              </li>
-              <?php else: ?>
-              <li class="d-lg-none"><a href="company/comp_login.php"><span class="mr-2">+</span> Company Log In</a></li>
-              <li class="d-lg-none"><a href="employee/emp_login.php">Log In</a></li>
-              <?php endif; ?>
-            </ul>
-          </nav>
-          
-          <div class="right-cta-menu text-right d-flex align-items-center col-6">
-            <div class="ml-auto">
-              <?php if (isset($_SESSION['user_id'])): ?>
-                <div class="dropdown d-none d-lg-inline-block">
-                  <a href="#" class="btn btn-outline-white border-width-2 dropdown-toggle" id="profileDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="mr-2 icon-user"></span><?= htmlspecialchars($user_name) ?>
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="profileDropdown">
-                    <a class="dropdown-item" href="employee/emp_dashboard.php">Profile</a>
-                    <a class="dropdown-item" href="includes/emp_logout.php">Logout</a>
-                  </div>
-                </div>
-              <?php else: ?>
-              <a href="company/comp_login.php" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Company Log In</a>
-              <a href="employee/emp_login.php" class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-lock_outline"></span>Log In</a>
-              <?php endif; ?>
-            </div>
-            <a href="#" class="site-menu-toggle js-menu-toggle d-inline-block d-xl-none mt-lg-2 ml-3"><span class="icon-menu h3 m-0 p-0 mt-2"></span></a>
-          </div>
-
-        </div>
-      </div>
-    </header>
+    
 
     <!-- HOME -->
     <section class="home-section section-hero overlay bg-image" style="background-image: url('fortest/images/HOMEBG.jpg');" id="home-section">
@@ -250,7 +172,7 @@ $conn->close();
         </div>
       </div>
 
-      <a href="#footer" class="scroll-button smoothscroll">
+      <a href="#next" class="scroll-button smoothscroll">
         <span class=" icon-keyboard_arrow_down"></span>
       </a>
 
@@ -398,7 +320,7 @@ $conn->close();
       
     </section>
     
-    <footer class="site-footer" id="footer">
+    <footer class="site-footer">
 
       <a href="#top" class="smoothscroll scroll-top">
         <span class="icon-keyboard_arrow_up"></span>
@@ -445,7 +367,14 @@ $conn->close();
           </div>
         </div>
 
-       
+        <div class="row text-center">
+          <div class="col-12">
+            <p class="copyright"><small>
+              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" >Colorlib</a>
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></small></p>
+          </div>
+        </div>
       </div>
     </footer>
   
