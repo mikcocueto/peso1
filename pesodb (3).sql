@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 20, 2025 at 08:49 AM
+-- Generation Time: Feb 21, 2025 at 08:54 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.1.25
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -104,21 +104,22 @@ CREATE TABLE `tbl_company` (
   `lastName` varchar(255) NOT NULL,
   `companyName` varchar(255) NOT NULL,
   `country` varchar(255) NOT NULL,
-  `companyNumber` int(11) NOT NULL
+  `companyNumber` int(11) NOT NULL,
+  `comp_logo_dir` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tbl_company`
 --
 
-INSERT INTO `tbl_company` (`company_id`, `firstName`, `lastName`, `companyName`, `country`, `companyNumber`) VALUES
-(1, '', '', 'adeson', '', 0),
-(2, '', '', 'adeson', '', 0),
-(3, '', '', 'adeson', '', 0),
-(4, '', '', 'adeson', '', 0),
-(5, 'ade', 'son', '', 'Philippines', 0),
-(6, 'shan', 'shan', 'adeson', 'Philippines', 123456789),
-(7, 'q', 'q', 'q', 'q', 1);
+INSERT INTO `tbl_company` (`company_id`, `firstName`, `lastName`, `companyName`, `country`, `companyNumber`, `comp_logo_dir`) VALUES
+(1, '', '', 'adeson', '', 0, ''),
+(2, '', '', 'adeson', '', 0, ''),
+(3, '', '', 'adeson', '', 0, ''),
+(4, '', '', 'adeson', '', 0, ''),
+(5, 'ade', 'son', '', 'Philippines', 0, ''),
+(6, 'shan', 'shan', 'adeson', 'Philippines', 123456789, ''),
+(7, 'q', 'q', 'q', 'q', 1, '../db/images/company/logo/abstract-logo-design-for-any-corporate-brand-business-company-vector.jpg');
 
 -- --------------------------------------------------------
 
@@ -193,7 +194,8 @@ CREATE TABLE `tbl_emp_saved_jobs` (
 
 INSERT INTO `tbl_emp_saved_jobs` (`id`, `user_id`, `job_id`) VALUES
 (1, 12, 1),
-(2, 12, 2);
+(2, 12, 2),
+(7, 15, 1);
 
 -- --------------------------------------------------------
 
@@ -346,6 +348,30 @@ INSERT INTO `tbl_loginuser` (`id`, `user_id`, `emailAddress`, `password`, `salt`
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_log_comp_reg`
+--
+
+CREATE TABLE `tbl_log_comp_reg` (
+  `id` int(11) NOT NULL,
+  `comp_id` int(11) NOT NULL,
+  `comp_reg_time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_log_emp_reg`
+--
+
+CREATE TABLE `tbl_log_emp_reg` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `emp_reg_time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_resume`
 --
 
@@ -461,6 +487,18 @@ ALTER TABLE `tbl_loginuser`
   ADD KEY `idlogin` (`user_id`);
 
 --
+-- Indexes for table `tbl_log_comp_reg`
+--
+ALTER TABLE `tbl_log_comp_reg`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_log_emp_reg`
+--
+ALTER TABLE `tbl_log_emp_reg`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `tbl_resume`
 --
 ALTER TABLE `tbl_resume`
@@ -518,7 +556,7 @@ ALTER TABLE `tbl_employee`
 -- AUTO_INCREMENT for table `tbl_emp_saved_jobs`
 --
 ALTER TABLE `tbl_emp_saved_jobs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tbl_job_category`
@@ -555,6 +593,18 @@ ALTER TABLE `tbl_logincompany`
 --
 ALTER TABLE `tbl_loginuser`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `tbl_log_comp_reg`
+--
+ALTER TABLE `tbl_log_comp_reg`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbl_log_emp_reg`
+--
+ALTER TABLE `tbl_log_emp_reg`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_resume`
