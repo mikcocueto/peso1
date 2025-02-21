@@ -45,7 +45,7 @@ $conn->close();
             <div class="position-sticky pt-3">
                 <div class="d-flex align-items-center mb-3">
                     <img alt="Logo" class="mr-2" height="40" src="https://storage.googleapis.com/a1aa/image/leh5rwW3uEpXCLQpnX9TmmB8YHf1NhgpIXX-JvFg7K0.jpg" width="40"/>
-                    <span class="text-xl font-bold">EmployX</span>
+                    <span class="text-xl font-bold">PESO Admin</span>
                 </div>
                 <ul class="nav flex-column">
                     <li class="nav-item mb-2">
@@ -247,7 +247,7 @@ $conn->close();
 <!-- Offcanvas Sidebar -->
 <div class="offcanvas offcanvas-start bg-dark text-white" tabindex="-1" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
     <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasSidebarLabel">EmployX</h5>
+        <h5 class="offcanvas-title" id="offcanvasSidebarLabel">PESO Admin</h5>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">

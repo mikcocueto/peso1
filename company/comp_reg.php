@@ -71,7 +71,7 @@ $conn->close();
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Star Admin Premium Bootstrap Admin Dashboard Template</title>
+    <title>Company Register</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="../assets/vendors/iconfonts/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="../assets/vendors/iconfonts/ionicons/dist/css/ionicons.css">
@@ -87,7 +87,7 @@ $conn->close();
     <!-- Layout styles -->
     <link rel="stylesheet" href="../assets/css/demo_1/style.css">
     <!-- End Layout styles -->
-    <link rel="shortcut icon" href="../assets/images/favicon.ico" />
+    <link rel="shortcut icon" href="../assets/images/peso.ico" />
   </head>
   <body>
     <div class="container-scroller">
@@ -95,8 +95,8 @@ $conn->close();
         <div class="content-wrapper d-flex align-items-center auth register-bg-1 theme-one">
           <div class="row w-100">
             <div class="col-lg-4 mx-auto">
-              <h2 class="text-center mb-4">Register</h2>
               <div class="auto-form-wrapper">
+                <h2 class="text-center mb-4">Register</h2>
                 <form action="" method="POST">
                   <div class="form-group">
                     <div class="input-group">
