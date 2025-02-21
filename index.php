@@ -1,7 +1,7 @@
 <?php
 session_start();
 require "includes/db_connect.php"; // Database connection
-require "nav_index.php"; // Database connection
+require "includes/nav_index.php"; // Database connection
 
 // Fetch counts from the database
 $employee_count = $conn->query("SELECT COUNT(*) AS count FROM tbl_employee")->fetch_assoc()['count'];

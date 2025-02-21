@@ -6,7 +6,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 require "../includes/db_connect.php";
-include '../includes/nav.php';
+
 
 $user_id = $_SESSION['user_id'];
 

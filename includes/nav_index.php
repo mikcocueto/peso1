@@ -1,5 +1,5 @@
 <?php
-require "includes/db_connect.php"; // Database connection
+require "db_connect.php"; // Database connection
 
 // Fetch user name if logged in
 $user_name = '';
@@ -53,6 +53,7 @@ if (isset($_SESSION['user_id'])) {
                 <a href="#"><span class="icon-user"></span> <?= htmlspecialchars($user_name) ?></a>
                 <ul class="dropdown">
                   <li><a href="employee/emp_dashboard.php">Profile</a></li>
+                  <li><a href="employee/emp_saved_jobs.php">Saved</a></li>
                   <li><a href="includes/emp_logout.php">Logout</a></li>
                 </ul>
               </li>
@@ -72,6 +73,7 @@ if (isset($_SESSION['user_id'])) {
                   </a>
                   <div class="dropdown-menu" aria-labelledby="profileDropdown">
                     <a class="dropdown-item" href="employee/emp_dashboard.php">Profile</a>
+                    <a class="dropdown-item" href="employee/emp_saved_jobs.php">Saved</a>
                     <a class="dropdown-item" href="includes/emp_logout.php">Logout</a>
                   </div>
                 </div>
