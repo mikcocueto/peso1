@@ -304,29 +304,23 @@ $conn->close();
     </section>
 
     
-    <section class="site-section py-4 flex justify-center items-center min-h-screen">
-      <div class="bg-gray-200 p-8 flex flex-col md:flex-row items-center md:items-start max-w-4xl mx-auto">
-        <div class="md:w-1/2 mb-8 md:mb-0 text-center md:text-left">
-          <h1 class="text-3xl font-bold mb-4">ABOUT US</h1>     
-          <p class="text-gray-700 mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing</p>
-          <p class="text-gray-700 mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-          <button class="bg-gray-800 text-white px-4 py-2 mb-4">Read More</button>
-          <div class="flex justify-center md:justify-start space-x-4">
-            <a class="text-red-600" href="#">
-              <i class="fab fa-facebook-f"></i>
-            </a>
-            <a class="text-red-600" href="#">
-              <i class="fab fa-twitter"></i>
-            </a>
-            <a class="text-red-600" href="#">
-              <i class="fab fa-instagram"></i>
-            </a>
-          </div>
+    <section id="about" class="site-section py-4 flex justify-center items-center min-h-screen">
+    <div class="container bg-light p-5 d-flex flex-column flex-md-row align-items-center">
+        <div class="col-md-6 mb-4 mb-md-0">
+            <h1 class="display-4 font-weight-bold mb-3">ABOUT US</h1>
+            <p class="text-muted mb-3">Lorem ipsum dolor sit amet, consectetur adipiscing</p>
+            <p class="text-muted mb-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <a href="https://owwamember.com/peso-public-employment-service-office/" target="_blank" class="btn btn-dark mb-3">Read More</a>
+            <div class="d-flex">
+                <a class="text-danger mr-3" href="#"><i class="fab fa-facebook-f"></i></a>
+                <a class="text-danger mr-3" href="#"><i class="fab fa-twitter"></i></a>
+                <a class="text-danger" href="#"><i class="fab fa-instagram"></i></a>
+            </div>
         </div>
-        <div class="md:w-1/2 text-center md:text-right">
-          <img alt="A smiling person sitting at a desk with a laptop in a modern office environment" height="300" src="https://storage.googleapis.com/a1aa/image/tqh7KyVhW16HG3BGcVU8P2QP6HQ0YmuLcQnWIa2Vk1s.jpg" width="400"/>
+        <div class="col-md-6">
+            <img src="https://placehold.co/400x300" class="img-fluid" alt="A smiling person sitting at a desk with a laptop in a modern office environment">
         </div>
-      </div>
+    </div>
     </section>
 
 

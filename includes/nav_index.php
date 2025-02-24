@@ -32,7 +32,7 @@ if (isset($_SESSION['user_id'])) {
           <nav class="mx-auto site-navigation">
             <ul class="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
               <li><a href="index.html" class="nav-link active">Home</a></li>
-              <li><a href="about.html">About</a></li>
+              <li><a href="#about">About</a></li>
               <li class="has-children">
                 <a href="job-listings.html">Job Listings</a>
                 <ul class="dropdown">
