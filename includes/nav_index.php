@@ -20,8 +20,15 @@ if (isset($_SESSION['user_id'])) {
 <header class="site-navbar mt-3">
       <div class="container-fluid">
         <div class="row align-items-center">
-          <div class="site-logo col-6"><a href="index.php"> PESO Job Hiring</a></div>
-
+        <div class="site-logo col-6 d-flex align-items-center">
+            <a href="index.php" class="d-flex align-items-center text-decoration-none">
+                <img src="fortest/images/peso_icons.png" alt="PESO Logo" style="width: 120px; height: auto; margin-right: 10px;">
+                <div class="d-flex flex-column">
+                    <span>PESO</span>
+                    <span style="padding-left: 40px;">Job Hiring</span>
+                </div>
+            </a>
+        </div>
           <nav class="mx-auto site-navigation">
             <ul class="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
               <li><a href="index.html" class="nav-link active">Home</a></li>
