@@ -183,7 +183,7 @@ $conn->close();
                 start_date: '<?php echo htmlspecialchars($job['start_date']); ?>',
                 end_date: '<?php echo htmlspecialchars($job['end_date']); ?>',
                 still_in_role: '<?php echo $job['still_in_role']; ?>',
-                description: '<?php echo htmlspecialchars($job['description']); ?>'
+                Jdescription: '<?php echo htmlspecialchars($job['description']); ?>'
             })">Edit</button></td>
         </tr>
         <?php endforeach; ?>
@@ -296,8 +296,8 @@ $conn->close();
                     <input type="date" id="end_date" name="end_date"><br>
                     <label for="still_in_role">Still in Role:</label>
                     <input type="checkbox" id="still_in_role" name="still_in_role"><br>
-                    <label for="description">Job Description:</label>
-                    <textarea id="description" name="description"></textarea><br>
+                    <label for="Jdescription">Job Description:</label>
+                    <textarea id="Jdescription" name="Jdescription"></textarea><br>
                 </div>
                 <div id="educationFields" class="modal-fields" style="display:none;">
                     <label for="course">Course:</label>

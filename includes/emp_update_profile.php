@@ -7,6 +7,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = $_POST['id'];
     $user_id = $_SESSION['user_id'];
 
+    $stmt = null; // Initialize $stmt to null
+
     switch ($category) {
         case 'personal':
             $email = trim($_POST['emailAddress']);
@@ -25,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $start_date = trim($_POST['start_date']);
             $end_date = trim($_POST['end_date']);
             $still_in_role = isset($_POST['still_in_role']) ? 1 : 0;
-            $description = trim($_POST['description']);
+            $description = trim($_POST['Jdescription']);
 
             if ($id) {
                 $stmt = $conn->prepare("UPDATE tbl_careerhistory SET job_title = ?, company_name = ?, start_date = ?, end_date = ?, still_in_role = ?, description = ? WHERE id = ? AND user_id = ?");
@@ -80,13 +82,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             break;
     }
 
-    if ($stmt->execute()) {
+    if ($stmt && $stmt->execute()) {
         $_SESSION['success_message'] = "Profile updated successfully.";
     } else {
         $_SESSION['error_message'] = "Profile update failed. Please try again.";
     }
 
-    $stmt->close();
+    if ($stmt) {
+        $stmt->close();
+    }
     $conn->close();
 
     header("Location: ../employee/emp_dashboard.php");
