@@ -62,6 +62,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $stmt->bind_param("is", $user_id, $language_name);
             }
             break;
+
+        case 'certification':
+            $licence_name = trim($_POST['licence_name']);
+            $issuing_organization = trim($_POST['issuing_organization']);
+            $issue_date = trim($_POST['issue_date']);
+            $expiry_date = trim($_POST['expiry_date']);
+            $description = trim($_POST['description']);
+
+            if ($id) {
+                $stmt = $conn->prepare("UPDATE tbl_certification SET licence_name = ?, issuing_organization = ?, issue_date = ?, expiry_date = ?, description = ? WHERE id = ? AND user_id = ?");
+                $stmt->bind_param("ssssisi", $licence_name, $issuing_organization, $issue_date, $expiry_date, $description, $id, $user_id);
+            } else {
+                $stmt = $conn->prepare("INSERT INTO tbl_certification (user_id, licence_name, issuing_organization, issue_date, expiry_date, description) VALUES (?, ?, ?, ?, ?, ?)");
+                $stmt->bind_param("isssss", $user_id, $licence_name, $issuing_organization, $issue_date, $expiry_date, $description);
+            }
+            break;
     }
 
     if ($stmt->execute()) {

@@ -177,8 +177,10 @@ $conn->close();
                   <?php endif; ?>
                   <div class="form-group d-flex justify-content-center">
                     <div class="form-check form-check-flat mt-0">
-                      <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input" required> I agree to the terms </label>
+                      
+                  <label class="form-check-label">
+                        <input type="checkbox" name="agree_terms" class="form-check-input" required> I agree to the terms and conditions
+                      </label>
                     </div>
                   </div>
                   <div class="form-group">

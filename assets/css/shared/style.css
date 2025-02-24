@@ -1658,18 +1658,15 @@ textarea.form-control {
     padding-left: 5px; }
 
 .form-check {
-  position: relative;
-  display: block;
-  padding-left: 1.25rem; }
-
+  align-items: center;
+  display: flex;;}
 .form-check-input {
-  position: absolute;
-  margin-top: 0.3rem;
-  margin-left: -1.25rem; }
-  .form-check-input[disabled] ~ .form-check-label,
-  .form-check-input:disabled ~ .form-check-label {
-    color: #6c757d; }
-
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    margin-right: 8px;
+  }
+  
 .form-check-label {
   margin-bottom: 0; }
 

@@ -43,6 +43,23 @@ $stmt->execute();
 $languages = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
 
+// Fetch certifications
+$query = "SELECT id, licence_name, issuing_organization, issue_date, expiry_date, description FROM tbl_certification WHERE user_id = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$certifications = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+$stmt->close();
+
+// Fetch account creation date
+$query = "SELECT create_timestamp FROM tbl_employee WHERE user_id = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$account_creation_date = $result->fetch_assoc()['create_timestamp'];
+$stmt->close();
+
 // Check for success or error messages
 $success_message = isset($_SESSION['success_message']) ? $_SESSION['success_message'] : '';
 $error_message = isset($_SESSION['error_message']) ? $_SESSION['error_message'] : '';
@@ -218,6 +235,36 @@ $conn->close();
     </table>
     <button class="edit-button" onclick="openModal('languages')">Add Language</button>
     
+    <h3>Certifications</h3>
+    <table>
+        <tr class="category-header">
+            <th>Licence Name</th>
+            <th>Issuing Organization</th>
+            <th>Issue Date</th>
+            <th>Expiry Date</th>
+            <th>Description</th>
+            <th class="table-column-action">Action</th>
+        </tr>
+        <?php foreach ($certifications as $cert): ?>
+        <tr>
+            <td><?php echo htmlspecialchars($cert['licence_name']); ?></td>
+            <td><?php echo htmlspecialchars($cert['issuing_organization']); ?></td>
+            <td><?php echo htmlspecialchars($cert['issue_date']); ?></td>
+            <td><?php echo htmlspecialchars($cert['expiry_date']); ?></td>
+            <td><?php echo htmlspecialchars($cert['description']); ?></td>
+            <td><button class="edit-button" onclick="openModal('certification', {
+                id: '<?php echo $cert['id']; ?>',
+                licence_name: '<?php echo htmlspecialchars($cert['licence_name']); ?>',
+                issuing_organization: '<?php echo htmlspecialchars($cert['issuing_organization']); ?>',
+                issue_date: '<?php echo htmlspecialchars($cert['issue_date']); ?>',
+                expiry_date: '<?php echo htmlspecialchars($cert['expiry_date']); ?>',
+                description: '<?php echo htmlspecialchars($cert['description']); ?>'
+            })">Edit</button></td>
+        </tr>
+        <?php endforeach; ?>
+    </table>
+    <button class="edit-button" onclick="openModal('certification')">Add Certification</button>
+
     <button class="edit-button" onclick="openPasswordModal()">Change Password</button>
 
     <div id="editModal" class="modal">
@@ -266,6 +313,18 @@ $conn->close();
                     <label for="language_name">Language:</label>
                     <input type="text" id="language_name" name="language_name"><br>
                 </div>
+                <div id="certificationFields" class="modal-fields" style="display:none;">
+                    <label for="licence_name">Licence Name:</label>
+                    <input type="text" id="licence_name" name="licence_name"><br>
+                    <label for="issuing_organization">Issuing Organization:</label>
+                    <input type="text" id="issuing_organization" name="issuing_organization"><br>
+                    <label for="issue_date">Issue Date:</label>
+                    <input type="date" id="issue_date" name="issue_date"><br>
+                    <label for="expiry_date">Expiry Date:</label>
+                    <input type="date" id="expiry_date" name="expiry_date"><br>
+                    <label for="description">Description:</label>
+                    <textarea id="description" name="description"></textarea><br>
+                </div>
                 <button type="submit">Save</button>
                 <button type="button" class="close-button" onclick="closeModal()">Cancel</button>
             </form>
@@ -297,5 +356,9 @@ $conn->close();
     </div>
 
     <a href="../includes/emp_logout.php">Logout</a>
+
+    <footer>
+        <p>Account Created: <?php echo htmlspecialchars($account_creation_date); ?></p>
+    </footer>
 </body>
 </html>

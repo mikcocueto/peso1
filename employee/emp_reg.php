@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } elseif ($password !== $confirm_password) {
         $registrationMessage = "Passwords do not match.";
     } else {
-        // Check if email already exists in `tbl_loginuser`
+        // Check if email already exists in ` inuser`
         $checkStmt = $conn->prepare("SELECT id FROM tbl_loginuser WHERE emailAddress = ?");
         $checkStmt->bind_param("s", $email);
         $checkStmt->execute();
