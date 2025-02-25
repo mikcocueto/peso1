@@ -31,6 +31,15 @@ $jobs = $conn->query("SELECT jl.job_id, jl.title, jl.employment_type, c.companyN
         .selected-job {
             background-color: #e9ecef;
         }
+        .job-list-container {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        @media (max-width: 767.98px) {
+            .job-list-container {
+                max-height: 300px;
+            }
+        }
     </style>
     <script>
         function showJobDetails(jobId) {
@@ -50,18 +59,20 @@ $jobs = $conn->query("SELECT jl.job_id, jl.title, jl.employment_type, c.companyN
 <body class="bg-light">
 <div class="container mt-5">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6 mb-4 mb-md-0">
             <h2 class="text-center mb-4">Job Listings</h2>
-            <div class="job-list">
-                <?php while ($job = $jobs->fetch_assoc()): ?>
-                    <div id="job-<?= $job['job_id'] ?>" class="job-box" onclick="showJobDetails(<?= $job['job_id'] ?>)">
-                        <div class="job-title"><?= htmlspecialchars($job['title']) ?></div>
-                        <div class="job-details">
-                            <p><strong>Company:</strong> <?= htmlspecialchars($job['companyName']) ?></p>
-                            <p><strong>Employment Type:</strong> <?= htmlspecialchars($job['employment_type']) ?></p>
+            <div class="job-list-container">
+                <div class="job-list">
+                    <?php while ($job = $jobs->fetch_assoc()): ?>
+                        <div id="job-<?= $job['job_id'] ?>" class="job-box" onclick="showJobDetails(<?= $job['job_id'] ?>)">
+                            <div class="job-title"><?= htmlspecialchars($job['title']) ?></div>
+                            <div class="job-details">
+                                <p><strong>Company:</strong> <?= htmlspecialchars($job['companyName']) ?></p>
+                                <p><strong>Employment Type:</strong> <?= htmlspecialchars($job['employment_type']) ?></p>
+                            </div>
                         </div>
-                    </div>
-                <?php endwhile; ?>
+                    <?php endwhile; ?>
+                </div>
             </div>
         </div>
         <div class="col-md-6">
