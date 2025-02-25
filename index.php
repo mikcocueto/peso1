@@ -83,6 +83,7 @@ $conn->close();
     <link rel="stylesheet" href="fortest/fonts/line-icons/style.css">
     <link rel="stylesheet" href="fortest/style2/owl.carousel.min.css">
     <link rel="stylesheet" href="fortest/style2/animate.min.css">
+    <link rel="stylesheet" href="fortest/style2/owl.theme.default.min.css">
 
     <!-- MAIN CSS -->
     <link rel="stylesheet" href="fortest/style2/style.css">    
@@ -103,6 +104,37 @@ $conn->close();
       }
       .save-job-btn {
         margin-top: 10px;
+      }
+      // Owl Carousel
+      .owl-nav {
+        position: absolute;
+        top: 50%;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+      }
+      .owl-nav button {
+        background: none;
+        border: none;
+        font-size: 2em;
+        color: #333;
+      }
+      .owl-nav button.owl-prev {
+        position: absolute;
+        left: -25px;
+      }
+      .owl-nav button.owl-next {
+        position: absolute;
+        right: -25px;
+      }
+      .Announcement .container {
+        text-align: center;
+      }
+      .Announcement .owl-carousel .slide {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-bottom: 50px; /* Add padding below the images */
       }
     </style>
   </head>
@@ -324,10 +356,19 @@ $conn->close();
     </section>
 
 
-    <section class="bg-light pt-5 testimony-full">
-        
-        
-
+    <section class="bg-light pt-5 Announcement">
+      <div class="container">
+        <h2>Our Partners</h2>
+        <div class="owl-carousel customer-logos">
+          <div class="slide"><img src="https://image.freepik.com/free-vector/luxury-letter-e-logo-design_1017-8903.jpg"></div>
+          <div class="slide"><img src="https://image.freepik.com/free-vector/3d-box-logo_1103-876.jpg"></div>
+          <div class="slide"><img src="https://image.freepik.com/free-vector/blue-tech-logo_1103-822.jpg"></div>
+          <div class="slide"><img src="https://image.freepik.com/free-vector/colors-curl-logo-template_23-2147536125.jpg"></div>
+          <div class="slide"><img src="https://image.freepik.com/free-vector/abstract-cross-logo_23-2147536124.jpg"></div>
+          <div class="slide"><img src="https://image.freepik.com/free-vector/football-logo-background_1195-244.jpg"></div>
+          <div class="slide"><img src="https://image.freepik.com/free-vector/background-of-spots-halftone_1035-3847.jpg"></div>
+        </div>
+      </div>
     </section>
 
     <section class="pt-5 bg-image overlay-primary fixed overlay" style="background-image: url('fortest/images/hero_1.jpg');">
@@ -402,7 +443,30 @@ $conn->close();
     <script src="fortest/js/bootstrap-select.min.js"></script>
     
     <script src="fortest/js/custom.js"></script>
-
-     
+    <script>
+      $(document).ready(function(){
+        $(".owl-carousel").owlCarousel({
+          loop: true,
+          margin: 10,
+          nav: true,
+          navText: ['<span class="icon-keyboard_arrow_left"></span>', '<span class="icon-keyboard_arrow_right"></span>'],
+          autoplay: true, // Enable autoplay
+          autoplayTimeout: 1000, // Set autoplay interval to 1 seconds
+          autoplayHoverPause: true, // Pause on hover
+          responsive: {
+            0: {
+              items: 1
+            },
+            600: {
+              items: 3
+            },
+            1000: {
+              items: 5
+            }
+          }
+        });
+      });
+    </script>
   </body>
-</html>
+    </html>
+
