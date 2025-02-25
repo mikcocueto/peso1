@@ -32,12 +32,12 @@ $jobs = $conn->query("SELECT jl.job_id, jl.title, jl.employment_type, c.companyN
             background-color: #e9ecef;
         }
         .job-list-container {
-            max-height: 400px;
+            max-height: 80vh;
             overflow-y: auto;
         }
         @media (max-width: 767.98px) {
             .job-list-container {
-                max-height: 300px;
+                max-height: 80vh;
             }
         }
     </style>
