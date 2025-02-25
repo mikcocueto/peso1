@@ -350,7 +350,7 @@ $conn->close();
             </div>
         </div>
         <div class="col-md-6">
-            <img src="https://placehold.co/400x300" class="img-fluid" alt="A smiling person sitting at a desk with a laptop in a modern office environment">
+            <img src="fortest/images/PESO_about1.png" class="img-fluid" alt="Peso logo">
         </div>
     </div>
     </section>
