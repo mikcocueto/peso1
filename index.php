@@ -356,7 +356,7 @@ $conn->close();
     </section>
 
 
-    <section class="bg-light pt-5 Announcement">
+    <section id="Blogs" class="bg-light pt-5 Announcement">
       <div class="container">
         <h2>Our Partners</h2>
         <div class="owl-carousel customer-logos">
@@ -464,6 +464,14 @@ $conn->close();
               items: 5
             }
           }
+        });
+        
+        // Smooth scrolling for "Our Partners" section
+        $('a[href*="#"]').on('click', function(e) {
+          e.preventDefault();
+          $('html, body').animate({
+            scrollTop: $($(this).attr('href')).offset().top
+          }, 500, 'linear');
         });
       });
     </script>
