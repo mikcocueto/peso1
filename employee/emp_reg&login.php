@@ -10,12 +10,15 @@
     <link rel="stylesheet" href="../assets/css/shared/styles.css" />
     <title>Login Page | Caged coder</title>
   </head>
-
   <body>
     <div class="container" id="container">
       <div class="form-container sign-up">
         <form>
-          <h1>Create Account</h1>
+          <h1 style="padding: 20px 0;">Create Account</h1>
+          <input type="email" placeholder="Email" />
+          <input type="password" placeholder="Password" />
+          <button>Sign Up</button>
+          <span>or use your email for registration</span>
           <div class="social-icons">
             <a href="#" class="icon"
               ><i class="fa-brands fa-google-plus-g"></i
@@ -24,45 +27,34 @@
             <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
             <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
           </div>
-          <span>or use your email for registeration</span>
-          <input type="email" placeholder="Email" />
-          <input type="password" placeholder="Password" />
-          <button>Sign Up</button>
+          <p>Don't you have an account? <a href="#" id="login" class="highlight">Sign In here</a></p>
         </form>
       </div>
       <div class="form-container sign-in">
         <form>
-          <h1>Sign In</h1>
-          <div class="social-icons">
-            <a href="#" class="icon"
-              ><i class="fa-brands fa-google-plus-g"></i
-            ></a>
-            <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
-            <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
-            <a href="#" class="icon"
-              ><i class="fa-brands fa-linkedin-in"></i
-            ></a>
-          </div>
-          <span>or use your email password</span>
+          <h1 style="padding: 20px 0;">Log In</h1>
           <input type="email" placeholder="Email" />
           <input type="password" placeholder="Password" />
           <a href="#">Forget Your Password?</a>
           <button>Sign In</button>
+          <span>or use your email password</span>
+          <div class="social-icons">
+            <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+            <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+            <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+          </div>
+          <p>Already have an account? <a href="#" id="register" class="highlight">Sign Up here</a></p>
         </form>
       </div>
       <div class="toggle-container">
         <div class="toggle">
           <div class="toggle-panel toggle-left">
-            <h1>Welcome Back!</h1>
-            <p>Enter your personal details to use all of site features</p>
-            <button class="hidden" id="login">Sign In</button>
+            <h1>Welcome Back, San Pableños!</h1>
           </div>
           <div class="toggle-panel toggle-right">
-            <h1>Hello, SanPableños!</h1>
-            <p>
-              Register with your personal details to use all of site features
-            </p>
-            <button class="hidden" id="register">Sign Up</button>
+            <h1>Hello,<br> San Pableños!</h1>
+            
           </div>
         </div>
       </div>

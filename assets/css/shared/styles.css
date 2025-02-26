@@ -36,6 +36,7 @@ body{
 }
 
 .container span{
+    padding-top: 20px;
     font-size: 12px;
 }
 
@@ -207,4 +208,29 @@ body{
 
 .container.active .toggle-right{
     transform: translateX(200%);
+}
+
+/* Add responsive styles */
+@media (max-width: 767px) {
+    .container {
+        flex-direction: column;
+        width: 100%;
+        min-height: auto;
+    }
+    .form-container {
+        width: 100%;
+        position: relative;
+        opacity: 1;
+        z-index: 1;
+        transform: translateX(0);
+    }
+    .toggle-container {
+        display: none;
+    }
+}
+
+.highlight {
+    color: #2da0a8;
+    font-weight: bold;
+    text-decoration: underline;
 }
