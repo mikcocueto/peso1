@@ -334,8 +334,6 @@ $conn->close();
         </div>
     </div>
     </section>
-
-    
     <section id="about" class="site-section py-4 flex justify-center items-center min-h-screen">
     <div class="container bg-light p-5 d-flex flex-column flex-md-row align-items-center">
         <div class="col-md-6 mb-4 mb-md-0">
@@ -354,11 +352,9 @@ $conn->close();
         </div>
     </div>
     </section>
-
-
-    <section class="bg-light pt-5 Announcement">
+    <section id="Blogs" class="bg-light pt-5 Announcement">
       <div class="container">
-        <h2>Our Partners</h2>
+        <h2>Our Blogs</h2>
         <div class="owl-carousel customer-logos">
           <div class="slide"><img src="https://image.freepik.com/free-vector/luxury-letter-e-logo-design_1017-8903.jpg"></div>
           <div class="slide"><img src="https://image.freepik.com/free-vector/3d-box-logo_1103-876.jpg"></div>

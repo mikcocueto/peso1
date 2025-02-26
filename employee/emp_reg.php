@@ -93,9 +93,10 @@ $conn->close();
         <div class="content-wrapper d-flex align-items-center auth register-bg-1 theme-one">
           <div class="row w-100">
             <div class="col-lg-4 mx-auto">
-              <h2 class="text-center mb-4">Register</h2>
+              
               <div class="auto-form-wrapper">
                 <form action="" method="POST">
+                <h2 class="text-center mb-4">Register</h2>
                   <div class="form-group">
                     <div class="input-group">
                       <input type="text" name="firstName" class="form-control" placeholder="First Name" required>
