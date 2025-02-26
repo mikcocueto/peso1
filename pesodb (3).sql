@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 21, 2025 at 08:54 AM
+-- Generation Time: Feb 26, 2025 at 09:11 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- PHP Version: 8.1.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -74,7 +74,8 @@ INSERT INTO `tbl_careerhistory` (`id`, `user_id`, `job_title`, `company_name`, `
 (8, 13, 'uu', 'ii', '2025-02-01', '0000-00-00', NULL, ''),
 (9, 13, 'd', 'a', '2025-02-01', '0000-00-00', 1, 'wa'),
 (10, 12, 'miso', 'miso', '2025-02-01', '2025-02-14', 1, 'wla'),
-(11, 14, 'naqqqqqqqqqqqq', 'reeeeeeee', '2024-02-01', '2024-02-03', 0, 'werrr');
+(11, 14, 'naqqqqqqqqqqqq', 'reeeeeeee', '2024-02-01', '2024-02-03', 0, 'werrr'),
+(12, 16, 'miso', 'miso', '2025-02-04', '2025-02-05', 0, 'qqqqqqqqq');
 
 -- --------------------------------------------------------
 
@@ -91,6 +92,13 @@ CREATE TABLE `tbl_certification` (
   `expiry_date` date NOT NULL,
   `description` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_certification`
+--
+
+INSERT INTO `tbl_certification` (`id`, `user_id`, `licence_name`, `issuing_organization`, `issue_date`, `expiry_date`, `description`) VALUES
+(1, 16, 'Ethical hackerss', 'ciscoss', '2025-02-04', '2025-02-05', '111');
 
 -- --------------------------------------------------------
 
@@ -144,7 +152,8 @@ INSERT INTO `tbl_educback` (`id`, `user_id`, `course`, `institution`, `ending_da
 (1, 13, 'ds', 'f', '0000-00-00', 'nopommmmmmmmmmmm'),
 (2, 13, 'aa', 'ff', '2025-02-20', 'jjjj'),
 (3, 12, 'it', 'ls', '2025-02-11', 'wala'),
-(4, 14, 'kqqq', 'hhrrrrrrrrrrrrrrrrrr', '2025-02-18', 'llyyyyyyyyyyy');
+(4, 14, 'kqqq', 'hhrrrrrrrrrrrrrrrrrr', '2025-02-18', 'llyyyyyyyyyyy'),
+(5, 16, 'it', 'lspu', '2025-02-01', 'wala');
 
 -- --------------------------------------------------------
 
@@ -174,7 +183,30 @@ INSERT INTO `tbl_employee` (`user_id`, `firstName`, `lastName`, `address`, `emai
 (12, 'justine', 'justine', 'aa', 'justine@gmail.com', 'dd', '111', '2025-02-12 05:33:23', ''),
 (13, 'Mikco', 'Cueto', 'aaaa', 'cueto@gmail.com', 'a', '', '2025-02-13 04:43:07', ''),
 (14, 'Mikco', 'Cueto', 'Sta. Maria SPC', 'c@gmail.com', 'Female', '099999999999', '2025-02-14 03:58:48', ''),
-(15, 'q', 'q', '', 'q@gmail.com', '', '', '2025-02-17 05:23:39', '');
+(15, 'q', 'q', '', 'q@gmail.com', '', '', '2025-02-17 05:23:39', ''),
+(16, 'new', 'user', '', 'new@gmail.com', '', '', '2025-02-24 06:25:21', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_emp_cv`
+--
+
+CREATE TABLE `tbl_emp_cv` (
+  `id` int(11) NOT NULL,
+  `emp_id` int(11) NOT NULL,
+  `cv_file_name` varchar(255) NOT NULL,
+  `cv_dir` varchar(255) NOT NULL,
+  `upload_timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_emp_cv`
+--
+
+INSERT INTO `tbl_emp_cv` (`id`, `emp_id`, `cv_file_name`, `cv_dir`, `upload_timestamp`) VALUES
+(1, 12, 'Kennie Grades.pdf', '../db/pdf/emp_cv/', '2025-02-26 08:05:48'),
+(2, 12, '3pgFromPrelim.pdf', '../db/pdf/emp_cv/', '2025-02-26 08:06:17');
 
 -- --------------------------------------------------------
 
@@ -195,7 +227,8 @@ CREATE TABLE `tbl_emp_saved_jobs` (
 INSERT INTO `tbl_emp_saved_jobs` (`id`, `user_id`, `job_id`) VALUES
 (1, 12, 1),
 (2, 12, 2),
-(7, 15, 1);
+(7, 15, 1),
+(8, 16, 1);
 
 -- --------------------------------------------------------
 
@@ -273,7 +306,8 @@ INSERT INTO `tbl_language` (`id`, `user_id`, `language_name`) VALUES
 (1, 13, 'tangalog'),
 (2, 13, 'fff'),
 (3, 12, 'tangalog'),
-(4, 14, 'french');
+(4, 14, 'french'),
+(5, 16, 'tangalog');
 
 -- --------------------------------------------------------
 
@@ -343,7 +377,8 @@ INSERT INTO `tbl_loginuser` (`id`, `user_id`, `emailAddress`, `password`, `salt`
 (11, 12, 'justine@gmail.com', '$2y$10$GSBTIdrXBY8Js7OCJKkEG.tamNV9J.aM3/U7R2hFZ0AQ.J9lk6hzW', 'ff9c76c3f6759c670e43981ec211c2da'),
 (12, 13, 'cueto@gmail.com', '$2y$10$k3VtnDTQt35lRgxdzhzW4uQbMztzHzRpKe1tZgdoxmTOANh8K8Qpi', '8048c80311572e2c9e7ce1aba032413b'),
 (13, 14, 'c@gmail.com', '$2y$10$fUXskg4AvXWTJZZZ5ILYz.h5MMuVOO3ccphPfYSh5gVh2d7WYrKma', '486ea598f824510eae98f97997aee1c9'),
-(14, 15, 'q@gmail.com', '$2y$10$bjfjhWI0opTVQy7FnWki8.TS15bneUmQFWnnARkSspDC3BpgaFl2W', '6f6429bb85ba085f101e84969eb8ef6d');
+(14, 15, 'q@gmail.com', '$2y$10$bjfjhWI0opTVQy7FnWki8.TS15bneUmQFWnnARkSspDC3BpgaFl2W', '6f6429bb85ba085f101e84969eb8ef6d'),
+(15, 16, 'new@gmail.com', '$2y$10$aUnIVI9vPQdaeVcH5XFCSe93uu8PFE4U43tM0d8DGYRCk7vis.eWC', 'a5562417cf7f5a2a0bafad3075671d15');
 
 -- --------------------------------------------------------
 
@@ -368,6 +403,13 @@ CREATE TABLE `tbl_log_emp_reg` (
   `user_id` int(11) NOT NULL,
   `emp_reg_time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_log_emp_reg`
+--
+
+INSERT INTO `tbl_log_emp_reg` (`id`, `user_id`, `emp_reg_time`) VALUES
+(1, 16, '2025-02-24 06:25:21');
 
 -- --------------------------------------------------------
 
@@ -435,6 +477,13 @@ ALTER TABLE `tbl_educback`
 --
 ALTER TABLE `tbl_employee`
   ADD PRIMARY KEY (`user_id`);
+
+--
+-- Indexes for table `tbl_emp_cv`
+--
+ALTER TABLE `tbl_emp_cv`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `emp_cv_key` (`emp_id`);
 
 --
 -- Indexes for table `tbl_emp_saved_jobs`
@@ -526,13 +575,13 @@ ALTER TABLE `tbl_admin`
 -- AUTO_INCREMENT for table `tbl_careerhistory`
 --
 ALTER TABLE `tbl_careerhistory`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `tbl_certification`
 --
 ALTER TABLE `tbl_certification`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_company`
@@ -544,19 +593,25 @@ ALTER TABLE `tbl_company`
 -- AUTO_INCREMENT for table `tbl_educback`
 --
 ALTER TABLE `tbl_educback`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tbl_employee`
 --
 ALTER TABLE `tbl_employee`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT for table `tbl_emp_cv`
+--
+ALTER TABLE `tbl_emp_cv`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tbl_emp_saved_jobs`
 --
 ALTER TABLE `tbl_emp_saved_jobs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `tbl_job_category`
@@ -574,7 +629,7 @@ ALTER TABLE `tbl_job_listing`
 -- AUTO_INCREMENT for table `tbl_language`
 --
 ALTER TABLE `tbl_language`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tbl_loginadmin`
@@ -592,7 +647,7 @@ ALTER TABLE `tbl_logincompany`
 -- AUTO_INCREMENT for table `tbl_loginuser`
 --
 ALTER TABLE `tbl_loginuser`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `tbl_log_comp_reg`
@@ -604,7 +659,7 @@ ALTER TABLE `tbl_log_comp_reg`
 -- AUTO_INCREMENT for table `tbl_log_emp_reg`
 --
 ALTER TABLE `tbl_log_emp_reg`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_resume`
@@ -639,6 +694,12 @@ ALTER TABLE `tbl_certification`
 --
 ALTER TABLE `tbl_educback`
   ADD CONSTRAINT `ideduc` FOREIGN KEY (`user_id`) REFERENCES `tbl_employee` (`user_id`);
+
+--
+-- Constraints for table `tbl_emp_cv`
+--
+ALTER TABLE `tbl_emp_cv`
+  ADD CONSTRAINT `emp_cv_key` FOREIGN KEY (`emp_id`) REFERENCES `tbl_employee` (`user_id`);
 
 --
 -- Constraints for table `tbl_emp_saved_jobs`

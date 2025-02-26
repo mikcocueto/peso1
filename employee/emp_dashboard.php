@@ -60,6 +60,14 @@ $result = $stmt->get_result();
 $account_creation_date = $result->fetch_assoc()['create_timestamp'];
 $stmt->close();
 
+// Fetch CVs
+$query = "SELECT id, cv_file_name, cv_dir FROM tbl_emp_cv WHERE emp_id = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$cvs = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+$stmt->close();
+
 // Check for success or error messages
 $success_message = isset($_SESSION['success_message']) ? $_SESSION['success_message'] : '';
 $error_message = isset($_SESSION['error_message']) ? $_SESSION['error_message'] : '';
@@ -264,6 +272,33 @@ $conn->close();
         <?php endforeach; ?>
     </table>
     <button class="edit-button" onclick="openModal('certification')">Add Certification</button>
+
+    <div style="display: flex; justify-content: space-between;">
+        <div style="width: 48%;">
+            <h3>Curriculum Vitae</h3>
+            <form action="../includes/emp_cv_upload_process.php" method="POST" enctype="multipart/form-data">
+                <label for="cv_file">Upload CV (PDF only):</label>
+                <input type="file" name="cv_file" id="cv_file" accept="application/pdf" required>
+                <button type="submit">Upload</button>
+            </form>
+            <table>
+                <tr class="category-header">
+                    <th>File Name</th>
+                    <th>Action</th>
+                </tr>
+                <?php foreach ($cvs as $cv): ?>
+                <tr>
+                    <td><?php echo htmlspecialchars($cv['cv_file_name']); ?></td>
+                    <td><a href="../db/pdf/emp_cv/<?php echo htmlspecialchars($cv['cv_file_name']); ?>" target="_blank">Preview</a></td>
+                </tr>
+                <?php endforeach; ?>
+            </table>
+        </div>
+        <div style="width: 48%;">
+            <h3>Certifications</h3>
+            <!-- ...existing code for certifications... -->
+        </div>
+    </div>
 
     <button class="edit-button" onclick="openPasswordModal()">Change Password</button>
 
