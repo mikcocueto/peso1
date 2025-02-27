@@ -14,6 +14,7 @@
 
   <div class="container" id="container">
     <!-- Log In Form -->
+   <  
     <div class="form-container sign-in">
       <form>
         <h1 style="padding: 20px 0;">Log In</h1>
@@ -54,9 +55,11 @@
     <div class="toggle-container">
       <div class="toggle">
         <div class="toggle-panel toggle-left">
+          <img src="../assets/images/peso.png" alt="PESO Logo" style=" width: 150px; height: auto; margin-bottom: 20px;">
           <h1>Hello,<br> San Pableños!</h1>
         </div>
         <div class="toggle-panel toggle-right">
+        <img src="../assets/images/peso.png" alt="PESO Logo" style=" width: 150px; height: auto; margin-bottom: 20px;">
           <h1>Welcome Back,<br> San Pableños!</h1>
         </div>
       </div>
