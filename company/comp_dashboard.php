@@ -32,6 +32,13 @@ unset($_SESSION['success_message'], $_SESSION['error_message']);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Company Dashboard</title>
     <link rel="stylesheet" href="../fortest/style2/style.css">
+    <style>
+        .logo-img {
+            width: 64px;
+            height: 64px;
+            object-fit: cover;
+        }
+    </style>
     <script>
         // Function to open the modal with pre-filled data
         function openModal(category, data = {}) {

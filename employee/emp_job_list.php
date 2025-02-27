@@ -1,6 +1,6 @@
 <?php
 require "../includes/db_connect.php";
-require "../includes/nav.php";
+
 
 // Fetch job categories from the database
 $categories_result = $conn->query("SELECT category_id, category_name FROM tbl_job_category");
@@ -102,14 +102,16 @@ $jobs = $conn->query($query);
                         <input type="text" class="form-control form-control-lg" name="search_title" placeholder="Job title, Company...">
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                        <select class="selectpicker" name="search_category[]" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select Category" multiple>
+                        <select class="selectpicker form-control form-control-lg" name="search_category[]" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select Category" multiple>
+                            <option disabled>Select Category</option>
                             <?php foreach ($categories as $category): ?>
                                 <option value="<?php echo $category['category_id']; ?>"><?php echo $category['category_name']; ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                        <select class="selectpicker" name="search_type" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select Job Type">
+                        <select class="selectpicker form-control form-control-lg" name="search_type" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select Job Type">
+                            <option disabled>Select Job Type</option>
                             <option value="">All</option>
                             <option value="Part Time">Part Time</option>
                             <option value="Full Time">Full Time</option>
