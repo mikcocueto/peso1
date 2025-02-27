@@ -83,6 +83,28 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee Dashboard</title>
     <link rel="stylesheet" href="style/style.css">
+    <style>
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .action-buttons a, .action-buttons button {
+            padding: 5px 10px;
+            text-decoration: none;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px; /* Adjust font size to match edit buttons */
+        }
+        .action-buttons button {
+            background-color: #dc3545;
+        }
+        .action-buttons a:hover, .action-buttons button:hover {
+            opacity: 0.8;
+        }
+    </style>
     <script>
         function openModal(category, data = {}) {
             document.getElementById('editCategory').value = category;
@@ -289,7 +311,15 @@ $conn->close();
                 <?php foreach ($cvs as $cv): ?>
                 <tr>
                     <td><?php echo htmlspecialchars($cv['cv_file_name']); ?></td>
-                    <td><a href="../db/pdf/emp_cv/<?php echo htmlspecialchars($cv['cv_file_name']); ?>" target="_blank">Preview</a></td>
+                    <td>
+                        <div class="action-buttons">
+                            <a href="../db/pdf/emp_cv/<?php echo htmlspecialchars($cv['cv_file_name']); ?>" target="_blank">Preview</a>
+                            <form action="../includes/emp_cv_delete_process.php" method="POST" style="display:inline;">
+                                <input type="hidden" name="cv_id" value="<?php echo $cv['id']; ?>">
+                                <button type="submit" onclick="return confirm('Are you sure you want to delete this CV?')">Delete</button>
+                            </form>
+                        </div>
+                    </td>
                 </tr>
                 <?php endforeach; ?>
             </table>
