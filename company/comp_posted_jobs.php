@@ -1,7 +1,6 @@
 <?php
 session_start();
 require "../includes/db_connect.php";
-require "../includes/nav.php";
 
 // Check if the user is logged in as a company
 if (!isset($_SESSION['company_id'])) {
@@ -10,6 +9,13 @@ if (!isset($_SESSION['company_id'])) {
 }
 
 $company_id = $_SESSION['company_id'];
+
+// Fetch job categories from the database
+$categories_result = $conn->query("SELECT category_id, category_name FROM tbl_job_category");
+$categories = [];
+while ($row = $categories_result->fetch_assoc()) {
+    $categories[] = $row;
+}
 
 // Fetch posted jobs by the logged-in company
 $query = "SELECT jl.job_id, jl.title, jl.description, jl.requirements, jl.employment_type, jl.location, jl.salary_min, jl.salary_max, jl.currency, jl.expiry_date, jc.category_name 
@@ -139,6 +145,8 @@ $stmt->close();
     </div>
 </div>
 
+<a href="comp_dashboard.php" class="btn btn-primary w-100 mt-2">Go back</a>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../fortest/js/jquery.min.js"></script>
 <script>
@@ -148,7 +156,7 @@ $stmt->close();
 
         // Fetch job details using AJAX
         $.ajax({
-            url: '../includes/get_job_details.php',
+            url: '../includes/comp_get_job_details.php',
             type: 'GET',
             data: { job_id: jobId },
             success: function (data) {
@@ -173,7 +181,7 @@ $stmt->close();
 
         // Update job details using AJAX
         $.ajax({
-            url: '../includes/update_job_details.php',
+            url: '../includes/comp_update_job_details.php',
             type: 'POST',
             data: $(this).serialize(),
             success: function (response) {
