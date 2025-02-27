@@ -67,7 +67,7 @@ $stmt->close();
                     <td><?= htmlspecialchars($job['location']) ?></td>
                     <td><?= htmlspecialchars($job['salary_min']) ?> - <?= htmlspecialchars($job['salary_max']) ?> <?= htmlspecialchars($job['currency']) ?></td>
                     <td><?= htmlspecialchars($job['category_name']) ?></td>
-                    <td><?= htmlspecialchars($job['expiry_date']) ?></td>
+                    <td><?= htmlspecialchars(date('Y-m-d', strtotime($job['expiry_date']))) ?></td>
                     <td>
                         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editJobModal" data-job-id="<?= $job['job_id'] ?>">Edit</button>
                     </td>
@@ -103,8 +103,8 @@ $stmt->close();
                     <div class="mb-3">
                         <label for="editJobType" class="form-label">Employment Type</label>
                         <select class="form-select" id="editJobType" name="employment_type" required>
-                            <option value="Part Time">Part Time</option>
-                            <option value="Full Time">Full Time</option>
+                            <option value="Part-Time">Part-Time</option>
+                            <option value="Full-Time">Full-Time</option>
                             <option value="Contract">Contract</option>
                             <option value="Temporary">Temporary</option>
                             <option value="Internship">Internship</option>
@@ -172,6 +172,12 @@ $stmt->close();
                 $('#editJobCurrency').val(job.currency);
                 $('#editJobCategory').val(job.category_id);
                 $('#editJobExpiryDate').val(job.expiry_date);
+
+                // Set the selected employment type
+                $('#editJobType').val(job.employment_type);
+
+                // Set the expiry date in the correct format
+                $('#editJobExpiryDate').val(new Date(job.expiry_date).toISOString().split('T')[0]);
             }
         });
     });
