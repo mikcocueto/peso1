@@ -39,6 +39,7 @@
         <h1 style="padding: 20px 0;">Create Account</h1>
         <input type="email" placeholder="Email" />
         <input type="password" placeholder="Password" />
+        <input type="password" placeholder="Confirm Password" />
         <button>Sign Up</button>
         <span>or use your email for registration</span>
         <div class="social-icons">
@@ -55,7 +56,7 @@
     <div class="toggle-container">
       <div class="toggle">
         <div class="toggle-panel toggle-left">
-          <img src="../assets/images/peso.png" alt="PESO Logo" style=" width: 150px; height: auto; margin-bottom: 20px;">
+          <img src="../assets/images/peso.png" alt="PESO Logo" style=" width: 150px; height: auto; margin-bottom: 20px;" >
           <h1>Hello,<br> San Pableños!</h1>
         </div>
         <div class="toggle-panel toggle-right">
