@@ -105,7 +105,7 @@ $conn->close();
       .save-job-btn {
         margin-top: 10px;
       }
-      // Owl Carousel
+      Owl Carousel
       .owl-nav {
         position: absolute;
         top: 50%;

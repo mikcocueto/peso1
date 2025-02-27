@@ -25,7 +25,7 @@ if (isset($_SESSION['user_id'])) {
                 <img src="fortest/images/peso_icons.png" alt="PESO Logo" style="width: 120px; height: auto; margin-right: 10px;">
                 <div class="d-flex flex-column">
                     <span>PESO</span>
-                    <span style="padding-left: 40px;">Job Hiring</span>
+                    <span style="padding-left: 30px;">Job Hiring</span>
                 </div>
             </a>
         </div>
