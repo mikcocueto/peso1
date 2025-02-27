@@ -95,20 +95,20 @@ $jobs = $conn->query($query);
 <!-- Search -->
 <div class="container">
     <div class="row align-items-center justify-content-center">
-        <div class="col-md-12">
+        <div class="col-md-12 col-lg-10">
             <form method="post" class="search-jobs-form">
                 <div class="row mb-5">
-                    <div class="col-12 col-sm-6 col-md-3 mb-4 mb-md-0">
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
                         <input type="text" class="form-control form-control-lg" name="search_title" placeholder="Job title, Company...">
                     </div>
-                    <div class="col-12 col-sm-6 col-md-3 mb-4 mb-md-0">
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
                         <select class="selectpicker" name="search_category[]" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select Category" multiple>
                             <?php foreach ($categories as $category): ?>
                                 <option value="<?php echo $category['category_id']; ?>"><?php echo $category['category_name']; ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
-                    <div class="col-12 col-sm-6 col-md-3 mb-4 mb-md-0">
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
                         <select class="selectpicker" name="search_type" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select Job Type">
                             <option value="">All</option>
                             <option value="Part Time">Part Time</option>
@@ -118,7 +118,7 @@ $jobs = $conn->query($query);
                             <option value="Internship">Internship</option>
                         </select>
                     </div>
-                    <div class="col-12 col-sm-6 col-md-3 mb-4 mb-md-0">
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
                         <button type="submit" class="btn btn-primary btn-lg btn-block btn-search"><span class="icon-search icon mr-2"></span>Search Job</button>
                     </div>
                 </div>
