@@ -420,6 +420,7 @@ $conn->close();
         </div>
     </div>
 
+    <a href="emp_job_list.php">Job Listing</a>
     <a href="../includes/emp_logout.php">Logout</a>
 
     <footer>

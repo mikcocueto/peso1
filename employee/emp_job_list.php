@@ -1,6 +1,13 @@
 <?php
 require "../includes/db_connect.php";
+session_start();
 
+if (!isset($_SESSION['user_id'])) {
+    header("Location: emp_login.php");
+    die();
+}
+
+$user_id = $_SESSION['user_id'];
 
 // Fetch job categories from the database
 $categories_result = $conn->query("SELECT category_id, category_name FROM tbl_job_category");
@@ -86,7 +93,43 @@ $jobs = $conn->query($query);
                 .then(response => response.text())
                 .then(data => {
                     jobDetails.innerHTML = data;
+                    fetch('../includes/emp_check_application.php?job_id=' + jobId)
+                        .then(response => response.json())
+                        .then(data => {
+                            const applyButton = document.createElement('button');
+                            if (data.applied) {
+                                applyButton.textContent = 'Already Applied';
+                                applyButton.classList.add('btn', 'btn-secondary');
+                                applyButton.disabled = true;
+                            } else {
+                                applyButton.textContent = 'Apply';
+                                applyButton.classList.add('btn', 'btn-primary');
+                                applyButton.onclick = function() {
+                                    applyForJob(jobId);
+                                };
+                            }
+                            jobDetails.appendChild(applyButton);
+                        });
                 });
+        }
+
+        function applyForJob(jobId) {
+            fetch('../includes/emp_apply_job.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ job_id: jobId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Application submitted successfully');
+                    showJobDetails(jobId); // Refresh job details to update the button
+                } else {
+                    alert('Failed to submit application');
+                }
+            });
         }
     </script>
 </head>
