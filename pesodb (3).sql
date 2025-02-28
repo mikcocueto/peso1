@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 26, 2025 at 09:11 AM
+-- Generation Time: Feb 28, 2025 at 07:07 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -126,7 +126,7 @@ INSERT INTO `tbl_company` (`company_id`, `firstName`, `lastName`, `companyName`,
 (3, '', '', 'adeson', '', 0, ''),
 (4, '', '', 'adeson', '', 0, ''),
 (5, 'ade', 'son', '', 'Philippines', 0, ''),
-(6, 'shan', 'shan', 'adeson', 'Philippines', 123456789, ''),
+(6, 'shan', 'shan', 'adeson', 'Philippines', 123456789, '../db/images/company/logo/dole logo.png'),
 (7, 'q', 'q', 'q', 'q', 1, '../db/images/company/logo/abstract-logo-design-for-any-corporate-brand-business-company-vector.jpg');
 
 -- --------------------------------------------------------
@@ -205,8 +205,7 @@ CREATE TABLE `tbl_emp_cv` (
 --
 
 INSERT INTO `tbl_emp_cv` (`id`, `emp_id`, `cv_file_name`, `cv_dir`, `upload_timestamp`) VALUES
-(1, 12, 'Kennie Grades.pdf', '../db/pdf/emp_cv/', '2025-02-26 08:05:48'),
-(2, 12, '3pgFromPrelim.pdf', '../db/pdf/emp_cv/', '2025-02-26 08:06:17');
+(1, 12, 'Kennie Grades.pdf', '../db/pdf/emp_cv/', '2025-02-26 08:05:48');
 
 -- --------------------------------------------------------
 
@@ -229,6 +228,27 @@ INSERT INTO `tbl_emp_saved_jobs` (`id`, `user_id`, `job_id`) VALUES
 (2, 12, 2),
 (7, 15, 1),
 (8, 16, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_job_application`
+--
+
+CREATE TABLE `tbl_job_application` (
+  `id` int(11) NOT NULL,
+  `emp_id` int(11) NOT NULL,
+  `job_id` int(11) NOT NULL,
+  `application_time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `status` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_job_application`
+--
+
+INSERT INTO `tbl_job_application` (`id`, `emp_id`, `job_id`, `application_time`, `status`) VALUES
+(1, 12, 5, '2025-02-28 05:54:33', 'pending');
 
 -- --------------------------------------------------------
 
@@ -281,9 +301,9 @@ CREATE TABLE `tbl_job_listing` (
 INSERT INTO `tbl_job_listing` (`job_id`, `employer_id`, `title`, `description`, `requirements`, `employment_type`, `location`, `salary_min`, `salary_max`, `currency`, `category_id`, `posted_date`, `expiry_date`, `status`) VALUES
 (1, 7, 'ttest', 'dtest', 'rtest', 'Full-time', 'spc', 1.00, 2.00, 'php', 1, '2025-02-16 16:00:00', '2025-02-16 16:00:00', 'active'),
 (2, 7, 'test2 title', 'test2 desc', 'test2 reqs', 'Internship', 'test2 loc', 122.00, 123.00, 'ddd', 1, '2025-02-16 16:00:00', '2025-02-27 16:00:00', 'active'),
-(3, 6, '3', '3', '3', 'Full-time', '3', 3.00, 3.00, 'php', 2, '2025-02-18 16:00:00', '2025-02-18 16:00:00', 'active'),
-(4, 6, '4', '4', '4', 'Internship', '4', 4.00, 4.00, '4', 3, '2025-02-18 16:00:00', '2025-02-18 16:00:00', 'active'),
-(5, 6, '5', '5', '5', 'Contract', '5', 5.00, 5.00, '5', 4, '2025-02-18 16:00:00', '2025-02-18 16:00:00', 'active'),
+(3, 6, 'wala', 'non', '89 yrs xp', 'Full-Time', '3', 300.00, 350.00, 'phps', 4, '2025-02-18 16:00:00', '2025-02-27 16:00:00', 'active'),
+(4, 6, 'job 4', 'geng geng', 'madami frfr', 'Internship', '4', 4.00, 4.00, '4', 3, '2025-02-18 16:00:00', '2025-02-16 16:00:00', 'active'),
+(5, 6, 'poso negro', '5 cent', '5tyrrrrrrrrrrr', 'Contract', 'dito', 5.00, 5.00, '$', 4, '2025-02-18 16:00:00', '2025-02-17 16:00:00', 'active'),
 (7, 6, 'IT professional', 'magaling it', 'it maalam', 'Full time', 'san pablo', 12.00, 120.00, 'php', 4, '2025-02-18 16:00:00', '2025-02-25 16:00:00', 'active');
 
 -- --------------------------------------------------------
@@ -494,6 +514,14 @@ ALTER TABLE `tbl_emp_saved_jobs`
   ADD KEY `jobsave` (`job_id`);
 
 --
+-- Indexes for table `tbl_job_application`
+--
+ALTER TABLE `tbl_job_application`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `emp_app_key` (`emp_id`),
+  ADD KEY `job_app_key` (`job_id`);
+
+--
 -- Indexes for table `tbl_job_category`
 --
 ALTER TABLE `tbl_job_category`
@@ -605,13 +633,19 @@ ALTER TABLE `tbl_employee`
 -- AUTO_INCREMENT for table `tbl_emp_cv`
 --
 ALTER TABLE `tbl_emp_cv`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tbl_emp_saved_jobs`
 --
 ALTER TABLE `tbl_emp_saved_jobs`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `tbl_job_application`
+--
+ALTER TABLE `tbl_job_application`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tbl_job_category`
@@ -707,6 +741,13 @@ ALTER TABLE `tbl_emp_cv`
 ALTER TABLE `tbl_emp_saved_jobs`
   ADD CONSTRAINT `empsave` FOREIGN KEY (`user_id`) REFERENCES `tbl_employee` (`user_id`),
   ADD CONSTRAINT `jobsave` FOREIGN KEY (`job_id`) REFERENCES `tbl_job_listing` (`job_id`);
+
+--
+-- Constraints for table `tbl_job_application`
+--
+ALTER TABLE `tbl_job_application`
+  ADD CONSTRAINT `emp_app_key` FOREIGN KEY (`emp_id`) REFERENCES `tbl_employee` (`user_id`),
+  ADD CONSTRAINT `job_app_key` FOREIGN KEY (`job_id`) REFERENCES `tbl_job_listing` (`job_id`);
 
 --
 -- Constraints for table `tbl_job_listing`
