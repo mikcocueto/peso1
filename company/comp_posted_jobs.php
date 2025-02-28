@@ -70,6 +70,7 @@ $stmt->close();
                     <td><?= htmlspecialchars(date('Y-m-d', strtotime($job['expiry_date']))) ?></td>
                     <td>
                         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editJobModal" data-job-id="<?= $job['job_id'] ?>">Edit</button>
+                        <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#viewApplicantsModal" data-job-id="<?= $job['job_id'] ?>">View Applicants</button>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -145,6 +146,23 @@ $stmt->close();
     </div>
 </div>
 
+<!-- View Applicants Modal -->
+<div class="modal fade" id="viewApplicantsModal" tabindex="-1" aria-labelledby="viewApplicantsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewApplicantsModalLabel">Job Applicants</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="applicantsTableContainer">
+                    <p>Loading applicants...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <a href="comp_dashboard.php" class="btn btn-primary w-100 mt-2">Go back</a>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -193,6 +211,31 @@ $stmt->close();
             success: function (response) {
                 alert('Job details updated successfully!');
                 location.reload();
+            }
+        });
+    });
+
+    $('#viewApplicantsModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var jobId = button.data('job-id');
+
+        // Fetch applicants using AJAX
+        $.ajax({
+            url: '../includes/comp_get_applicants.php',
+            type: 'GET',
+            data: { job_id: jobId },
+            success: function (data) {
+                var applicants = JSON.parse(data);
+                var tableHtml = '<table class="table table-bordered"><thead><tr><th>Name</th><th>Email</th><th>Mobile</th><th>Application Time</th></tr></thead><tbody>';
+                if (applicants.length > 0) {
+                    applicants.forEach(function (applicant) {
+                        tableHtml += '<tr><td>' + applicant.firstName + ' ' + applicant.lastName + '</td><td>' + applicant.emailAddress + '</td><td>' + applicant.mobileNumber + '</td><td>' + applicant.application_time + '</td></tr>';
+                    });
+                } else {
+                    tableHtml += '<tr><td colspan="4">No applicants found</td></tr>';
+                }
+                tableHtml += '</tbody></table>';
+                $('#applicantsTableContainer').html(tableHtml);
             }
         });
     });
