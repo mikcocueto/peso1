@@ -136,6 +136,15 @@ $conn->close();
         align-items: center;
         padding-bottom: 50px; /* Add padding below the images */
       }
+          .logo-container {
+        position: absolute;
+        top: 70px; /* Adjust based on the height of your nav bar */
+        left: 20px;
+      }
+      .logo-container img {
+        width: 120px;
+        height: auto;
+      }
     </style>
   </head>
   <body id="top">
@@ -147,7 +156,6 @@ $conn->close();
     </div>
   </div>
     
-
 <div class="site-wrap">
 
     <div class="site-mobile-menu site-navbar-target">
@@ -159,8 +167,9 @@ $conn->close();
       <div class="site-mobile-menu-body"></div>
     </div> <!-- .site-mobile-menu -->
     
-
-    
+    <div class="logo-container">
+      <img src="fortest/images/spc_logo.png" alt="San Pablo Logo">
+    </div>
 
     <!-- HOME -->
     <section class="home-section section-hero overlay bg-image" style="background-image: url('fortest/images/HOMEBG.jpg');" id="home-section">
@@ -169,6 +178,7 @@ $conn->close();
         <div class="row align-items-center justify-content-center">
           <div class="col-md-12">
             <div class="mb-5 text-center">
+            <img src="fortest/images/spc_logo.png" alt="PESO Logo" style="width: 120px; height: auto; margin-right: 10px;">
               <h1 class="text-white font-weight-bold">Public Employment Service Office</h1>
               <p>San Pablo City, Laguna.</p>
             </div>
