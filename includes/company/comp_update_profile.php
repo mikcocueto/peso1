@@ -4,7 +4,7 @@ include __DIR__ . '/db_connect.php'; // Include database connection
 
 // Check if the company is logged in and category is set
 if (!isset($_SESSION['company_id']) || !isset($_POST['category'])) {
-    header("Location: ../company/comp_dashboard.php"); // Redirect to dashboard if not logged in
+    header("Location: ../../company/comp_dashboard.php"); // Redirect to dashboard if not logged in
     die(); // Terminate script execution
 }
 
@@ -31,7 +31,7 @@ foreach ($fields as $field) {
 }
 
 if (!empty($_FILES['comp_logo']['name'])) {
-    $target_dir = "../db/images/company/logo/";
+    $target_dir = "../../db/images/company/logo/";
     $target_file = $target_dir . basename($_FILES["comp_logo"]["name"]);
     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
     $check = getimagesize($_FILES["comp_logo"]["tmp_name"]);
@@ -41,12 +41,12 @@ if (!empty($_FILES['comp_logo']['name'])) {
             $update_values[] = $target_file;
         } else {
             $_SESSION['error_message'] = "Failed to upload logo.";
-            header("Location: ../company/comp_dashboard.php");
+            header("Location: ../../company/comp_dashboard.php");
             die();
         }
     } else {
         $_SESSION['error_message'] = "File is not an image.";
-        header("Location: ../company/comp_dashboard.php");
+        header("Location: ../../company/comp_dashboard.php");
         die();
     }
 }
@@ -70,6 +70,6 @@ if ($stmt->execute()) {
 $stmt->close();
 $conn->close();
 
-header("Location: ../company/comp_dashboard.php"); // Redirect to dashboard
+header("Location: ../../company/comp_dashboard.php"); // Redirect to dashboard
 die(); // Ensure no further execution
 ?>

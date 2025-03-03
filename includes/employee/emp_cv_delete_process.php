@@ -3,7 +3,7 @@ session_start();
 include 'db_connect.php';
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: ../employee/emp_login.php");
+    header("Location: ../../employee/emp_login.php");
     die();
 }
 
@@ -46,6 +46,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['cv_id'])) {
     $_SESSION['error_message'] = 'Invalid request.';
 }
 
-header("Location: ../employee/emp_dashboard.php");
+header("Location: ../../employee/emp_dashboard.php");
 exit();
 ?>

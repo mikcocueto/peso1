@@ -1,7 +1,7 @@
 <?php
 session_start();
 include '../includes/db_connect.php';
-include '../includes/nav.php';
+
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: emp_login.php");
@@ -82,7 +82,8 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee Dashboard</title>
-    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="../fortest/style2/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .action-buttons {
             display: flex;
@@ -103,6 +104,9 @@ $conn->close();
         }
         .action-buttons a:hover, .action-buttons button:hover {
             opacity: 0.8;
+        }
+        .timeline-card {
+            margin-bottom: 20px;
         }
     </style>
     <script>
@@ -145,160 +149,156 @@ $conn->close();
     </script>
 </head>
 <body>
-    <h2>Welcome, <?php echo htmlspecialchars($employee['firstName'] . ' ' . $employee['lastName']); ?></h2>
-    
-    <h3>Personal Information</h3>
-    <table>
-        <tr class="category-header">
-            <th>Field</th>
-            <th>Value</th>
-            <th class="table-column-action">Action</th>
-        </tr>
-        <tr>
-            <td>Email</td>
-            <td><?php echo htmlspecialchars($employee['emailAddress']); ?></td>
-            <td><button class="edit-button" onclick="openModal('personal', {
-                emailAddress: '<?php echo htmlspecialchars($employee['emailAddress']); ?>',
-                address: '<?php echo htmlspecialchars($employee['address']); ?>',
-                gender: '<?php echo htmlspecialchars($employee['gender']); ?>',
-                mobileNumber: '<?php echo htmlspecialchars($employee['mobileNumber']); ?>',
-                relationship_status: '<?php echo htmlspecialchars($employee['relationship_status']); ?>'
-            })">Edit</button></td>
-        </tr>
-        <tr>
-            <td>Address</td>
-            <td><?php echo htmlspecialchars($employee['address']); ?></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>Gender</td>
-            <td><?php echo htmlspecialchars($employee['gender']); ?></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>Mobile Number</td>
-            <td><?php echo htmlspecialchars($employee['mobileNumber']); ?></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>Relationship Status</td>
-            <td><?php echo htmlspecialchars($employee['relationship_status']); ?></td>
-            <td></td>
-        </tr>
-    </table>
-    
-    <h3>Career History</h3>
-    <table>
-        <tr class="category-header">
-            <th>Job Title</th>
-            <th>Company Name</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Still in Role</th>
-            <th>Job Description</th>
-            <th class="table-column-action">Action</th>
-        </tr>
-        <?php foreach ($career_history as $index => $job): ?>
-        <tr>
-            <td><?php echo htmlspecialchars($job['job_title']); ?></td>
-            <td><?php echo htmlspecialchars($job['company_name']); ?></td>
-            <td><?php echo htmlspecialchars($job['start_date']); ?></td>
-            <td><?php echo htmlspecialchars($job['end_date']); ?></td>
-            <td><?php echo $job['still_in_role'] ? 'Yes' : 'No'; ?></td>
-            <td><?php echo htmlspecialchars($job['description']); ?></td>
-            <td><button class="edit-button" onclick="openModal('careerhistory', {
-                id: '<?php echo $job['id']; ?>',
-                job_title: '<?php echo htmlspecialchars($job['job_title']); ?>',
-                company_name: '<?php echo htmlspecialchars($job['company_name']); ?>',
-                start_date: '<?php echo htmlspecialchars($job['start_date']); ?>',
-                end_date: '<?php echo htmlspecialchars($job['end_date']); ?>',
-                still_in_role: '<?php echo $job['still_in_role']; ?>',
-                Jdescription: '<?php echo htmlspecialchars($job['description']); ?>'
-            })">Edit</button></td>
-        </tr>
-        <?php endforeach; ?>
-    </table>
-    <button class="edit-button" onclick="openModal('careerhistory')">Add Career History</button>
-    
-    <h3>Educational Background</h3>
-    <table>
-        <tr class="category-header">
-            <th>Course</th>
-            <th>Institution</th>
-            <th>End Date</th>
-            <th>Course Highlights</th>
-            <th class="table-column-action">Action</th>
-        </tr>
-        <?php foreach ($education as $edu): ?>
-        <tr>
-            <td><?php echo htmlspecialchars($edu['course']); ?></td>
-            <td><?php echo htmlspecialchars($edu['institution']); ?></td>
-            <td><?php echo htmlspecialchars($edu['ending_date']); ?></td>
-            <td><?php echo htmlspecialchars($edu['course_highlights']); ?></td>
-            <td><button class="edit-button" onclick="openModal('education', {
-                id: '<?php echo $edu['id']; ?>',
-                course: '<?php echo htmlspecialchars($edu['course']); ?>',
-                institution: '<?php echo htmlspecialchars($edu['institution']); ?>',
-                ending_date: '<?php echo htmlspecialchars($edu['ending_date']); ?>',
-                course_highlights: '<?php echo htmlspecialchars($edu['course_highlights']); ?>'
-            })">Edit</button></td>
-        </tr>
-        <?php endforeach; ?>
-    </table>
-    <button class="edit-button" onclick="openModal('education')">Add Education</button>
-    
-    <h3>Languages</h3>
-    <table>
-        <tr class="category-header">
-            <th>Language</th>
-            <th class="table-column-action">Action</th>
-        </tr>
-        <?php foreach ($languages as $lang): ?>
-        <tr>
-            <td><?php echo htmlspecialchars($lang['language_name']); ?></td>
-            <td><button class="edit-button" onclick="openModal('languages', {
-                id: '<?php echo $lang['id']; ?>',
-                language_name: '<?php echo htmlspecialchars($lang['language_name']); ?>'
-            })">Edit</button></td>
-        </tr>
-        <?php endforeach; ?>
-    </table>
-    <button class="edit-button" onclick="openModal('languages')">Add Language</button>
-    
-    <h3>Certifications</h3>
-    <table>
-        <tr class="category-header">
-            <th>Licence Name</th>
-            <th>Issuing Organization</th>
-            <th>Issue Date</th>
-            <th>Expiry Date</th>
-            <th>Description</th>
-            <th class="table-column-action">Action</th>
-        </tr>
-        <?php foreach ($certifications as $cert): ?>
-        <tr>
-            <td><?php echo htmlspecialchars($cert['licence_name']); ?></td>
-            <td><?php echo htmlspecialchars($cert['issuing_organization']); ?></td>
-            <td><?php echo htmlspecialchars($cert['issue_date']); ?></td>
-            <td><?php echo htmlspecialchars($cert['expiry_date']); ?></td>
-            <td><?php echo htmlspecialchars($cert['description']); ?></td>
-            <td><button class="edit-button" onclick="openModal('certification', {
-                id: '<?php echo $cert['id']; ?>',
-                licence_name: '<?php echo htmlspecialchars($cert['licence_name']); ?>',
-                issuing_organization: '<?php echo htmlspecialchars($cert['issuing_organization']); ?>',
-                issue_date: '<?php echo htmlspecialchars($cert['issue_date']); ?>',
-                expiry_date: '<?php echo htmlspecialchars($cert['expiry_date']); ?>',
-                description: '<?php echo htmlspecialchars($cert['description']); ?>'
-            })">Edit</button></td>
-        </tr>
-        <?php endforeach; ?>
-    </table>
-    <button class="edit-button" onclick="openModal('certification')">Add Certification</button>
-
-    <div style="display: flex; justify-content: space-between;">
+    <header class="d-print-none">
+        <div class="container text-center text-lg-left">
+            <div class="py-3 clearfix">
+                <h1 class="site-title mb-0"><?php echo htmlspecialchars($employee['firstName'] . ' ' . $employee['lastName']); ?></h1>
+                <div class="site-nav">
+                    <nav role="navigation">
+                        <ul class="nav justify-content-center">
+                            <li class="nav-item"><a class="nav-link" href="https://twitter.com/" title="Twitter"><i class="fab fa-twitter"></i><span class="menu-title sr-only">Twitter</span></a></li>
+                            <li class="nav-item"><a class="nav-link" href="https://www.facebook.com/" title="Facebook"><i class="fab fa-facebook"></i><span class="menu-title sr-only">Facebook</span></a></li>
+                            <li class="nav-item"><a class="nav-link" href="https://www.instagram.com/" title="Instagram"><i class="fab fa-instagram"></i><span class="menu-title sr-only">Instagram</span></a></li>
+                            <li class="nav-item"><a class="nav-link" href="https://github.com/" title="Github"><i class="fab fa-github"></i><span class="menu-title sr-only">Github</span></a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="page-content">
+        <div class="container">
+            <div class="cover shadow-lg bg-white">
+                <div class="cover-bg p-3 p-lg-4 text-white">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-5">
+                            <div class="avatar hover-effect bg-white shadow-sm p-1"><img src="../fortest/images/person_1.jpg" width="200" height="200"/></div>
+                        </div>
+                        <div class="col-lg-8 col-md-7 text-center text-md-start">
+                            <h2 class="h1 mt-2" data-aos="fade-left" data-aos-delay="0"><?php echo htmlspecialchars($employee['firstName'] . ' ' . $employee['lastName']); ?></h2>
+                            <p data-aos="fade-left" data-aos-delay="100">Employee Dashboard</p>
+                            <div class="d-print-none" data-aos="fade-left" data-aos-delay="200"><a class="btn btn-light text-dark shadow-sm mt-1 me-1" href="../db/pdf/emp_cv/<?php echo htmlspecialchars($cvs[0]['cv_file_name']); ?>" target="_blank">Download CV</a><a class="btn btn-success shadow-sm mt-1" href="#contact">Contact</a></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-section pt-4 px-3 px-lg-4 mt-1">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h2 class="h3 mb-3">About Me</h2>
+                            <p>Hello! I’m <?php echo htmlspecialchars($employee['firstName'] . ' ' . $employee['lastName']); ?>. I am passionate about my work and always strive to improve my skills.</p>
+                        </div>
+                        <div class="col-md-5 offset-md-1">
+                            <div class="row mt-2">
+                                <div class="col-sm-4">
+                                    <div class="pb-1">Email</div>
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="pb-1 text-secondary"><?php echo htmlspecialchars($employee['emailAddress']); ?></div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="pb-1">Phone</div>
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="pb-1 text-secondary"><?php echo htmlspecialchars($employee['mobileNumber']); ?></div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="pb-1">Address</div>
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="pb-1 text-secondary"><?php echo htmlspecialchars($employee['address']); ?></div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="pb-1">Gender</div>
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="pb-1 text-secondary"><?php echo htmlspecialchars($employee['gender']); ?></div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="pb-1">Civil Status</div>
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="pb-1 text-secondary"><?php echo htmlspecialchars($employee['relationship_status']); ?></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr class="d-print-none"/>
+                <div class="work-experience-section px-3 px-lg-4">
+                    <h2 class="h3 mb-4">Career History</h2>
+                    <div class="timeline">
+                        <?php foreach ($career_history as $job): ?>
+                        <div class="timeline-card timeline-card-primary card shadow-sm">
+                            <div class="card-body">
+                                <div class="h5 mb-1"><?php echo htmlspecialchars($job['job_title']); ?> <span class="text-muted h6">at <?php echo htmlspecialchars($job['company_name']); ?></span></div>
+                                <div class="text-muted text-small mb-2"><?php echo htmlspecialchars($job['start_date']); ?> - <?php echo htmlspecialchars($job['end_date']); ?></div>
+                                <div><?php echo htmlspecialchars($job['description']); ?></div>
+                            </div>
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+                <hr class="d-print-none"/>
+                <div class="languages-section px-3 px-lg-4">
+                    <h2 class="h3 mb-4">Languages</h2>
+                    <div class="timeline">
+                        <?php foreach ($languages as $lang): ?>
+                        <div class="timeline-card timeline-card-primary card shadow-sm">
+                            <div class="card-body">
+                                <div class="h5 mb-1"><?php echo htmlspecialchars($lang['language_name']); ?></div>
+                            </div>
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+                <hr class="d-print-none"/>
+                <div class="education-section px-3 px-lg-4 pb-4">
+                    <h2 class="h3 mb-4">Educational Background</h2>
+                    <div class="timeline">
+                        <?php foreach ($education as $edu): ?>
+                        <div class="timeline-card timeline-card-success card shadow-sm">
+                            <div class="card-body">
+                                <div class="h5 mb-1"><?php echo htmlspecialchars($edu['course']); ?> <span class="text-muted h6">from <?php echo htmlspecialchars($edu['institution']); ?></span></div>
+                                <div class="text-muted text-small mb-2"><?php echo htmlspecialchars($edu['ending_date']); ?></div>
+                                <div><?php echo htmlspecialchars($edu['course_highlights']); ?></div>
+                            </div>
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+                <hr class="d-print-none"/>
+                <div class="contact-section px-3 px-lg-4 pb-4" id="contact">
+                    <h2 class="h3 text">Certifications</h2>
+                    <div class="row">
+                        <?php foreach ($certifications as $cert): ?>
+                        <div class="col-md-6">
+                            <div class="timeline-card timeline-card-success card shadow-sm">
+                                <div class="card-body">
+                                    <div class="h5 mb-1"><?php echo htmlspecialchars($cert['licence_name']); ?></div>
+                                    <div class="text-muted text-small mb-2"><?php echo htmlspecialchars($cert['issuing_organization']); ?></div>
+                                    <div><?php echo htmlspecialchars($cert['description']); ?></div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="pt-4 pb-4 text-muted text-center d-print-none">
+        <div class="container">
+            <div class="my-3">
+                <div class="h4"><?php echo htmlspecialchars($employee['firstName'] . ' ' . $employee['lastName']); ?></div>
+                <div class="footer-nav">
+                    <nav role="navigation">
+                        <ul class="nav justify-content-center">
+                            <li class="nav-item"><a class="nav-link" href="https://twitter.com/" title="Twitter"><i class="fab fa-twitter"></i><span class="menu-title sr-only">Twitter</span></a></li>
+                            <li class="nav-item"><a class="nav-link" href="https://www.facebook.com/" title="Facebook"><i class="fab fa-facebook"></i><span class="menu-title sr-only">Facebook</span></a></li>
+                            <li class="nav-item"><a class="nav-link" href="https://www.instagram.com/" title="Instagram"><i class="fab fa-instagram"></i><span class="menu-title sr-only">Instagram</span></a></li>
         <div style="width: 48%;">
             <h3>Curriculum Vitae</h3>
-            <form action="../includes/emp_cv_upload_process.php" method="POST" enctype="multipart/form-data">
+            <form action="../includes/employee/emp_cv_upload_process.php" method="POST" enctype="multipart/form-data">
                 <label for="cv_file">Upload CV (PDF only):</label>
                 <input type="file" name="cv_file" id="cv_file" accept="application/pdf" required>
                 <button type="submit">Upload</button>
@@ -314,7 +314,7 @@ $conn->close();
                     <td>
                         <div class="action-buttons">
                             <a href="../db/pdf/emp_cv/<?php echo htmlspecialchars($cv['cv_file_name']); ?>" target="_blank">Preview</a>
-                            <form action="../includes/emp_cv_delete_process.php" method="POST" style="display:inline;">
+                            <form action="../includes/employee/emp_cv_delete_process.php" method="POST" style="display:inline;">
                                 <input type="hidden" name="cv_id" value="<?php echo $cv['id']; ?>">
                                 <button type="submit" onclick="return confirm('Are you sure you want to delete this CV?')">Delete</button>
                             </form>
@@ -335,7 +335,7 @@ $conn->close();
     <div id="editModal" class="modal">
         <div class="modal-content">
             <h3>Edit Information</h3>
-            <form method="POST" action="../includes/emp_update_profile.php">
+            <form method="POST" action="../includes/employee/emp_update_profile.php">
                 <input type="hidden" id="editCategory" name="category">
                 <input type="hidden" id="id" name="id">
                 <div id="personalFields" class="modal-fields">
@@ -399,7 +399,7 @@ $conn->close();
     <div id="passwordModal" class="modal">
         <div class="modal-content">
             <h3>Change Password</h3>
-            <form method="POST" action="../includes/emp_update_pass.php">
+            <form method="POST" action="../includes/employee/emp_update_pass.php">
                 <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
                 <label for="oldPassword">Old Password:</label>
                 <input type="password" id="oldPassword" name="oldPassword" required><br>
@@ -421,7 +421,7 @@ $conn->close();
     </div>
 
     <a href="emp_job_list.php">Job Listing</a>
-    <a href="../includes/emp_logout.php">Logout</a>
+    <a href="../includes/employee/emp_logout.php">Logout</a>
 
     <footer>
         <p>Account Created: <?php echo htmlspecialchars($account_creation_date); ?></p>

@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION["company_id"])) {
-    header("Location: ../company/comp_dashboard.php");
+    header("Location: ../../company/comp_dashboard.php");
     exit();
 }
 
@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->close();
     $conn->close();
 
-    header("Location: ../company/comp_dashboard.php");
+    header("Location: ../../company/comp_dashboard.php");
     exit();
 }
 ?>

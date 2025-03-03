@@ -89,11 +89,11 @@ $jobs = $conn->query($query);
             jobBoxes.forEach(box => box.classList.remove('selected-job'));
             document.getElementById('job-' + jobId).classList.add('selected-job');
 
-            fetch('../includes/emp_get_job_details.php?job_id=' + jobId)
+            fetch('../includes/employee/emp_get_job_details.php?job_id=' + jobId)
                 .then(response => response.text())
                 .then(data => {
                     jobDetails.innerHTML = data;
-                    fetch('../includes/emp_check_application.php?job_id=' + jobId)
+                    fetch('../includes/employee/emp_check_application.php?job_id=' + jobId)
                         .then(response => response.json())
                         .then(data => {
                             const applyButton = document.createElement('button');
@@ -114,7 +114,7 @@ $jobs = $conn->query($query);
         }
 
         function applyForJob(jobId) {
-            fetch('../includes/emp_apply_job.php', {
+            fetch('../includes/employee/emp_apply_job.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
