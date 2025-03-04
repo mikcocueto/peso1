@@ -77,6 +77,38 @@ include '../includes/emp_fetch_profile.php';
         #editModal, #passwordModal, #messageModal {
             z-index: 2; /* Ensure these modals appear on top */
         }
+        .job-box {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            cursor: pointer;
+        }
+        .job-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #007bff; /* Job title color */
+        }
+        .company-name {
+            font-size: 1em;
+            color: #6c757d; /* Company name color */
+        }
+        .job-details {
+            margin-top: 10px;
+        }
+        .selected-job {
+            background-color: #e9ecef;
+        }
+        .job-list-container {
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        @media (max-width: 767.98px) {
+            .job-list-container {
+                max-height: 80vh;
+            }
+        }
     </style>
     <script>
         function openModal(category, data = {}) {
@@ -100,7 +132,6 @@ include '../includes/emp_fetch_profile.php';
             document.querySelectorAll('.modal-fields').forEach(div => div.style.display = 'none');
             document.getElementById(category + 'Fields').style.display = 'block';
             document.querySelectorAll('.modal-fields input, .modal-fields textarea').forEach(input => input.value = '');
-            document.getElementById('id').value = ''; // Clear the id field
             document.getElementById('editModal').style.display = 'block';
         }
 
@@ -448,15 +479,16 @@ include '../includes/emp_fetch_profile.php';
         <div class="modal-content">
             <span class="close-button" onclick="closeCareerHistoryListModal()">&times;</span>
             <h3>Select Career History to Edit</h3>
-            <ul class="list-group">
-                <?php foreach ($career_history as $job): ?>
-                <li class="list-group-item">
-                    <a href="#" onclick='openCareerHistoryEditModal(<?php echo json_encode($job); ?>)'>
-                        <?php echo htmlspecialchars($job['job_title']); ?> at <?php echo htmlspecialchars($job['company_name']); ?>
-                    </a>
-                </li>
-                <?php endforeach; ?>
-            </ul>
+            <div class="job-list-container">
+                <div class="job-list">
+                    <?php foreach ($career_history as $job): ?>
+                    <div id="job-<?= $job['id'] ?>" class="job-box" onclick='openCareerHistoryEditModal(<?php echo json_encode($job); ?>)'>
+                        <div class="job-title"><?php echo htmlspecialchars($job['job_title']); ?></div>
+                        <div class="company-name">at <?php echo htmlspecialchars($job['company_name']); ?></div>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
         </div>
     </div>
 
