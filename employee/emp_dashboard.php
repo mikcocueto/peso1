@@ -41,6 +41,42 @@ include '../includes/emp_fetch_profile.php';
         .timeline-card {
             margin-bottom: 20px;
         }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            border-radius: 10px;
+        }
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        #editModal, #passwordModal, #messageModal {
+            z-index: 2; /* Ensure these modals appear on top */
+        }
     </style>
     <script>
         function openModal(category, data = {}) {
@@ -50,7 +86,7 @@ include '../includes/emp_fetch_profile.php';
             for (const key in data) {
                 if (data.hasOwnProperty(key)) {
                     if (key === 'still_in_role') {
-                        document.getElementById(key).checked = data[key] === '1';
+                        document.getElementById(key).checked = data[key] === 1;
                     } else {
                         document.getElementById(key).value = data[key];
                     }
@@ -58,18 +94,59 @@ include '../includes/emp_fetch_profile.php';
             }
             document.getElementById('editModal').style.display = 'block';
         }
+
+        function openAddModal(category) {
+            document.getElementById('editCategory').value = category;
+            document.querySelectorAll('.modal-fields').forEach(div => div.style.display = 'none');
+            document.getElementById(category + 'Fields').style.display = 'block';
+            document.querySelectorAll('.modal-fields input, .modal-fields textarea').forEach(input => input.value = '');
+            document.getElementById('id').value = ''; // Clear the id field
+            document.getElementById('editModal').style.display = 'block';
+        }
+
         function closeModal() {
             document.getElementById('editModal').style.display = 'none';
         }
+
         function closeMessageModal() {
             document.getElementById('messageModal').style.display = 'none';
         }
+
         function openPasswordModal() {
             document.getElementById('passwordModal').style.display = 'block';
         }
+
         function closePasswordModal() {
             document.getElementById('passwordModal').style.display = 'none';
         }
+
+        function openCareerHistoryListModal() {
+            document.getElementById('careerHistoryListModal').style.display = 'block';
+        }
+
+        function closeCareerHistoryListModal() {
+            document.getElementById('careerHistoryListModal').style.display = 'none';
+        }
+
+        function openCareerHistoryEditModal(data) {
+            closeCareerHistoryListModal();
+            openModal('careerhistory', data);
+        }
+
+        function openLanguagesListModal() {
+            document.getElementById('languagesListModal').style.display = 'block';
+        }
+
+        function closeLanguagesListModal() {
+            document.getElementById('languagesListModal').style.display = 'none';
+        }
+
+        function removeLanguage(id) {
+            if (confirm('Are you sure you want to remove this language?')) {
+                // Implement the removal logic here, e.g., send an AJAX request to the server to remove the language
+            }
+        }
+
         window.onload = function() {
             var successMessage = "<?php echo isset($_SESSION['success_message']) ? $_SESSION['success_message'] : ''; ?>";
             var errorMessage = "<?php echo isset($_SESSION['error_message']) ? $_SESSION['error_message'] : ''; ?>";
@@ -159,7 +236,7 @@ include '../includes/emp_fetch_profile.php';
                 </div>
                 <hr class="d-print-none"/>
                 <div class="work-experience-section px-3 px-lg-4">
-                    <h2 class="h3 mb-4">Career History</h2>
+                    <h2 class="h3 mb-4">Career History <button class="btn btn-primary" onclick="openCareerHistoryListModal()">Edit</button></h2>
                     <div class="timeline">
                         <?php foreach ($career_history as $job): ?>
                         <div class="timeline-card timeline-card-primary card shadow-sm">
@@ -174,7 +251,7 @@ include '../includes/emp_fetch_profile.php';
                 </div>
                 <hr class="d-print-none"/>
                 <div class="languages-section px-3 px-lg-4">
-                    <h2 class="h3 mb-4">Languages</h2>
+                    <h2 class="h3 mb-4">Languages <button class="btn btn-primary" onclick="openLanguagesListModal()">Edit</button></h2>
                     <div class="timeline">
                         <?php foreach ($languages as $lang): ?>
                         <div class="timeline-card timeline-card-primary card shadow-sm">
@@ -268,6 +345,7 @@ include '../includes/emp_fetch_profile.php';
 
     <div id="editModal" class="modal">
         <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">&times;</span>
             <h3>Edit Information</h3>
             <form method="POST" action="../includes/employee/emp_update_profile.php">
                 <input type="hidden" id="editCategory" name="category">
@@ -285,18 +363,30 @@ include '../includes/emp_fetch_profile.php';
                     <input type="text" id="relationship_status" name="relationship_status"><br>
                 </div>
                 <div id="careerhistoryFields" class="modal-fields" style="display:none;">
-                    <label for="job_title">Job Title:</label>
-                    <input type="text" id="job_title" name="job_title"><br>
-                    <label for="company_name">Company Name:</label>
-                    <input type="text" id="company_name" name="company_name"><br>
-                    <label for="start_date">Start Date:</label>
-                    <input type="date" id="start_date" name="start_date"><br>
-                    <label for="end_date">End Date:</label>
-                    <input type="date" id="end_date" name="end_date"><br>
-                    <label for="still_in_role">Still in Role:</label>
-                    <input type="checkbox" id="still_in_role" name="still_in_role"><br>
-                    <label for="Jdescription">Job Description:</label>
-                    <textarea id="Jdescription" name="Jdescription"></textarea><br>
+                    <div class="mb-3">
+                        <label for="job_title" class="form-label">Job Title:</label>
+                        <input type="text" class="form-control" id="job_title" name="job_title">
+                    </div>
+                    <div class="mb-3">
+                        <label for="company_name" class="form-label">Company Name:</label>
+                        <input type="text" class="form-control" id="company_name" name="company_name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="start_date" class="form-label">Start Date:</label>
+                        <input type="date" class="form-control" id="start_date" name="start_date">
+                    </div>
+                    <div class="mb-3">
+                        <label for="end_date" class="form-label">End Date:</label>
+                        <input type="date" class="form-control" id="end_date" name="end_date">
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="still_in_role" name="still_in_role">
+                        <label for="still_in_role" class="form-check-label">Still in Role</label>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Jdescription" class="form-label">Job Description:</label>
+                        <textarea class="form-control" id="Jdescription" name="Jdescription"></textarea>
+                    </div>
                 </div>
                 <div id="educationFields" class="modal-fields" style="display:none;">
                     <label for="course">Course:</label>
@@ -324,8 +414,8 @@ include '../includes/emp_fetch_profile.php';
                     <label for="description">Description:</label>
                     <textarea id="description" name="description"></textarea><br>
                 </div>
-                <button type="submit">Save</button>
-                <button type="button" class="close-button" onclick="closeModal()">Cancel</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
             </form>
         </div>
     </div>
@@ -351,6 +441,39 @@ include '../includes/emp_fetch_profile.php';
         <div class="modal-content">
             <span id="messageContent"></span><br>
             <button class="close-button" onclick="closeMessageModal()">Close</button>
+        </div>
+    </div>
+
+    <div id="careerHistoryListModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeCareerHistoryListModal()">&times;</span>
+            <h3>Select Career History to Edit</h3>
+            <ul class="list-group">
+                <?php foreach ($career_history as $job): ?>
+                <li class="list-group-item">
+                    <a href="#" onclick='openCareerHistoryEditModal(<?php echo json_encode($job); ?>)'>
+                        <?php echo htmlspecialchars($job['job_title']); ?> at <?php echo htmlspecialchars($job['company_name']); ?>
+                    </a>
+                </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </div>
+
+    <div id="languagesListModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeLanguagesListModal()">&times;</span>
+            <h3>Languages</h3>
+            <ul class="list-group">
+                <?php foreach ($languages as $lang): ?>
+                <li class="list-group-item">
+                    <?php echo htmlspecialchars($lang['language_name']); ?>
+                    <button class="btn btn-danger btn-sm float-end" onclick="removeLanguage(<?php echo $lang['id']; ?>)">x</button>
+                    <button class="btn btn-secondary btn-sm float-end me-2" onclick='openModal("languages", <?php echo json_encode($lang); ?>)'>✏️</button>
+                </li>
+                <?php endforeach; ?>
+            </ul>
+            <button class="btn btn-primary mt-3" onclick='openAddModal("languages")'>Add</button>
         </div>
     </div>
 
