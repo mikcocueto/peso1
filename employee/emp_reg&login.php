@@ -13,8 +13,7 @@
 <body>
 
   <div class="container" id="container">
-    <!-- Log In Form -->
-   <  
+    <!-- Log In Form --> 
     <div class="form-container sign-in">
       <form>
         <h1 style="padding: 20px 0;">Log In</h1>
@@ -67,21 +66,53 @@
     </div>
   </div>
 
-  <script src="../js/signin-form.js"></script>
+  <scrijs"></script>
   <script>
+   document.addEventListener("DOMContentLoaded", function () {
     const container = document.getElementById("container");
     const registerBtn = document.getElementById("register");
     const loginBtnSignUp = document.getElementById("loginBtnSignUp");
+    const signInForm = document.querySelector(".sign-in");
+    const signUpForm = document.querySelector(".sign-up");
+
+    function switchToSignUp() {
+        if (window.innerWidth <= 767) {
+            // For mobile: Hide sign-in and show sign-up
+            signInForm.style.display = "none";
+            signUpForm.style.display = "flex";
+        } else {
+            // For desktop: Apply original animation
+            container.classList.add("active");
+        }
+    }
+
+    function switchToSignIn() {
+        if (window.innerWidth <= 767) {
+            // For mobile: Hide sign-up and show sign-in
+            signUpForm.style.display = "none";
+            signInForm.style.display = "flex";
+        } else {
+            // For desktop: Apply original animation
+            container.classList.remove("active");
+        }
+    }
 
     registerBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      container.classList.add("active");
+        e.preventDefault();
+        switchToSignUp();
     });
 
     loginBtnSignUp.addEventListener("click", (e) => {
-      e.preventDefault();
-      container.classList.remove("active");
+        e.preventDefault();
+        switchToSignIn();
     });
+
+    // Ensure login form is visible by default on mobile
+    if (window.innerWidth <= 767) {
+        switchToSignIn();
+    }
+});
+
   </script>
 </body>
 </html>

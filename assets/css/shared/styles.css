@@ -18,7 +18,7 @@ body{
 }
 
 .container{
-    background-color: #c9d6ff;
+    background-color: rgba(201, 214, 255, 0.8); /* Make background transparent */
     border-radius: 30px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
     position: relative;
@@ -74,6 +74,7 @@ body{
     flex-direction: column;
     padding: 0 40px;
     height: 100%;
+    border-radius: 20px;
 }
 
 .container input{
@@ -92,6 +93,7 @@ body{
     top: 0;
     height: 100%;
     transition: all 0.6s ease-in-out;
+    
 }
 
 .sign-in{
@@ -210,27 +212,58 @@ body{
     transform: translateX(200%);
 }
 
+.highlight {
+    color: #2da0a8;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
 /* Add responsive styles */
 @media (max-width: 767px) {
     .container {
         flex-direction: column;
         width: 100%;
         min-height: auto;
+        background-color: transparent;
+        box-shadow: none;
+        
+        
     }
+
     .form-container {
         width: 100%;
         position: relative;
         opacity: 1;
         z-index: 1;
         transform: translateX(0);
+        transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        margin-left: 40px; /* Add left margin */
     }
-    .toggle-container {
-        display: none;
-    }
-}
 
-.highlight {
-    color: #2da0a8;
-    font-weight: bold;
-    text-decoration: underline;
+    .toggle-container {
+        display: none; /* Hide toggle for mobile */
+    }
+
+    .sign-in, .sign-up {
+        width: 100%;
+        position: relative;
+        display: none; /* Hide both initially */
+    }
+
+    .sign-in.active, .sign-up.active {
+        display: flex;
+        flex-direction: column;
+        animation: fadeSlideIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeSlideIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
 }
