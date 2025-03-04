@@ -1,6 +1,6 @@
 <?php
 session_start();
-require "db_connect.php"; // Database connection
+require "../db_connect.php"; // Database connection
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $category = $_POST['category'];
@@ -93,7 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     $conn->close();
 
-    header("Location: ../employee/emp_dashboard.php");
+    header("Location: ../../employee/emp_dashboard.php");
     exit();
 }
 ?>

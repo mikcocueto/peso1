@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if ($stmt->execute()) {
                 $updateMessage = "Password updated successfully!";
-                header("Location: ../company/comp_login.php");
+                header("Location: ../../company/comp_login.php");
                 exit();
             } else {
                 $updateMessage = "Error updating password: " . $stmt->error;

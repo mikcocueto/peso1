@@ -1,80 +1,13 @@
 <?php
 session_start();
 include '../includes/db_connect.php';
-include '../includes/nav.php';
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: emp_login.php");
     die();
 }
 
-$user_id = $_SESSION['user_id'];
-
-// Fetch employee details
-$query = "SELECT firstName, lastName, emailAddress, address, gender, mobileNumber, relationship_status FROM tbl_employee WHERE user_id = ?";
-$stmt = $conn->prepare($query);
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$employee = $result->fetch_assoc();
-$stmt->close();
-
-// Fetch career history
-$query = "SELECT id, job_title, company_name, start_date, end_date, still_in_role, description FROM tbl_careerhistory WHERE user_id = ?";
-$stmt = $conn->prepare($query);
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$career_history = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-$stmt->close();
-
-// Fetch educational background
-$query = "SELECT id, course, institution, ending_date, course_highlights FROM tbl_educback WHERE user_id = ?";
-$stmt = $conn->prepare($query);
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$education = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-$stmt->close();
-
-// Fetch languages
-$query = "SELECT id, language_name FROM tbl_language WHERE user_id = ?";
-$stmt = $conn->prepare($query);
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$languages = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-$stmt->close();
-
-// Fetch certifications
-$query = "SELECT id, licence_name, issuing_organization, issue_date, expiry_date, description FROM tbl_certification WHERE user_id = ?";
-$stmt = $conn->prepare($query);
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$certifications = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-$stmt->close();
-
-// Fetch account creation date
-$query = "SELECT create_timestamp FROM tbl_employee WHERE user_id = ?";
-$stmt = $conn->prepare($query);
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$account_creation_date = $result->fetch_assoc()['create_timestamp'];
-$stmt->close();
-
-// Fetch CVs
-$query = "SELECT id, cv_file_name, cv_dir FROM tbl_emp_cv WHERE emp_id = ?";
-$stmt = $conn->prepare($query);
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$cvs = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-$stmt->close();
-
-// Check for success or error messages
-$success_message = isset($_SESSION['success_message']) ? $_SESSION['success_message'] : '';
-$error_message = isset($_SESSION['error_message']) ? $_SESSION['error_message'] : '';
-unset($_SESSION['success_message'], $_SESSION['error_message']);
-
-// Close the connection
-$conn->close();
+include '../includes/emp_fetch_profile.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -82,7 +15,101 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee Dashboard</title>
-    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="../fortest/style2/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .action-buttons a, .action-buttons button {
+            padding: 5px 10px;
+            text-decoration: none;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px; /* Adjust font size to match edit buttons */
+        }
+        .action-buttons button {
+            background-color: #dc3545;
+        }
+        .action-buttons a:hover, .action-buttons button:hover {
+            opacity: 0.8;
+        }
+        .timeline-card {
+            margin-bottom: 20px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            border-radius: 10px;
+        }
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        #editModal, #passwordModal, #messageModal {
+            z-index: 2; /* Ensure these modals appear on top */
+        }
+        .job-box {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            cursor: pointer;
+        }
+        .job-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #007bff; /* Job title color */
+        }
+        .company-name {
+            font-size: 1em;
+            color: #6c757d; /* Company name color */
+        }
+        .job-details {
+            margin-top: 10px;
+        }
+        .selected-job {
+            background-color: #e9ecef;
+        }
+        .job-list-container {
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        @media (max-width: 767.98px) {
+            .job-list-container {
+                max-height: 80vh;
+            }
+        }
+    </style>
     <script>
         function openModal(category, data = {}) {
             document.getElementById('editCategory').value = category;
@@ -91,7 +118,7 @@ $conn->close();
             for (const key in data) {
                 if (data.hasOwnProperty(key)) {
                     if (key === 'still_in_role') {
-                        document.getElementById(key).checked = data[key] === '1';
+                        document.getElementById(key).checked = data[key] === 1;
                     } else {
                         document.getElementById(key).value = data[key];
                     }
@@ -99,18 +126,58 @@ $conn->close();
             }
             document.getElementById('editModal').style.display = 'block';
         }
+
+        function openAddModal(category) {
+            document.getElementById('editCategory').value = category;
+            document.querySelectorAll('.modal-fields').forEach(div => div.style.display = 'none');
+            document.getElementById(category + 'Fields').style.display = 'block';
+            document.querySelectorAll('.modal-fields input, .modal-fields textarea').forEach(input => input.value = '');
+            document.getElementById('editModal').style.display = 'block';
+        }
+
         function closeModal() {
             document.getElementById('editModal').style.display = 'none';
         }
+
         function closeMessageModal() {
             document.getElementById('messageModal').style.display = 'none';
         }
+
         function openPasswordModal() {
             document.getElementById('passwordModal').style.display = 'block';
         }
+
         function closePasswordModal() {
             document.getElementById('passwordModal').style.display = 'none';
         }
+
+        function openCareerHistoryListModal() {
+            document.getElementById('careerHistoryListModal').style.display = 'block';
+        }
+
+        function closeCareerHistoryListModal() {
+            document.getElementById('careerHistoryListModal').style.display = 'none';
+        }
+
+        function openCareerHistoryEditModal(data) {
+            closeCareerHistoryListModal();
+            openModal('careerhistory', data);
+        }
+
+        function openLanguagesListModal() {
+            document.getElementById('languagesListModal').style.display = 'block';
+        }
+
+        function closeLanguagesListModal() {
+            document.getElementById('languagesListModal').style.display = 'none';
+        }
+
+        function removeLanguage(id) {
+            if (confirm('Are you sure you want to remove this language?')) {
+                // Implement the removal logic here, e.g., send an AJAX request to the server to remove the language
+            }
+        }
+
         window.onload = function() {
             var successMessage = "<?php echo isset($_SESSION['success_message']) ? $_SESSION['success_message'] : ''; ?>";
             var errorMessage = "<?php echo isset($_SESSION['error_message']) ? $_SESSION['error_message'] : ''; ?>";
@@ -123,160 +190,157 @@ $conn->close();
     </script>
 </head>
 <body>
-    <h2>Welcome, <?php echo htmlspecialchars($employee['firstName'] . ' ' . $employee['lastName']); ?></h2>
-    
-    <h3>Personal Information</h3>
-    <table>
-        <tr class="category-header">
-            <th>Field</th>
-            <th>Value</th>
-            <th class="table-column-action">Action</th>
-        </tr>
-        <tr>
-            <td>Email</td>
-            <td><?php echo htmlspecialchars($employee['emailAddress']); ?></td>
-            <td><button class="edit-button" onclick="openModal('personal', {
-                emailAddress: '<?php echo htmlspecialchars($employee['emailAddress']); ?>',
-                address: '<?php echo htmlspecialchars($employee['address']); ?>',
-                gender: '<?php echo htmlspecialchars($employee['gender']); ?>',
-                mobileNumber: '<?php echo htmlspecialchars($employee['mobileNumber']); ?>',
-                relationship_status: '<?php echo htmlspecialchars($employee['relationship_status']); ?>'
-            })">Edit</button></td>
-        </tr>
-        <tr>
-            <td>Address</td>
-            <td><?php echo htmlspecialchars($employee['address']); ?></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>Gender</td>
-            <td><?php echo htmlspecialchars($employee['gender']); ?></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>Mobile Number</td>
-            <td><?php echo htmlspecialchars($employee['mobileNumber']); ?></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>Relationship Status</td>
-            <td><?php echo htmlspecialchars($employee['relationship_status']); ?></td>
-            <td></td>
-        </tr>
-    </table>
-    
-    <h3>Career History</h3>
-    <table>
-        <tr class="category-header">
-            <th>Job Title</th>
-            <th>Company Name</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Still in Role</th>
-            <th>Job Description</th>
-            <th class="table-column-action">Action</th>
-        </tr>
-        <?php foreach ($career_history as $index => $job): ?>
-        <tr>
-            <td><?php echo htmlspecialchars($job['job_title']); ?></td>
-            <td><?php echo htmlspecialchars($job['company_name']); ?></td>
-            <td><?php echo htmlspecialchars($job['start_date']); ?></td>
-            <td><?php echo htmlspecialchars($job['end_date']); ?></td>
-            <td><?php echo $job['still_in_role'] ? 'Yes' : 'No'; ?></td>
-            <td><?php echo htmlspecialchars($job['description']); ?></td>
-            <td><button class="edit-button" onclick="openModal('careerhistory', {
-                id: '<?php echo $job['id']; ?>',
-                job_title: '<?php echo htmlspecialchars($job['job_title']); ?>',
-                company_name: '<?php echo htmlspecialchars($job['company_name']); ?>',
-                start_date: '<?php echo htmlspecialchars($job['start_date']); ?>',
-                end_date: '<?php echo htmlspecialchars($job['end_date']); ?>',
-                still_in_role: '<?php echo $job['still_in_role']; ?>',
-                Jdescription: '<?php echo htmlspecialchars($job['description']); ?>'
-            })">Edit</button></td>
-        </tr>
-        <?php endforeach; ?>
-    </table>
-    <button class="edit-button" onclick="openModal('careerhistory')">Add Career History</button>
-    
-    <h3>Educational Background</h3>
-    <table>
-        <tr class="category-header">
-            <th>Course</th>
-            <th>Institution</th>
-            <th>End Date</th>
-            <th>Course Highlights</th>
-            <th class="table-column-action">Action</th>
-        </tr>
-        <?php foreach ($education as $edu): ?>
-        <tr>
-            <td><?php echo htmlspecialchars($edu['course']); ?></td>
-            <td><?php echo htmlspecialchars($edu['institution']); ?></td>
-            <td><?php echo htmlspecialchars($edu['ending_date']); ?></td>
-            <td><?php echo htmlspecialchars($edu['course_highlights']); ?></td>
-            <td><button class="edit-button" onclick="openModal('education', {
-                id: '<?php echo $edu['id']; ?>',
-                course: '<?php echo htmlspecialchars($edu['course']); ?>',
-                institution: '<?php echo htmlspecialchars($edu['institution']); ?>',
-                ending_date: '<?php echo htmlspecialchars($edu['ending_date']); ?>',
-                course_highlights: '<?php echo htmlspecialchars($edu['course_highlights']); ?>'
-            })">Edit</button></td>
-        </tr>
-        <?php endforeach; ?>
-    </table>
-    <button class="edit-button" onclick="openModal('education')">Add Education</button>
-    
-    <h3>Languages</h3>
-    <table>
-        <tr class="category-header">
-            <th>Language</th>
-            <th class="table-column-action">Action</th>
-        </tr>
-        <?php foreach ($languages as $lang): ?>
-        <tr>
-            <td><?php echo htmlspecialchars($lang['language_name']); ?></td>
-            <td><button class="edit-button" onclick="openModal('languages', {
-                id: '<?php echo $lang['id']; ?>',
-                language_name: '<?php echo htmlspecialchars($lang['language_name']); ?>'
-            })">Edit</button></td>
-        </tr>
-        <?php endforeach; ?>
-    </table>
-    <button class="edit-button" onclick="openModal('languages')">Add Language</button>
-    
-    <h3>Certifications</h3>
-    <table>
-        <tr class="category-header">
-            <th>Licence Name</th>
-            <th>Issuing Organization</th>
-            <th>Issue Date</th>
-            <th>Expiry Date</th>
-            <th>Description</th>
-            <th class="table-column-action">Action</th>
-        </tr>
-        <?php foreach ($certifications as $cert): ?>
-        <tr>
-            <td><?php echo htmlspecialchars($cert['licence_name']); ?></td>
-            <td><?php echo htmlspecialchars($cert['issuing_organization']); ?></td>
-            <td><?php echo htmlspecialchars($cert['issue_date']); ?></td>
-            <td><?php echo htmlspecialchars($cert['expiry_date']); ?></td>
-            <td><?php echo htmlspecialchars($cert['description']); ?></td>
-            <td><button class="edit-button" onclick="openModal('certification', {
-                id: '<?php echo $cert['id']; ?>',
-                licence_name: '<?php echo htmlspecialchars($cert['licence_name']); ?>',
-                issuing_organization: '<?php echo htmlspecialchars($cert['issuing_organization']); ?>',
-                issue_date: '<?php echo htmlspecialchars($cert['issue_date']); ?>',
-                expiry_date: '<?php echo htmlspecialchars($cert['expiry_date']); ?>',
-                description: '<?php echo htmlspecialchars($cert['description']); ?>'
-            })">Edit</button></td>
-        </tr>
-        <?php endforeach; ?>
-    </table>
-    <button class="edit-button" onclick="openModal('certification')">Add Certification</button>
-
-    <div style="display: flex; justify-content: space-between;">
+    <header class="d-print-none">
+        <div class="container text-center text-lg-left">
+            <div class="py-3 clearfix">
+                <h1 class="site-title mb-0"><?php echo htmlspecialchars($employee['firstName'] . ' ' . $employee['lastName']); ?></h1>
+                <div class="site-nav">
+                    <nav role="navigation">
+                        <ul class="nav justify-content-center">
+                            <li class="nav-item"><a class="nav-link" href="https://twitter.com/" title="Twitter"><i class="fab fa-twitter"></i><span class="menu-title sr-only">Twitter</span></a></li>
+                            <li class="nav-item"><a class="nav-link" href="https://www.facebook.com/" title="Facebook"><i class="fab fa-facebook"></i><span class="menu-title sr-only">Facebook</span></a></li>
+                            <li class="nav-item"><a class="nav-link" href="https://www.instagram.com/" title="Instagram"><i class="fab fa-instagram"></i><span class="menu-title sr-only">Instagram</span></a></li>
+                            <li class="nav-item"><a class="nav-link" href="https://github.com/" title="Github"><i class="fab fa-github"></i><span class="menu-title sr-only">Github</span></a></li>
+                            <li class="nav-item"><a class="nav-link" href="../index.php" title="Github"><i class="fab fa-github"></i><span class="menu-title sr-only">Home</span></a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="page-content">
+        <div class="container">
+            <div class="cover shadow-lg bg-white">
+                <div class="cover-bg p-3 p-lg-4 text-white">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-5">
+                            <div class="avatar hover-effect bg-white shadow-sm p-1"><img src="../fortest/images/person_1.jpg" width="200" height="200"/></div>
+                        </div>
+                        <div class="col-lg-8 col-md-7 text-center text-md-start">
+                            <h2 class="h1 mt-2" data-aos="fade-left" data-aos-delay="0"><?php echo htmlspecialchars($employee['firstName'] . ' ' . $employee['lastName']); ?></h2>
+                            <p data-aos="fade-left" data-aos-delay="100">Employee Dashboard</p>
+                            <div class="d-print-none" data-aos="fade-left" data-aos-delay="200"><a class="btn btn-light text-dark shadow-sm mt-1 me-1" href="../db/pdf/emp_cv/<?php echo htmlspecialchars($cvs[0]['cv_file_name']); ?>" target="_blank">Download CV</a><a class="btn btn-success shadow-sm mt-1" href="#contact">Contact</a></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-section pt-4 px-3 px-lg-4 mt-1">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h2 class="h3 mb-3">About Me</h2>
+                            <p>Hello! I’m <?php echo htmlspecialchars($employee['firstName'] . ' ' . $employee['lastName']); ?>. I am passionate about my work and always strive to improve my skills.</p>
+                        </div>
+                        <div class="col-md-5 offset-md-1">
+                            <div class="row mt-2">
+                                <div class="col-sm-4">
+                                    <div class="pb-1">Email</div>
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="pb-1 text-secondary"><?php echo htmlspecialchars($employee['emailAddress']); ?></div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="pb-1">Phone</div>
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="pb-1 text-secondary"><?php echo htmlspecialchars($employee['mobileNumber']); ?></div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="pb-1">Address</div>
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="pb-1 text-secondary"><?php echo htmlspecialchars($employee['address']); ?></div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="pb-1">Gender</div>
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="pb-1 text-secondary"><?php echo htmlspecialchars($employee['gender']); ?></div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="pb-1">Civil Status</div>
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="pb-1 text-secondary"><?php echo htmlspecialchars($employee['relationship_status']); ?></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr class="d-print-none"/>
+                <div class="work-experience-section px-3 px-lg-4">
+                    <h2 class="h3 mb-4">Career History <button class="btn btn-primary" onclick="openCareerHistoryListModal()">Edit</button></h2>
+                    <div class="timeline">
+                        <?php foreach ($career_history as $job): ?>
+                        <div class="timeline-card timeline-card-primary card shadow-sm">
+                            <div class="card-body">
+                                <div class="h5 mb-1"><?php echo htmlspecialchars($job['job_title']); ?> <span class="text-muted h6">at <?php echo htmlspecialchars($job['company_name']); ?></span></div>
+                                <div class="text-muted text-small mb-2"><?php echo htmlspecialchars($job['start_date']); ?> - <?php echo htmlspecialchars($job['end_date']); ?></div>
+                                <div><?php echo htmlspecialchars($job['description']); ?></div>
+                            </div>
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+                <hr class="d-print-none"/>
+                <div class="languages-section px-3 px-lg-4">
+                    <h2 class="h3 mb-4">Languages <button class="btn btn-primary" onclick="openLanguagesListModal()">Edit</button></h2>
+                    <div class="timeline">
+                        <?php foreach ($languages as $lang): ?>
+                        <div class="timeline-card timeline-card-primary card shadow-sm">
+                            <div class="card-body">
+                                <div class="h5 mb-1"><?php echo htmlspecialchars($lang['language_name']); ?></div>
+                            </div>
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+                <hr class="d-print-none"/>
+                <div class="education-section px-3 px-lg-4 pb-4">
+                    <h2 class="h3 mb-4">Educational Background</h2>
+                    <div class="timeline">
+                        <?php foreach ($education as $edu): ?>
+                        <div class="timeline-card timeline-card-success card shadow-sm">
+                            <div class="card-body">
+                                <div class="h5 mb-1"><?php echo htmlspecialchars($edu['course']); ?> <span class="text-muted h6">from <?php echo htmlspecialchars($edu['institution']); ?></span></div>
+                                <div class="text-muted text-small mb-2"><?php echo htmlspecialchars($edu['ending_date']); ?></div>
+                                <div><?php echo htmlspecialchars($edu['course_highlights']); ?></div>
+                            </div>
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+                <hr class="d-print-none"/>
+                <div class="contact-section px-3 px-lg-4 pb-4" id="contact">
+                    <h2 class="h3 text">Certifications</h2>
+                    <div class="row">
+                        <?php foreach ($certifications as $cert): ?>
+                        <div class="col-md-6">
+                            <div class="timeline-card timeline-card-success card shadow-sm">
+                                <div class="card-body">
+                                    <div class="h5 mb-1"><?php echo htmlspecialchars($cert['licence_name']); ?></div>
+                                    <div class="text-muted text-small mb-2"><?php echo htmlspecialchars($cert['issuing_organization']); ?></div>
+                                    <div><?php echo htmlspecialchars($cert['description']); ?></div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="pt-4 pb-4 text-muted text-center d-print-none">
+        <div class="container">
+            <div class="my-3">
+                <div class="h4"><?php echo htmlspecialchars($employee['firstName'] . ' ' . $employee['lastName']); ?></div>
+                <div class="footer-nav">
+                    <nav role="navigation">
+                        <ul class="nav justify-content-center">
+                            <li class="nav-item"><a class="nav-link" href="https://twitter.com/" title="Twitter"><i class="fab fa-twitter"></i><span class="menu-title sr-only">Twitter</span></a></li>
+                            <li class="nav-item"><a class="nav-link" href="https://www.facebook.com/" title="Facebook"><i class="fab fa-facebook"></i><span class="menu-title sr-only">Facebook</span></a></li>
+                            <li class="nav-item"><a class="nav-link" href="https://www.instagram.com/" title="Instagram"><i class="fab fa-instagram"></i><span class="menu-title sr-only">Instagram</span></a></li>
         <div style="width: 48%;">
             <h3>Curriculum Vitae</h3>
-            <form action="../includes/emp_cv_upload_process.php" method="POST" enctype="multipart/form-data">
+            <form action="../includes/employee/emp_cv_upload_process.php" method="POST" enctype="multipart/form-data">
                 <label for="cv_file">Upload CV (PDF only):</label>
                 <input type="file" name="cv_file" id="cv_file" accept="application/pdf" required>
                 <button type="submit">Upload</button>
@@ -289,7 +353,15 @@ $conn->close();
                 <?php foreach ($cvs as $cv): ?>
                 <tr>
                     <td><?php echo htmlspecialchars($cv['cv_file_name']); ?></td>
-                    <td><a href="../db/pdf/emp_cv/<?php echo htmlspecialchars($cv['cv_file_name']); ?>" target="_blank">Preview</a></td>
+                    <td>
+                        <div class="action-buttons">
+                            <a href="../db/pdf/emp_cv/<?php echo htmlspecialchars($cv['cv_file_name']); ?>" target="_blank">Preview</a>
+                            <form action="../includes/employee/emp_cv_delete_process.php" method="POST" style="display:inline;">
+                                <input type="hidden" name="cv_id" value="<?php echo $cv['id']; ?>">
+                                <button type="submit" onclick="return confirm('Are you sure you want to delete this CV?')">Delete</button>
+                            </form>
+                        </div>
+                    </td>
                 </tr>
                 <?php endforeach; ?>
             </table>
@@ -304,8 +376,9 @@ $conn->close();
 
     <div id="editModal" class="modal">
         <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">&times;</span>
             <h3>Edit Information</h3>
-            <form method="POST" action="../includes/emp_update_profile.php">
+            <form method="POST" action="../includes/employee/emp_update_profile.php">
                 <input type="hidden" id="editCategory" name="category">
                 <input type="hidden" id="id" name="id">
                 <div id="personalFields" class="modal-fields">
@@ -321,18 +394,30 @@ $conn->close();
                     <input type="text" id="relationship_status" name="relationship_status"><br>
                 </div>
                 <div id="careerhistoryFields" class="modal-fields" style="display:none;">
-                    <label for="job_title">Job Title:</label>
-                    <input type="text" id="job_title" name="job_title"><br>
-                    <label for="company_name">Company Name:</label>
-                    <input type="text" id="company_name" name="company_name"><br>
-                    <label for="start_date">Start Date:</label>
-                    <input type="date" id="start_date" name="start_date"><br>
-                    <label for="end_date">End Date:</label>
-                    <input type="date" id="end_date" name="end_date"><br>
-                    <label for="still_in_role">Still in Role:</label>
-                    <input type="checkbox" id="still_in_role" name="still_in_role"><br>
-                    <label for="Jdescription">Job Description:</label>
-                    <textarea id="Jdescription" name="Jdescription"></textarea><br>
+                    <div class="mb-3">
+                        <label for="job_title" class="form-label">Job Title:</label>
+                        <input type="text" class="form-control" id="job_title" name="job_title">
+                    </div>
+                    <div class="mb-3">
+                        <label for="company_name" class="form-label">Company Name:</label>
+                        <input type="text" class="form-control" id="company_name" name="company_name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="start_date" class="form-label">Start Date:</label>
+                        <input type="date" class="form-control" id="start_date" name="start_date">
+                    </div>
+                    <div class="mb-3">
+                        <label for="end_date" class="form-label">End Date:</label>
+                        <input type="date" class="form-control" id="end_date" name="end_date">
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="still_in_role" name="still_in_role">
+                        <label for="still_in_role" class="form-check-label">Still in Role</label>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Jdescription" class="form-label">Job Description:</label>
+                        <textarea class="form-control" id="Jdescription" name="Jdescription"></textarea>
+                    </div>
                 </div>
                 <div id="educationFields" class="modal-fields" style="display:none;">
                     <label for="course">Course:</label>
@@ -360,8 +445,8 @@ $conn->close();
                     <label for="description">Description:</label>
                     <textarea id="description" name="description"></textarea><br>
                 </div>
-                <button type="submit">Save</button>
-                <button type="button" class="close-button" onclick="closeModal()">Cancel</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
             </form>
         </div>
     </div>
@@ -369,7 +454,7 @@ $conn->close();
     <div id="passwordModal" class="modal">
         <div class="modal-content">
             <h3>Change Password</h3>
-            <form method="POST" action="../includes/emp_update_pass.php">
+            <form method="POST" action="../includes/employee/emp_update_pass.php">
                 <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
                 <label for="oldPassword">Old Password:</label>
                 <input type="password" id="oldPassword" name="oldPassword" required><br>
@@ -390,7 +475,42 @@ $conn->close();
         </div>
     </div>
 
-    <a href="../includes/emp_logout.php">Logout</a>
+    <div id="careerHistoryListModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeCareerHistoryListModal()">&times;</span>
+            <h3>Select Career History to Edit</h3>
+            <div class="job-list-container">
+                <div class="job-list">
+                    <?php foreach ($career_history as $job): ?>
+                    <div id="job-<?= $job['id'] ?>" class="job-box" onclick='openCareerHistoryEditModal(<?php echo json_encode($job); ?>)'>
+                        <div class="job-title"><?php echo htmlspecialchars($job['job_title']); ?></div>
+                        <div class="company-name">at <?php echo htmlspecialchars($job['company_name']); ?></div>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="languagesListModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeLanguagesListModal()">&times;</span>
+            <h3>Languages</h3>
+            <ul class="list-group">
+                <?php foreach ($languages as $lang): ?>
+                <li class="list-group-item">
+                    <?php echo htmlspecialchars($lang['language_name']); ?>
+                    <button class="btn btn-danger btn-sm float-end" onclick="removeLanguage(<?php echo $lang['id']; ?>)">x</button>
+                    <button class="btn btn-secondary btn-sm float-end me-2" onclick='openModal("languages", <?php echo json_encode($lang); ?>)'>✏️</button>
+                </li>
+                <?php endforeach; ?>
+            </ul>
+            <button class="btn btn-primary mt-3" onclick='openAddModal("languages")'>Add</button>
+        </div>
+    </div>
+
+    <a href="emp_job_list.php">Job Listing</a>
+    <a href="../includes/employee/emp_logout.php">Logout</a>
 
     <footer>
         <p>Account Created: <?php echo htmlspecialchars($account_creation_date); ?></p>

@@ -1,9 +1,9 @@
 <?php
 session_start();
-include 'db_connect.php';
+include '../db_connect.php';
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: ../employee/emp_login.php");
+    header("Location: ../../employee/emp_login.php");
     die();
 }
 
@@ -11,7 +11,7 @@ $user_id = $_SESSION['user_id'];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['cv_file'])) {
     $file = $_FILES['cv_file'];
-    $upload_dir = '../db/pdf/emp_cv/';
+    $upload_dir = '../../db/pdf/emp_cv/';
     $file_name = basename($file['name']);
     $target_file = $upload_dir . $file_name;
     $file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['cv_file'])) {
     if ($file_type != 'pdf') {
         $_SESSION['error_message'] = 'Only PDF files are allowed.';
         error_log('Error: Only PDF files are allowed.');
-        header("Location: ../employee/emp_dashboard.php");
+        header("Location: ../../employee/emp_dashboard.php");
         exit();
     }
 
@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['cv_file'])) {
     if (file_exists($target_file)) {
         $_SESSION['error_message'] = 'File already exists.';
         error_log('Error: File already exists.');
-        header("Location: ../employee/emp_dashboard.php");
+        header("Location: ../../employee/emp_dashboard.php");
         exit();
     }
 
@@ -54,6 +54,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['cv_file'])) {
     error_log('Error: No file uploaded.');
 }
 
-header("Location: ../employee/emp_dashboard.php");
+header("Location: ../../employee/emp_dashboard.php");
 exit();
 ?>

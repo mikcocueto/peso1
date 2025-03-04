@@ -25,7 +25,7 @@ if (isset($_SESSION['user_id'])) {
                 <img src="fortest/images/peso_icons.png" alt="PESO Logo" style="width: 120px; height: auto; margin-right: 10px;">
                 <div class="d-flex flex-column">
                     <span>PESO</span>
-                    <span style="padding-left: 40px;">Job Hiring</span>
+                    <span style="padding-left: 30px;">Job Hiring</span>
                 </div>
             </a>
         </div>
@@ -61,7 +61,7 @@ if (isset($_SESSION['user_id'])) {
                 <ul class="dropdown">
                   <li><a href="employee/emp_dashboard.php">Profile</a></li>
                   <li><a href="employee/emp_saved_jobs.php">Saved</a></li>
-                  <li><a href="includes/emp_logout.php">Logout</a></li>
+                  <li><a href="includes/employee/emp_logout.php">Logout</a></li>
                 </ul>
               </li>
               <?php else: ?>
@@ -81,7 +81,7 @@ if (isset($_SESSION['user_id'])) {
                   <div class="dropdown-menu" aria-labelledby="profileDropdown">
                     <a class="dropdown-item" href="employee/emp_dashboard.php">Profile</a>
                     <a class="dropdown-item" href="employee/emp_saved_jobs.php">Saved</a>
-                    <a class="dropdown-item" href="includes/emp_logout.php">Logout</a>
+                    <a class="dropdown-item" href="includes/employee/emp_logout.php">Logout</a>
                   </div>
                 </div>
               <?php else: ?>

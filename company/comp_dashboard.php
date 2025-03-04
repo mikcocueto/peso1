@@ -31,7 +31,14 @@ unset($_SESSION['success_message'], $_SESSION['error_message']);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Company Dashboard</title>
-    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="../fortest/style2/style.css">
+    <style>
+        .logo-img {
+            width: 64px;
+            height: 64px;
+            object-fit: cover;
+        }
+    </style>
     <script>
         // Function to open the modal with pre-filled data
         function openModal(category, data = {}) {
@@ -117,7 +124,7 @@ unset($_SESSION['success_message'], $_SESSION['error_message']);
     <div id="editModal" class="modal">
         <div class="modal-content">
             <h3>Edit Information</h3>
-            <form method="POST" action="../includes/comp_update_profile.php" enctype="multipart/form-data">
+            <form method="POST" action="../includes/company/comp_update_profile.php" enctype="multipart/form-data">
                 <input type="hidden" id="editCategory" name="category">
                 <input type="hidden" id="id" name="id">
                 <div id="companyFields" class="modal-fields">
@@ -148,7 +155,8 @@ unset($_SESSION['success_message'], $_SESSION['error_message']);
         </div>
     </div>
 
-    <a href="../includes/comp_logout.php">Logout</a><br>
-    <a href="comp_job_post.php" class="btn btn-primary w-100 mt-2">Post Job</a>
+    <a href="../includes/company/comp_logout.php">Logout</a><br>
+    <a href="comp_job_post.php" class="btn btn-primary w-100 mt-2">Post a Job</a>
+    <a href="comp_posted_jobs.php" class="btn btn-primary w-100 mt-2">Posted Jobs</a>
 </body>
 </html>

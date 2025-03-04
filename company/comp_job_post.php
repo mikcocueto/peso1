@@ -26,7 +26,7 @@ $categories = $conn->query("SELECT category_id, category_name FROM tbl_job_categ
             <div class="card shadow-lg">
                 <div class="card-body">
                     <h3 class="text-center">Create Job Listing</h3>
-                    <form action="../includes/comp_job_process.php" method="POST">
+                    <form action="../includes/company/comp_job_process.php" method="POST">
                         <div class="mb-3">
                             <label for="title" class="form-label">Job Title</label>
                             <input type="text" class="form-control" name="title" required>
