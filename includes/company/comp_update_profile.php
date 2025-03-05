@@ -1,6 +1,6 @@
 <?php
 session_start(); // Start the session
-include __DIR__ . '/db_connect.php'; // Include database connection
+include __DIR__ . '../db_connect.php'; // Include database connection
 
 // Check if the company is logged in and category is set
 if (!isset($_SESSION['company_id']) || !isset($_POST['category'])) {

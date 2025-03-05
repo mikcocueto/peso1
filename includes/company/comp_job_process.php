@@ -5,7 +5,7 @@ if (!isset($_SESSION["company_id"])) {
     exit();
 }
 
-require "db_connect.php";
+require "../db_connect.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $employer_id = $_SESSION["company_id"];

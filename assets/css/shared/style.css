@@ -4003,6 +4003,52 @@ input[type="button"].btn-block {
 .media-body {
   flex: 1; }
 
+/*line 4007 to 4047*/
+  /*
+  #tag-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    background-color: #ffffff;
+    border: 2px solid #ffffff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    position: relative;
+  }
+  
+  .tag::before {
+    content: '';
+    position: absolute;
+    left: -10px;
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-right: 10px solid #ffffff;
+  }
+  
+  .tag .close-btn {
+    margin-left: 10px;
+    color: red;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  button {
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+ 
+  */
+
+
 .list-group {
   display: flex;
   flex-direction: column;

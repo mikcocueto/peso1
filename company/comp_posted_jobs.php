@@ -17,10 +17,12 @@ while ($row = $categories_result->fetch_assoc()) {
     $categories[] = $row;
 }
 
-// Fetch posted jobs by the logged-in company
-$query = "SELECT jl.job_id, jl.title, jl.description, jl.requirements, jl.employment_type, jl.location, jl.salary_min, jl.salary_max, jl.currency, jl.expiry_date, jc.category_name 
+// Fetch posted jobs by the logged-in company along with candidate counts
+$query = "SELECT jl.job_id, jl.title, jl.description, jl.posted_date, jl.expiry_date,
+                 (SELECT COUNT(*) FROM tbl_job_application ja WHERE ja.job_id = jl.job_id AND ja.status = 'pending') AS pending_count,
+                 (SELECT COUNT(*) FROM tbl_job_application ja WHERE ja.job_id = jl.job_id AND ja.status = 'awaiting') AS awaiting_count,
+                 (SELECT COUNT(*) FROM tbl_job_application ja WHERE ja.job_id = jl.job_id AND ja.status = 'accepted') AS accepted_count
           FROM tbl_job_listing jl 
-          JOIN tbl_job_category jc ON jl.category_id = jc.category_id 
           WHERE jl.employer_id = ?";
 
 $stmt = $conn->prepare($query);
@@ -46,28 +48,31 @@ $stmt->close();
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Requirements</th>
-                <th>Employment Type</th>
-                <th>Location</th>
-                <th>Salary</th>
-                <th>Category</th>
-                <th>Expiry Date</th>
+                <th>Job Details</th>
+                <th>Candidates</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($jobs as $job): ?>
                 <tr>
-                    <td><?= htmlspecialchars($job['title']) ?></td>
-                    <td><?= htmlspecialchars($job['description']) ?></td>
-                    <td><?= htmlspecialchars($job['requirements']) ?></td>
-                    <td><?= htmlspecialchars($job['employment_type']) ?></td>
-                    <td><?= htmlspecialchars($job['location']) ?></td>
-                    <td><?= htmlspecialchars($job['salary_min']) ?> - <?= htmlspecialchars($job['salary_max']) ?> <?= htmlspecialchars($job['currency']) ?></td>
-                    <td><?= htmlspecialchars($job['category_name']) ?></td>
-                    <td><?= htmlspecialchars(date('Y-m-d', strtotime($job['expiry_date']))) ?></td>
+                    <td>
+                            <div style="font-size: 1.5em; font-weight: bold;">
+                            <?= htmlspecialchars($job['title']) ?>
+                        </div>
+                        <div style="font-size: 0.9em;">
+                            <strong>Posted Date:</strong> <?= htmlspecialchars(date('Y-m-d', strtotime($job['posted_date']))) ?> |
+                            <strong>Expiry Date:</strong> <?= htmlspecialchars(date('Y-m-d', strtotime($job['expiry_date']))) ?>
+                        </div>
+                        <div>
+                            <?= htmlspecialchars($job['description']) ?>
+                        </div>
+                    </td>
+                    <td>
+                        <strong>Pending:</strong> <?= $job['pending_count'] ?><br>
+                        <strong>Awaiting:</strong> <?= $job['awaiting_count'] ?><br>
+                        <strong>Accepted:</strong> <?= $job['accepted_count'] ?>
+                    </td>
                     <td>
                         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editJobModal" data-job-id="<?= $job['job_id'] ?>">Edit</button>
                     </td>

@@ -1,5 +1,5 @@
 <?php
-require "db_connect.php";
+require "../db_connect.php";
 
 if (isset($_GET['job_id'])) {
     $job_id = intval($_GET['job_id']);

@@ -1,5 +1,5 @@
 <?php
-require "db_connect.php";
+require "../db_connect.php";
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $job_id = intval($_POST['job_id']);

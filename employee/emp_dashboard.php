@@ -136,11 +136,13 @@ include '../includes/emp_fetch_profile.php';
             document.querySelectorAll('.modal-fields').forEach(div => div.style.display = 'none');
             document.getElementById(category + 'Fields').style.display = 'block';
             document.querySelectorAll('.modal-fields input, .modal-fields textarea').forEach(input => input.value = '');
+            document.getElementById('id').value = ''; // Clear the id field
             document.getElementById('editModal').style.display = 'block';
         }
 
         function closeModal() {
             document.getElementById('editModal').style.display = 'none';
+            document.getElementById('id').value = ''; // Clear the id field
         }
 
         function closeMessageModal() {
@@ -182,6 +184,19 @@ include '../includes/emp_fetch_profile.php';
             }
         }
 
+        function openEducationListModal() {
+            document.getElementById('educationListModal').style.display = 'block';
+        }
+
+        function closeEducationListModal() {
+            document.getElementById('educationListModal').style.display = 'none';
+        }
+
+        function openEducationEditModal(data) {
+            closeEducationListModal();
+            openModal('education', data);
+        }
+
         window.onload = function() {
             var successMessage = "<?php echo isset($_SESSION['success_message']) ? $_SESSION['success_message'] : ''; ?>";
             var errorMessage = "<?php echo isset($_SESSION['error_message']) ? $_SESSION['error_message'] : ''; ?>";
@@ -191,14 +206,24 @@ include '../includes/emp_fetch_profile.php';
                 <?php unset($_SESSION['success_message'], $_SESSION['error_message']); ?>
             }
         }
+
     </script>
+
 </head>
 <body>
     <header class="d-print-none">
         <div class="container text-center text-lg-left">
             <div class="py-3 clearfix">
-                <h1 class="site-title mb-0"><?php echo htmlspecialchars($employee['firstName'] . ' ' . $employee['lastName']); ?></h1>
-                <div class="site-nav">
+
+            <!-- NAVBAR
+                <h1 class="site-title mb-0"><?php echo htmlspecialchars($employee['firstName'] . ' ' . $employee['lastName']); ?></h1>-->
+            </div>
+        </div>
+    </header>
+    <div class="page-content">
+        <div class="container">
+            <div class="cover shadow-lg bg-white">
+            <div class="site-nav">
                     <nav role="navigation">
                         <ul class="nav justify-content-center">
                             <li class="nav-item"><a class="nav-link" href="https://twitter.com/" title="Twitter"><i class="fab fa-twitter"></i><span class="menu-title sr-only">Twitter</span></a></li>
@@ -209,20 +234,14 @@ include '../includes/emp_fetch_profile.php';
                         </ul>
                     </nav>
                 </div>
-            </div>
-        </div>
-    </header>
-    <div class="page-content">
-        <div class="container">
-            <div class="cover shadow-lg bg-white">
-                <div class="cover-bg p-3 p-lg-4 text-white">
+                <div class="cover-bg p-3 p-lg-4 text-black">
                     <div class="row">
                         <div class="col-lg-4 col-md-5">
                             <div class="avatar hover-effect bg-white shadow-sm p-1"><img src="../fortest/images/person_1.jpg" width="200" height="200"/></div>
                         </div>
                         <div class="col-lg-8 col-md-7 text-center text-md-start">
                             <h2 class="h1 mt-2" data-aos="fade-left" data-aos-delay="0"><?php echo htmlspecialchars($employee['firstName'] . ' ' . $employee['lastName']); ?></h2>
-                            <p data-aos="fade-left" data-aos-delay="100">Employee Dashboard</p>
+                            <p data-aos="fade-left" data-aos-delay="100">Philippines, Region IV-A</p>
                             <div class="d-print-none" data-aos="fade-left" data-aos-delay="200"><a class="btn btn-light text-dark shadow-sm mt-1 me-1" href="../db/pdf/emp_cv/<?php echo htmlspecialchars($cvs[0]['cv_file_name']); ?>" target="_blank">Download CV</a><a class="btn btn-success shadow-sm mt-1" href="#contact">Contact</a></div>
                         </div>
                     </div>
@@ -309,12 +328,16 @@ include '../includes/emp_fetch_profile.php';
                 </div>
                 <hr class="d-print-none"/>
                 <div class="education-section px-3 px-lg-4 pb-4">
-                    <h2 class="h3 mb-4">Educational Background</h2>
+                    <h2 class="h3 mb-4">Educational Background 
+                        <button class="btn btn-primary" onclick="openEducationListModal()">Edit</button>
+                    </h2>
                     <div class="timeline">
                         <?php foreach ($education as $edu): ?>
                         <div class="timeline-card timeline-card-success card shadow-sm">
                             <div class="card-body">
-                                <div class="h5 mb-1"><?php echo htmlspecialchars($edu['course']); ?> <span class="text-muted h6">from <?php echo htmlspecialchars($edu['institution']); ?></span></div>
+                                <div class="h5 mb-1"><?php echo htmlspecialchars($edu['course']); ?> 
+                                    <span class="text-muted h6">from <?php echo htmlspecialchars($edu['institution']); ?></span>
+                                </div>
                                 <div class="text-muted text-small mb-2"><?php echo htmlspecialchars($edu['ending_date']); ?></div>
                                 <div><?php echo htmlspecialchars($edu['course_highlights']); ?></div>
                             </div>
@@ -345,7 +368,6 @@ include '../includes/emp_fetch_profile.php';
     <footer class="pt-4 pb-4 text-muted text-center d-print-none">
         <div class="container">
             <div class="my-3">
-                <div class="h4"><?php echo htmlspecialchars($employee['firstName'] . ' ' . $employee['lastName']); ?></div>
                 <div class="footer-nav">
                     <nav role="navigation">
                         <ul class="nav justify-content-center">
@@ -493,7 +515,7 @@ include '../includes/emp_fetch_profile.php';
         <div class="modal-content">
             <span class="close-button" onclick="closeCareerHistoryListModal()">&times;</span>
             <h3>Select Career History to Edit</h3>
-            <div class="job-list-container">
+            <div class="tag-container">
                 <div class="job-list">
                     <?php foreach ($career_history as $job): ?>
                     <div id="job-<?= $job['id'] ?>" class="job-box" onclick='openCareerHistoryEditModal(<?php echo json_encode($job); ?>)'>
@@ -506,7 +528,7 @@ include '../includes/emp_fetch_profile.php';
             <button class="btn btn-success mt-3" onclick="openAddModal('careerhistory')">Add</button>
         </div>
     </div>
-
+    <div id="tag-container"></div>
     <div id="languagesListModal" class="modal">
         <div class="modal-content">
             <span class="close-button" onclick="closeLanguagesListModal()">&times;</span>
@@ -521,6 +543,24 @@ include '../includes/emp_fetch_profile.php';
                 <?php endforeach; ?>
             </ul>
             <button class="btn btn-primary mt-3" onclick='openAddModal("languages")'>Add</button>
+        </div>
+    </div>
+
+    <div id="educationListModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeEducationListModal()">&times;</span>
+            <h3>Select Education to Edit</h3>
+            <div class="job-list-container">
+                <div class="job-list">
+                    <?php foreach ($education as $edu): ?>
+                    <div id="edu-<?= $edu['id'] ?>" class="job-box" onclick='openEducationEditModal(<?php echo json_encode($edu); ?>)'>
+                        <div class="job-title"><?php echo htmlspecialchars($edu['course']); ?></div>
+                        <div class="company-name">at <?php echo htmlspecialchars($edu['institution']); ?></div>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+            <button class="btn btn-success mt-3" onclick="openAddModal('education')">Add</button>
         </div>
     </div>
 
