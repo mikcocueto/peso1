@@ -272,8 +272,13 @@ include '../includes/emp_fetch_profile.php';
                         <?php foreach ($career_history as $job): ?>
                         <div class="timeline-card timeline-card-primary card shadow-sm">
                             <div class="card-body">
-                                <div class="h5 mb-1"><?php echo htmlspecialchars($job['job_title']); ?> <span class="text-muted h6">at <?php echo htmlspecialchars($job['company_name']); ?></span></div>
-                                <div class="text-muted text-small mb-2"><?php echo htmlspecialchars($job['start_date']); ?> - <?php echo htmlspecialchars($job['end_date']); ?></div>
+                                <div class="h5 mb-1"><?php echo htmlspecialchars($job['job_title']); ?> 
+                                    <span class="text-muted h6">at <?php echo htmlspecialchars($job['company_name']); ?></span>
+                                </div>
+                                <?php if ($job['still_in_role']): ?>
+                                        <span style="color: red;">Still in role</span>
+                                    <?php endif; ?>
+                                <div class="text-muted text-small mb-2">from <?php echo htmlspecialchars($job['start_date']); ?> to <?php echo htmlspecialchars($job['end_date']); ?></div>
                                 <div><?php echo htmlspecialchars($job['description']); ?></div>
                             </div>
                         </div>
