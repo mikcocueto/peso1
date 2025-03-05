@@ -55,6 +55,7 @@ include '../includes/emp_fetch_profile.php';
             padding-top: 60px;
         }
         .modal-content {
+            position: relative;
             background-color: #fefefe;
             margin: 5% auto;
             padding: 20px;
@@ -63,6 +64,9 @@ include '../includes/emp_fetch_profile.php';
             border-radius: 10px;
         }
         .close-button {
+            position: absolute;
+            top: 10px;
+            right: 20px;
             color: #aaa;
             float: right;
             font-size: 28px;
@@ -267,7 +271,9 @@ include '../includes/emp_fetch_profile.php';
                 </div>
                 <hr class="d-print-none"/>
                 <div class="work-experience-section px-3 px-lg-4">
-                    <h2 class="h3 mb-4">Career History <button class="btn btn-primary" onclick="openCareerHistoryListModal()">Edit</button></h2>
+                    <h2 class="h3 mb-4">Career History 
+                        <button class="btn btn-primary" onclick="openCareerHistoryListModal()">Edit</button>
+                    </h2>
                     <div class="timeline">
                         <?php foreach ($career_history as $job): ?>
                         <div class="timeline-card timeline-card-primary card shadow-sm">
@@ -494,6 +500,7 @@ include '../includes/emp_fetch_profile.php';
                     <?php endforeach; ?>
                 </div>
             </div>
+            <button class="btn btn-success mt-3" onclick="openAddModal('careerhistory')">Add</button>
         </div>
     </div>
 
