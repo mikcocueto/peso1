@@ -23,7 +23,7 @@ include '../includes/emp_fetch_profile.php';
             gap: 10px;
         }
         .action-buttons a, .action-buttons button {
-            padding: 5px 10px;
+            padding: 10px; /* Adjust padding for consistent height */
             text-decoration: none;
             color: white;
             background-color: #007bff;
@@ -31,6 +31,12 @@ include '../includes/emp_fetch_profile.php';
             border-radius: 4px;
             cursor: pointer;
             font-size: 14px; /* Adjust font size to match edit buttons */
+            width: 100px; /* Set a fixed width for consistency */
+            height: 40px; /* Set a fixed height for consistency */
+            text-align: center; /* Center the text */
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .action-buttons button {
             background-color: #dc3545;
@@ -113,53 +119,59 @@ include '../includes/emp_fetch_profile.php';
                 max-height: 80vh;
             }
         }
+        .cv-section {
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .cv-section h3 {
+            margin-bottom: 20px;
+        }
+        .cv-section form {
+            margin-bottom: 20px;
+        }
+        .cv-section table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .cv-section th, .cv-section td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        .cv-section th {
+            background-color: #007bff;
+            color: white;
+        }
+        .cv-section .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .cv-section .action-buttons a, .cv-section .action-buttons button {
+            padding: 10px; /* Adjust padding for consistent height */
+            text-decoration: none;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            width: 100px; /* Set a fixed width for consistency */
+            height: 40px; /* Set a fixed height for consistency */
+            text-align: center; /* Center the text */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .cv-section .action-buttons button {
+            background-color: #dc3545;
+        }
+        .cv-section .action-buttons a:hover, .cv-section .action-buttons button:hover {
+            opacity: 0.8;
+        }
     </style>
     <script>
         function openModal(category, data = {}) {
-            document.getElementById('editCategory').value = category;
-            document.querySelectorAll('.modal-fields').forEach(div => div.style.display = 'none');
-            document.getElementById(category + 'Fields').style.display = 'block';
-            for (const key in data) {
-                if (data.hasOwnProperty(key)) {
-                    if (key === 'still_in_role') {
-                        document.getElementById(key).checked = data[key] === 1;
-                    } else {
-                        document.getElementById(key).value = data[key];
-                    }
-                }
-            }
-            document.getElementById('editModal').style.display = 'block';
-        }
-
-        function openAddModal(category) {
-            document.getElementById('editCategory').value = category;
-            document.querySelectorAll('.modal-fields').forEach(div => div.style.display = 'none');
-            document.getElementById(category + 'Fields').style.display = 'block';
-            document.querySelectorAll('.modal-fields input, .modal-fields textarea').forEach(input => input.value = '');
-            document.getElementById('id').value = ''; // Clear the id field
-            document.getElementById('editModal').style.display = 'block';
-        }
-
-        function closeModal() {
-            document.getElementById('editModal').style.display = 'none';
-            document.getElementById('id').value = ''; // Clear the id field
-        }
-
-        function closeMessageModal() {
-            document.getElementById('messageModal').style.display = 'none';
-        }
-
-        function openPasswordModal() {
-            document.getElementById('passwordModal').style.display = 'block';
-        }
-
-        function closePasswordModal() {
-            document.getElementById('passwordModal').style.display = 'none';
-        }
-
-        function openCareerHistoryListModal() {
-            document.getElementById('careerHistoryListModal').style.display = 'block';
-        }
 
         function closeCareerHistoryListModal() {
             document.getElementById('careerHistoryListModal').style.display = 'none';
@@ -362,51 +374,47 @@ include '../includes/emp_fetch_profile.php';
                         <?php endforeach; ?>
                     </div>
                 </div>
+                <hr class="d-print-none"/>
+                <div class="cv-section px-3 px-lg-4 pb-4">
+                    <h2 class="h3 mb-4">Curriculum Vitae</h2>
+                    <form action="../includes/employee/emp_cv_upload_process.php" method="POST" enctype="multipart/form-data">
+                        <label for="cv_file">Upload CV (PDF only):</label>
+                        <input type="file" name="cv_file" id="cv_file" accept="application/pdf" required>
+                        <button type="submit" class="btn btn-primary mt-2">Upload</button>
+                    </form>
+                    <table class="table mt-4">
+                        <thead>
+                            <tr>
+                                <th>File Name</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($cvs as $cv): ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($cv['cv_file_name']); ?></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <a href="../db/pdf/emp_cv/<?php echo htmlspecialchars($cv['cv_file_name']); ?>" target="_blank">Preview</a>
+                                        <form action="../includes/employee/emp_cv_delete_process.php" method="POST" style="display:inline;">
+                                            <input type="hidden" name="cv_id" value="<?php echo $cv['id']; ?>">
+                                            <button type="submit" onclick="return confirm('Are you sure you want to delete this CV?')">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+                <hr class="d-print-none"/>
             </div>
         </div>
     </div>
     <footer class="pt-4 pb-4 text-muted text-center d-print-none">
         <div class="container">
             <div class="my-3">
-                <div class="footer-nav">
-                    <nav role="navigation">
-                        <ul class="nav justify-content-center">
-                            <li class="nav-item"><a class="nav-link" href="https://twitter.com/" title="Twitter"><i class="fab fa-twitter"></i><span class="menu-title sr-only">Twitter</span></a></li>
-                            <li class="nav-item"><a class="nav-link" href="https://www.facebook.com/" title="Facebook"><i class="fab fa-facebook"></i><span class="menu-title sr-only">Facebook</span></a></li>
-                            <li class="nav-item"><a class="nav-link" href="https://www.instagram.com/" title="Instagram"><i class="fab fa-instagram"></i><span class="menu-title sr-only">Instagram</span></a></li>
-        <div style="width: 48%;">
-            <h3>Curriculum Vitae</h3>
-            <form action="../includes/employee/emp_cv_upload_process.php" method="POST" enctype="multipart/form-data">
-                <label for="cv_file">Upload CV (PDF only):</label>
-                <input type="file" name="cv_file" id="cv_file" accept="application/pdf" required>
-                <button type="submit">Upload</button>
-            </form>
-            <table>
-                <tr class="category-header">
-                    <th>File Name</th>
-                    <th>Action</th>
-                </tr>
-                <?php foreach ($cvs as $cv): ?>
-                <tr>
-                    <td><?php echo htmlspecialchars($cv['cv_file_name']); ?></td>
-                    <td>
-                        <div class="action-buttons">
-                            <a href="../db/pdf/emp_cv/<?php echo htmlspecialchars($cv['cv_file_name']); ?>" target="_blank">Preview</a>
-                            <form action="../includes/employee/emp_cv_delete_process.php" method="POST" style="display:inline;">
-                                <input type="hidden" name="cv_id" value="<?php echo $cv['id']; ?>">
-                                <button type="submit" onclick="return confirm('Are you sure you want to delete this CV?')">Delete</button>
-                            </form>
-                        </div>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </table>
-        </div>
-        <div style="width: 48%;">
-            <h3>Certifications</h3>
-            <!-- ...existing code for certifications... -->
-        </div>
-    </div>
+
 
     <button class="edit-button" onclick="openPasswordModal()">Change Password</button>
 
