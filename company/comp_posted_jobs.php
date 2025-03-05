@@ -18,7 +18,7 @@ while ($row = $categories_result->fetch_assoc()) {
 }
 
 // Fetch posted jobs by the logged-in company along with candidate counts
-$query = "SELECT jl.job_id, jl.title, jl.description, jl.posted_date, jl.expiry_date,
+$query = "SELECT jl.job_id, jl.title, jl.description, jl.posted_date, jl.expiry_date, jl.status,
                  (SELECT COUNT(*) FROM tbl_job_application ja WHERE ja.job_id = jl.job_id AND ja.status = 'pending') AS pending_count,
                  (SELECT COUNT(*) FROM tbl_job_application ja WHERE ja.job_id = jl.job_id AND ja.status = 'awaiting') AS awaiting_count,
                  (SELECT COUNT(*) FROM tbl_job_application ja WHERE ja.job_id = jl.job_id AND ja.status = 'accepted') AS accepted_count
@@ -74,7 +74,14 @@ $stmt->close();
                         <strong>Accepted:</strong> <?= $job['accepted_count'] ?>
                     </td>
                     <td>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editJobModal" data-job-id="<?= $job['job_id'] ?>">Edit</button>
+                        <div class="d-flex">
+                            <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#editJobModal" data-job-id="<?= $job['job_id'] ?>">Edit</button>
+                            <select class="form-select w-50" onchange="updateJobStatus(<?= $job['job_id'] ?>, this.value)">
+                                <option value="active" <?= $job['status'] == 'active' ? 'selected' : '' ?>>Active</option>
+                                <option value="paused" <?= $job['status'] == 'paused' ? 'selected' : '' ?>>Paused</option>
+                                <option value="inactive" <?= $job['status'] == 'inactive' ? 'selected' : '' ?>>Inactive</option>
+                            </select>
+                        </div>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -209,6 +216,18 @@ $stmt->close();
             }
         });
     });
+
+    function updateJobStatus(jobId, status) {
+        $.ajax({
+            url: '../includes/company/comp_update_job_status.php',
+            type: 'POST',
+            data: { job_id: jobId, status: status },
+            success: function (response) {
+                alert('Job status updated successfully!');
+                location.reload();
+            }
+        });
+    }
 </script>
 </body>
 </html>
