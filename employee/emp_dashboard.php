@@ -284,7 +284,10 @@ include '../includes/emp_fetch_profile.php';
                                 <?php if ($job['still_in_role']): ?>
                                         <span style="color: red;">Still in role</span>
                                     <?php endif; ?>
-                                <div class="text-muted text-small mb-2">from <?php echo htmlspecialchars($job['start_date']); ?> to <?php echo htmlspecialchars($job['end_date']); ?></div>
+                                <div class="text-muted text-small mb-2">
+                                    from <?php echo htmlspecialchars($job['start_date'] === '0000-00-00' ? 'unspecified' : $job['start_date']); ?> 
+                                    to <?php echo htmlspecialchars($job['end_date'] === '0000-00-00' ? 'unspecified' : $job['end_date']); ?>
+                                </div>
                                 <div><?php echo htmlspecialchars($job['description']); ?></div>
                             </div>
                         </div>
