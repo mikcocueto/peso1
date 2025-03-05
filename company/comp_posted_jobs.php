@@ -93,9 +93,55 @@ $stmt->close();
             <div class="modal-body">
                 <form id="editJobForm">
                     <input type="hidden" name="job_id" id="editJobId">
-                    <div class="mb-3">
-                        <label for="editJobTitle" class="form-label">Title</label>
-                        <input type="text" class="form-control" id="editJobTitle" name="title" required>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="editJobTitle" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="editJobTitle" name="title" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="editJobType" class="form-label">Employment Type</label>
+                            <select class="form-select" id="editJobType" name="employment_type" required>
+                                <option value="Part-Time">Part-Time</option>
+                                <option value="Full-Time">Full-Time</option>
+                                <option value="Contract">Contract</option>
+                                <option value="Temporary">Temporary</option>
+                                <option value="Internship">Internship</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="editJobLocation" class="form-label">Location</label>
+                            <input type="text" class="form-control" id="editJobLocation" name="location" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="editJobCategory" class="form-label">Category</label>
+                            <select class="form-select" id="editJobCategory" name="category_id" required>
+                                <?php foreach ($categories as $category): ?>
+                                    <option value="<?= $category['category_id'] ?>"><?= $category['category_name'] ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="editJobSalaryMin" class="form-label">Salary Min</label>
+                            <input type="number" class="form-control" id="editJobSalaryMin" name="salary_min" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="editJobSalaryMax" class="form-label">Salary Max</label>
+                            <input type="number" class="form-control" id="editJobSalaryMax" name="salary_max" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="editJobCurrency" class="form-label">Currency</label>
+                            <input type="text" class="form-control" id="editJobCurrency" name="currency" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="editJobExpiryDate" class="form-label">Expiry Date</label>
+                            <input type="date" class="form-control" id="editJobExpiryDate" name="expiry_date" required>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label for="editJobDescription" class="form-label">Description</label>
@@ -104,44 +150,6 @@ $stmt->close();
                     <div class="mb-3">
                         <label for="editJobRequirements" class="form-label">Requirements</label>
                         <textarea class="form-control" id="editJobRequirements" name="requirements" required></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editJobType" class="form-label">Employment Type</label>
-                        <select class="form-select" id="editJobType" name="employment_type" required>
-                            <option value="Part-Time">Part-Time</option>
-                            <option value="Full-Time">Full-Time</option>
-                            <option value="Contract">Contract</option>
-                            <option value="Temporary">Temporary</option>
-                            <option value="Internship">Internship</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editJobLocation" class="form-label">Location</label>
-                        <input type="text" class="form-control" id="editJobLocation" name="location" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editJobSalaryMin" class="form-label">Salary Min</label>
-                        <input type="number" class="form-control" id="editJobSalaryMin" name="salary_min" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editJobSalaryMax" class="form-label">Salary Max</label>
-                        <input type="number" class="form-control" id="editJobSalaryMax" name="salary_max" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editJobCurrency" class="form-label">Currency</label>
-                        <input type="text" class="form-control" id="editJobCurrency" name="currency" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editJobCategory" class="form-label">Category</label>
-                        <select class="form-select" id="editJobCategory" name="category_id" required>
-                            <?php foreach ($categories as $category): ?>
-                                <option value="<?= $category['category_id'] ?>"><?= $category['category_name'] ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editJobExpiryDate" class="form-label">Expiry Date</label>
-                        <input type="date" class="form-control" id="editJobExpiryDate" name="expiry_date" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Save Changes</button>
                 </form>
