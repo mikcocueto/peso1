@@ -172,6 +172,48 @@ include '../includes/emp_fetch_profile.php';
     </style>
     <script>
         function openModal(category, data = {}) {
+            document.getElementById('editModal').style.display = 'block';
+            document.getElementById('editCategory').value = category;
+
+            // Hide all fields initially
+            document.querySelectorAll('.modal-fields').forEach(field => field.style.display = 'none');
+
+            // Show the relevant fields based on the category
+            const fields = document.getElementById(category + 'Fields');
+            if (fields) {
+                fields.style.display = 'block';
+            }
+
+            // Populate fields with data if provided
+            for (const key in data) {
+                if (data.hasOwnProperty(key)) {
+                    const input = document.getElementById(key);
+                    if (input) {
+                        input.value = data[key];
+                    }
+                }
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('editModal').style.display = 'none';
+        }
+
+        function openPasswordModal() {
+            document.getElementById('passwordModal').style.display = 'block';
+        }
+
+        function closePasswordModal() {
+            document.getElementById('passwordModal').style.display = 'none';
+        }
+
+        function closeMessageModal() {
+            document.getElementById('messageModal').style.display = 'none';
+        }
+
+        function openCareerHistoryListModal() {
+            document.getElementById('careerHistoryListModal').style.display = 'block';
+        }
 
         function closeCareerHistoryListModal() {
             document.getElementById('careerHistoryListModal').style.display = 'none';
@@ -209,6 +251,10 @@ include '../includes/emp_fetch_profile.php';
             openModal('education', data);
         }
 
+        function openAddModal(category) {
+            openModal(category);
+        }
+
         window.onload = function() {
             var successMessage = "<?php echo isset($_SESSION['success_message']) ? $_SESSION['success_message'] : ''; ?>";
             var errorMessage = "<?php echo isset($_SESSION['error_message']) ? $_SESSION['error_message'] : ''; ?>";
@@ -218,7 +264,6 @@ include '../includes/emp_fetch_profile.php';
                 <?php unset($_SESSION['success_message'], $_SESSION['error_message']); ?>
             }
         }
-
     </script>
 
 </head>
