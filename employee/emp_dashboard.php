@@ -189,7 +189,11 @@ include '../includes/emp_fetch_profile.php';
                 if (data.hasOwnProperty(key)) {
                     const input = document.getElementById(key);
                     if (input) {
-                        input.value = data[key];
+                        if (input.type === 'checkbox') {
+                            input.checked = data[key] === 1;
+                        } else {
+                            input.value = data[key];
+                        }
                     }
                 }
             }
