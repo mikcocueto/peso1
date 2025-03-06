@@ -261,6 +261,14 @@ include '../includes/emp_fetch_profile.php';
         function openAddModal(category) {
             openModal(category);
             document.getElementById('id').value = ''; // Clear the ID field for adding a new entry
+            // Clear all input fields
+            document.querySelectorAll('.modal-fields input, .modal-fields textarea').forEach(input => {
+                if (input.type === 'checkbox') {
+                    input.checked = false;
+                } else {
+                    input.value = '';
+                }
+            });
         }
 
         window.onload = function() {
