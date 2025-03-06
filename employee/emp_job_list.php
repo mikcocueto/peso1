@@ -21,7 +21,7 @@ $search_title = isset($_POST['search_title']) ? $_POST['search_title'] : '';
 $search_category = isset($_POST['search_category']) ? $_POST['search_category'] : [];
 $search_type = isset($_POST['search_type']) ? $_POST['search_type'] : '';
 
-$query = "SELECT jl.job_id, jl.title, jl.employment_type, c.companyName 
+$query = "SELECT jl.job_id, jl.title, jl.employment_type, c.companyName, c.comp_logo_dir 
           FROM tbl_job_listing jl 
           JOIN tbl_company c ON jl.employer_id = c.company_id 
           WHERE jl.status = 'active'";
@@ -80,6 +80,13 @@ $jobs = $conn->query($query);
         }
         .search-jobs-form .form-control, .search-jobs-form .selectpicker, .search-jobs-form .btn-search {
             margin-bottom: 0;
+        }
+        .company-logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
         }
     </style>
     <script>
@@ -181,10 +188,15 @@ $jobs = $conn->query($query);
                 <div class="job-list">
                     <?php while ($job = $jobs->fetch_assoc()): ?>
                         <div id="job-<?= $job['job_id'] ?>" class="job-box" onclick="showJobDetails(<?= $job['job_id'] ?>)">
-                            <div class="job-title"><?= htmlspecialchars($job['title']) ?></div>
-                            <div class="job-details">
-                                <p><strong>Company:</strong> <?= htmlspecialchars($job['companyName']) ?></p>
-                                <p><strong>Employment Type:</strong> <?= htmlspecialchars($job['employment_type']) ?></p>
+                            <div class="d-flex align-items-center">
+                                <img src="<?= htmlspecialchars($job['comp_logo_dir']) ?>" alt="Company Logo" class="company-logo">
+                                <div>
+                                    <div class="job-title"><?= htmlspecialchars($job['title']) ?></div>
+                                    <div class="job-details">
+                                        <p><strong>Company:</strong> <?= htmlspecialchars($job['companyName']) ?></p>
+                                        <p><strong>Employment Type:</strong> <?= htmlspecialchars($job['employment_type']) ?></p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     <?php endwhile; ?>
