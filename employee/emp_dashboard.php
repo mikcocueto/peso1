@@ -187,7 +187,7 @@ include '../includes/emp_fetch_profile.php';
             // Populate fields with data if provided
             for (const key in data) {
                 if (data.hasOwnProperty(key)) {
-                    const input = document.getElementById(key);
+                    const input = document.getElementById(category + '_' + key);
                     if (input) {
                         if (input.type === 'checkbox') {
                             input.checked = data[key] === 1;
@@ -197,6 +197,9 @@ include '../includes/emp_fetch_profile.php';
                     }
                 }
             }
+
+            // Set the ID field for editing
+            document.getElementById('id').value = data.id || '';
         }
 
         function closeModal() {
@@ -257,6 +260,7 @@ include '../includes/emp_fetch_profile.php';
 
         function openAddModal(category) {
             openModal(category);
+            document.getElementById('id').value = ''; // Clear the ID field for adding a new entry
         }
 
         window.onload = function() {
@@ -488,55 +492,55 @@ include '../includes/emp_fetch_profile.php';
                 </div>
                 <div id="careerhistoryFields" class="modal-fields" style="display:none;">
                     <div class="mb-3">
-                        <label for="job_title" class="form-label">Job Title:</label>
-                        <input type="text" class="form-control" id="job_title" name="job_title">
+                        <label for="careerhistory_job_title" class="form-label">Job Title:</label>
+                        <input type="text" class="form-control" id="careerhistory_job_title" name="job_title">
                     </div>
                     <div class="mb-3">
-                        <label for="company_name" class="form-label">Company Name:</label>
-                        <input type="text" class="form-control" id="company_name" name="company_name">
+                        <label for="careerhistory_company_name" class="form-label">Company Name:</label>
+                        <input type="text" class="form-control" id="careerhistory_company_name" name="company_name">
                     </div>
                     <div class="mb-3">
-                        <label for="start_date" class="form-label">Start Date:</label>
-                        <input type="date" class="form-control" id="start_date" name="start_date">
+                        <label for="careerhistory_start_date" class="form-label">Start Date:</label>
+                        <input type="date" class="form-control" id="careerhistory_start_date" name="start_date">
                     </div>
                     <div class="mb-3">
-                        <label for="end_date" class="form-label">End Date:</label>
-                        <input type="date" class="form-control" id="end_date" name="end_date">
+                        <label for="careerhistory_end_date" class="form-label">End Date:</label>
+                        <input type="date" class="form-control" id="careerhistory_end_date" name="end_date">
                     </div>
                     <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="still_in_role" name="still_in_role">
-                        <label for="still_in_role" class="form-check-label">Still in Role</label>
+                        <input type="checkbox" class="form-check-input" id="careerhistory_still_in_role" name="still_in_role">
+                        <label for="careerhistory_still_in_role" class="form-check-label">Still in Role</label>
                     </div>
                     <div class="mb-3">
-                        <label for="Jdescription" class="form-label">Job Description:</label>
-                        <textarea class="form-control" id="Jdescription" name="Jdescription"></textarea>
+                        <label for="careerhistory_Jdescription" class="form-label">Job Description:</label>
+                        <textarea class="form-control" id="careerhistory_Jdescription" name="Jdescription"></textarea>
                     </div>
                 </div>
                 <div id="educationFields" class="modal-fields" style="display:none;">
-                    <label for="course">Course:</label>
-                    <input type="text" id="course" name="course"><br>
-                    <label for="institution">Institution:</label>
-                    <input type="text" id="institution" name="institution"><br>
-                    <label for="ending_date">End Date:</label>
-                    <input type="date" id="ending_date" name="ending_date"><br>
-                    <label for="course_highlights">Course Highlights:</label>
-                    <input type="text" id="course_highlights" name="course_highlights"><br>
+                    <label for="education_course">Course:</label>
+                    <input type="text" id="education_course" name="course"><br>
+                    <label for="education_institution">Institution:</label>
+                    <input type="text" id="education_institution" name="institution"><br>
+                    <label for="education_ending_date">End Date:</label>
+                    <input type="date" id="education_ending_date" name="ending_date"><br>
+                    <label for="education_course_highlights">Course Highlights:</label>
+                    <input type="text" id="education_course_highlights" name="course_highlights"><br>
                 </div>
                 <div id="languagesFields" class="modal-fields" style="display:none;">
                     <label for="language_name">Language:</label>
-                    <input type="text" id="language_name" name="language_name"><br>
+                    <input type="text" id="languages_language_name" name="language_name"><br>
                 </div>
                 <div id="certificationFields" class="modal-fields" style="display:none;">
-                    <label for="licence_name">Licence Name:</label>
-                    <input type="text" id="licence_name" name="licence_name"><br>
-                    <label for="issuing_organization">Issuing Organization:</label>
-                    <input type="text" id="issuing_organization" name="issuing_organization"><br>
-                    <label for="issue_date">Issue Date:</label>
-                    <input type="date" id="issue_date" name="issue_date"><br>
-                    <label for="expiry_date">Expiry Date:</label>
-                    <input type="date" id="expiry_date" name="expiry_date"><br>
-                    <label for="description">Description:</label>
-                    <textarea id="description" name="description"></textarea><br>
+                    <label for="certification_licence_name">Licence Name:</label>
+                    <input type="text" id="certification_licence_name" name="licence_name"><br>
+                    <label for="certification_issuing_organization">Issuing Organization:</label>
+                    <input type="text" id="certification_issuing_organization" name="issuing_organization"><br>
+                    <label for="certification_issue_date">Issue Date:</label>
+                    <input type="date" id="certification_issue_date" name="issue_date"><br>
+                    <label for="certification_expiry_date">Expiry Date:</label>
+                    <input type="date" id="certification_expiry_date" name="expiry_date"><br>
+                    <label for="certification_description">Description:</label>
+                    <textarea id="certification_description" name="description"></textarea><br>
                 </div>
                 <button type="submit" class="btn btn-primary">Save</button>
                 <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
