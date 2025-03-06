@@ -271,6 +271,29 @@ include '../includes/emp_fetch_profile.php';
             });
         }
 
+        function deleteEntry() {
+            const category = document.getElementById('editCategory').value;
+            const id = document.getElementById('id').value;
+            if (id && confirm('Are you sure you want to delete this entry?')) {
+                fetch('../includes/employee/emp_delete_profile_entry.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ category, id })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Entry deleted successfully');
+                        location.reload(); // Reload the page to reflect changes
+                    } else {
+                        alert('Failed to delete entry');
+                    }
+                });
+            }
+        }
+
         window.onload = function() {
             var successMessage = "<?php echo isset($_SESSION['success_message']) ? $_SESSION['success_message'] : ''; ?>";
             var errorMessage = "<?php echo isset($_SESSION['error_message']) ? $_SESSION['error_message'] : ''; ?>";
@@ -550,8 +573,13 @@ include '../includes/emp_fetch_profile.php';
                     <label for="certification_description">Description:</label>
                     <textarea id="certification_description" name="description"></textarea><br>
                 </div>
-                <button type="submit" class="btn btn-primary">Save</button>
-                <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                <div class="d-flex justify-content-between">
+                    <button type="button" class="btn btn-danger" onclick="deleteEntry()">Delete</button>
+                    <div>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
