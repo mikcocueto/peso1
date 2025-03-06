@@ -50,6 +50,7 @@ $jobs = $conn->query($query);
     <title>Job Listings</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="../fortest/style2/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/css/bootstrap-select.min.css">
     <style>
         .job-box {
             border: 1px solid #ddd;
@@ -58,6 +59,7 @@ $jobs = $conn->query($query);
             border-radius: 5px;
             background-color: #f9f9f9;
             cursor: pointer;
+            position: relative;
         }
         .job-title {
             font-size: 1.2em;
@@ -86,7 +88,23 @@ $jobs = $conn->query($query);
             height: 50px;
             border-radius: 50%;
             object-fit: cover;
-            margin-right: 10px;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        .category-select {
+            width: 100%;
+            height: calc(1.5em + 0.75rem + 2px);
+            padding: 0.375rem 0.75rem;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #495057;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
         }
     </style>
     <script>
@@ -188,14 +206,12 @@ $jobs = $conn->query($query);
                 <div class="job-list">
                     <?php while ($job = $jobs->fetch_assoc()): ?>
                         <div id="job-<?= $job['job_id'] ?>" class="job-box" onclick="showJobDetails(<?= $job['job_id'] ?>)">
-                            <div class="d-flex align-items-center">
-                                <img src="<?= htmlspecialchars($job['comp_logo_dir']) ?>" alt="Company Logo" class="company-logo">
-                                <div>
-                                    <div class="job-title"><?= htmlspecialchars($job['title']) ?></div>
-                                    <div class="job-details">
-                                        <p><strong>Company:</strong> <?= htmlspecialchars($job['companyName']) ?></p>
-                                        <p><strong>Employment Type:</strong> <?= htmlspecialchars($job['employment_type']) ?></p>
-                                    </div>
+                            <img src="<?= htmlspecialchars($job['comp_logo_dir']) ?>" alt="Company Logo" class="company-logo">
+                            <div>
+                                <div class="job-title"><?= htmlspecialchars($job['title']) ?></div>
+                                <div class="job-details">
+                                    <p><strong>Company:</strong> <?= htmlspecialchars($job['companyName']) ?></p>
+                                    <p><strong>Employment Type:</strong> <?= htmlspecialchars($job['employment_type']) ?></p>
                                 </div>
                             </div>
                         </div>
@@ -214,6 +230,7 @@ $jobs = $conn->query($query);
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"></script>
 <script src="../fortest/js/jquery.min.js"></script>
 <script src="../fortest/js/bootstrap.bundle.min.js"></script>
 <script src="../fortest/js/isotope.pkgd.min.js"></script>
