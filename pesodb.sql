@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 04, 2025 at 08:53 AM
+-- Generation Time: Mar 07, 2025 at 09:04 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -64,16 +64,13 @@ CREATE TABLE `tbl_careerhistory` (
 --
 
 INSERT INTO `tbl_careerhistory` (`id`, `user_id`, `job_title`, `company_name`, `start_date`, `end_date`, `still_in_role`, `description`) VALUES
-(1, 12, '24rr', 'aa', '2025-02-04', '2025-02-19', 1, ''),
-(2, 12, 'yyy', 'miso', '2025-02-01', '0000-00-00', 1, 'rerwe'),
-(3, 12, '9789', 'hu', '0000-00-00', '0000-00-00', NULL, ''),
+(2, 12, 'OJT', 'miso', '2025-02-01', '0000-00-00', 1, 'now'),
 (4, 12, 'jsjasghjg', '834hgh34g', '2025-02-01', '0000-00-00', NULL, ''),
 (5, 12, 'jsjasghjg', '834hghhhhh34g', '2025-01-01', '0000-00-00', NULL, ''),
 (6, 13, 'jsjasghjg', '834hghhhhh34g', '2024-01-13', '0000-00-00', 1, 'kapeaddd'),
 (7, 13, 'ggg', '546545', '2025-02-13', '0000-00-00', 1, ''),
 (8, 13, 'uu', 'ii', '2025-02-01', '0000-00-00', NULL, ''),
 (9, 13, 'd', 'a', '2025-02-01', '0000-00-00', 1, 'wa'),
-(10, 12, 'miso', 'miso', '2025-02-01', '2025-02-14', 1, 'code'),
 (11, 14, 'naqqqqqqqqqqqq', 'reeeeeeee', '2024-02-01', '2024-02-03', 0, 'werrr'),
 (12, 16, 'miso', 'miso', '2025-02-04', '2025-02-05', 0, 'qqqqqqqqq');
 
@@ -184,7 +181,8 @@ INSERT INTO `tbl_employee` (`user_id`, `firstName`, `lastName`, `address`, `emai
 (13, 'Mikco', 'Cueto', 'aaaa', 'cueto@gmail.com', 'a', '', '2025-02-13 04:43:07', ''),
 (14, 'Mikco', 'Cueto', 'Sta. Maria SPC', 'c@gmail.com', 'Female', '099999999999', '2025-02-14 03:58:48', ''),
 (15, 'q', 'q', '', 'q@gmail.com', '', '', '2025-02-17 05:23:39', ''),
-(16, 'new', 'user', '', 'new@gmail.com', '', '', '2025-02-24 06:25:21', '');
+(16, 'new', 'user', '', 'new@gmail.com', '', '', '2025-02-24 06:25:21', ''),
+(17, 'shan', 'p', '', 'shan@gmail.com', '', '', '2025-03-07 03:25:23', '');
 
 -- --------------------------------------------------------
 
@@ -263,7 +261,8 @@ CREATE TABLE `tbl_job_application` (
 
 INSERT INTO `tbl_job_application` (`id`, `emp_id`, `job_id`, `application_time`, `status`) VALUES
 (1, 12, 5, '2025-02-28 05:54:33', 'pending'),
-(3, 12, 3, '2025-02-28 08:24:27', 'pending');
+(3, 12, 3, '2025-02-28 08:24:27', 'pending'),
+(6, 17, 3, '2025-03-07 07:37:58', 'pending');
 
 -- --------------------------------------------------------
 
@@ -415,7 +414,8 @@ INSERT INTO `tbl_loginuser` (`id`, `user_id`, `emailAddress`, `password`, `salt`
 (12, 13, 'cueto@gmail.com', '$2y$10$k3VtnDTQt35lRgxdzhzW4uQbMztzHzRpKe1tZgdoxmTOANh8K8Qpi', '8048c80311572e2c9e7ce1aba032413b'),
 (13, 14, 'c@gmail.com', '$2y$10$fUXskg4AvXWTJZZZ5ILYz.h5MMuVOO3ccphPfYSh5gVh2d7WYrKma', '486ea598f824510eae98f97997aee1c9'),
 (14, 15, 'q@gmail.com', '$2y$10$bjfjhWI0opTVQy7FnWki8.TS15bneUmQFWnnARkSspDC3BpgaFl2W', '6f6429bb85ba085f101e84969eb8ef6d'),
-(15, 16, 'new@gmail.com', '$2y$10$aUnIVI9vPQdaeVcH5XFCSe93uu8PFE4U43tM0d8DGYRCk7vis.eWC', 'a5562417cf7f5a2a0bafad3075671d15');
+(15, 16, 'new@gmail.com', '$2y$10$aUnIVI9vPQdaeVcH5XFCSe93uu8PFE4U43tM0d8DGYRCk7vis.eWC', 'a5562417cf7f5a2a0bafad3075671d15'),
+(16, 17, 'shan@gmail.com', '$2y$10$Lif.hyGIzgj1m/3JuNnKAue7fMZwXCNFShE50dPIrHZj2JE7D2lN2', '88f1714cbeab414b76dced3a7d3a9f7d');
 
 -- --------------------------------------------------------
 
@@ -632,7 +632,7 @@ ALTER TABLE `tbl_educback`
 -- AUTO_INCREMENT for table `tbl_employee`
 --
 ALTER TABLE `tbl_employee`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `tbl_emp_cv`
@@ -656,7 +656,7 @@ ALTER TABLE `tbl_emp_skills`
 -- AUTO_INCREMENT for table `tbl_job_application`
 --
 ALTER TABLE `tbl_job_application`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tbl_job_category`
@@ -692,7 +692,7 @@ ALTER TABLE `tbl_logincompany`
 -- AUTO_INCREMENT for table `tbl_loginuser`
 --
 ALTER TABLE `tbl_loginuser`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `tbl_log_comp_reg`
