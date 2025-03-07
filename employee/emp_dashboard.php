@@ -284,12 +284,17 @@ include '../includes/emp_fetch_profile.php';
                 })
                 .then(response => response.json())
                 .then(data => {
+                    console.log('Response:', data); // Log the response for debugging
                     if (data.success) {
                         alert('Entry deleted successfully');
                         location.reload(); // Reload the page to reflect changes
                     } else {
-                        alert('Failed to delete entry');
+                        alert('Failed to delete entry: ' + data.message);
                     }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while deleting the entry.');
                 });
             }
         }

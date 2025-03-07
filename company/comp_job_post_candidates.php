@@ -1,8 +1,17 @@
 <?php
+session_start();
 require "../includes/db_connect.php";
 
-// Fetch job listings
-$jobs = $conn->query("SELECT job_id, title FROM tbl_job_listing");
+// Check if the user is logged in as a company
+if (!isset($_SESSION['company_id'])) {
+    header("Location: ../login.php");
+    exit();
+}
+
+$company_id = $_SESSION['company_id'];
+
+// Fetch job listings posted by the logged-in company
+$jobs = $conn->query("SELECT job_id, title FROM tbl_job_listing WHERE employer_id = '$company_id'");
 
 // Fetch candidates for the selected job
 $selected_job_id = isset($_GET['job_id']) ? $_GET['job_id'] : '';
@@ -10,7 +19,7 @@ $candidates = $conn->query("SELECT DISTINCT e.firstName, e.lastName, e.emailAddr
                             FROM tbl_job_application ja 
                             JOIN tbl_employee e ON ja.emp_id = e.user_id 
                             LEFT JOIN tbl_emp_cv ec ON e.user_id = ec.emp_id 
-                            WHERE ja.job_id = '$selected_job_id'");
+                            WHERE ja.job_id = '$selected_job_id' AND ja.job_id IN (SELECT job_id FROM tbl_job_listing WHERE employer_id = '$company_id')");
 ?>
 
 <!DOCTYPE html>
@@ -60,6 +69,7 @@ $candidates = $conn->query("SELECT DISTINCT e.firstName, e.lastName, e.emailAddr
             </div>
         </div>
     </div>
+    <a href="comp_posted_jobs.php" class="btn btn-primary w-100 mt-2">Go back</a>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

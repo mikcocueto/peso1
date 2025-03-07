@@ -1,42 +1,43 @@
 <?php
-require '../db_connect.php';
 session_start();
+include '../db_connect.php';
 
 header('Content-Type: application/json');
 
-if (!isset($_SESSION['user_id'])) {
-    echo json_encode(['success' => false, 'message' => 'Unauthorized']);
-    exit;
+$response = ['success' => false];
+
+try {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $input = json_decode(file_get_contents('php://input'), true);
+
+        if (!isset($_SESSION['user_id']) || !isset($input['category']) || !isset($input['id'])) {
+            throw new Exception('Invalid request');
+        }
+
+        $user_id = $_SESSION['user_id'];
+        $category = $input['category'];
+        $id = $input['id'];
+
+        if ($category === 'careerhistory') {
+            $stmt = $conn->prepare("DELETE FROM tbl_careerhistory WHERE id = ? AND user_id = ?");
+            $stmt->bind_param('ii', $id, $user_id);
+            if ($stmt->execute()) {
+                $response['success'] = true;
+            } else {
+                throw new Exception('Failed to delete entry');
+            }
+            $stmt->close();
+        } else {
+            throw new Exception('Invalid category');
+        }
+    } else {
+        throw new Exception('Invalid request method');
+    }
+} catch (Exception $e) {
+    $response['message'] = $e->getMessage();
 }
 
-$user_id = $_SESSION['user_id'];
-$data = json_decode(file_get_contents('php://input'), true);
-$category = $data['category'];
-$id = $data['id'];
+echo json_encode($response);
 
-$table_map = [
-    'careerhistory' => 'tbl_career_history',
-    'education' => 'tbl_education',
-    'languages' => 'tbl_languages',
-    'certification' => 'tbl_certifications'
-];
-
-if (!isset($table_map[$category])) {
-    echo json_encode(['success' => false, 'message' => 'Invalid category']);
-    exit;
-}
-
-$table = $table_map[$category];
-$query = "DELETE FROM $table WHERE id = ? AND user_id = ?";
-$stmt = $conn->prepare($query);
-$stmt->bind_param('ii', $id, $user_id);
-
-if ($stmt->execute()) {
-    echo json_encode(['success' => true]);
-} else {
-    echo json_encode(['success' => false, 'message' => 'Failed to delete entry']);
-}
-
-$stmt->close();
 $conn->close();
 ?>
