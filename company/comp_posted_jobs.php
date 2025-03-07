@@ -76,6 +76,7 @@ $stmt->close();
                     <td>
                         <div class="d-flex">
                             <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#editJobModal" data-job-id="<?= $job['job_id'] ?>">Edit</button>
+                            <a href="comp_job_post_candidates.php?job_id=<?= $job['job_id'] ?>" class="btn btn-secondary me-2">View Candidates</a>
                             <select class="form-select w-50" onchange="updateJobStatus(<?= $job['job_id'] ?>, this.value)">
                                 <option value="active" <?= $job['status'] == 'active' ? 'selected' : '' ?>>Active</option>
                                 <option value="paused" <?= $job['status'] == 'paused' ? 'selected' : '' ?>>Paused</option>
