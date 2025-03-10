@@ -4,7 +4,7 @@ require "../includes/db_connect.php";
 
 // Check if the user is logged in as a company
 if (!isset($_SESSION['company_id'])) {
-    header("Location: ../login.php");
+    header("Location: comp_login.php");
     exit();
 }
 
@@ -41,6 +41,20 @@ $stmt->close();
     <title>Posted Jobs</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="../fortest/style2/style.css" rel="stylesheet">
+    <style>
+        .job-status-dropdown option[value="active"] {
+            color: green;
+        }
+        .job-status-dropdown option[value="paused"] {
+            color: yellow;
+        }
+        .job-status-dropdown option[value="inactive"] {
+            color: red;
+        }
+        .job-status-dropdown {
+            color: inherit; /* Ensure the select element inherits the color of the selected option */
+        }
+    </style>
 </head>
 <body class="bg-light">
 <div class="container mt-5">
@@ -78,9 +92,9 @@ $stmt->close();
                             <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#editJobModal" data-job-id="<?= $job['job_id'] ?>">Edit</button>
                             <a href="comp_job_post_candidates.php?job_id=<?= $job['job_id'] ?>" class="btn btn-secondary me-2">View Candidates</a>
                             <select class="form-select w-50 job-status-dropdown" data-job-id="<?= $job['job_id'] ?>" onchange="updateJobStatus(this)">
-                                <option value="active" <?= $job['status'] == 'active' ? 'selected' : '' ?>>Active</option>
-                                <option value="paused" <?= $job['status'] == 'paused' ? 'selected' : '' ?>>Paused</option>
-                                <option value="inactive" <?= $job['status'] == 'inactive' ? 'selected' : '' ?>>Inactive</option>
+                                <option value="active" <?= $job['status'] == 'active' ? 'selected' : '' ?>>● Active</option>
+                                <option value="paused" <?= $job['status'] == 'paused' ? 'selected' : '' ?>>● Paused</option>
+                                <option value="inactive" <?= $job['status'] == 'inactive' ? 'selected' : '' ?>>● Inactive</option>
                             </select>
                         </div>
                     </td>

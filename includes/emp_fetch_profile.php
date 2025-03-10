@@ -19,7 +19,7 @@ $employee = $result->fetch_assoc();
 $stmt->close();
 
 // Fetch career history
-$query = "SELECT id, job_title, company_name, start_date, end_date, still_in_role, description FROM tbl_careerhistory WHERE user_id = ?";
+$query = "SELECT id, job_title, company_name, start_date, end_date, still_in_role, description AS JDescription FROM tbl_careerhistory WHERE user_id = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();

@@ -182,7 +182,7 @@ $conn->close();
               <h1 class="text-white font-weight-bold">Public Employment Service Office</h1>
               <p>San Pablo City, Laguna.</p>
             </div>
-            <form method="post" class="search-jobs-form">
+            <form method="get" action="employee/emp_job_list.php" class="search-jobs-form">
               <div class="row mb-5">
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
                   <input type="text" class="form-control form-control-lg" name="search_title" placeholder="Job title, Company...">
@@ -197,8 +197,8 @@ $conn->close();
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
                   <select class="selectpicker" name="search_type" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select Job Type">
                     <option value="">All</option>
-                    <option value="Part Time">Part Time</option>
-                    <option value="Full Time">Full Time</option>
+                    <option value="Part-Time">Part-Time</option>
+                    <option value="Full-Time">Full-Time</option>
                     <option value="Contract">Contract</option>
                     <option value="Temporary">Temporary</option>
                     <option value="Internship">Internship</option>

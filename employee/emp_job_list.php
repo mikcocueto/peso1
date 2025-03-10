@@ -17,9 +17,9 @@ while ($row = $categories_result->fetch_assoc()) {
 }
 
 // Handle search
-$search_title = isset($_POST['search_title']) ? $_POST['search_title'] : '';
-$search_category = isset($_POST['search_category']) ? $_POST['search_category'] : [];
-$search_type = isset($_POST['search_type']) ? $_POST['search_type'] : '';
+$search_title = isset($_GET['search_title']) ? $_GET['search_title'] : '';
+$search_category = isset($_GET['search_category']) ? $_GET['search_category'] : [];
+$search_type = isset($_GET['search_type']) ? $_GET['search_type'] : '';
 
 $query = "SELECT jl.job_id, jl.title, jl.employment_type, c.companyName, c.comp_logo_dir 
           FROM tbl_job_listing jl 
@@ -164,28 +164,28 @@ $jobs = $conn->query($query);
 <div class="container">
     <div class="row align-items-center justify-content-center">
         <div class="col-md-12 col-lg-10">
-            <form method="post" class="search-jobs-form">
+            <form method="get" class="search-jobs-form">
                 <div class="row mb-5">
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                        <input type="text" class="form-control form-control-lg" name="search_title" placeholder="Job title, Company...">
+                        <input type="text" class="form-control form-control-lg" name="search_title" placeholder="Job title, Company..." value="<?= htmlspecialchars($search_title) ?>">
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
                         <select class="selectpicker form-control form-control-lg" name="search_category[]" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select Category" multiple>
                             <option disabled>Select Category</option>
                             <?php foreach ($categories as $category): ?>
-                                <option value="<?php echo $category['category_id']; ?>"><?php echo $category['category_name']; ?></option>
+                                <option value="<?php echo $category['category_id']; ?>" <?php echo in_array($category['category_id'], $search_category) ? 'selected' : ''; ?>><?php echo $category['category_name']; ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
                         <select class="selectpicker form-control form-control-lg" name="search_type" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select Job Type">
                             <option disabled>Select Job Type</option>
-                            <option value="">All</option>
-                            <option value="Part Time">Part Time</option>
-                            <option value="Full Time">Full Time</option>
-                            <option value="Contract">Contract</option>
-                            <option value="Temporary">Temporary</option>
-                            <option value="Internship">Internship</option>
+                            <option value="" <?php echo $search_type == '' ? 'selected' : ''; ?>>All</option>
+                            <option value="Part-Time" <?php echo $search_type == 'Part-Time' ? 'selected' : ''; ?>>Part-Time</option>
+                            <option value="Full-Time" <?php echo $search_type == 'Full-Time' ? 'selected' : ''; ?>>Full-Time</option>
+                            <option value="Contract" <?php echo $search_type == 'Contract' ? 'selected' : ''; ?>>Contract</option>
+                            <option value="Temporary" <?php echo $search_type == 'Temporary' ? 'selected' : ''; ?>>Temporary</option>
+                            <option value="Internship" <?php echo $search_type == 'Internship' ? 'selected' : ''; ?>>Internship</option>
                         </select>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
@@ -229,6 +229,9 @@ $jobs = $conn->query($query);
         </div>
     </div>
 </div>
+
+<a href="../index.php" class="btn btn-primary w-100 mt-2">Index</a>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"></script>
 <script src="../fortest/js/jquery.min.js"></script>
