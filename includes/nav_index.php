@@ -53,7 +53,7 @@ if (isset($_SESSION['user_id'])) {
                   <li><a href="gallery.html">Gallery</a></li>
                 </ul>
               </li>
-              <li><a href="blog.html">Blog</a></li>
+              
               <li><a href="contact.html">Contact</a></li>
               <?php if (isset($_SESSION['user_id'])): ?>
               <li class="d-lg-none has-children">

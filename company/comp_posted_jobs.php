@@ -77,7 +77,7 @@ $stmt->close();
                         <div class="d-flex">
                             <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#editJobModal" data-job-id="<?= $job['job_id'] ?>">Edit</button>
                             <a href="comp_job_post_candidates.php?job_id=<?= $job['job_id'] ?>" class="btn btn-secondary me-2">View Candidates</a>
-                            <select class="form-select w-50" onchange="updateJobStatus(<?= $job['job_id'] ?>, this.value)">
+                            <select class="form-select w-50 job-status-dropdown" data-job-id="<?= $job['job_id'] ?>" onchange="updateJobStatus(this)">
                                 <option value="active" <?= $job['status'] == 'active' ? 'selected' : '' ?>>Active</option>
                                 <option value="paused" <?= $job['status'] == 'paused' ? 'selected' : '' ?>>Paused</option>
                                 <option value="inactive" <?= $job['status'] == 'inactive' ? 'selected' : '' ?>>Inactive</option>
@@ -218,7 +218,10 @@ $stmt->close();
         });
     });
 
-    function updateJobStatus(jobId, status) {
+    function updateJobStatus(selectElement) {
+        var jobId = $(selectElement).data('job-id');
+        var status = $(selectElement).val();
+
         $.ajax({
             url: '../includes/company/comp_update_job_status.php',
             type: 'POST',

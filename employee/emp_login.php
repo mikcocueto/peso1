@@ -120,13 +120,13 @@ $conn->close();
               </div>
               <ul class="auth-footer">
                 <li>
-                  <a href="#">Conditions</a>
+                  <a href="../index.php">Home</a>
                 </li>
                 <li>
-                  <a href="#">Help</a>
+                  <a href="#">txt</a>
                 </li>
                 <li>
-                  <a href="#">Terms</a>
+                  <a href="#">txt</a>
                 </li>
               </ul>
               <p class="footer-text text-center">Copyright © 2025 Public Employment Service Office. All rights reserved.</p>

@@ -72,8 +72,8 @@ $conn->close();
                     <a href="../index.php">
                         <img src="../fortest/images/peso_icons.png" alt="PESO Logo" style="height: 150px;">
                         <div style="display: inline-block; vertical-align: middle; margin-left: 10px;">
-                            <div>PESO</div>
-                            <div>Job Hiring</div>
+                            <div style="color: #6267FF; font-family: Impact,serif;">PESO</div>
+                            <div style="color: #6267FF; padding-left: 30px; font-family: Impact,serif;">Job Hiring</div>
                         </div>
                     </a>
                 </div>

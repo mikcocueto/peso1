@@ -223,7 +223,7 @@ $conn->close();
     <!-- job preview -->
     <section class="site-section">
       <div class="container">
-        <h2 class="text-center mb-4">Current Job Listings</h2>
+        <h2 class="text-center mb-4">Recent Job Listings</h2>
         <div class="row" style="max-height: 400px; overflow-y: auto;">
           <?php while ($job = $jobs->fetch_assoc()): ?>
             <div class="col-md-6">
@@ -300,11 +300,24 @@ $conn->close();
         </div>
       </div>
     </section>
-        
-    
 
-    <section class="site-section">
-      
+    <section id="about" class="site-section py-4 flex justify-center items-center min-h-screen">
+    <div class="container bg-light p-5 d-flex flex-column flex-md-row align-items-center">
+        <div class="col-md-6 mb-4 mb-md-0">
+            <h1 class="display-4 font-weight-bold mb-3">ABOUT US</h1>
+            <p style="color: #333; class=text-muted mb-3">Lorem ipsum dolor sit amet, consectetur adipiscing</p>
+            <p style="color: #333; class=text-muted mb-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <a href="https://owwamember.com/peso-public-employment-service-office/" target="_blank" class="btn btn-dark mb-3">Read More</a>
+            <div class="d-flex">
+                <a class="text-danger mr-3" href="#"><i class="fab fa-facebook-f"></i></a>
+                <a class="text-danger mr-3" href="#"><i class="fab fa-twitter"></i></a>
+                <a class="text-danger" href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <img src="fortest/images/PESO_about1.png" class="img-fluid" alt="Peso logo">
+        </div>
+    </div>
     </section>
 
     <section class="py-5 bg-image overlay-primary fixed overlay" style="background-image: url('fortest/images/hero_1.jpg');">
@@ -344,24 +357,7 @@ $conn->close();
         </div>
     </div>
     </section>
-    <section id="about" class="site-section py-4 flex justify-center items-center min-h-screen">
-    <div class="container bg-light p-5 d-flex flex-column flex-md-row align-items-center">
-        <div class="col-md-6 mb-4 mb-md-0">
-            <h1 class="display-4 font-weight-bold mb-3">ABOUT US</h1>
-            <p class="text-muted mb-3">Lorem ipsum dolor sit amet, consectetur adipiscing</p>
-            <p class="text-muted mb-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-            <a href="https://owwamember.com/peso-public-employment-service-office/" target="_blank" class="btn btn-dark mb-3">Read More</a>
-            <div class="d-flex">
-                <a class="text-danger mr-3" href="#"><i class="fab fa-facebook-f"></i></a>
-                <a class="text-danger mr-3" href="#"><i class="fab fa-twitter"></i></a>
-                <a class="text-danger" href="#"><i class="fab fa-instagram"></i></a>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <img src="fortest/images/PESO_about1.png" class="img-fluid" alt="Peso logo">
-        </div>
-    </div>
-    </section>
+    
     <section id="Blogs" class="bg-light pt-5 Announcement">
       <div class="container">
         <h2>Our Blogs</h2>
