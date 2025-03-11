@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $hashedPassword = password_hash($password . $salt, PASSWORD_BCRYPT);
 
             // Insert Company Details into `tbl_company`
-            $stmt1 = $conn->prepare("INSERT INTO tbl_company (firstName, lastName, country, companyNumber) VALUES (?, ?, ?, ?)");
+            $stmt1 = $conn->prepare("INSERT INTO tbl_company (firstName, lastName, country, companyNumber, create_time) VALUES (?, ?, ?, ?, NOW())");
             $stmt1->bind_param("ssss", $firstName, $lastName, $country, $companyNumber);
 
             if ($stmt1->execute()) {

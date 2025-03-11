@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 07, 2025 at 09:04 AM
+-- Generation Time: Mar 11, 2025 at 02:45 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -65,8 +65,6 @@ CREATE TABLE `tbl_careerhistory` (
 
 INSERT INTO `tbl_careerhistory` (`id`, `user_id`, `job_title`, `company_name`, `start_date`, `end_date`, `still_in_role`, `description`) VALUES
 (2, 12, 'OJT', 'miso', '2025-02-01', '0000-00-00', 1, 'now'),
-(4, 12, 'jsjasghjg', '834hgh34g', '2025-02-01', '0000-00-00', NULL, ''),
-(5, 12, 'jsjasghjg', '834hghhhhh34g', '2025-01-01', '0000-00-00', NULL, ''),
 (6, 13, 'jsjasghjg', '834hghhhhh34g', '2024-01-13', '0000-00-00', 1, 'kapeaddd'),
 (7, 13, 'ggg', '546545', '2025-02-13', '0000-00-00', 1, ''),
 (8, 13, 'uu', 'ii', '2025-02-01', '0000-00-00', NULL, ''),
@@ -110,21 +108,23 @@ CREATE TABLE `tbl_company` (
   `companyName` varchar(255) NOT NULL,
   `country` varchar(255) NOT NULL,
   `companyNumber` int(11) NOT NULL,
-  `comp_logo_dir` varchar(255) NOT NULL
+  `create_time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `comp_logo_dir` varchar(255) NOT NULL,
+  `comp_verification_status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tbl_company`
 --
 
-INSERT INTO `tbl_company` (`company_id`, `firstName`, `lastName`, `companyName`, `country`, `companyNumber`, `comp_logo_dir`) VALUES
-(1, '', '', 'adeson', '', 0, ''),
-(2, '', '', 'adeson', '', 0, ''),
-(3, '', '', 'adeson', '', 0, ''),
-(4, '', '', 'adeson', '', 0, ''),
-(5, 'ade', 'son', '', 'Philippines', 0, ''),
-(6, 'shan', 'shan', 'adeson', 'Philippines', 123456789, '../db/images/company/logo/dole logo.png'),
-(7, 'q', 'q', 'q', 'q', 1, '../db/images/company/logo/abstract-logo-design-for-any-corporate-brand-business-company-vector.jpg');
+INSERT INTO `tbl_company` (`company_id`, `firstName`, `lastName`, `companyName`, `country`, `companyNumber`, `create_time`, `comp_logo_dir`, `comp_verification_status`) VALUES
+(1, '', '', 'adeson', '', 0, '2025-03-11 01:42:08', '', 0),
+(2, '', '', 'adeson', '', 0, '2025-03-11 01:42:08', '', 0),
+(3, '', '', 'adeson', '', 0, '2025-03-11 01:42:08', '', 0),
+(4, '', '', 'adeson', '', 0, '2025-03-11 01:42:08', '', 0),
+(5, 'ade', 'son', '', 'Philippines', 0, '2025-03-11 01:42:08', '', 0),
+(6, 'shan', 'shan', 'adeson', 'Philippines', 123456789, '2025-03-11 01:42:08', '../db/images/company/logo/dole logo.png', 0),
+(7, 'q', 'q', 'q', 'q', 1, '2025-03-11 01:42:08', '../db/images/company/logo/abstract-logo-design-for-any-corporate-brand-business-company-vector.jpg', 0);
 
 -- --------------------------------------------------------
 
@@ -315,7 +315,7 @@ CREATE TABLE `tbl_job_listing` (
 INSERT INTO `tbl_job_listing` (`job_id`, `employer_id`, `title`, `description`, `requirements`, `employment_type`, `location`, `salary_min`, `salary_max`, `currency`, `category_id`, `posted_date`, `expiry_date`, `status`) VALUES
 (1, 7, 'ttest', 'dtest', 'rtest', 'Full-time', 'spc', 1.00, 2.00, 'php', 1, '2025-02-16 16:00:00', '2025-02-16 16:00:00', 'active'),
 (2, 7, 'test2 title', 'test2 desc', 'test2 reqs', 'Internship', 'test2 loc', 122.00, 123.00, 'ddd', 1, '2025-02-16 16:00:00', '2025-02-27 16:00:00', 'active'),
-(3, 6, 'wala22222222222', 'non', '89 yrs xp', 'Full-Time', '3', 300.00, 350.00, 'phps', 4, '2025-02-18 16:00:00', '2025-02-26 16:00:00', 'active'),
+(3, 6, 'wala22222222222', 'non', '89 yrs xp', 'Full-Time', '3', 300.00, 350.00, 'phps', 4, '2025-02-18 16:00:00', '2025-02-26 16:00:00', 'inactive'),
 (4, 6, 'job 4', 'geng geng', 'madami frfr', 'Internship', '4', 4.00, 4.00, '4', 3, '2025-02-18 16:00:00', '2025-02-16 16:00:00', 'active'),
 (5, 6, 'poso negro', '5 cent', '5tyrrrrrrrrrrr', 'Contract', 'dito', 5.00, 5.00, '$', 4, '2025-02-18 16:00:00', '2025-02-17 16:00:00', 'active'),
 (7, 6, 'IT professional', 'magaling it', 'it maalam', 'Full time', 'san pablo', 12.00, 120.00, 'php', 4, '2025-02-18 16:00:00', '2025-02-25 16:00:00', 'active');
@@ -416,37 +416,6 @@ INSERT INTO `tbl_loginuser` (`id`, `user_id`, `emailAddress`, `password`, `salt`
 (14, 15, 'q@gmail.com', '$2y$10$bjfjhWI0opTVQy7FnWki8.TS15bneUmQFWnnARkSspDC3BpgaFl2W', '6f6429bb85ba085f101e84969eb8ef6d'),
 (15, 16, 'new@gmail.com', '$2y$10$aUnIVI9vPQdaeVcH5XFCSe93uu8PFE4U43tM0d8DGYRCk7vis.eWC', 'a5562417cf7f5a2a0bafad3075671d15'),
 (16, 17, 'shan@gmail.com', '$2y$10$Lif.hyGIzgj1m/3JuNnKAue7fMZwXCNFShE50dPIrHZj2JE7D2lN2', '88f1714cbeab414b76dced3a7d3a9f7d');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tbl_log_comp_reg`
---
-
-CREATE TABLE `tbl_log_comp_reg` (
-  `id` int(11) NOT NULL,
-  `comp_id` int(11) NOT NULL,
-  `comp_reg_time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tbl_log_emp_reg`
---
-
-CREATE TABLE `tbl_log_emp_reg` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `emp_reg_time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tbl_log_emp_reg`
---
-
-INSERT INTO `tbl_log_emp_reg` (`id`, `user_id`, `emp_reg_time`) VALUES
-(1, 16, '2025-02-24 06:25:21');
 
 -- --------------------------------------------------------
 
@@ -576,18 +545,6 @@ ALTER TABLE `tbl_loginuser`
   ADD KEY `idlogin` (`user_id`);
 
 --
--- Indexes for table `tbl_log_comp_reg`
---
-ALTER TABLE `tbl_log_comp_reg`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `tbl_log_emp_reg`
---
-ALTER TABLE `tbl_log_emp_reg`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `tbl_resume`
 --
 ALTER TABLE `tbl_resume`
@@ -693,18 +650,6 @@ ALTER TABLE `tbl_logincompany`
 --
 ALTER TABLE `tbl_loginuser`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
-
---
--- AUTO_INCREMENT for table `tbl_log_comp_reg`
---
-ALTER TABLE `tbl_log_comp_reg`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `tbl_log_emp_reg`
---
-ALTER TABLE `tbl_log_emp_reg`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_resume`
