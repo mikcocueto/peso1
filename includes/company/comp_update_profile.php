@@ -1,6 +1,6 @@
 <?php
 session_start(); // Start the session
-include __DIR__ . '../db_connect.php'; // Include database connection
+require "../db_connect.php"; // Database connection
 
 // Check if the company is logged in and category is set
 if (!isset($_SESSION['company_id']) || !isset($_POST['category'])) {
@@ -31,14 +31,14 @@ foreach ($fields as $field) {
 }
 
 if (!empty($_FILES['comp_logo']['name'])) {
-    $target_dir = "../../db/images/company/logo/";
+    $target_dir = "db/images/company/logo/"; // Adjusted path
     $target_file = $target_dir . basename($_FILES["comp_logo"]["name"]);
     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
     $check = getimagesize($_FILES["comp_logo"]["tmp_name"]);
     if ($check !== false) {
-        if (move_uploaded_file($_FILES["comp_logo"]["tmp_name"], $target_file)) {
+        if (move_uploaded_file($_FILES["comp_logo"]["tmp_name"], "../../" . $target_file)) { // Adjusted path
             $update_fields[] = "comp_logo_dir = ?";
-            $update_values[] = $target_file;
+            $update_values[] = "../" . $target_file; // Adjusted path
         } else {
             $_SESSION['error_message'] = "Failed to upload logo.";
             header("Location: ../../company/comp_dashboard.php");
