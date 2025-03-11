@@ -34,12 +34,12 @@
 
     <!-- Sign Up Form -->
     <div class="form-container sign-up">
-      <form>
+      <form action="emp_complete_job_profile.php" method="POST">
         <h1 style="padding: 20px 0;">Create Account</h1>
         <input type="email" placeholder="Email" />
         <input type="password" placeholder="Password" />
         <input type="password" placeholder="Confirm Password" />
-        <button>Sign Up</button>
+        <button type="submit">Sign Up</button>
         <span>or use your email for registration</span>
         <div class="social-icons">
           <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
@@ -66,7 +66,6 @@
     </div>
   </div>
 
-  <scrijs"></script>
   <script>
    document.addEventListener("DOMContentLoaded", function () {
     const container = document.getElementById("container");
