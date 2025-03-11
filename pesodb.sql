@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 11, 2025 at 02:45 AM
+-- Generation Time: Mar 11, 2025 at 03:39 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -110,21 +110,33 @@ CREATE TABLE `tbl_company` (
   `companyNumber` int(11) NOT NULL,
   `create_time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `comp_logo_dir` varchar(255) NOT NULL,
-  `comp_verification_status` tinyint(1) NOT NULL
+  `company_verified` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tbl_company`
 --
 
-INSERT INTO `tbl_company` (`company_id`, `firstName`, `lastName`, `companyName`, `country`, `companyNumber`, `create_time`, `comp_logo_dir`, `comp_verification_status`) VALUES
-(1, '', '', 'adeson', '', 0, '2025-03-11 01:42:08', '', 0),
-(2, '', '', 'adeson', '', 0, '2025-03-11 01:42:08', '', 0),
-(3, '', '', 'adeson', '', 0, '2025-03-11 01:42:08', '', 0),
+INSERT INTO `tbl_company` (`company_id`, `firstName`, `lastName`, `companyName`, `country`, `companyNumber`, `create_time`, `comp_logo_dir`, `company_verified`) VALUES
 (4, '', '', 'adeson', '', 0, '2025-03-11 01:42:08', '', 0),
 (5, 'ade', 'son', '', 'Philippines', 0, '2025-03-11 01:42:08', '', 0),
 (6, 'shan', 'shan', 'adeson', 'Philippines', 123456789, '2025-03-11 01:42:08', '../db/images/company/logo/dole logo.png', 0),
-(7, 'q', 'q', 'q', 'q', 1, '2025-03-11 01:42:08', '../db/images/company/logo/abstract-logo-design-for-any-corporate-brand-business-company-vector.jpg', 0);
+(7, 'q', 'q', 'q', 'q', 1, '2025-03-11 01:42:08', '../db/images/company/logo/abstract-logo-design-for-any-corporate-brand-business-company-vector.jpg', 0),
+(8, 'Joshua', 'Lita', '', 'Ph', 1, '2025-03-11 02:04:58', '', 0),
+(9, 'Mikco', 'Cueto', '', 'Philippines', 1, '2025-03-11 02:06:11', '', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_comp_verification`
+--
+
+CREATE TABLE `tbl_comp_verification` (
+  `id` int(11) NOT NULL,
+  `comp_id` int(11) NOT NULL,
+  `status` varchar(32) NOT NULL DEFAULT 'pending',
+  `dir_business_permit` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -387,7 +399,9 @@ INSERT INTO `tbl_logincompany` (`id`, `company_id`, `emailAddress`, `password`, 
 (1, 4, 'adeson@gmail.com', '$2y$10$h3vdK7cpQwMQJdw8QJMgD.UtjDbuwtkN9UY2iRVkhBnMELZTZ4aRi', '3d1a64c872938f48146fb600ec96c78c'),
 (2, 5, 'adeson1@gmail.com', '$2y$10$/Cjt4cyNfgBbl3IatSK.xuoakBt327e1uJkMdic6xPAJD252LGqMW', 'a25c966579687b597ef4cd0e1f804918'),
 (3, 6, 'shan@gmail.com', '$2y$10$wq4sgzuIPXJLHDsbMjbk6eQYFd.BhXnXVo3i9hqh/M.NQWfVL6ev.', '999312668b481428a3b67a6cb281c90d'),
-(4, 7, 'q@gmail.com', '$2y$10$78acVWX/E7FaN6Id1y4FQurGB4ahoafy2zZBjnu95AYVpRsowiwa6', '881a3819116611b7de23d30d93f45960');
+(4, 7, 'q@gmail.com', '$2y$10$78acVWX/E7FaN6Id1y4FQurGB4ahoafy2zZBjnu95AYVpRsowiwa6', '881a3819116611b7de23d30d93f45960'),
+(5, 8, 'lita@gmail.com', '$2y$10$M3GO6eXNLAqlRBMDn93IlOmRS59jR.4TrAjWf00.FXOW5XtpzybVO', '4570a471cd8c900d28a2a448eace6fcd'),
+(6, 9, 'cueto@gmail.com', '$2y$10$aSs8vP.dO6Zb3JneONUHJuExXRZpbr9Njz19XsjfSGpJKvaqlz.rO', 'e6553904a0aa34a6d56674835a8874bf');
 
 -- --------------------------------------------------------
 
@@ -458,6 +472,13 @@ ALTER TABLE `tbl_certification`
 --
 ALTER TABLE `tbl_company`
   ADD PRIMARY KEY (`company_id`);
+
+--
+-- Indexes for table `tbl_comp_verification`
+--
+ALTER TABLE `tbl_comp_verification`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `company_verID` (`comp_id`);
 
 --
 -- Indexes for table `tbl_educback`
@@ -577,7 +598,13 @@ ALTER TABLE `tbl_certification`
 -- AUTO_INCREMENT for table `tbl_company`
 --
 ALTER TABLE `tbl_company`
-  MODIFY `company_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `company_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `tbl_comp_verification`
+--
+ALTER TABLE `tbl_comp_verification`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_educback`
@@ -643,7 +670,7 @@ ALTER TABLE `tbl_loginadmin`
 -- AUTO_INCREMENT for table `tbl_logincompany`
 --
 ALTER TABLE `tbl_logincompany`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tbl_loginuser`
@@ -672,6 +699,12 @@ ALTER TABLE `tbl_careerhistory`
 --
 ALTER TABLE `tbl_certification`
   ADD CONSTRAINT `idcert` FOREIGN KEY (`user_id`) REFERENCES `tbl_employee` (`user_id`);
+
+--
+-- Constraints for table `tbl_comp_verification`
+--
+ALTER TABLE `tbl_comp_verification`
+  ADD CONSTRAINT `company_verID` FOREIGN KEY (`comp_id`) REFERENCES `tbl_company` (`company_id`);
 
 --
 -- Constraints for table `tbl_educback`
