@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "../includes/db_connect.php"; // Changed from config.php to db_connect.php
+include "../db_connect.php"; // Changed from config.php to db_connect.php
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $emailAddress = $_POST["emailAddress"];
@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt = $conn->prepare("SELECT admin_id, password FROM tbl_loginadmin WHERE emailAddress = ?");
     if ($stmt === false) {
         error_log("Prepare failed: " . $conn->error);
-        header("Location: admin_login.php?error=Database error");
+        header("Location: ../../admin/admin_login.php?error=Database error");
         exit();
     }
 
@@ -34,18 +34,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Debugging: Password verified
             error_log("Password verified successfully");
             $_SESSION["admin_id"] = $admin_id;
-            header("Location: admin_dashboard.php");
+            header("Location: ../../admin/admin_dashboard.php");
             exit();
         } else {
             // Debugging: Invalid password
             error_log("Invalid password");
-            header("Location: admin_login.php?error=Invalid password");
+            header("Location: ../../admin/admin_login.php?error=Invalid password");
             exit();
         }
     } else {
         // Debugging: Invalid email address
         error_log("Invalid email address");
-        header("Location: admin_login.php?error=Invalid email address");
+        header("Location: ../../admin/admin_login.php?error=Invalid email address");
         exit();
     }
 

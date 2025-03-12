@@ -104,10 +104,10 @@ $conn->close();
                         <strong class="text-dark"><?= htmlspecialchars($firstName) . ' ' . htmlspecialchars($lastName) ?></strong>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><a class="dropdown-item"  href="admin_verify_company.php">Profile</a></li>
                         <li><a class="dropdown-item" href="#">Settings</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="admin_logout.php">Sign out</a></li>
+                        <li><a class="dropdown-item" href="../includes/admin/admin_logout.php">Sign out</a></li>
                     </ul>
                 </div>
             </div>
@@ -268,7 +268,7 @@ $conn->close();
                 </a>
             </li>
             <li class="nav-item mb-2">
-                <a class="nav-link text-white" href="#">
+                <a class="nav-link text-white">
                     <i class="fas fa-users mr-2"></i> Candidates
                 </a>
             </li>

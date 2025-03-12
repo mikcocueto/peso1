@@ -28,7 +28,7 @@ if (isset($_SESSION['admin_id'])) {
                     <?php if (isset($_GET['error'])): ?>
                         <div class="alert alert-danger"><?php echo $_GET['error']; ?></div>
                     <?php endif; ?>
-                    <form action="admin_auth.php" method="POST">
+                    <form action="../includes/admin/admin_auth.php" method="POST">
                         <div class="mb-3">
                             <label for="emailAddress" class="form-label">Email Address</label>
                             <input type="email" class="form-control" name="emailAddress" required>
