@@ -10,14 +10,27 @@
         .form-step { display: none; }
         .form-step-active { display: block; }
         .progress-bar { width: 0; transition: width 0.4s; }
+        
+        .container1, .card, .card-body {
+            width: 100%;
+            margin: 0 auto;
+            max-width: 48rem; /* 768px */
+            border-radius: 0.9375rem; /* 15px */
+            box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1); /* 4px 8px */
+        }
+
+        @media (max-width: 767px) {
+            .container1 {
+                max-width: 90%;
+                margin-top: 1rem; /* 16px */
+            }
+        }
     </style>
 </head>
 <body>
-<div class="container mt-5">
+<div class="container1 mt-5">
     <div class="card">
-        <div class="card-header">
-            <h4>Complete Job Profile</h4>
-        </div>
+        <div class="card-header text-center bg-primary text-white">Complete Job Profile</div>
         <div class="card-body">
             <div class="progress mb-4">
                 <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
@@ -55,7 +68,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Highest Level of Education</label>
-                        <select class="form-control" name="highest_education" required>
+                        <select class="form-control" name="highest education" required>
                             <option value="">Select Education Level</option>
                             <option value="High School">High School</option>
                             <option value="Vocational / Technical Certification">Vocational / Technical Certification</option>
@@ -91,29 +104,7 @@
                             <option value="Media & Entertainment">Media & Entertainment</option>
                             <option value="Government & Public Administration">Government & Public Administration</option>
                             <option value="Non-Profit & NGOs">Non-Profit & NGOs</option>
-                            <option value="Real Estate & Property Management">Real Estate & Property Management</option>
-                            <option value="Agriculture & Farming">Agriculture & Farming</option>
-                            <option value="Telecommunications">Telecommunications</option>
-                            <option value="Pharmaceuticals & Biotechnology">Pharmaceuticals & Biotechnology</option>
-                            <option value="Energy & Utilities">Energy & Utilities</option>
-                            <option value="Aerospace & Defense">Aerospace & Defense</option>
-                            <option value="Automotive Industry">Automotive Industry</option>
-                            <option value="Fashion & Apparel">Fashion & Apparel</option>
-                            <option value="Food & Beverage">Food & Beverage</option>
-                            <option value="E-commerce & Online Business">E-commerce & Online Business</option>
-                            <option value="Sports & Fitness">Sports & Fitness</option>
-                            <option value="Consulting & Business Services">Consulting & Business Services</option>
-                            <option value="Art & Design">Art & Design</option>
-                            <option value="Environmental & Sustainability">Environmental & Sustainability</option>
                         </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Skills</label>
-                        <input type="text" class="form-control" name="skills" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Certifications</label>
-                        <input type="text" class="form-control" name="certifications">
                     </div>
                     <button type="button" class="btn btn-secondary btn-prev">Previous</button>
                     <button type="button" class="btn btn-primary btn-next">Next</button>
@@ -122,17 +113,17 @@
                 <div class="form-step">
                     <div class="mb-3">
                         <label class="form-label">Job Type</label>
-                        <select class="form-control" name="jobType" required>
-                            <option value="">Select Job Type</option>
-                            <option value="Full-time">Full-time</option>
-                            <option value="Part-time">Part-time</option>
-                            <option value="Contract">Contract</option>
-                        </select>
+                            <select class="form-control" name="jobType" required>
+                                <option value="">Select Job Type</option>
+                                <option value="Full-time">Full-time</option>
+                                <option value="Part-time">Part-time</option>
+                                <option value="Contract">Contract</option>
+                            </select>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Preferred Location</label>
                         <input type="text" class="form-control" name="location" required>
-                    </div>
+                        </div>
                     <button type="button" class="btn btn-secondary btn-prev">Previous</button>
                     <button type="submit" class="btn btn-success">Submit</button>
                 </div>
@@ -140,34 +131,33 @@
         </div>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>
-    $(document).ready(function() {
-        const formSteps = $('.form-step');
+    document.addEventListener("DOMContentLoaded", function() {
+        const formSteps = document.querySelectorAll(".form-step");
         let currentStep = 0;
 
         function updateProgressBar() {
             const progress = ((currentStep + 1) / formSteps.length) * 100;
-            $('.progress-bar').css('width', progress + '%');
+            document.querySelector(".progress-bar").style.width = progress + "%";
         }
 
-        $('.btn-next').click(function() {
+        document.querySelectorAll(".btn-next").forEach(button => button.addEventListener("click", function() {
             if (currentStep < formSteps.length - 1) {
-                $(formSteps[currentStep]).removeClass('form-step-active');
+                formSteps[currentStep].classList.remove("form-step-active");
                 currentStep++;
-                $(formSteps[currentStep]).addClass('form-step-active');
+                formSteps[currentStep].classList.add("form-step-active");
                 updateProgressBar();
             }
-        });
+        }));
 
-        $('.btn-prev').click(function() {
+        document.querySelectorAll(".btn-prev").forEach(button => button.addEventListener("click", function() {
             if (currentStep > 0) {
-                $(formSteps[currentStep]).removeClass('form-step-active');
+                formSteps[currentStep].classList.remove("form-step-active");
                 currentStep--;
-                $(formSteps[currentStep]).addClass('form-step-active');
+                formSteps[currentStep].classList.add("form-step-active");
                 updateProgressBar();
             }
-        });
+        }));
 
         updateProgressBar();
     });

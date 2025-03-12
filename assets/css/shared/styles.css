@@ -19,45 +19,45 @@ body {
 
 .container {
     background-color: rgba(201, 214, 255, 0.8); /* Make background transparent */
-    border-radius: 30px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+    border-radius: 1.875rem; /* 30px */
+    box-shadow: 0 0.3125rem 0.9375rem rgba(0, 0, 0, 0.35); /* 5px 15px */
     position: relative;
     overflow: hidden;
-    width: 768px;
+    width: 48rem; /* 768px */
     max-width: 100%;
-    min-height: 480px;
+    min-height: 30rem; /* 480px */
 }
 
 .container p {
-    font-size: 14px;
-    line-height: 20px;
-    letter-spacing: 0.3px;
-    margin: 20px 0;
+    font-size: 0.875rem; /* 14px */
+    line-height: 1.25rem; /* 20px */
+    letter-spacing: 0.01875rem; /* 0.3px */
+    margin: 1.25rem 0; /* 20px */
 }
 
 .container span {
-    padding-top: 20px;
-    font-size: 12px;
+    padding-top: 1.25rem; /* 20px */
+    font-size: 0.75rem; /* 12px */
 }
 
 .container a {
     color: #333;
-    font-size: 13px;
+    font-size: 0.8125rem; /* 13px */
     text-decoration: none;
-    margin: 15px 0 10px;
+    margin: 0.9375rem 0 0.625rem; /* 15px 0 10px */
 }
 
 .container button {
     background-color: #2da0a8;
     color: #fff;
-    font-size: 12px;
-    padding: 10px 45px;
+    font-size: 0.75rem; /* 12px */
+    padding: 0.625rem 2.8125rem; /* 10px 45px */
     border: 1px solid transparent;
-    border-radius: 8px;
+    border-radius: 0.5rem; /* 8px */
     font-weight: 600;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.03125rem; /* 0.5px */
     text-transform: uppercase;
-    margin-top: 10px;
+    margin-top: 0.625rem; /* 10px */
     cursor: pointer;
 }
 
@@ -72,18 +72,18 @@ body {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    padding: 0 40px;
+    padding: 0 2.5rem; /* 40px */
     height: 100%;
-    border-radius: 20px;
+    border-radius: 1.25rem; /* 20px */
 }
 
 .container input {
     background-color: #eee;
     border: none;
-    margin: 8px 0;
-    padding: 10px 15px;
-    font-size: 13px;
-    border-radius: 8px;
+    margin: 0.5rem 0; /* 8px */
+    padding: 0.625rem 0.9375rem; /* 10px 15px */
+    font-size: 0.8125rem; /* 13px */
+    border-radius: 0.5rem; /* 8px */
     width: 100%;
     outline: none;
 }
@@ -131,7 +131,7 @@ body {
 }
 
 .social-icons {
-    margin: 20px 0;
+    margin: 1.25rem 0; /* 20px */
 }
 
 .social-icons a {
@@ -140,9 +140,9 @@ body {
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    margin: 0 3px;
-    width: 40px;
-    height: 40px;
+    margin: 0 0.1875rem; /* 3px */
+    width: 2.5rem; /* 40px */
+    height: 2.5rem; /* 40px */
 }
 
 .toggle-container {
@@ -187,7 +187,7 @@ body {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    padding: 0 30px;
+    padding: 0 1.875rem; /* 30px */
     text-align: center;
     top: 0;
     transform: translateX(0);
@@ -234,7 +234,8 @@ body {
         z-index: 1;
         transform: translateX(0);
         transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-        margin-left: 40px; /* Add left margin */
+        margin-left: 2.5rem; /* 40px */
+        padding-right: 4.5rem; /* Add padding to the right */
     }
 
     .toggle-container {
@@ -256,7 +257,7 @@ body {
     @keyframes fadeSlideIn {
         from {
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(1.25rem); /* 20px */
         }
         to {
             opacity: 1;
@@ -274,15 +275,36 @@ body {
 }
 
 /* Additional CSS for Complete Job Profile page */
+.container1 {
+    border-radius: 0.9375rem; /* 15px */
+    position: relative;
+    overflow: hidden;
+    width: 48rem; /* 768px */
+    max-width: 40%;
+    height: 100vh;
+    min-height: 11.25rem; /* 180px */
+    margin-top: 1.25rem; /* 20px */
+}
+.container1 input {
+    background-color: #eee;
+    border: none;
+    margin: 0.5rem 0; /* 8px */
+    padding: 0.625rem 0.9375rem; /* 10px 15px */
+    font-size: 0.8125rem; /* 13px */
+    border-radius: 0.5rem; /* 8px */
+    width: 100%;
+    outline: none;
+}
+
 .card {
-    border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 0.9375rem; /* 15px */
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1); /* 4px 8px */
 }
 
 .card-header {
     background-color: #2da0a8;
     color: #fff;
-    border-radius: 15px 15px 0 0;
+    border-radius: 0.9375rem 0.9375rem 0 0; /* 15px 15px 0 0 */
     text-align: center;
     font-size: 1.5rem;
     font-weight: 600;
@@ -293,13 +315,13 @@ body {
 }
 
 .progress {
-    height: 20px;
-    border-radius: 10px;
+    height: 1.25rem; /* 20px */
+    border-radius: 0.625rem; /* 10px */
 }
 
 .progress-bar {
     background-color: #5c6bc0;
-    border-radius: 10px;
+    border-radius: 0.625rem; /* 10px */
 }
 
 .btn-primary {
