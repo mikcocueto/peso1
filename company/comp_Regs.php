@@ -11,20 +11,22 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color:rgba(201, 214, 255, 0.8);
-            background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+            background-image: url('../fortest/images/SPC_old_city_hall.jpg'); /* Ensure the correct file extension */
+            background-size: cover;
+            background-position: center;
+            background-color: #e2e2e2; /* Fallback background color */
             flex-direction: column;
         }
-        .navbar {
+        .navbar { 
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            background-color: #6267FF; /* Changed background color to blue */
+            /*background-color: #6267FF; /* Changed background color to blue */
             padding: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            /*box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);*/
             z-index: 1000;
-            display: flex;
+            display: flex; 
             align-items: center; /* Align items vertically */
         }
         .navbar .navbar-brand {
@@ -34,9 +36,12 @@
         .navbar .navbar-brand img {
             margin-right: 10px; /* Add space beside logo */
         }
+        .navbar span {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add shadow */
+        }
         .container {
             max-width: 500px;
-            margin-top: 300px; /* Adjusted to avoid overlap with navbar and logo */
+            margin-top: 50px; /* Adjusted to avoid overlap with navbar and logo */
         }
         @media (max-width: 768px) {
             .container {
@@ -116,7 +121,7 @@
             </div>
             <button type="submit" class="btn btn-register">Register employer Account</button>
         </form>
-        <p class="text-muted text-grey">Already have an account? <a href="#" class="text-white" onclick="toggleForms()>Sign In</a></p>
+        <p class="text-muted text-grey">Already have an account? <a href="#" class="text-white" onclick="toggleForms()">Sign In</a></p>
     </div>
     <div class="container mt-4">
     <div class="card hidden" id="signin-container">
@@ -132,9 +137,10 @@
             </div>
             <button type="submit" class="btn btn-signin">Sign In</button>
         </form>
-        <p class="text-muted text-grey">Don't have an account? <a href="#" class="text-white" onclick="toggleForms()>Register</a></p>
+        <p class="text-muted text-grey">Don't have an account? <a href="#" class="text-white" onclick="toggleForms()">Register</a></p>
     </div>
 </div>
+
 <script>
     function toggleForms() {
         var registerContainer = document.getElementById('register-container');

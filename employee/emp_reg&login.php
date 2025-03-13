@@ -8,6 +8,19 @@
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
   />
   <link rel="stylesheet" href="../assets/css/shared/styles.css" />
+  <style>
+    body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('../fortest/images/SPC_wide.jpg'); /* Ensure the correct file extension */
+            background-size: cover;
+            background-position: center;
+            background-color: #e2e2e2; /* Fallback background color */
+            flex-direction: column;
+        }
+  </style>
   <title>Login Page | Caged Coder</title>
 </head>
 <body>
