@@ -21,7 +21,7 @@ $search_title = isset($_POST['search_title']) ? $_POST['search_title'] : '';
 $search_category = isset($_POST['search_category']) ? $_POST['search_category'] : [];
 $search_type = isset($_POST['search_type']) ? $_POST['search_type'] : '';
 
-$query = "SELECT jl.job_id, jl.title, jl.description, jl.requirements, jl.employment_type, jl.location, jl.salary_min, jl.salary_max, jl.currency, jl.expiry_date, c.companyName, jc.category_name 
+$query = "SELECT jl.job_id, jl.title, jl.employment_type, c.companyName, c.comp_logo_dir 
           FROM tbl_job_listing jl 
           JOIN tbl_company c ON jl.employer_id = c.company_id 
           JOIN tbl_job_category jc ON jl.category_id = jc.category_id 
@@ -94,6 +94,7 @@ $conn->close();
         margin-bottom: 20px;
         border-radius: 5px;
         background-color: #f9f9f9;
+        position: relative; /* Add this line */
       }
       .job-title {
         font-size: 1.5em;
@@ -103,9 +104,11 @@ $conn->close();
         margin-top: 10px;
       }
       .save-job-btn {
-        margin-top: 10px;
+        position: absolute; /* Add this line */
+        bottom: 10px; /* Add this line */
+        right: 10px; /* Add this line */
       }
-      Owl Carousel
+      /* Owl Carousel */
       .owl-nav {
         position: absolute;
         top: 50%;
@@ -228,16 +231,15 @@ $conn->close();
           <?php while ($job = $jobs->fetch_assoc()): ?>
             <div class="col-md-6">
               <div class="job-box">
-                <div class="job-title"><?= htmlspecialchars($job['title']) ?></div>
+                <div class="d-flex justify-content-between">
+                  <div class="job-title"><?= htmlspecialchars($job['title']) ?></div>
+                  <div class="company-logo">
+                    <img src="<?= str_replace('../', '', htmlspecialchars($job['comp_logo_dir'])) ?>" alt="<?= htmlspecialchars($job['companyName']) ?> Logo" style="width: 50px; height: auto;">
+                  </div>
+                </div>
                 <div class="job-details">
                   <p><strong>Company:</strong> <?= htmlspecialchars($job['companyName']) ?></p>
-                  <p><strong>Description:</strong> <?= htmlspecialchars($job['description']) ?></p>
-                  <p><strong>Requirements:</strong> <?= htmlspecialchars($job['requirements']) ?></p>
                   <p><strong>Employment Type:</strong> <?= htmlspecialchars($job['employment_type']) ?></p>
-                  <p><strong>Location:</strong> <?= htmlspecialchars($job['location']) ?></p>
-                  <p><strong>Salary:</strong> <?= htmlspecialchars($job['salary_min']) ?> - <?= htmlspecialchars($job['salary_max']) ?> <?= htmlspecialchars($job['currency']) ?></p>
-                  <p><strong>Category:</strong> <?= htmlspecialchars($job['category_name']) ?></p>
-                  <p><strong>Expiry Date:</strong> <?= htmlspecialchars($job['expiry_date']) ?></p>
                 </div>
                 <?php if (isset($_SESSION['user_id'])): ?>
                   <form method="post" action="includes/save_job_process.php" class="save-job-btn">
