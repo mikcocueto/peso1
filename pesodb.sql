@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 11, 2025 at 03:39 AM
+-- Generation Time: Mar 14, 2025 at 08:53 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -120,9 +120,9 @@ CREATE TABLE `tbl_company` (
 INSERT INTO `tbl_company` (`company_id`, `firstName`, `lastName`, `companyName`, `country`, `companyNumber`, `create_time`, `comp_logo_dir`, `company_verified`) VALUES
 (4, '', '', 'adeson', '', 0, '2025-03-11 01:42:08', '', 0),
 (5, 'ade', 'son', '', 'Philippines', 0, '2025-03-11 01:42:08', '', 0),
-(6, 'shan', 'shan', 'adeson', 'Philippines', 123456789, '2025-03-11 01:42:08', '../db/images/company/logo/dole logo.png', 0),
+(6, 'shan', 'shan', 'adeson', 'Philippines', 123456789, '2025-03-12 04:49:09', '../db/images/company/logo/dole logo.png', 1),
 (7, 'q', 'q', 'q', 'q', 1, '2025-03-11 01:42:08', '../db/images/company/logo/abstract-logo-design-for-any-corporate-brand-business-company-vector.jpg', 0),
-(8, 'Joshua', 'Lita', '', 'Ph', 1, '2025-03-11 02:04:58', '', 0),
+(8, 'Joshua', 'Lita', 'lita corp', 'Ph', 1, '2025-03-12 04:48:14', '', 1),
 (9, 'Mikco', 'Cueto', '', 'Philippines', 1, '2025-03-11 02:06:11', '', 0);
 
 -- --------------------------------------------------------
@@ -137,6 +137,14 @@ CREATE TABLE `tbl_comp_verification` (
   `status` varchar(32) NOT NULL DEFAULT 'pending',
   `dir_business_permit` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_comp_verification`
+--
+
+INSERT INTO `tbl_comp_verification` (`id`, `comp_id`, `status`, `dir_business_permit`) VALUES
+(3, 8, 'accepted', '../../db/pdf/comp_business_permit/UPDATED DOCS.pdf'),
+(4, 6, 'accepted', '../../db/pdf/comp_business_permit/UPDATED-FOR LOST FILLING.pdf');
 
 -- --------------------------------------------------------
 
@@ -274,7 +282,9 @@ CREATE TABLE `tbl_job_application` (
 INSERT INTO `tbl_job_application` (`id`, `emp_id`, `job_id`, `application_time`, `status`) VALUES
 (1, 12, 5, '2025-02-28 05:54:33', 'pending'),
 (3, 12, 3, '2025-02-28 08:24:27', 'pending'),
-(6, 17, 3, '2025-03-07 07:37:58', 'pending');
+(6, 17, 3, '2025-03-07 07:37:58', 'pending'),
+(7, 17, 4, '2025-03-12 04:50:03', 'pending'),
+(8, 12, 1, '2025-03-12 06:01:06', 'pending');
 
 -- --------------------------------------------------------
 
@@ -329,7 +339,7 @@ INSERT INTO `tbl_job_listing` (`job_id`, `employer_id`, `title`, `description`, 
 (2, 7, 'test2 title', 'test2 desc', 'test2 reqs', 'Internship', 'test2 loc', 122.00, 123.00, 'ddd', 1, '2025-02-16 16:00:00', '2025-02-27 16:00:00', 'active'),
 (3, 6, 'wala22222222222', 'non', '89 yrs xp', 'Full-Time', '3', 300.00, 350.00, 'phps', 4, '2025-02-18 16:00:00', '2025-02-26 16:00:00', 'inactive'),
 (4, 6, 'job 4', 'geng geng', 'madami frfr', 'Internship', '4', 4.00, 4.00, '4', 3, '2025-02-18 16:00:00', '2025-02-16 16:00:00', 'active'),
-(5, 6, 'poso negro', '5 cent', '5tyrrrrrrrrrrr', 'Contract', 'dito', 5.00, 5.00, '$', 4, '2025-02-18 16:00:00', '2025-02-17 16:00:00', 'active'),
+(5, 6, 'poso negro', '5 cent', '5tyrrrrrrrrrrr', 'Contract', 'dito', 5.00, 5.00, '$', 4, '2025-02-18 16:00:00', '2025-02-17 16:00:00', 'inactive'),
 (7, 6, 'IT professional', 'magaling it', 'it maalam', 'Full time', 'san pablo', 12.00, 120.00, 'php', 4, '2025-02-18 16:00:00', '2025-02-25 16:00:00', 'active');
 
 -- --------------------------------------------------------
@@ -604,7 +614,7 @@ ALTER TABLE `tbl_company`
 -- AUTO_INCREMENT for table `tbl_comp_verification`
 --
 ALTER TABLE `tbl_comp_verification`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tbl_educback`
@@ -640,7 +650,7 @@ ALTER TABLE `tbl_emp_skills`
 -- AUTO_INCREMENT for table `tbl_job_application`
 --
 ALTER TABLE `tbl_job_application`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `tbl_job_category`
