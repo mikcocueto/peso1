@@ -377,7 +377,16 @@ include '../includes/emp_fetch_profile.php';
                 <div class="about-section pt-4 px-3 px-lg-4 mt-1">
                     <div class="row">
                         <div class="col-md-6">
-                            <h2 class="h3 mb-3">About Me</h2>
+                            <h2 class="h3 mb-3">About Me 
+                                <button class="btn btn-primary" onclick="openModal('personal', {
+                                    firstName: '<?php echo htmlspecialchars($employee['firstName']); ?>',
+                                    lastName: '<?php echo htmlspecialchars($employee['lastName']); ?>',
+                                    address: '<?php echo htmlspecialchars($employee['address']); ?>',
+                                    emailAddress: '<?php echo htmlspecialchars($employee['emailAddress']); ?>',
+                                    gender: '<?php echo htmlspecialchars($employee['gender']); ?>',
+                                    mobileNumber: '<?php echo htmlspecialchars($employee['mobileNumber']); ?>'
+                                })">Edit</button>
+                            </h2>
                             <p>Hello! I’m <?php echo htmlspecialchars($employee['firstName'] . ' ' . $employee['lastName']); ?>. I am passionate about my work and always strive to improve my skills.</p>
                         </div>
                         <div class="col-md-5 offset-md-1">
@@ -541,16 +550,18 @@ include '../includes/emp_fetch_profile.php';
                 <input type="hidden" id="editCategory" name="category">
                 <input type="hidden" id="id" name="id">
                 <div id="personalFields" class="modal-fields">
+                    <label for="firstName">First Name:</label>
+                    <input type="text" id="personal_firstName" name="firstName"><br>
+                    <label for="lastName">Last Name:</label>
+                    <input type="text" id="personal_lastName" name="lastName"><br>
                     <label for="emailAddress">Email:</label>
-                    <input type="text" id="emailAddress" name="emailAddress"><br>
+                    <input type="text" id="personal_emailAddress" name="emailAddress"><br>
                     <label for="address">Address:</label>
-                    <input type="text" id="address" name="address"><br>
+                    <input type="text" id="personal_address" name="address"><br>
                     <label for="gender">Gender:</label>
-                    <input type="text" id="gender" name="gender"><br>
+                    <input type="text" id="personal_gender" name="gender"><br>
                     <label for="mobileNumber">Mobile Number:</label>
-                    <input type="text" id="mobileNumber" name="mobileNumber"><br>
-                    <label for="relationship_status">Relationship Status:</label>
-                    <input type="text" id="relationship_status" name="relationship_status"><br>
+                    <input type="text" id="personal_mobileNumber" name="mobileNumber"><br>
                 </div>
                 <div id="careerhistoryFields" class="modal-fields" style="display:none;">
                     <div class="mb-3">
