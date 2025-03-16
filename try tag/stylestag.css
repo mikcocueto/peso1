@@ -17,11 +17,19 @@ body {
   display: inline-flex;
   align-items: center;
   background-color: #ffffff;
-  border: 2px solid #ffffff;
-  padding: 5px 10px;
+  border: 2px solid #007bff; /* Add visible border */
+  padding: 7.5px 15px; /* Increase padding by 50% */
   border-radius: 5px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
   position: relative;
+  width: 100%; /* Make tags fill horizontally */
+  font-size: 1.5em; /* Increase font size by 50% */
+  transition: background-color 0.3s, border-color 0.3s; /* Add transition for hover effect */
+}
+
+.tag:hover {
+  background-color: #e0f7ff; /* Change background color on hover */
+  border-color: #0056b3; /* Change border color on hover */
 }
 
 .tag::before {
@@ -30,16 +38,21 @@ body {
   left: -10px;
   width: 0;
   height: 0;
-  border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-  border-right: 10px solid #ffffff;
+  border-top: 15px solid transparent; /* Increase size by 50% */
+  border-bottom: 15px solid transparent; /* Increase size by 50% */
+  border-right: 15px solid #007bff; /* Match border color */
 }
 
 .tag .close-btn {
-  margin-left: 10px;
+  margin-left: 15px; /* Increase margin by 50% */
   color: red;
   cursor: pointer;
   font-weight: bold;
+  transition: color 0.3s; /* Add transition for hover effect */
+}
+
+.tag .close-btn:hover {
+  color: darkred; /* Change color on hover */
 }
 
 input[type="text"] {

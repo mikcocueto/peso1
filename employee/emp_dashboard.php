@@ -169,6 +169,33 @@ include '../includes/emp_fetch_profile.php';
         .cv-section .action-buttons a:hover, .cv-section .action-buttons button:hover {
             opacity: 0.8;
         }
+        .tag {
+            border: 1px solid #007bff; /* Add a visible border */
+            display: inline-block; /* Make tags fill horizontally */
+            padding: 10px; /* Increase size by 50% */
+            margin: 5px;
+            font-size: 1.5em; /* Increase font size by 50% */
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            transition: background-color 0.3s, border-color 0.3s; /* Add transition for hover effect */
+        }
+
+        .tag:hover {
+            background-color: #e0f7ff; /* Change background color on hover */
+            border-color: #0056b3; /* Change border color on hover */
+        }
+
+        .tag .close-btn {
+            margin-left: 15px; /* Increase margin by 50% */
+            color: red;
+            cursor: pointer;
+            font-weight: bold;
+            transition: color 0.3s; /* Add transition for hover effect */
+        }
+
+        .tag .close-btn:hover {
+            color: darkred; /* Change color on hover */
+        }
     </style>
     <script>
         function openModal(category, data = {}) {
@@ -417,12 +444,11 @@ include '../includes/emp_fetch_profile.php';
                 <hr class="d-print-none"/>
                 <div class="languages-section px-3 px-lg-4">
                     <h2 class="h3 mb-4">Languages <button class="btn btn-primary" onclick="openLanguagesListModal()">Edit</button></h2>
-                    <div class="timeline">
+                    <div id="tag-container">
                         <?php foreach ($languages as $lang): ?>
-                        <div class="timeline-card timeline-card-primary card shadow-sm">
-                            <div class="card-body">
-                                <div class="h5 mb-1"><?php echo htmlspecialchars($lang['language_name']); ?></div>
-                            </div>
+                        <div class="tag">
+                            <?php echo htmlspecialchars($lang['language_name']); ?>
+                            <span class="close-btn" onclick="removeLanguage(<?php echo $lang['id']; ?>)">×</span>
                         </div>
                         <?php endforeach; ?>
                     </div>
