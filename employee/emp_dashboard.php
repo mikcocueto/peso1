@@ -548,8 +548,8 @@ include '../includes/emp_fetch_profile.php';
                         <label for="careerhistory_still_in_role" class="form-check-label">Still in Role</label>
                     </div>
                     <div class="mb-3">
-                        <label for="careerhistory_JDescription" class="form-label">Job Description:</label>
-                        <textarea class="form-control" id="careerhistory_JDescription" name="JDescription"></textarea>
+                        <label for="careerhistory_Jdescription" class="form-label">Job Description:</label>
+                        <textarea class="form-control" id="careerhistory_Jdescription" name="Jdescription"></textarea>
                     </div>
                 </div>
                 <div id="educationFields" class="modal-fields" style="display:none;">

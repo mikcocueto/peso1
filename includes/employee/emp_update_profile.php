@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $start_date = trim($_POST['start_date']);
             $end_date = trim($_POST['end_date']);
             $still_in_role = isset($_POST['still_in_role']) ? 1 : 0;
-            $description = trim($_POST['Jdescription']);
+            $description = trim($_POST['Jdescription']); // Keep 'Jdescription' for the form field
 
             if ($id) {
                 $stmt = $conn->prepare("UPDATE tbl_careerhistory SET job_title = ?, company_name = ?, start_date = ?, end_date = ?, still_in_role = ?, description = ? WHERE id = ? AND user_id = ?");
