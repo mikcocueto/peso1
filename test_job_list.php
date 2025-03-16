@@ -2,7 +2,7 @@
 require "includes/db_connect.php";
 
 // Fetch job listings with company names
-$jobs = $conn->query("SELECT jl.title, jl.description, jl.requirements, jl.employment_type, jl.location, jl.salary_min, jl.salary_max, jl.currency, jl.posted_date, jl.expiry_date, c.companyName FROM tbl_job_listing jl JOIN tbl_company c ON jl.employer_id = c.company_id WHERE jl.status = 'active'");
+$jobs = $conn->query("SELECT jl.title, jl.description, jl.requirements, jl.employment_type, jl.location, jl.salary_min, jl.salary_max, jl.currency, jl.posted_date, jl.expiry_date, c.companyName FROM tbl_job_listing jl JOIN tbl_comp_info c ON jl.employer_id = c.company_id WHERE jl.status = 'active'");
 ?>
 
 <!DOCTYPE html>

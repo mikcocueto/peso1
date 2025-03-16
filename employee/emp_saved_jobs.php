@@ -14,7 +14,7 @@ $user_id = $_SESSION['user_id'];
 $saved_jobs_query = $conn->prepare("SELECT jl.job_id, jl.title, jl.description, jl.requirements, jl.employment_type, jl.location, jl.salary_min, jl.salary_max, jl.currency, jl.expiry_date, c.companyName, c.comp_logo_dir, jc.category_name 
                                     FROM tbl_emp_saved_jobs esj
                                     JOIN tbl_job_listing jl ON esj.job_id = jl.job_id
-                                    JOIN tbl_company c ON jl.employer_id = c.company_id
+                                    JOIN tbl_comp_info c ON jl.employer_id = c.company_id
                                     JOIN tbl_job_category jc ON jl.category_id = jc.category_id
                                     WHERE esj.user_id = ?");
 $saved_jobs_query->bind_param("i", $user_id);

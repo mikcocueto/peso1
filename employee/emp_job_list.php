@@ -23,7 +23,7 @@ $search_type = isset($_GET['search_type']) ? $_GET['search_type'] : '';
 
 $query = "SELECT jl.job_id, jl.title, jl.employment_type, c.companyName, c.comp_logo_dir 
           FROM tbl_job_listing jl 
-          JOIN tbl_company c ON jl.employer_id = c.company_id 
+          JOIN tbl_comp_info c ON jl.employer_id = c.company_id 
           WHERE jl.status = 'active'";
 
 if ($search_title) {

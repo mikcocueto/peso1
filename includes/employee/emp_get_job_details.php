@@ -5,7 +5,7 @@ if (isset($_GET['job_id'])) {
     $job_id = intval($_GET['job_id']);
     $stmt = $conn->prepare("SELECT jl.title, jl.description, jl.requirements, jl.employment_type, jl.location, jl.salary_min, jl.salary_max, jl.currency, jl.posted_date, jl.expiry_date, c.companyName 
                             FROM tbl_job_listing jl 
-                            JOIN tbl_company c ON jl.employer_id = c.company_id 
+                            JOIN tbl_comp_info c ON jl.employer_id = c.company_id 
                             WHERE jl.job_id = ?");
     $stmt->bind_param("i", $job_id);
     $stmt->execute();

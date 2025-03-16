@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 14, 2025 at 08:53 AM
+-- Generation Time: Mar 16, 2025 at 06:41 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.1.25
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -45,63 +45,30 @@ INSERT INTO `tbl_admin` (`admin_id`, `firstName`, `lastName`, `emailAddress`, `r
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_careerhistory`
+-- Table structure for table `tbl_admin_login`
 --
 
-CREATE TABLE `tbl_careerhistory` (
+CREATE TABLE `tbl_admin_login` (
   `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `job_title` varchar(255) NOT NULL,
-  `company_name` varchar(255) NOT NULL,
-  `start_date` date NOT NULL,
-  `end_date` date NOT NULL,
-  `still_in_role` tinyint(1) DEFAULT 0,
-  `description` varchar(255) NOT NULL
+  `admin_id` int(11) NOT NULL,
+  `emailAddress` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `tbl_careerhistory`
+-- Dumping data for table `tbl_admin_login`
 --
 
-INSERT INTO `tbl_careerhistory` (`id`, `user_id`, `job_title`, `company_name`, `start_date`, `end_date`, `still_in_role`, `description`) VALUES
-(2, 12, 'OJT', 'miso', '2025-02-01', '0000-00-00', 1, 'now'),
-(6, 13, 'jsjasghjg', '834hghhhhh34g', '2024-01-13', '0000-00-00', 1, 'kapeaddd'),
-(7, 13, 'ggg', '546545', '2025-02-13', '0000-00-00', 1, ''),
-(8, 13, 'uu', 'ii', '2025-02-01', '0000-00-00', NULL, ''),
-(9, 13, 'd', 'a', '2025-02-01', '0000-00-00', 1, 'wa'),
-(11, 14, 'naqqqqqqqqqqqq', 'reeeeeeee', '2024-02-01', '2024-02-03', 0, 'werrr'),
-(12, 16, 'miso', 'miso', '2025-02-04', '2025-02-05', 0, 'qqqqqqqqq');
+INSERT INTO `tbl_admin_login` (`id`, `admin_id`, `emailAddress`, `password`) VALUES
+(1, 1, 'admin@admin.com', 'admin');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_certification`
+-- Table structure for table `tbl_comp_info`
 --
 
-CREATE TABLE `tbl_certification` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `licence_name` varchar(255) NOT NULL,
-  `issuing_organization` varchar(255) NOT NULL,
-  `issue_date` date NOT NULL,
-  `expiry_date` date NOT NULL,
-  `description` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tbl_certification`
---
-
-INSERT INTO `tbl_certification` (`id`, `user_id`, `licence_name`, `issuing_organization`, `issue_date`, `expiry_date`, `description`) VALUES
-(1, 16, 'Ethical hackerss', 'ciscoss', '2025-02-04', '2025-02-05', '111');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tbl_company`
---
-
-CREATE TABLE `tbl_company` (
+CREATE TABLE `tbl_comp_info` (
   `company_id` int(11) NOT NULL,
   `firstName` varchar(255) NOT NULL,
   `lastName` varchar(255) NOT NULL,
@@ -114,16 +81,42 @@ CREATE TABLE `tbl_company` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `tbl_company`
+-- Dumping data for table `tbl_comp_info`
 --
 
-INSERT INTO `tbl_company` (`company_id`, `firstName`, `lastName`, `companyName`, `country`, `companyNumber`, `create_time`, `comp_logo_dir`, `company_verified`) VALUES
+INSERT INTO `tbl_comp_info` (`company_id`, `firstName`, `lastName`, `companyName`, `country`, `companyNumber`, `create_time`, `comp_logo_dir`, `company_verified`) VALUES
 (4, '', '', 'adeson', '', 0, '2025-03-11 01:42:08', '', 0),
 (5, 'ade', 'son', '', 'Philippines', 0, '2025-03-11 01:42:08', '', 0),
 (6, 'shan', 'shan', 'adeson', 'Philippines', 123456789, '2025-03-12 04:49:09', '../db/images/company/logo/dole logo.png', 1),
 (7, 'q', 'q', 'q', 'q', 1, '2025-03-11 01:42:08', '../db/images/company/logo/abstract-logo-design-for-any-corporate-brand-business-company-vector.jpg', 0),
 (8, 'Joshua', 'Lita', 'lita corp', 'Ph', 1, '2025-03-12 04:48:14', '', 1),
 (9, 'Mikco', 'Cueto', '', 'Philippines', 1, '2025-03-11 02:06:11', '', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_comp_login`
+--
+
+CREATE TABLE `tbl_comp_login` (
+  `id` int(11) NOT NULL,
+  `company_id` int(11) NOT NULL,
+  `emailAddress` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `salt` varchar(36) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_comp_login`
+--
+
+INSERT INTO `tbl_comp_login` (`id`, `company_id`, `emailAddress`, `password`, `salt`) VALUES
+(1, 4, 'adeson@gmail.com', '$2y$10$h3vdK7cpQwMQJdw8QJMgD.UtjDbuwtkN9UY2iRVkhBnMELZTZ4aRi', '3d1a64c872938f48146fb600ec96c78c'),
+(2, 5, 'adeson1@gmail.com', '$2y$10$/Cjt4cyNfgBbl3IatSK.xuoakBt327e1uJkMdic6xPAJD252LGqMW', 'a25c966579687b597ef4cd0e1f804918'),
+(3, 6, 'shan@gmail.com', '$2y$10$wq4sgzuIPXJLHDsbMjbk6eQYFd.BhXnXVo3i9hqh/M.NQWfVL6ev.', '999312668b481428a3b67a6cb281c90d'),
+(4, 7, 'q@gmail.com', '$2y$10$78acVWX/E7FaN6Id1y4FQurGB4ahoafy2zZBjnu95AYVpRsowiwa6', '881a3819116611b7de23d30d93f45960'),
+(5, 8, 'lita@gmail.com', '$2y$10$M3GO6eXNLAqlRBMDn93IlOmRS59jR.4TrAjWf00.FXOW5XtpzybVO', '4570a471cd8c900d28a2a448eace6fcd'),
+(6, 9, 'cueto@gmail.com', '$2y$10$aSs8vP.dO6Zb3JneONUHJuExXRZpbr9Njz19XsjfSGpJKvaqlz.rO', 'e6553904a0aa34a6d56674835a8874bf');
 
 -- --------------------------------------------------------
 
@@ -149,60 +142,56 @@ INSERT INTO `tbl_comp_verification` (`id`, `comp_id`, `status`, `dir_business_pe
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_educback`
+-- Table structure for table `tbl_emp_careerhistory`
 --
 
-CREATE TABLE `tbl_educback` (
+CREATE TABLE `tbl_emp_careerhistory` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `course` varchar(255) NOT NULL,
-  `institution` varchar(255) NOT NULL,
-  `ending_date` date NOT NULL,
-  `course_highlights` varchar(255) NOT NULL
+  `job_title` varchar(255) NOT NULL,
+  `company_name` varchar(255) NOT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL,
+  `still_in_role` tinyint(1) DEFAULT 0,
+  `description` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `tbl_educback`
+-- Dumping data for table `tbl_emp_careerhistory`
 --
 
-INSERT INTO `tbl_educback` (`id`, `user_id`, `course`, `institution`, `ending_date`, `course_highlights`) VALUES
-(1, 13, 'ds', 'f', '0000-00-00', 'nopommmmmmmmmmmm'),
-(2, 13, 'aa', 'ff', '2025-02-20', 'jjjj'),
-(3, 12, 'it', 'ls', '2025-02-11', 'wala'),
-(4, 14, 'kqqq', 'hhrrrrrrrrrrrrrrrrrr', '2025-02-18', 'llyyyyyyyyyyy'),
-(5, 16, 'it', 'lspu', '2025-02-01', 'wala');
+INSERT INTO `tbl_emp_careerhistory` (`id`, `user_id`, `job_title`, `company_name`, `start_date`, `end_date`, `still_in_role`, `description`) VALUES
+(2, 12, 'OJT', 'miso', '2025-02-01', '0000-00-00', 1, 'now'),
+(6, 13, 'jsjasghjg', '834hghhhhh34g', '2024-01-13', '0000-00-00', 1, 'kapeaddd'),
+(7, 13, 'ggg', '546545', '2025-02-13', '0000-00-00', 1, ''),
+(8, 13, 'uu', 'ii', '2025-02-01', '0000-00-00', NULL, ''),
+(9, 13, 'd', 'a', '2025-02-01', '0000-00-00', 1, 'wa'),
+(11, 14, 'naqqqqqqqqqqqq', 'reeeeeeee', '2024-02-01', '2024-02-03', 0, 'werrr'),
+(12, 16, 'miso', 'miso', '2025-02-04', '2025-02-05', 0, 'qqqqqqqqq'),
+(13, 17, 'CEO', 'Shan inc.', '2016-01-04', '0000-00-00', 1, 'do it');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_employee`
+-- Table structure for table `tbl_emp_certification`
 --
 
-CREATE TABLE `tbl_employee` (
+CREATE TABLE `tbl_emp_certification` (
+  `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `firstName` varchar(255) NOT NULL,
-  `lastName` varchar(255) NOT NULL,
-  `address` varchar(255) NOT NULL,
-  `emailAddress` varchar(255) NOT NULL,
-  `gender` varchar(255) NOT NULL,
-  `mobileNumber` varchar(20) NOT NULL,
-  `create_timestamp` timestamp NOT NULL DEFAULT current_timestamp(),
-  `relationship_status` varchar(255) NOT NULL
+  `licence_name` varchar(255) NOT NULL,
+  `issuing_organization` varchar(255) NOT NULL,
+  `issue_date` date NOT NULL,
+  `expiry_date` date NOT NULL,
+  `description` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `tbl_employee`
+-- Dumping data for table `tbl_emp_certification`
 --
 
-INSERT INTO `tbl_employee` (`user_id`, `firstName`, `lastName`, `address`, `emailAddress`, `gender`, `mobileNumber`, `create_timestamp`, `relationship_status`) VALUES
-(10, 'eric', 'eric', '', 'eric@gmail.com', '', '', '2025-02-12 04:38:54', ''),
-(11, 'Mikco', 'Cueto', '', 'cuetomikco08@gmail.com', '', '', '2025-02-12 04:39:53', ''),
-(12, 'justine', 'justine', 'aa', 'justine@gmail.com', 'dd', '111', '2025-02-12 05:33:23', ''),
-(13, 'Mikco', 'Cueto', 'aaaa', 'cueto@gmail.com', 'a', '', '2025-02-13 04:43:07', ''),
-(14, 'Mikco', 'Cueto', 'Sta. Maria SPC', 'c@gmail.com', 'Female', '099999999999', '2025-02-14 03:58:48', ''),
-(15, 'q', 'q', '', 'q@gmail.com', '', '', '2025-02-17 05:23:39', ''),
-(16, 'new', 'user', '', 'new@gmail.com', '', '', '2025-02-24 06:25:21', ''),
-(17, 'shan', 'p', '', 'shan@gmail.com', '', '', '2025-03-07 03:25:23', '');
+INSERT INTO `tbl_emp_certification` (`id`, `user_id`, `licence_name`, `issuing_organization`, `issue_date`, `expiry_date`, `description`) VALUES
+(1, 16, 'Ethical hackerss', 'ciscoss', '2025-02-04', '2025-02-05', '111');
 
 -- --------------------------------------------------------
 
@@ -226,6 +215,132 @@ INSERT INTO `tbl_emp_cv` (`id`, `emp_id`, `cv_file_name`, `cv_dir`, `upload_time
 (1, 12, 'Kennie Grades.pdf', '../db/pdf/emp_cv/', '2025-02-26 08:05:48'),
 (7, 12, 'final-FOR LOST FILLING.pdf', '../db/pdf/emp_cv/', '2025-02-28 07:12:46'),
 (8, 12, 'UPDATED DOCS.pdf', '../db/pdf/emp_cv/', '2025-02-28 08:27:21');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_emp_educback`
+--
+
+CREATE TABLE `tbl_emp_educback` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `course` varchar(255) NOT NULL,
+  `institution` varchar(255) NOT NULL,
+  `ending_date` date NOT NULL,
+  `course_highlights` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_emp_educback`
+--
+
+INSERT INTO `tbl_emp_educback` (`id`, `user_id`, `course`, `institution`, `ending_date`, `course_highlights`) VALUES
+(1, 13, 'ds', 'f', '0000-00-00', 'nopommmmmmmmmmmm'),
+(2, 13, 'aa', 'ff', '2025-02-20', 'jjjj'),
+(3, 12, 'it', 'ls', '2025-02-11', 'wala'),
+(4, 14, 'kqqq', 'hhrrrrrrrrrrrrrrrrrr', '2025-02-18', 'llyyyyyyyyyyy'),
+(5, 16, 'it', 'lspu', '2025-02-01', 'wala'),
+(6, 17, 'IT WMAD', 'LSPU SPCC', '2025-05-16', 'IT now');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_emp_info`
+--
+
+CREATE TABLE `tbl_emp_info` (
+  `user_id` int(11) NOT NULL,
+  `firstName` varchar(255) NOT NULL,
+  `lastName` varchar(255) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `emailAddress` varchar(255) NOT NULL,
+  `gender` varchar(255) NOT NULL,
+  `mobileNumber` varchar(20) NOT NULL,
+  `create_timestamp` timestamp NOT NULL DEFAULT current_timestamp(),
+  `relationship_status` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_emp_info`
+--
+
+INSERT INTO `tbl_emp_info` (`user_id`, `firstName`, `lastName`, `address`, `emailAddress`, `gender`, `mobileNumber`, `create_timestamp`, `relationship_status`) VALUES
+(10, 'eric', 'eric', '', 'eric@gmail.com', '', '', '2025-02-12 04:38:54', ''),
+(11, 'Mikco', 'Cueto', '', 'cuetomikco08@gmail.com', '', '', '2025-02-12 04:39:53', ''),
+(12, 'justine', 'justine', 'aa', 'justine@gmail.com', 'dd', '111', '2025-02-12 05:33:23', ''),
+(13, 'Mikco', 'Cueto', 'aaaa', 'cueto@gmail.com', 'a', '', '2025-02-13 04:43:07', ''),
+(14, 'Mikco', 'Cueto', 'Sta. Maria SPC', 'c@gmail.com', 'Female', '099999999999', '2025-02-14 03:58:48', ''),
+(15, 'q', 'q', '', 'q@gmail.com', '', '', '2025-02-17 05:23:39', ''),
+(16, 'new', 'user', '', 'new@gmail.com', '', '', '2025-02-24 06:25:21', ''),
+(17, 'shan', 'p', '', 'shan@gmail.com', '', '', '2025-03-07 03:25:23', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_emp_language`
+--
+
+CREATE TABLE `tbl_emp_language` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `language_name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_emp_language`
+--
+
+INSERT INTO `tbl_emp_language` (`id`, `user_id`, `language_name`) VALUES
+(1, 13, 'tangalog'),
+(2, 13, 'fff'),
+(3, 12, 'spanish'),
+(4, 14, 'french'),
+(5, 16, 'tangalog'),
+(6, 12, 'en'),
+(7, 12, 'saa'),
+(8, 17, 'English'),
+(9, 17, 'Tagalog');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_emp_login`
+--
+
+CREATE TABLE `tbl_emp_login` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `emailAddress` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `salt` varchar(32) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_emp_login`
+--
+
+INSERT INTO `tbl_emp_login` (`id`, `user_id`, `emailAddress`, `password`, `salt`) VALUES
+(9, 10, 'eric@gmail.com', '$2y$10$/d6fBmmnmsFRz.0CSlV7XOTp4CDpvAdBQ82R20Ks6dY2XpBlQOY3W', '0c01646028237de56270ee1677160546'),
+(10, 11, 'cuetomikco08@gmail.com', '$2y$10$hTMLkqKv006/lwrlk1WcAOLUDchO2D6lM5uUSoy8ILswdNfUP1L5O', '753f35da13e88a872743ae37d867ac5a'),
+(11, 12, 'justine@gmail.com', '$2y$10$GSBTIdrXBY8Js7OCJKkEG.tamNV9J.aM3/U7R2hFZ0AQ.J9lk6hzW', 'ff9c76c3f6759c670e43981ec211c2da'),
+(12, 13, 'cueto@gmail.com', '$2y$10$k3VtnDTQt35lRgxdzhzW4uQbMztzHzRpKe1tZgdoxmTOANh8K8Qpi', '8048c80311572e2c9e7ce1aba032413b'),
+(13, 14, 'c@gmail.com', '$2y$10$fUXskg4AvXWTJZZZ5ILYz.h5MMuVOO3ccphPfYSh5gVh2d7WYrKma', '486ea598f824510eae98f97997aee1c9'),
+(14, 15, 'q@gmail.com', '$2y$10$bjfjhWI0opTVQy7FnWki8.TS15bneUmQFWnnARkSspDC3BpgaFl2W', '6f6429bb85ba085f101e84969eb8ef6d'),
+(15, 16, 'new@gmail.com', '$2y$10$aUnIVI9vPQdaeVcH5XFCSe93uu8PFE4U43tM0d8DGYRCk7vis.eWC', 'a5562417cf7f5a2a0bafad3075671d15'),
+(16, 17, 'shan@gmail.com', '$2y$10$Lif.hyGIzgj1m/3JuNnKAue7fMZwXCNFShE50dPIrHZj2JE7D2lN2', '88f1714cbeab414b76dced3a7d3a9f7d');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_emp_resume`
+--
+
+CREATE TABLE `tbl_emp_resume` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `resume_file` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -284,7 +399,8 @@ INSERT INTO `tbl_job_application` (`id`, `emp_id`, `job_id`, `application_time`,
 (3, 12, 3, '2025-02-28 08:24:27', 'pending'),
 (6, 17, 3, '2025-03-07 07:37:58', 'pending'),
 (7, 17, 4, '2025-03-12 04:50:03', 'pending'),
-(8, 12, 1, '2025-03-12 06:01:06', 'pending');
+(8, 12, 1, '2025-03-12 06:01:06', 'pending'),
+(9, 17, 7, '2025-03-16 05:40:36', 'pending');
 
 -- --------------------------------------------------------
 
@@ -342,117 +458,6 @@ INSERT INTO `tbl_job_listing` (`job_id`, `employer_id`, `title`, `description`, 
 (5, 6, 'poso negro', '5 cent', '5tyrrrrrrrrrrr', 'Contract', 'dito', 5.00, 5.00, '$', 4, '2025-02-18 16:00:00', '2025-02-17 16:00:00', 'inactive'),
 (7, 6, 'IT professional', 'magaling it', 'it maalam', 'Full time', 'san pablo', 12.00, 120.00, 'php', 4, '2025-02-18 16:00:00', '2025-02-25 16:00:00', 'active');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `tbl_language`
---
-
-CREATE TABLE `tbl_language` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `language_name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tbl_language`
---
-
-INSERT INTO `tbl_language` (`id`, `user_id`, `language_name`) VALUES
-(1, 13, 'tangalog'),
-(2, 13, 'fff'),
-(3, 12, 'spanish'),
-(4, 14, 'french'),
-(5, 16, 'tangalog'),
-(6, 12, 'en'),
-(7, 12, 'saa');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tbl_loginadmin`
---
-
-CREATE TABLE `tbl_loginadmin` (
-  `id` int(11) NOT NULL,
-  `admin_id` int(11) NOT NULL,
-  `emailAddress` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tbl_loginadmin`
---
-
-INSERT INTO `tbl_loginadmin` (`id`, `admin_id`, `emailAddress`, `password`) VALUES
-(1, 1, 'admin@admin.com', 'admin');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tbl_logincompany`
---
-
-CREATE TABLE `tbl_logincompany` (
-  `id` int(11) NOT NULL,
-  `company_id` int(11) NOT NULL,
-  `emailAddress` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `salt` varchar(36) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tbl_logincompany`
---
-
-INSERT INTO `tbl_logincompany` (`id`, `company_id`, `emailAddress`, `password`, `salt`) VALUES
-(1, 4, 'adeson@gmail.com', '$2y$10$h3vdK7cpQwMQJdw8QJMgD.UtjDbuwtkN9UY2iRVkhBnMELZTZ4aRi', '3d1a64c872938f48146fb600ec96c78c'),
-(2, 5, 'adeson1@gmail.com', '$2y$10$/Cjt4cyNfgBbl3IatSK.xuoakBt327e1uJkMdic6xPAJD252LGqMW', 'a25c966579687b597ef4cd0e1f804918'),
-(3, 6, 'shan@gmail.com', '$2y$10$wq4sgzuIPXJLHDsbMjbk6eQYFd.BhXnXVo3i9hqh/M.NQWfVL6ev.', '999312668b481428a3b67a6cb281c90d'),
-(4, 7, 'q@gmail.com', '$2y$10$78acVWX/E7FaN6Id1y4FQurGB4ahoafy2zZBjnu95AYVpRsowiwa6', '881a3819116611b7de23d30d93f45960'),
-(5, 8, 'lita@gmail.com', '$2y$10$M3GO6eXNLAqlRBMDn93IlOmRS59jR.4TrAjWf00.FXOW5XtpzybVO', '4570a471cd8c900d28a2a448eace6fcd'),
-(6, 9, 'cueto@gmail.com', '$2y$10$aSs8vP.dO6Zb3JneONUHJuExXRZpbr9Njz19XsjfSGpJKvaqlz.rO', 'e6553904a0aa34a6d56674835a8874bf');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tbl_loginuser`
---
-
-CREATE TABLE `tbl_loginuser` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `emailAddress` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `salt` varchar(32) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tbl_loginuser`
---
-
-INSERT INTO `tbl_loginuser` (`id`, `user_id`, `emailAddress`, `password`, `salt`) VALUES
-(9, 10, 'eric@gmail.com', '$2y$10$/d6fBmmnmsFRz.0CSlV7XOTp4CDpvAdBQ82R20Ks6dY2XpBlQOY3W', '0c01646028237de56270ee1677160546'),
-(10, 11, 'cuetomikco08@gmail.com', '$2y$10$hTMLkqKv006/lwrlk1WcAOLUDchO2D6lM5uUSoy8ILswdNfUP1L5O', '753f35da13e88a872743ae37d867ac5a'),
-(11, 12, 'justine@gmail.com', '$2y$10$GSBTIdrXBY8Js7OCJKkEG.tamNV9J.aM3/U7R2hFZ0AQ.J9lk6hzW', 'ff9c76c3f6759c670e43981ec211c2da'),
-(12, 13, 'cueto@gmail.com', '$2y$10$k3VtnDTQt35lRgxdzhzW4uQbMztzHzRpKe1tZgdoxmTOANh8K8Qpi', '8048c80311572e2c9e7ce1aba032413b'),
-(13, 14, 'c@gmail.com', '$2y$10$fUXskg4AvXWTJZZZ5ILYz.h5MMuVOO3ccphPfYSh5gVh2d7WYrKma', '486ea598f824510eae98f97997aee1c9'),
-(14, 15, 'q@gmail.com', '$2y$10$bjfjhWI0opTVQy7FnWki8.TS15bneUmQFWnnARkSspDC3BpgaFl2W', '6f6429bb85ba085f101e84969eb8ef6d'),
-(15, 16, 'new@gmail.com', '$2y$10$aUnIVI9vPQdaeVcH5XFCSe93uu8PFE4U43tM0d8DGYRCk7vis.eWC', 'a5562417cf7f5a2a0bafad3075671d15'),
-(16, 17, 'shan@gmail.com', '$2y$10$Lif.hyGIzgj1m/3JuNnKAue7fMZwXCNFShE50dPIrHZj2JE7D2lN2', '88f1714cbeab414b76dced3a7d3a9f7d');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tbl_resume`
---
-
-CREATE TABLE `tbl_resume` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `resume_file` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
 --
 -- Indexes for dumped tables
 --
@@ -464,24 +469,24 @@ ALTER TABLE `tbl_admin`
   ADD PRIMARY KEY (`admin_id`);
 
 --
--- Indexes for table `tbl_careerhistory`
+-- Indexes for table `tbl_admin_login`
 --
-ALTER TABLE `tbl_careerhistory`
+ALTER TABLE `tbl_admin_login`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `idhistory` (`user_id`);
+  ADD KEY `adminlog` (`admin_id`);
 
 --
--- Indexes for table `tbl_certification`
+-- Indexes for table `tbl_comp_info`
 --
-ALTER TABLE `tbl_certification`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idcert` (`user_id`);
-
---
--- Indexes for table `tbl_company`
---
-ALTER TABLE `tbl_company`
+ALTER TABLE `tbl_comp_info`
   ADD PRIMARY KEY (`company_id`);
+
+--
+-- Indexes for table `tbl_comp_login`
+--
+ALTER TABLE `tbl_comp_login`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `company_id` (`company_id`);
 
 --
 -- Indexes for table `tbl_comp_verification`
@@ -491,17 +496,18 @@ ALTER TABLE `tbl_comp_verification`
   ADD KEY `company_verID` (`comp_id`);
 
 --
--- Indexes for table `tbl_educback`
+-- Indexes for table `tbl_emp_careerhistory`
 --
-ALTER TABLE `tbl_educback`
+ALTER TABLE `tbl_emp_careerhistory`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `ideduc` (`user_id`);
+  ADD KEY `idhistory` (`user_id`);
 
 --
--- Indexes for table `tbl_employee`
+-- Indexes for table `tbl_emp_certification`
 --
-ALTER TABLE `tbl_employee`
-  ADD PRIMARY KEY (`user_id`);
+ALTER TABLE `tbl_emp_certification`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idcert` (`user_id`);
 
 --
 -- Indexes for table `tbl_emp_cv`
@@ -509,6 +515,40 @@ ALTER TABLE `tbl_employee`
 ALTER TABLE `tbl_emp_cv`
   ADD PRIMARY KEY (`id`),
   ADD KEY `emp_cv_key` (`emp_id`);
+
+--
+-- Indexes for table `tbl_emp_educback`
+--
+ALTER TABLE `tbl_emp_educback`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `ideduc` (`user_id`);
+
+--
+-- Indexes for table `tbl_emp_info`
+--
+ALTER TABLE `tbl_emp_info`
+  ADD PRIMARY KEY (`user_id`);
+
+--
+-- Indexes for table `tbl_emp_language`
+--
+ALTER TABLE `tbl_emp_language`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idlanguage` (`user_id`);
+
+--
+-- Indexes for table `tbl_emp_login`
+--
+ALTER TABLE `tbl_emp_login`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idlogin` (`user_id`);
+
+--
+-- Indexes for table `tbl_emp_resume`
+--
+ALTER TABLE `tbl_emp_resume`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `tbl_emp_saved_jobs`
@@ -548,41 +588,6 @@ ALTER TABLE `tbl_job_listing`
   ADD KEY `emp fk` (`employer_id`);
 
 --
--- Indexes for table `tbl_language`
---
-ALTER TABLE `tbl_language`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idlanguage` (`user_id`);
-
---
--- Indexes for table `tbl_loginadmin`
---
-ALTER TABLE `tbl_loginadmin`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `adminlog` (`admin_id`);
-
---
--- Indexes for table `tbl_logincompany`
---
-ALTER TABLE `tbl_logincompany`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `company_id` (`company_id`);
-
---
--- Indexes for table `tbl_loginuser`
---
-ALTER TABLE `tbl_loginuser`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idlogin` (`user_id`);
-
---
--- Indexes for table `tbl_resume`
---
-ALTER TABLE `tbl_resume`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`);
-
---
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -593,22 +598,22 @@ ALTER TABLE `tbl_admin`
   MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `tbl_careerhistory`
+-- AUTO_INCREMENT for table `tbl_admin_login`
 --
-ALTER TABLE `tbl_careerhistory`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
---
--- AUTO_INCREMENT for table `tbl_certification`
---
-ALTER TABLE `tbl_certification`
+ALTER TABLE `tbl_admin_login`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `tbl_company`
+-- AUTO_INCREMENT for table `tbl_comp_info`
 --
-ALTER TABLE `tbl_company`
+ALTER TABLE `tbl_comp_info`
   MODIFY `company_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `tbl_comp_login`
+--
+ALTER TABLE `tbl_comp_login`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tbl_comp_verification`
@@ -617,22 +622,52 @@ ALTER TABLE `tbl_comp_verification`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `tbl_educback`
+-- AUTO_INCREMENT for table `tbl_emp_careerhistory`
 --
-ALTER TABLE `tbl_educback`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+ALTER TABLE `tbl_emp_careerhistory`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
--- AUTO_INCREMENT for table `tbl_employee`
+-- AUTO_INCREMENT for table `tbl_emp_certification`
 --
-ALTER TABLE `tbl_employee`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+ALTER TABLE `tbl_emp_certification`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_emp_cv`
 --
 ALTER TABLE `tbl_emp_cv`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `tbl_emp_educback`
+--
+ALTER TABLE `tbl_emp_educback`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `tbl_emp_info`
+--
+ALTER TABLE `tbl_emp_info`
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
+-- AUTO_INCREMENT for table `tbl_emp_language`
+--
+ALTER TABLE `tbl_emp_language`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `tbl_emp_login`
+--
+ALTER TABLE `tbl_emp_login`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT for table `tbl_emp_resume`
+--
+ALTER TABLE `tbl_emp_resume`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_emp_saved_jobs`
@@ -650,7 +685,7 @@ ALTER TABLE `tbl_emp_skills`
 -- AUTO_INCREMENT for table `tbl_job_application`
 --
 ALTER TABLE `tbl_job_application`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tbl_job_category`
@@ -665,87 +700,87 @@ ALTER TABLE `tbl_job_listing`
   MODIFY `job_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT for table `tbl_language`
---
-ALTER TABLE `tbl_language`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- AUTO_INCREMENT for table `tbl_loginadmin`
---
-ALTER TABLE `tbl_loginadmin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `tbl_logincompany`
---
-ALTER TABLE `tbl_logincompany`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT for table `tbl_loginuser`
---
-ALTER TABLE `tbl_loginuser`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
-
---
--- AUTO_INCREMENT for table `tbl_resume`
---
-ALTER TABLE `tbl_resume`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `tbl_careerhistory`
+-- Constraints for table `tbl_admin_login`
 --
-ALTER TABLE `tbl_careerhistory`
-  ADD CONSTRAINT `idhistory` FOREIGN KEY (`user_id`) REFERENCES `tbl_employee` (`user_id`);
+ALTER TABLE `tbl_admin_login`
+  ADD CONSTRAINT `adminlog` FOREIGN KEY (`admin_id`) REFERENCES `tbl_admin` (`admin_id`);
 
 --
--- Constraints for table `tbl_certification`
+-- Constraints for table `tbl_comp_login`
 --
-ALTER TABLE `tbl_certification`
-  ADD CONSTRAINT `idcert` FOREIGN KEY (`user_id`) REFERENCES `tbl_employee` (`user_id`);
+ALTER TABLE `tbl_comp_login`
+  ADD CONSTRAINT `company_id` FOREIGN KEY (`company_id`) REFERENCES `tbl_comp_info` (`company_id`);
 
 --
 -- Constraints for table `tbl_comp_verification`
 --
 ALTER TABLE `tbl_comp_verification`
-  ADD CONSTRAINT `company_verID` FOREIGN KEY (`comp_id`) REFERENCES `tbl_company` (`company_id`);
+  ADD CONSTRAINT `company_verID` FOREIGN KEY (`comp_id`) REFERENCES `tbl_comp_info` (`company_id`);
 
 --
--- Constraints for table `tbl_educback`
+-- Constraints for table `tbl_emp_careerhistory`
 --
-ALTER TABLE `tbl_educback`
-  ADD CONSTRAINT `ideduc` FOREIGN KEY (`user_id`) REFERENCES `tbl_employee` (`user_id`);
+ALTER TABLE `tbl_emp_careerhistory`
+  ADD CONSTRAINT `idhistory` FOREIGN KEY (`user_id`) REFERENCES `tbl_emp_info` (`user_id`);
+
+--
+-- Constraints for table `tbl_emp_certification`
+--
+ALTER TABLE `tbl_emp_certification`
+  ADD CONSTRAINT `idcert` FOREIGN KEY (`user_id`) REFERENCES `tbl_emp_info` (`user_id`);
 
 --
 -- Constraints for table `tbl_emp_cv`
 --
 ALTER TABLE `tbl_emp_cv`
-  ADD CONSTRAINT `emp_cv_key` FOREIGN KEY (`emp_id`) REFERENCES `tbl_employee` (`user_id`);
+  ADD CONSTRAINT `emp_cv_key` FOREIGN KEY (`emp_id`) REFERENCES `tbl_emp_info` (`user_id`);
+
+--
+-- Constraints for table `tbl_emp_educback`
+--
+ALTER TABLE `tbl_emp_educback`
+  ADD CONSTRAINT `ideduc` FOREIGN KEY (`user_id`) REFERENCES `tbl_emp_info` (`user_id`);
+
+--
+-- Constraints for table `tbl_emp_language`
+--
+ALTER TABLE `tbl_emp_language`
+  ADD CONSTRAINT `idlanguage` FOREIGN KEY (`user_id`) REFERENCES `tbl_emp_info` (`user_id`);
+
+--
+-- Constraints for table `tbl_emp_login`
+--
+ALTER TABLE `tbl_emp_login`
+  ADD CONSTRAINT `idlogin` FOREIGN KEY (`user_id`) REFERENCES `tbl_emp_info` (`user_id`);
+
+--
+-- Constraints for table `tbl_emp_resume`
+--
+ALTER TABLE `tbl_emp_resume`
+  ADD CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `tbl_emp_info` (`user_id`);
 
 --
 -- Constraints for table `tbl_emp_saved_jobs`
 --
 ALTER TABLE `tbl_emp_saved_jobs`
-  ADD CONSTRAINT `empsave` FOREIGN KEY (`user_id`) REFERENCES `tbl_employee` (`user_id`),
+  ADD CONSTRAINT `empsave` FOREIGN KEY (`user_id`) REFERENCES `tbl_emp_info` (`user_id`),
   ADD CONSTRAINT `jobsave` FOREIGN KEY (`job_id`) REFERENCES `tbl_job_listing` (`job_id`);
 
 --
 -- Constraints for table `tbl_emp_skills`
 --
 ALTER TABLE `tbl_emp_skills`
-  ADD CONSTRAINT `id` FOREIGN KEY (`user_id`) REFERENCES `tbl_employee` (`user_id`);
+  ADD CONSTRAINT `id` FOREIGN KEY (`user_id`) REFERENCES `tbl_emp_info` (`user_id`);
 
 --
 -- Constraints for table `tbl_job_application`
 --
 ALTER TABLE `tbl_job_application`
-  ADD CONSTRAINT `emp_app_key` FOREIGN KEY (`emp_id`) REFERENCES `tbl_employee` (`user_id`),
+  ADD CONSTRAINT `emp_app_key` FOREIGN KEY (`emp_id`) REFERENCES `tbl_emp_info` (`user_id`),
   ADD CONSTRAINT `job_app_key` FOREIGN KEY (`job_id`) REFERENCES `tbl_job_listing` (`job_id`);
 
 --
@@ -753,37 +788,7 @@ ALTER TABLE `tbl_job_application`
 --
 ALTER TABLE `tbl_job_listing`
   ADD CONSTRAINT `cat fk` FOREIGN KEY (`category_id`) REFERENCES `tbl_job_category` (`category_id`),
-  ADD CONSTRAINT `emp fk` FOREIGN KEY (`employer_id`) REFERENCES `tbl_company` (`company_id`);
-
---
--- Constraints for table `tbl_language`
---
-ALTER TABLE `tbl_language`
-  ADD CONSTRAINT `idlanguage` FOREIGN KEY (`user_id`) REFERENCES `tbl_employee` (`user_id`);
-
---
--- Constraints for table `tbl_loginadmin`
---
-ALTER TABLE `tbl_loginadmin`
-  ADD CONSTRAINT `adminlog` FOREIGN KEY (`admin_id`) REFERENCES `tbl_admin` (`admin_id`);
-
---
--- Constraints for table `tbl_logincompany`
---
-ALTER TABLE `tbl_logincompany`
-  ADD CONSTRAINT `company_id` FOREIGN KEY (`company_id`) REFERENCES `tbl_company` (`company_id`);
-
---
--- Constraints for table `tbl_loginuser`
---
-ALTER TABLE `tbl_loginuser`
-  ADD CONSTRAINT `idlogin` FOREIGN KEY (`user_id`) REFERENCES `tbl_employee` (`user_id`);
-
---
--- Constraints for table `tbl_resume`
---
-ALTER TABLE `tbl_resume`
-  ADD CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `tbl_employee` (`user_id`);
+  ADD CONSTRAINT `emp fk` FOREIGN KEY (`employer_id`) REFERENCES `tbl_comp_info` (`company_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -21,16 +21,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $salt = bin2hex(random_bytes(16)); // Generate a 16-byte salt
         $hashedPassword = password_hash($password . $salt, PASSWORD_BCRYPT);
 
-        // STEP 1: INSERT COMPANY DETAILS INTO `tbl_company`
-        $stmt1 = $conn->prepare("INSERT INTO tbl_company (firstName, lastName, country, companyNumber) VALUES (?, ?, ?, ?)");
+        // STEP 1: INSERT COMPANY DETAILS INTO `tbl_comp_info`
+        $stmt1 = $conn->prepare("INSERT INTO tbl_comp_info (firstName, lastName, country, companyNumber) VALUES (?, ?, ?, ?)");
         $stmt1->bind_param("ssss", $firstName, $lastName, $country, $companyNumber);
 
         if ($stmt1->execute()) {
             // Get the last inserted company_id
             $company_id = $conn->insert_id;
 
-            // STEP 2: INSERT LOGIN CREDENTIALS INTO `tbl_logincompany`
-            $stmt2 = $conn->prepare("INSERT INTO tbl_logincompany (company_id, emailAddress, password, salt) VALUES (?, ?, ?, ?)");
+            // STEP 2: INSERT LOGIN CREDENTIALS INTO `tbl_comp_login`
+            $stmt2 = $conn->prepare("INSERT INTO tbl_comp_login (company_id, emailAddress, password, salt) VALUES (?, ?, ?, ?)");
             $stmt2->bind_param("isss", $company_id, $email, $hashedPassword, $salt);
 
             if ($stmt2->execute()) {

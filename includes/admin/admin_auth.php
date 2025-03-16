@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Debugging: Check the email address
     error_log("Email Address: " . $emailAddress);
 
-    $stmt = $conn->prepare("SELECT admin_id, password FROM tbl_loginadmin WHERE emailAddress = ?");
+    $stmt = $conn->prepare("SELECT admin_id, password FROM tbl_admin_login WHERE emailAddress = ?");
     if ($stmt === false) {
         error_log("Prepare failed: " . $conn->error);
         header("Location: ../../admin/admin_login.php?error=Database error");

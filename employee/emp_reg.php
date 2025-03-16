@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $registrationMessage = "Passwords do not match.";
     } else {
         // Check if email already exists in ` inuser`
-        $checkStmt = $conn->prepare("SELECT id FROM tbl_loginuser WHERE emailAddress = ?");
+        $checkStmt = $conn->prepare("SELECT id FROM tbl_emp_login WHERE emailAddress = ?");
         $checkStmt->bind_param("s", $email);
         $checkStmt->execute();
         $checkStmt->store_result();
@@ -34,16 +34,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $salt = bin2hex(random_bytes(16)); // Generate a random 16-character salt
             $hashedPassword = password_hash($password . $salt, PASSWORD_BCRYPT);
 
-            // Insert Employee Details into `tbl_employee`
-            $stmt1 = $conn->prepare("INSERT INTO tbl_employee (firstName, lastName, emailAddress) VALUES (?, ?, ?)");
+            // Insert Employee Details into `tbl_emp_info`
+            $stmt1 = $conn->prepare("INSERT INTO tbl_emp_info (firstName, lastName, emailAddress) VALUES (?, ?, ?)");
             $stmt1->bind_param("sss", $firstName, $lastName, $email);
 
             if ($stmt1->execute()) {
                 // Get the last inserted user_id
                 $user_id = $conn->insert_id;
                 
-                // Insert Login Credentials into `tbl_loginuser`
-                $stmt2 = $conn->prepare("INSERT INTO tbl_loginuser (user_id, emailAddress, password, salt) VALUES (?, ?, ?, ?)");
+                // Insert Login Credentials into `tbl_emp_login`
+                $stmt2 = $conn->prepare("INSERT INTO tbl_emp_login (user_id, emailAddress, password, salt) VALUES (?, ?, ?, ?)");
                 $stmt2->bind_param("isss", $user_id, $email, $hashedPassword, $salt);
 
                 if ($stmt2->execute()) {

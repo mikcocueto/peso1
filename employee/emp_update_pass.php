@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $updateMessage = "Passwords do not match.";
     } else {
         // Check if the email exists
-        $stmt = $conn->prepare("SELECT user_id FROM tbl_loginuser WHERE emailAddress = ?");
+        $stmt = $conn->prepare("SELECT user_id FROM tbl_emp_login WHERE emailAddress = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $stmt->store_result();
@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $hashedPassword = password_hash($newPassword . $salt, PASSWORD_DEFAULT);
 
             // Update the password in the database
-            $updateStmt = $conn->prepare("UPDATE tbl_loginuser SET password = ?, salt = ? WHERE user_id = ?");
+            $updateStmt = $conn->prepare("UPDATE tbl_emp_login SET password = ?, salt = ? WHERE user_id = ?");
             $updateStmt->bind_param("ssi", $hashedPassword, $salt, $user_id);
 
             if ($updateStmt->execute()) {

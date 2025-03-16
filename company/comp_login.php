@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error_message = "Invalid email format.";
     } else {
         // Retrieve company credentials from database
-        $stmt = $conn->prepare("SELECT company_id, password, salt FROM tbl_logincompany WHERE emailAddress = ?");
+        $stmt = $conn->prepare("SELECT company_id, password, salt FROM tbl_comp_login WHERE emailAddress = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $stmt->store_result();

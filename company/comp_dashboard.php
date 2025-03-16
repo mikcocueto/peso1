@@ -12,7 +12,7 @@ if (!isset($_SESSION['company_id'])) {
 $company_id = $_SESSION['company_id']; // Get the company ID from the session
 
 // Fetch company details
-$query = "SELECT firstName, lastName, companyName, country, companyNumber, comp_logo_dir, company_verified FROM tbl_company WHERE company_id = ?";
+$query = "SELECT firstName, lastName, companyName, country, companyNumber, comp_logo_dir, company_verified FROM tbl_comp_info WHERE company_id = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $company_id);
 $stmt->execute();

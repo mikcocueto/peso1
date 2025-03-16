@@ -19,7 +19,7 @@ try {
         $id = $input['id'];
 
         if ($category === 'careerhistory') {
-            $stmt = $conn->prepare("DELETE FROM tbl_careerhistory WHERE id = ? AND user_id = ?");
+            $stmt = $conn->prepare("DELETE FROM tbl_emp_careerhistory WHERE id = ? AND user_id = ?");
             $stmt->bind_param('ii', $id, $user_id);
             if ($stmt->execute()) {
                 $response['success'] = true;

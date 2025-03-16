@@ -4,10 +4,10 @@ require "includes/db_connect.php"; // Database connection
 require "includes/nav_index.php"; // Database connection
 
 // Fetch counts from the database
-$employee_count = $conn->query("SELECT COUNT(*) AS count FROM tbl_employee")->fetch_assoc()['count'];
+$employee_count = $conn->query("SELECT COUNT(*) AS count FROM tbl_emp_info")->fetch_assoc()['count'];
 $jobs_posted_count = $conn->query("SELECT COUNT(*) AS count FROM tbl_job_listing")->fetch_assoc()['count'];
 $jobs_filled_count = $conn->query("SELECT COUNT(*) AS count FROM tbl_job_listing WHERE status = 'filled'")->fetch_assoc()['count'];
-$companies_count = $conn->query("SELECT COUNT(*) AS count FROM tbl_company")->fetch_assoc()['count'];
+$companies_count = $conn->query("SELECT COUNT(*) AS count FROM tbl_comp_info")->fetch_assoc()['count'];
 
 // Fetch job categories from the database
 $categories_result = $conn->query("SELECT category_id, category_name FROM tbl_job_category");
@@ -23,7 +23,7 @@ $search_type = isset($_POST['search_type']) ? $_POST['search_type'] : '';
 
 $query = "SELECT jl.job_id, jl.title, jl.employment_type, c.companyName, c.comp_logo_dir 
           FROM tbl_job_listing jl 
-          JOIN tbl_company c ON jl.employer_id = c.company_id 
+          JOIN tbl_comp_info c ON jl.employer_id = c.company_id 
           JOIN tbl_job_category jc ON jl.category_id = jc.category_id 
           WHERE jl.status = 'active'";
 
@@ -60,7 +60,7 @@ if (isset($_SESSION['user_id'])) {
 $user_name = '';
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
-    $user_query = $conn->prepare("SELECT firstName FROM tbl_employee WHERE user_id = ?");
+    $user_query = $conn->prepare("SELECT firstName FROM tbl_emp_info WHERE user_id = ?");
     $user_query->bind_param("i", $user_id);
     $user_query->execute();
     $user_result = $user_query->get_result();

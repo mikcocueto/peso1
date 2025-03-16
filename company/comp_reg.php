@@ -20,8 +20,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } elseif ($password !== $confirm_password) {
         $registrationMessage = "Passwords do not match.";
     } else {
-        // Check if email already exists in `tbl_logincompany`
-        $checkStmt = $conn->prepare("SELECT id FROM tbl_logincompany WHERE emailAddress = ?");
+        // Check if email already exists in `tbl_comp_login`
+        $checkStmt = $conn->prepare("SELECT id FROM tbl_comp_login WHERE emailAddress = ?");
         $checkStmt->bind_param("s", $email);
         $checkStmt->execute();
         $checkStmt->store_result();
@@ -36,16 +36,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $salt = bin2hex(random_bytes(16)); // Generate a random 16-character salt
             $hashedPassword = password_hash($password . $salt, PASSWORD_BCRYPT);
 
-            // Insert Company Details into `tbl_company`
-            $stmt1 = $conn->prepare("INSERT INTO tbl_company (firstName, lastName, country, companyNumber, create_time) VALUES (?, ?, ?, ?, NOW())");
+            // Insert Company Details into `tbl_comp_info`
+            $stmt1 = $conn->prepare("INSERT INTO tbl_comp_info (firstName, lastName, country, companyNumber, create_time) VALUES (?, ?, ?, ?, NOW())");
             $stmt1->bind_param("ssss", $firstName, $lastName, $country, $companyNumber);
 
             if ($stmt1->execute()) {
                 // Get the last inserted company_id
                 $company_id = $conn->insert_id;
                 
-                // Insert Login Credentials into `tbl_logincompany`
-                $stmt2 = $conn->prepare("INSERT INTO tbl_logincompany (company_id, emailAddress, password, salt) VALUES (?, ?, ?, ?)");
+                // Insert Login Credentials into `tbl_comp_login`
+                $stmt2 = $conn->prepare("INSERT INTO tbl_comp_login (company_id, emailAddress, password, salt) VALUES (?, ?, ?, ?)");
                 $stmt2->bind_param("isss", $company_id, $email, $hashedPassword, $salt);
 
                 if ($stmt2->execute()) {

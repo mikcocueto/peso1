@@ -13,8 +13,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $row = mysqli_fetch_assoc($result);
         $company_id = $row['comp_id'];
         
-        // Update tbl_company company_verified
-        $update_company = "UPDATE tbl_company SET company_verified=1 WHERE company_id='$company_id'";
+        // Update tbl_comp_info company_verified
+        $update_company = "UPDATE tbl_comp_info SET company_verified=1 WHERE company_id='$company_id'";
         mysqli_query($conn, $update_company);
     } elseif ($action == 'reject') {
         // Update tbl_comp_verification status

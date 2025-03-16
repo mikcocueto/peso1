@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Try to upload file
     if (move_uploaded_file($_FILES["profile_picture"]["tmp_name"], $target_file)) {
         // Update the database with the new profile picture path
-        $query = "UPDATE tbl_employee SET profile_picture = ? WHERE user_id = ?";
+        $query = "UPDATE tbl_emp_info SET profile_picture = ? WHERE user_id = ?";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("si", $target_file, $user_id);
 

@@ -17,7 +17,7 @@ $jobs = $conn->query("SELECT job_id, title FROM tbl_job_listing WHERE employer_i
 $selected_job_id = isset($_GET['job_id']) ? $_GET['job_id'] : '';
 $candidates = $conn->query("SELECT DISTINCT e.user_id, e.firstName, e.lastName, e.emailAddress, ec.cv_dir 
                             FROM tbl_job_application ja 
-                            JOIN tbl_employee e ON ja.emp_id = e.user_id 
+                            JOIN tbl_emp_info e ON ja.emp_id = e.user_id 
                             LEFT JOIN tbl_emp_cv ec ON e.user_id = ec.emp_id 
                             WHERE ja.job_id = '$selected_job_id' AND ja.job_id IN (SELECT job_id FROM tbl_job_listing WHERE employer_id = '$company_id')");
 ?>

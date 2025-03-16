@@ -16,8 +16,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } elseif ($new_password !== $confirm_new_password) {
         $updateMessage = "Passwords do not match.";
     } else {
-        // Check if email exists in `tbl_logincompany`
-        $checkStmt = $conn->prepare("SELECT id FROM tbl_logincompany WHERE emailAddress = ?");
+        // Check if email exists in `tbl_comp_login`
+        $checkStmt = $conn->prepare("SELECT id FROM tbl_comp_login WHERE emailAddress = ?");
         $checkStmt->bind_param("s", $email);
         $checkStmt->execute();
         $checkStmt->store_result();
@@ -29,8 +29,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $salt = bin2hex(random_bytes(16)); // Generate a random 16-character salt
             $hashedPassword = password_hash($new_password . $salt, PASSWORD_BCRYPT);
 
-            // Update the password in `tbl_logincompany`
-            $stmt = $conn->prepare("UPDATE tbl_logincompany SET password = ?, salt = ? WHERE emailAddress = ?");
+            // Update the password in `tbl_comp_login`
+            $stmt = $conn->prepare("UPDATE tbl_comp_login SET password = ?, salt = ? WHERE emailAddress = ?");
             $stmt->bind_param("sss", $hashedPassword, $salt, $email);
 
             if ($stmt->execute()) {

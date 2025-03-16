@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['error_message'] = "New passwords do not match.";
     } else {
         // Retrieve the current password and salt
-        $stmt = $conn->prepare("SELECT password, salt FROM tbl_loginuser WHERE user_id = ?");
+        $stmt = $conn->prepare("SELECT password, salt FROM tbl_emp_login WHERE user_id = ?");
         $stmt->bind_param("i", $user_id);
         $stmt->execute();
         $stmt->store_result();
@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $newHashedPassword = password_hash($newPassword . $newSalt, PASSWORD_DEFAULT);
 
                 // Update the password in the database
-                $updateStmt = $conn->prepare("UPDATE tbl_loginuser SET password = ?, salt = ? WHERE user_id = ?");
+                $updateStmt = $conn->prepare("UPDATE tbl_emp_login SET password = ?, salt = ? WHERE user_id = ?");
                 $updateStmt->bind_param("ssi", $newHashedPassword, $newSalt, $user_id);
 
                 if ($updateStmt->execute()) {

@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $loginMessage = "All fields are required.";
     } else {
         // Retrieve user credentials from database
-        $stmt = $conn->prepare("SELECT user_id, password, salt FROM tbl_loginuser WHERE emailAddress = ?");
+        $stmt = $conn->prepare("SELECT user_id, password, salt FROM tbl_emp_login WHERE emailAddress = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $stmt->store_result();

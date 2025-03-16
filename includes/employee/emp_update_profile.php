@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $mobileNumber = trim($_POST['mobileNumber']);
             $relationship_status = trim($_POST['relationship_status']);
 
-            $stmt = $conn->prepare("UPDATE tbl_employee SET emailAddress = ?, address = ?, gender = ?, mobileNumber = ?, relationship_status = ? WHERE user_id = ?");
+            $stmt = $conn->prepare("UPDATE tbl_emp_info SET emailAddress = ?, address = ?, gender = ?, mobileNumber = ?, relationship_status = ? WHERE user_id = ?");
             $stmt->bind_param("sssssi", $email, $address, $gender, $mobileNumber, $relationship_status, $user_id);
             break;
 
@@ -30,10 +30,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $description = trim($_POST['Jdescription']); // Keep 'Jdescription' for the form field
 
             if ($id) {
-                $stmt = $conn->prepare("UPDATE tbl_careerhistory SET job_title = ?, company_name = ?, start_date = ?, end_date = ?, still_in_role = ?, description = ? WHERE id = ? AND user_id = ?");
+                $stmt = $conn->prepare("UPDATE tbl_emp_careerhistory SET job_title = ?, company_name = ?, start_date = ?, end_date = ?, still_in_role = ?, description = ? WHERE id = ? AND user_id = ?");
                 $stmt->bind_param("ssssisis", $job_title, $company_name, $start_date, $end_date, $still_in_role, $description, $id, $user_id);
             } else {
-                $stmt = $conn->prepare("INSERT INTO tbl_careerhistory (user_id, job_title, company_name, start_date, end_date, still_in_role, description) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                $stmt = $conn->prepare("INSERT INTO tbl_emp_careerhistory (user_id, job_title, company_name, start_date, end_date, still_in_role, description) VALUES (?, ?, ?, ?, ?, ?, ?)");
                 $stmt->bind_param("issssis", $user_id, $job_title, $company_name, $start_date, $end_date, $still_in_role, $description);
             }
             break;
@@ -45,10 +45,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $course_highlights = trim($_POST['course_highlights']);
 
             if ($id) {
-                $stmt = $conn->prepare("UPDATE tbl_educback SET course = ?, institution = ?, ending_date = ?, course_highlights = ? WHERE id = ? AND user_id = ?");
+                $stmt = $conn->prepare("UPDATE tbl_emp_educback SET course = ?, institution = ?, ending_date = ?, course_highlights = ? WHERE id = ? AND user_id = ?");
                 $stmt->bind_param("ssssii", $course, $institution, $ending_date, $course_highlights, $id, $user_id);
             } else {
-                $stmt = $conn->prepare("INSERT INTO tbl_educback (user_id, course, institution, ending_date, course_highlights) VALUES (?, ?, ?, ?, ?)");
+                $stmt = $conn->prepare("INSERT INTO tbl_emp_educback (user_id, course, institution, ending_date, course_highlights) VALUES (?, ?, ?, ?, ?)");
                 $stmt->bind_param("issss", $user_id, $course, $institution, $ending_date, $course_highlights);
             }
             break;
@@ -57,10 +57,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $language_name = trim($_POST['language_name']);
 
             if ($id) {
-                $stmt = $conn->prepare("UPDATE tbl_language SET language_name = ? WHERE id = ? AND user_id = ?");
+                $stmt = $conn->prepare("UPDATE tbl_emp_language SET language_name = ? WHERE id = ? AND user_id = ?");
                 $stmt->bind_param("sii", $language_name, $id, $user_id);
             } else {
-                $stmt = $conn->prepare("INSERT INTO tbl_language (user_id, language_name) VALUES (?, ?)");
+                $stmt = $conn->prepare("INSERT INTO tbl_emp_language (user_id, language_name) VALUES (?, ?)");
                 $stmt->bind_param("is", $user_id, $language_name);
             }
             break;
@@ -73,10 +73,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $description = trim($_POST['description']);
 
             if ($id) {
-                $stmt = $conn->prepare("UPDATE tbl_certification SET licence_name = ?, issuing_organization = ?, issue_date = ?, expiry_date = ?, description = ? WHERE id = ? AND user_id = ?");
+                $stmt = $conn->prepare("UPDATE tbl_emp_certification SET licence_name = ?, issuing_organization = ?, issue_date = ?, expiry_date = ?, description = ? WHERE id = ? AND user_id = ?");
                 $stmt->bind_param("ssssisi", $licence_name, $issuing_organization, $issue_date, $expiry_date, $description, $id, $user_id);
             } else {
-                $stmt = $conn->prepare("INSERT INTO tbl_certification (user_id, licence_name, issuing_organization, issue_date, expiry_date, description) VALUES (?, ?, ?, ?, ?, ?)");
+                $stmt = $conn->prepare("INSERT INTO tbl_emp_certification (user_id, licence_name, issuing_organization, issue_date, expiry_date, description) VALUES (?, ?, ?, ?, ?, ?)");
                 $stmt->bind_param("isssss", $user_id, $licence_name, $issuing_organization, $issue_date, $expiry_date, $description);
             }
             break;

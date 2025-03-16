@@ -5,7 +5,7 @@ require "db_connect.php"; // Database connection
 $user_name = '';
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
-    $user_query = $conn->prepare("SELECT firstName FROM tbl_employee WHERE user_id = ?");
+    $user_query = $conn->prepare("SELECT firstName FROM tbl_emp_info WHERE user_id = ?");
     $user_query->bind_param("i", $user_id);
     $user_query->execute();
     $user_result = $user_query->get_result();

@@ -14,7 +14,7 @@ $category = $_POST['category']; // Get the category from the POST request
 // Determine the table and fields to update based on the category
 switch ($category) {
     case 'company':
-        $table = 'tbl_company';
+        $table = 'tbl_comp_info';
         $fields = ['firstName', 'lastName', 'companyName', 'country', 'companyNumber'];
         break;
     default:

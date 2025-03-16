@@ -23,7 +23,7 @@ $rejected_requests = mysqli_query($conn, "SELECT * FROM tbl_comp_verification WH
         </tr>
         <?php while ($row = mysqli_fetch_assoc($verification_requests)) { 
             $company_id = $row['comp_id'];
-            $company_result = mysqli_query($conn, "SELECT companyName FROM tbl_company WHERE company_id='$company_id'");
+            $company_result = mysqli_query($conn, "SELECT companyName FROM tbl_comp_info WHERE company_id='$company_id'");
             $company = mysqli_fetch_assoc($company_result);
         ?>
         <tr>
@@ -48,7 +48,7 @@ $rejected_requests = mysqli_query($conn, "SELECT * FROM tbl_comp_verification WH
         </tr>
         <?php while ($row = mysqli_fetch_assoc($accepted_requests)) { 
             $company_id = $row['comp_id'];
-            $company_result = mysqli_query($conn, "SELECT companyName FROM tbl_company WHERE company_id='$company_id'");
+            $company_result = mysqli_query($conn, "SELECT companyName FROM tbl_comp_info WHERE company_id='$company_id'");
             $company = mysqli_fetch_assoc($company_result);
         ?>
         <tr>
@@ -66,7 +66,7 @@ $rejected_requests = mysqli_query($conn, "SELECT * FROM tbl_comp_verification WH
         </tr>
         <?php while ($row = mysqli_fetch_assoc($rejected_requests)) { 
             $company_id = $row['comp_id'];
-            $company_result = mysqli_query($conn, "SELECT companyName FROM tbl_company WHERE company_id='$company_id'");
+            $company_result = mysqli_query($conn, "SELECT companyName FROM tbl_comp_info WHERE company_id='$company_id'");
             $company = mysqli_fetch_assoc($company_result);
         ?>
         <tr>
