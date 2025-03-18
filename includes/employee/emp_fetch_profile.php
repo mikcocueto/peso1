@@ -60,7 +60,7 @@ $account_creation_date = $result->fetch_assoc()['create_timestamp'];
 $stmt->close();
 
 // Fetch CVs
-$query = "SELECT id, cv_file_name, cv_dir FROM tbl_emp_cv WHERE emp_id = ?";
+$query = "SELECT id, cv_file_name, cv_name, cv_dir FROM tbl_emp_cv WHERE emp_id = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();

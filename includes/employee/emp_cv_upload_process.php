@@ -9,8 +9,9 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['cv_file'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['cv_file']) && isset($_POST['cv_name'])) {
     $file = $_FILES['cv_file'];
+    $cv_name = $_POST['cv_name'];
     $upload_dir = '../../db/pdf/emp_cv/';
     $file_name = basename($file['name']);
     $target_file = $upload_dir . $file_name;
@@ -35,9 +36,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['cv_file'])) {
     // Move the uploaded file to the target directory
     if (move_uploaded_file($file['tmp_name'], $target_file)) {
         // Insert file details into the database
-        $query = "INSERT INTO tbl_emp_cv (emp_id, cv_file_name, cv_dir, upload_timestamp) VALUES (?, ?, ?, NOW())";
+        $query = "INSERT INTO tbl_emp_cv (emp_id, cv_file_name, cv_name, cv_dir, upload_timestamp) VALUES (?, ?, ?, ?, NOW())";
         $stmt = $conn->prepare($query);
-        $stmt->bind_param("iss", $user_id, $file_name, $upload_dir);
+        $stmt->bind_param("isss", $user_id, $file_name, $cv_name, $upload_dir);
         if ($stmt->execute()) {
             $_SESSION['success_message'] = 'CV uploaded successfully.';
         } else {
@@ -50,8 +51,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['cv_file'])) {
         error_log('Error: Failed to move uploaded file.');
     }
 } else {
-    $_SESSION['error_message'] = 'No file uploaded.';
-    error_log('Error: No file uploaded.');
+    $_SESSION['error_message'] = 'No file uploaded or CV name missing.';
+    error_log('Error: No file uploaded or CV name missing.');
 }
 
 header("Location: ../../employee/emp_dashboard.php");

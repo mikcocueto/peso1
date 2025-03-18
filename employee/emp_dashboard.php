@@ -7,7 +7,7 @@ if (!isset($_SESSION['user_id'])) {
     die();
 }
 
-include '../includes/emp_fetch_profile.php';
+include '../includes/employee/emp_fetch_profile.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -514,14 +514,14 @@ include '../includes/emp_fetch_profile.php';
                     <table class="table mt-4">
                         <thead>
                             <tr>
-                                <th>File Name</th>
+                                <th>CV Name</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($cvs as $cv): ?>
                             <tr>
-                                <td><?php echo htmlspecialchars($cv['cv_file_name']); ?></td>
+                                <td><?php echo htmlspecialchars($cv['cv_name']); ?></td>
                                 <td>
                                     <div class="action-buttons">
                                         <a href="../db/pdf/emp_cv/<?php echo htmlspecialchars($cv['cv_file_name']); ?>" target="_blank">Preview</a>
@@ -541,6 +541,8 @@ include '../includes/emp_fetch_profile.php';
                         <span class="close-button" onclick="closeCvUploadModal()">&times;</span>
                         <h3>Upload Curriculum Vitae</h3>
                         <form action="../includes/employee/emp_cv_upload_process.php" method="POST" enctype="multipart/form-data">
+                            <label for="cv_name">CV Name:</label>
+                            <input type="text" name="cv_name" id="cv_name" required>
                             <label for="cv_file">Upload CV (PDF only):</label>
                             <input type="file" name="cv_file" id="cv_file" accept="application/pdf" required>
                             <button type="submit" class="btn btn-primary mt-2">Upload</button>
