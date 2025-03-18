@@ -326,6 +326,14 @@ include '../includes/emp_fetch_profile.php';
             }
         }
 
+        function openCvUploadModal() {
+            document.getElementById('cvUploadModal').style.display = 'block';
+        }
+
+        function closeCvUploadModal() {
+            document.getElementById('cvUploadModal').style.display = 'none';
+        }
+
         window.onload = function() {
             var successMessage = "<?php echo isset($_SESSION['success_message']) ? $_SESSION['success_message'] : ''; ?>";
             var errorMessage = "<?php echo isset($_SESSION['error_message']) ? $_SESSION['error_message'] : ''; ?>";
@@ -500,12 +508,9 @@ include '../includes/emp_fetch_profile.php';
                 </div>
                 <hr class="d-print-none"/>
                 <div class="cv-section px-3 px-lg-4 pb-4">
-                    <h2 class="h3 mb-4">Curriculum Vitae</h2>
-                    <form action="../includes/employee/emp_cv_upload_process.php" method="POST" enctype="multipart/form-data">
-                        <label for="cv_file">Upload CV (PDF only):</label>
-                        <input type="file" name="cv_file" id="cv_file" accept="application/pdf" required>
-                        <button type="submit" class="btn btn-primary mt-2">Upload</button>
-                    </form>
+                    <h2 class="h3 mb-4">Curriculum Vitae 
+                        <button class="btn btn-primary" onclick="openCvUploadModal()">Upload</button>
+                    </h2>
                     <table class="table mt-4">
                         <thead>
                             <tr>
@@ -530,6 +535,17 @@ include '../includes/emp_fetch_profile.php';
                             <?php endforeach; ?>
                         </tbody>
                     </table>
+                </div>
+                <div id="cvUploadModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close-button" onclick="closeCvUploadModal()">&times;</span>
+                        <h3>Upload Curriculum Vitae</h3>
+                        <form action="../includes/employee/emp_cv_upload_process.php" method="POST" enctype="multipart/form-data">
+                            <label for="cv_file">Upload CV (PDF only):</label>
+                            <input type="file" name="cv_file" id="cv_file" accept="application/pdf" required>
+                            <button type="submit" class="btn btn-primary mt-2">Upload</button>
+                        </form>
+                    </div>
                 </div>
                 <hr class="d-print-none"/>
             </div>

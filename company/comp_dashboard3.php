@@ -22,6 +22,7 @@
             align-items: center;
             padding: 15px 20px;
             color: white;
+            height: 50px;
         }
 
         .navbar-brand {

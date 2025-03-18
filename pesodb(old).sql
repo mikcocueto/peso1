@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 18, 2025 at 03:39 AM
+-- Generation Time: Mar 16, 2025 at 06:41 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.1.25
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -40,7 +40,7 @@ CREATE TABLE `tbl_admin` (
 --
 
 INSERT INTO `tbl_admin` (`admin_id`, `firstName`, `lastName`, `emailAddress`, `role`) VALUES
-(1, 'admin', 'administrator', 'admin@admin.com', 'admin');
+(1, 'admin', 'admin', 'admin@admin.com', 'admin');
 
 -- --------------------------------------------------------
 
@@ -60,7 +60,7 @@ CREATE TABLE `tbl_admin_login` (
 --
 
 INSERT INTO `tbl_admin_login` (`id`, `admin_id`, `emailAddress`, `password`) VALUES
-(3, 1, 'admin@admin.com', 'admin');
+(1, 1, 'admin@admin.com', 'admin');
 
 -- --------------------------------------------------------
 
@@ -161,7 +161,6 @@ CREATE TABLE `tbl_emp_careerhistory` (
 --
 
 INSERT INTO `tbl_emp_careerhistory` (`id`, `user_id`, `job_title`, `company_name`, `start_date`, `end_date`, `still_in_role`, `description`) VALUES
-(1, 17, 'SUPARMAN', 'SUPARMAN', '2025-03-02', '2025-03-30', 0, 'SUPARMAN'),
 (2, 12, 'OJT', 'miso', '2025-02-01', '0000-00-00', 1, 'now'),
 (6, 13, 'jsjasghjg', '834hghhhhh34g', '2024-01-13', '0000-00-00', 1, 'kapeaddd'),
 (7, 13, 'ggg', '546545', '2025-02-13', '0000-00-00', 1, ''),
@@ -204,7 +203,6 @@ CREATE TABLE `tbl_emp_cv` (
   `id` int(11) NOT NULL,
   `emp_id` int(11) NOT NULL,
   `cv_file_name` varchar(255) NOT NULL,
-  `cv_name` varchar(255) DEFAULT NULL,
   `cv_dir` varchar(255) NOT NULL,
   `upload_timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -213,11 +211,10 @@ CREATE TABLE `tbl_emp_cv` (
 -- Dumping data for table `tbl_emp_cv`
 --
 
-INSERT INTO `tbl_emp_cv` (`id`, `emp_id`, `cv_file_name`, `cv_name`, `cv_dir`, `upload_timestamp`) VALUES
-(1, 12, 'Kennie Grades.pdf', NULL, '../db/pdf/emp_cv/', '2025-02-26 08:05:48'),
-(7, 12, 'final-FOR LOST FILLING.pdf', NULL, '../db/pdf/emp_cv/', '2025-02-28 07:12:46'),
-(8, 12, 'UPDATED DOCS.pdf', NULL, '../db/pdf/emp_cv/', '2025-02-28 08:27:21'),
-(9, 17, 'UPDATED-FOR LOST FILLING.pdf', NULL, '../../db/pdf/emp_cv/', '2025-03-18 02:32:43');
+INSERT INTO `tbl_emp_cv` (`id`, `emp_id`, `cv_file_name`, `cv_dir`, `upload_timestamp`) VALUES
+(1, 12, 'Kennie Grades.pdf', '../db/pdf/emp_cv/', '2025-02-26 08:05:48'),
+(7, 12, 'final-FOR LOST FILLING.pdf', '../db/pdf/emp_cv/', '2025-02-28 07:12:46'),
+(8, 12, 'UPDATED DOCS.pdf', '../db/pdf/emp_cv/', '2025-02-28 08:27:21');
 
 -- --------------------------------------------------------
 
@@ -239,7 +236,12 @@ CREATE TABLE `tbl_emp_educback` (
 --
 
 INSERT INTO `tbl_emp_educback` (`id`, `user_id`, `course`, `institution`, `ending_date`, `course_highlights`) VALUES
-(1, 17, 'BATMAN', 'BATMAN', '2025-03-02', 'BATMAN');
+(1, 13, 'ds', 'f', '0000-00-00', 'nopommmmmmmmmmmm'),
+(2, 13, 'aa', 'ff', '2025-02-20', 'jjjj'),
+(3, 12, 'it', 'ls', '2025-02-11', 'wala'),
+(4, 14, 'kqqq', 'hhrrrrrrrrrrrrrrrrrr', '2025-02-18', 'llyyyyyyyyyyy'),
+(5, 16, 'it', 'lspu', '2025-02-01', 'wala'),
+(6, 17, 'IT WMAD', 'LSPU SPCC', '2025-05-16', 'IT now');
 
 -- --------------------------------------------------------
 
@@ -271,7 +273,7 @@ INSERT INTO `tbl_emp_info` (`user_id`, `firstName`, `lastName`, `address`, `emai
 (14, 'Mikco', 'Cueto', 'Sta. Maria SPC', 'c@gmail.com', 'Female', '099999999999', '2025-02-14 03:58:48', ''),
 (15, 'q', 'q', '', 'q@gmail.com', '', '', '2025-02-17 05:23:39', ''),
 (16, 'new', 'user', '', 'new@gmail.com', '', '', '2025-02-24 06:25:21', ''),
-(17, 'shan', 'punzalan', 'cavite', 'shan@gmail.com', 'male', '911', '2025-03-07 03:25:23', '');
+(17, 'shan', 'p', '', 'shan@gmail.com', '', '', '2025-03-07 03:25:23', '');
 
 -- --------------------------------------------------------
 
@@ -298,8 +300,7 @@ INSERT INTO `tbl_emp_language` (`id`, `user_id`, `language_name`) VALUES
 (6, 12, 'en'),
 (7, 12, 'saa'),
 (8, 17, 'English'),
-(9, 17, 'Tagalog'),
-(10, 12, 'Wow ang sipag');
+(9, 17, 'Tagalog');
 
 -- --------------------------------------------------------
 
@@ -398,7 +399,8 @@ INSERT INTO `tbl_job_application` (`id`, `emp_id`, `job_id`, `application_time`,
 (3, 12, 3, '2025-02-28 08:24:27', 'pending'),
 (6, 17, 3, '2025-03-07 07:37:58', 'pending'),
 (7, 17, 4, '2025-03-12 04:50:03', 'pending'),
-(8, 12, 1, '2025-03-12 06:01:06', 'pending');
+(8, 12, 1, '2025-03-12 06:01:06', 'pending'),
+(9, 17, 7, '2025-03-16 05:40:36', 'pending');
 
 -- --------------------------------------------------------
 
@@ -471,7 +473,7 @@ ALTER TABLE `tbl_admin`
 --
 ALTER TABLE `tbl_admin_login`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `adminlogfk` (`admin_id`);
+  ADD KEY `adminlog` (`admin_id`);
 
 --
 -- Indexes for table `tbl_comp_info`
@@ -484,42 +486,42 @@ ALTER TABLE `tbl_comp_info`
 --
 ALTER TABLE `tbl_comp_login`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `user_idooooo` (`company_id`);
+  ADD KEY `company_id` (`company_id`);
 
 --
 -- Indexes for table `tbl_comp_verification`
 --
 ALTER TABLE `tbl_comp_verification`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `comp_verID` (`comp_id`);
+  ADD KEY `company_verID` (`comp_id`);
 
 --
 -- Indexes for table `tbl_emp_careerhistory`
 --
 ALTER TABLE `tbl_emp_careerhistory`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `empcareerfk` (`user_id`);
+  ADD KEY `idhistory` (`user_id`);
 
 --
 -- Indexes for table `tbl_emp_certification`
 --
 ALTER TABLE `tbl_emp_certification`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `empcertfk` (`user_id`);
+  ADD KEY `idcert` (`user_id`);
 
 --
 -- Indexes for table `tbl_emp_cv`
 --
 ALTER TABLE `tbl_emp_cv`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `empcvfk` (`emp_id`);
+  ADD KEY `emp_cv_key` (`emp_id`);
 
 --
 -- Indexes for table `tbl_emp_educback`
 --
 ALTER TABLE `tbl_emp_educback`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `empeducfk` (`user_id`);
+  ADD KEY `ideduc` (`user_id`);
 
 --
 -- Indexes for table `tbl_emp_info`
@@ -532,44 +534,44 @@ ALTER TABLE `tbl_emp_info`
 --
 ALTER TABLE `tbl_emp_language`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `emplanguagefk` (`user_id`);
+  ADD KEY `idlanguage` (`user_id`);
 
 --
 -- Indexes for table `tbl_emp_login`
 --
 ALTER TABLE `tbl_emp_login`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `emploginfk` (`user_id`);
+  ADD KEY `idlogin` (`user_id`);
 
 --
 -- Indexes for table `tbl_emp_resume`
 --
 ALTER TABLE `tbl_emp_resume`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `empresumefk` (`user_id`);
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `tbl_emp_saved_jobs`
 --
 ALTER TABLE `tbl_emp_saved_jobs`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `empsavefk` (`user_id`),
-  ADD KEY `jobsavefk` (`job_id`);
+  ADD KEY `empsave` (`user_id`),
+  ADD KEY `jobsave` (`job_id`);
 
 --
 -- Indexes for table `tbl_emp_skills`
 --
 ALTER TABLE `tbl_emp_skills`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `empskillfk` (`user_id`);
+  ADD KEY `id` (`user_id`);
 
 --
 -- Indexes for table `tbl_job_application`
 --
 ALTER TABLE `tbl_job_application`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `empfk` (`emp_id`),
-  ADD KEY `jobfk` (`job_id`);
+  ADD KEY `emp_app_key` (`emp_id`),
+  ADD KEY `job_app_key` (`job_id`);
 
 --
 -- Indexes for table `tbl_job_category`
@@ -582,8 +584,8 @@ ALTER TABLE `tbl_job_category`
 --
 ALTER TABLE `tbl_job_listing`
   ADD PRIMARY KEY (`job_id`),
-  ADD KEY `catfk` (`category_id`),
-  ADD KEY `compfk` (`employer_id`);
+  ADD KEY `cat fk` (`category_id`),
+  ADD KEY `emp fk` (`employer_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -599,7 +601,7 @@ ALTER TABLE `tbl_admin`
 -- AUTO_INCREMENT for table `tbl_admin_login`
 --
 ALTER TABLE `tbl_admin_login`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_comp_info`
@@ -635,13 +637,13 @@ ALTER TABLE `tbl_emp_certification`
 -- AUTO_INCREMENT for table `tbl_emp_cv`
 --
 ALTER TABLE `tbl_emp_cv`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `tbl_emp_educback`
 --
 ALTER TABLE `tbl_emp_educback`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tbl_emp_info`
@@ -653,7 +655,7 @@ ALTER TABLE `tbl_emp_info`
 -- AUTO_INCREMENT for table `tbl_emp_language`
 --
 ALTER TABLE `tbl_emp_language`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tbl_emp_login`
@@ -683,7 +685,7 @@ ALTER TABLE `tbl_emp_skills`
 -- AUTO_INCREMENT for table `tbl_job_application`
 --
 ALTER TABLE `tbl_job_application`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tbl_job_category`
@@ -705,7 +707,7 @@ ALTER TABLE `tbl_job_listing`
 -- Constraints for table `tbl_admin_login`
 --
 ALTER TABLE `tbl_admin_login`
-  ADD CONSTRAINT `adminlogfk` FOREIGN KEY (`admin_id`) REFERENCES `tbl_admin` (`admin_id`);
+  ADD CONSTRAINT `adminlog` FOREIGN KEY (`admin_id`) REFERENCES `tbl_admin` (`admin_id`);
 
 --
 -- Constraints for table `tbl_comp_login`
@@ -717,76 +719,76 @@ ALTER TABLE `tbl_comp_login`
 -- Constraints for table `tbl_comp_verification`
 --
 ALTER TABLE `tbl_comp_verification`
-  ADD CONSTRAINT `comp_verID` FOREIGN KEY (`comp_id`) REFERENCES `tbl_comp_info` (`company_id`);
+  ADD CONSTRAINT `company_verID` FOREIGN KEY (`comp_id`) REFERENCES `tbl_comp_info` (`company_id`);
 
 --
 -- Constraints for table `tbl_emp_careerhistory`
 --
 ALTER TABLE `tbl_emp_careerhistory`
-  ADD CONSTRAINT `empcareerfk` FOREIGN KEY (`user_id`) REFERENCES `tbl_emp_info` (`user_id`);
+  ADD CONSTRAINT `idhistory` FOREIGN KEY (`user_id`) REFERENCES `tbl_emp_info` (`user_id`);
 
 --
 -- Constraints for table `tbl_emp_certification`
 --
 ALTER TABLE `tbl_emp_certification`
-  ADD CONSTRAINT `empcertfk` FOREIGN KEY (`user_id`) REFERENCES `tbl_emp_info` (`user_id`);
+  ADD CONSTRAINT `idcert` FOREIGN KEY (`user_id`) REFERENCES `tbl_emp_info` (`user_id`);
 
 --
 -- Constraints for table `tbl_emp_cv`
 --
 ALTER TABLE `tbl_emp_cv`
-  ADD CONSTRAINT `empcvfk` FOREIGN KEY (`emp_id`) REFERENCES `tbl_emp_info` (`user_id`);
+  ADD CONSTRAINT `emp_cv_key` FOREIGN KEY (`emp_id`) REFERENCES `tbl_emp_info` (`user_id`);
 
 --
 -- Constraints for table `tbl_emp_educback`
 --
 ALTER TABLE `tbl_emp_educback`
-  ADD CONSTRAINT `empeducfk` FOREIGN KEY (`user_id`) REFERENCES `tbl_emp_info` (`user_id`);
+  ADD CONSTRAINT `ideduc` FOREIGN KEY (`user_id`) REFERENCES `tbl_emp_info` (`user_id`);
 
 --
 -- Constraints for table `tbl_emp_language`
 --
 ALTER TABLE `tbl_emp_language`
-  ADD CONSTRAINT `emplanguagefk` FOREIGN KEY (`user_id`) REFERENCES `tbl_emp_info` (`user_id`);
+  ADD CONSTRAINT `idlanguage` FOREIGN KEY (`user_id`) REFERENCES `tbl_emp_info` (`user_id`);
 
 --
 -- Constraints for table `tbl_emp_login`
 --
 ALTER TABLE `tbl_emp_login`
-  ADD CONSTRAINT `emploginfk` FOREIGN KEY (`user_id`) REFERENCES `tbl_emp_info` (`user_id`);
+  ADD CONSTRAINT `idlogin` FOREIGN KEY (`user_id`) REFERENCES `tbl_emp_info` (`user_id`);
 
 --
 -- Constraints for table `tbl_emp_resume`
 --
 ALTER TABLE `tbl_emp_resume`
-  ADD CONSTRAINT `empresumefk` FOREIGN KEY (`user_id`) REFERENCES `tbl_emp_info` (`user_id`);
+  ADD CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `tbl_emp_info` (`user_id`);
 
 --
 -- Constraints for table `tbl_emp_saved_jobs`
 --
 ALTER TABLE `tbl_emp_saved_jobs`
-  ADD CONSTRAINT `empsavefk` FOREIGN KEY (`user_id`) REFERENCES `tbl_emp_info` (`user_id`),
-  ADD CONSTRAINT `jobsavefk` FOREIGN KEY (`job_id`) REFERENCES `tbl_job_listing` (`job_id`);
+  ADD CONSTRAINT `empsave` FOREIGN KEY (`user_id`) REFERENCES `tbl_emp_info` (`user_id`),
+  ADD CONSTRAINT `jobsave` FOREIGN KEY (`job_id`) REFERENCES `tbl_job_listing` (`job_id`);
 
 --
 -- Constraints for table `tbl_emp_skills`
 --
 ALTER TABLE `tbl_emp_skills`
-  ADD CONSTRAINT `empskillfk` FOREIGN KEY (`user_id`) REFERENCES `tbl_emp_info` (`user_id`);
+  ADD CONSTRAINT `id` FOREIGN KEY (`user_id`) REFERENCES `tbl_emp_info` (`user_id`);
 
 --
 -- Constraints for table `tbl_job_application`
 --
 ALTER TABLE `tbl_job_application`
-  ADD CONSTRAINT `empfk` FOREIGN KEY (`emp_id`) REFERENCES `tbl_emp_info` (`user_id`),
-  ADD CONSTRAINT `jobfk` FOREIGN KEY (`job_id`) REFERENCES `tbl_job_listing` (`job_id`);
+  ADD CONSTRAINT `emp_app_key` FOREIGN KEY (`emp_id`) REFERENCES `tbl_emp_info` (`user_id`),
+  ADD CONSTRAINT `job_app_key` FOREIGN KEY (`job_id`) REFERENCES `tbl_job_listing` (`job_id`);
 
 --
 -- Constraints for table `tbl_job_listing`
 --
 ALTER TABLE `tbl_job_listing`
-  ADD CONSTRAINT `catfk` FOREIGN KEY (`category_id`) REFERENCES `tbl_job_category` (`category_id`),
-  ADD CONSTRAINT `compfk` FOREIGN KEY (`employer_id`) REFERENCES `tbl_comp_info` (`company_id`);
+  ADD CONSTRAINT `cat fk` FOREIGN KEY (`category_id`) REFERENCES `tbl_job_category` (`category_id`),
+  ADD CONSTRAINT `emp fk` FOREIGN KEY (`employer_id`) REFERENCES `tbl_comp_info` (`company_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
