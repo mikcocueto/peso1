@@ -21,16 +21,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $expiry_date = $_POST["expiry_date"];
     $posted_date = date("Y-m-d");
 
-    $stmt = $conn->prepare("INSERT INTO tbl_job_listing (employer_id, title, description, requirements, employment_type, location, salary_min, salary_max, currency, category_id, posted_date, expiry_date, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'active')");
-    $stmt->bind_param("isssssiissss", $employer_id, $title, $description, $requirements, $employment_type, $location, $salary_min, $salary_max, $currency, $category_id, $posted_date, $expiry_date);
+    // Check if employer_id exists in tbl_comp_info
+    $check_stmt = $conn->prepare("SELECT company_id FROM tbl_comp_info WHERE company_id = ?");
+    $check_stmt->bind_param("i", $employer_id);
+    $check_stmt->execute();
+    $check_stmt->store_result();
 
-    if ($stmt->execute()) {
-        $_SESSION["success_message"] = "Job listing created successfully.";
+    if ($check_stmt->num_rows > 0) {
+        $stmt = $conn->prepare("INSERT INTO tbl_job_listing (employer_id, title, description, requirements, employment_type, location, salary_min, salary_max, currency, category_id, posted_date, expiry_date, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'active')");
+        $stmt->bind_param("isssssiissss", $employer_id, $title, $description, $requirements, $employment_type, $location, $salary_min, $salary_max, $currency, $category_id, $posted_date, $expiry_date);
+
+        if ($stmt->execute()) {
+            $_SESSION["success_message"] = "Job listing created successfully.";
+        } else {
+            $_SESSION["error_message"] = "Failed to create job listing.";
+        }
+
+        $stmt->close();
     } else {
-        $_SESSION["error_message"] = "Failed to create job listing.";
+        $_SESSION["error_message"] = "Invalid employer ID.";
     }
 
-    $stmt->close();
+    $check_stmt->close();
     $conn->close();
 
     header("Location: ../../company/comp_dashboard.php");

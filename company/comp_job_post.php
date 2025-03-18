@@ -78,7 +78,7 @@ $categories = $conn->query("SELECT category_id, category_name FROM tbl_job_categ
                             <input type="date" class="form-control" name="expiry_date" required>
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Create Job Listing</button>
-                        <a href="comp_dashboard.php">back to company dash</a><br>
+                        <a href="comp_dashboard.php">Back to Company Dashboard</a><br>
                     </form>
                 </div>
             </div>

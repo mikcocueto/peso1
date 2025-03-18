@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 18, 2025 at 03:39 AM
+-- Generation Time: Mar 18, 2025 at 05:48 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -87,10 +87,10 @@ CREATE TABLE `tbl_comp_info` (
 INSERT INTO `tbl_comp_info` (`company_id`, `firstName`, `lastName`, `companyName`, `country`, `companyNumber`, `create_time`, `comp_logo_dir`, `company_verified`) VALUES
 (4, '', '', 'adeson', '', 0, '2025-03-11 01:42:08', '', 0),
 (5, 'ade', 'son', '', 'Philippines', 0, '2025-03-11 01:42:08', '', 0),
-(6, 'shan', 'shan', 'adeson', 'Philippines', 123456789, '2025-03-12 04:49:09', '../db/images/company/logo/dole logo.png', 1),
+(6, 'ggg shan', 'khyle', 'micko', 'USA', 1111111111, '2025-03-18 04:04:00', '../db/images/company/logo/2db6f933-3545-4b93-86d9-38af9e1505f9.jpg', 1),
 (7, 'q', 'q', 'q', 'q', 1, '2025-03-11 01:42:08', '../db/images/company/logo/abstract-logo-design-for-any-corporate-brand-business-company-vector.jpg', 0),
 (8, 'Joshua', 'Lita', 'lita corp', 'Ph', 1, '2025-03-12 04:48:14', '', 1),
-(9, 'Mikco', 'Cueto', '', 'Philippines', 1, '2025-03-11 02:06:11', '', 0);
+(9, 'Mikco', 'Cueto', 'cueto', 'Philippines', 1, '2025-03-18 04:40:11', '../db/images/company/logo/spc.png', 1);
 
 -- --------------------------------------------------------
 
@@ -136,8 +136,7 @@ CREATE TABLE `tbl_comp_verification` (
 --
 
 INSERT INTO `tbl_comp_verification` (`id`, `comp_id`, `status`, `dir_business_permit`) VALUES
-(3, 8, 'accepted', '../../db/pdf/comp_business_permit/UPDATED DOCS.pdf'),
-(4, 6, 'accepted', '../../db/pdf/comp_business_permit/UPDATED-FOR LOST FILLING.pdf');
+(7, 9, 'accepted', '../../db/pdf/comp_business_permit/FOR LOST FILLING.pdf');
 
 -- --------------------------------------------------------
 
@@ -169,7 +168,8 @@ INSERT INTO `tbl_emp_careerhistory` (`id`, `user_id`, `job_title`, `company_name
 (9, 13, 'd', 'a', '2025-02-01', '0000-00-00', 1, 'wa'),
 (11, 14, 'naqqqqqqqqqqqq', 'reeeeeeee', '2024-02-01', '2024-02-03', 0, 'werrr'),
 (12, 16, 'miso', 'miso', '2025-02-04', '2025-02-05', 0, 'qqqqqqqqq'),
-(13, 17, 'CEO', 'Shan inc.', '2016-01-04', '0000-00-00', 1, 'do it');
+(13, 17, 'CEO', 'Shan inc.', '2016-01-04', '0000-00-00', 1, 'do it'),
+(14, 18, 'OJT', 'MIS', '2025-03-02', '2025-03-28', 1, '');
 
 -- --------------------------------------------------------
 
@@ -217,7 +217,9 @@ INSERT INTO `tbl_emp_cv` (`id`, `emp_id`, `cv_file_name`, `cv_name`, `cv_dir`, `
 (1, 12, 'Kennie Grades.pdf', NULL, '../db/pdf/emp_cv/', '2025-02-26 08:05:48'),
 (7, 12, 'final-FOR LOST FILLING.pdf', NULL, '../db/pdf/emp_cv/', '2025-02-28 07:12:46'),
 (8, 12, 'UPDATED DOCS.pdf', NULL, '../db/pdf/emp_cv/', '2025-02-28 08:27:21'),
-(9, 17, 'UPDATED-FOR LOST FILLING.pdf', NULL, '../../db/pdf/emp_cv/', '2025-03-18 02:32:43');
+(9, 17, 'UPDATED-FOR LOST FILLING.pdf', NULL, '../../db/pdf/emp_cv/', '2025-03-18 02:32:43'),
+(11, 17, 'Certificate of Registration.pdf', 'test1', '../../db/pdf/emp_cv/', '2025-03-18 02:44:02'),
+(12, 18, 'PASCOdocx.pdf', 'Resume/Paused', '../../db/pdf/emp_cv/', '2025-03-18 04:10:35');
 
 -- --------------------------------------------------------
 
@@ -239,7 +241,8 @@ CREATE TABLE `tbl_emp_educback` (
 --
 
 INSERT INTO `tbl_emp_educback` (`id`, `user_id`, `course`, `institution`, `ending_date`, `course_highlights`) VALUES
-(1, 17, 'BATMAN', 'BATMAN', '2025-03-02', 'BATMAN');
+(1, 17, 'BATMAN', 'BATMAN', '2025-03-02', 'BATMAN'),
+(2, 18, 'BSN', 'LSPU-Sta. Cruz', '2027-08-20', 'Notepad');
 
 -- --------------------------------------------------------
 
@@ -271,7 +274,8 @@ INSERT INTO `tbl_emp_info` (`user_id`, `firstName`, `lastName`, `address`, `emai
 (14, 'Mikco', 'Cueto', 'Sta. Maria SPC', 'c@gmail.com', 'Female', '099999999999', '2025-02-14 03:58:48', ''),
 (15, 'q', 'q', '', 'q@gmail.com', '', '', '2025-02-17 05:23:39', ''),
 (16, 'new', 'user', '', 'new@gmail.com', '', '', '2025-02-24 06:25:21', ''),
-(17, 'shan', 'punzalan', 'cavite', 'shan@gmail.com', 'male', '911', '2025-03-07 03:25:23', '');
+(17, 'shan', 'punzalan', 'cavite', 'shan@gmail.com', 'male', '911', '2025-03-07 03:25:23', ''),
+(18, 'MIKCO', 'Mikco', 'Purok 7 Brgy Sta Maria', '0321-2980@lspu.edu.ph', 'You Decide', '9076532552', '2025-03-18 04:05:12', '');
 
 -- --------------------------------------------------------
 
@@ -299,7 +303,11 @@ INSERT INTO `tbl_emp_language` (`id`, `user_id`, `language_name`) VALUES
 (7, 12, 'saa'),
 (8, 17, 'English'),
 (9, 17, 'Tagalog'),
-(10, 12, 'Wow ang sipag');
+(10, 12, 'Wow ang sipag'),
+(20, 18, 'Spanish'),
+(21, 18, 'Mandarin'),
+(22, 18, 'Japanese'),
+(23, 18, 'Filipino');
 
 -- --------------------------------------------------------
 
@@ -327,7 +335,8 @@ INSERT INTO `tbl_emp_login` (`id`, `user_id`, `emailAddress`, `password`, `salt`
 (13, 14, 'c@gmail.com', '$2y$10$fUXskg4AvXWTJZZZ5ILYz.h5MMuVOO3ccphPfYSh5gVh2d7WYrKma', '486ea598f824510eae98f97997aee1c9'),
 (14, 15, 'q@gmail.com', '$2y$10$bjfjhWI0opTVQy7FnWki8.TS15bneUmQFWnnARkSspDC3BpgaFl2W', '6f6429bb85ba085f101e84969eb8ef6d'),
 (15, 16, 'new@gmail.com', '$2y$10$aUnIVI9vPQdaeVcH5XFCSe93uu8PFE4U43tM0d8DGYRCk7vis.eWC', 'a5562417cf7f5a2a0bafad3075671d15'),
-(16, 17, 'shan@gmail.com', '$2y$10$Lif.hyGIzgj1m/3JuNnKAue7fMZwXCNFShE50dPIrHZj2JE7D2lN2', '88f1714cbeab414b76dced3a7d3a9f7d');
+(16, 17, 'shan@gmail.com', '$2y$10$Lif.hyGIzgj1m/3JuNnKAue7fMZwXCNFShE50dPIrHZj2JE7D2lN2', '88f1714cbeab414b76dced3a7d3a9f7d'),
+(17, 18, 'mikco@gmail.com', '$2y$10$IZtDy.Uv/8GkR57lgrlYEeoZNHAMEMPFfXwPU2LEox0giNwwHjo3e', 'f6f6e65887253d2b56440b9d76394d42');
 
 -- --------------------------------------------------------
 
@@ -398,7 +407,10 @@ INSERT INTO `tbl_job_application` (`id`, `emp_id`, `job_id`, `application_time`,
 (3, 12, 3, '2025-02-28 08:24:27', 'pending'),
 (6, 17, 3, '2025-03-07 07:37:58', 'pending'),
 (7, 17, 4, '2025-03-12 04:50:03', 'pending'),
-(8, 12, 1, '2025-03-12 06:01:06', 'pending');
+(8, 12, 1, '2025-03-12 06:01:06', 'pending'),
+(9, 18, 4, '2025-03-18 04:06:09', 'pending'),
+(10, 18, 1, '2025-03-18 04:11:00', 'pending'),
+(11, 18, 2, '2025-03-18 04:11:04', 'pending');
 
 -- --------------------------------------------------------
 
@@ -451,10 +463,11 @@ CREATE TABLE `tbl_job_listing` (
 INSERT INTO `tbl_job_listing` (`job_id`, `employer_id`, `title`, `description`, `requirements`, `employment_type`, `location`, `salary_min`, `salary_max`, `currency`, `category_id`, `posted_date`, `expiry_date`, `status`) VALUES
 (1, 7, 'ttest', 'dtest', 'rtest', 'Full-time', 'spc', 1.00, 2.00, 'php', 1, '2025-02-16 16:00:00', '2025-02-16 16:00:00', 'active'),
 (2, 7, 'test2 title', 'test2 desc', 'test2 reqs', 'Internship', 'test2 loc', 122.00, 123.00, 'ddd', 1, '2025-02-16 16:00:00', '2025-02-27 16:00:00', 'active'),
-(3, 6, 'wala22222222222', 'non', '89 yrs xp', 'Full-Time', '3', 300.00, 350.00, 'phps', 4, '2025-02-18 16:00:00', '2025-02-26 16:00:00', 'inactive'),
+(3, 6, 'dddd', 'qqqqqq', 'tyuqwerty', 'Contract', '32323', 310.00, 360.00, 'dollar', 2, '2025-02-18 16:00:00', '2025-02-28 16:00:00', 'active'),
 (4, 6, 'job 4', 'geng geng', 'madami frfr', 'Internship', '4', 4.00, 4.00, '4', 3, '2025-02-18 16:00:00', '2025-02-16 16:00:00', 'active'),
 (5, 6, 'poso negro', '5 cent', '5tyrrrrrrrrrrr', 'Contract', 'dito', 5.00, 5.00, '$', 4, '2025-02-18 16:00:00', '2025-02-17 16:00:00', 'inactive'),
-(7, 6, 'IT professional', 'magaling it', 'it maalam', 'Full time', 'san pablo', 12.00, 120.00, 'php', 4, '2025-02-18 16:00:00', '2025-02-25 16:00:00', 'active');
+(7, 6, 'IT professional', 'magaling it', 'it maalam', 'Full time', 'san pablo', 12.00, 120.00, 'php', 4, '2025-02-18 16:00:00', '2025-02-25 16:00:00', 'active'),
+(12, 9, 'mikco it', 'it', 'it', 'Part-Time', '3', 19.00, 80.00, 'p', 1, '2025-03-17 16:00:00', '2025-03-25 16:00:00', 'inactive');
 
 --
 -- Indexes for dumped tables
@@ -484,7 +497,7 @@ ALTER TABLE `tbl_comp_info`
 --
 ALTER TABLE `tbl_comp_login`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `user_idooooo` (`company_id`);
+  ADD KEY `company_id` (`company_id`);
 
 --
 -- Indexes for table `tbl_comp_verification`
@@ -617,13 +630,13 @@ ALTER TABLE `tbl_comp_login`
 -- AUTO_INCREMENT for table `tbl_comp_verification`
 --
 ALTER TABLE `tbl_comp_verification`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tbl_emp_careerhistory`
 --
 ALTER TABLE `tbl_emp_careerhistory`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `tbl_emp_certification`
@@ -635,31 +648,31 @@ ALTER TABLE `tbl_emp_certification`
 -- AUTO_INCREMENT for table `tbl_emp_cv`
 --
 ALTER TABLE `tbl_emp_cv`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `tbl_emp_educback`
 --
 ALTER TABLE `tbl_emp_educback`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tbl_emp_info`
 --
 ALTER TABLE `tbl_emp_info`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `tbl_emp_language`
 --
 ALTER TABLE `tbl_emp_language`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `tbl_emp_login`
 --
 ALTER TABLE `tbl_emp_login`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `tbl_emp_resume`
@@ -671,7 +684,7 @@ ALTER TABLE `tbl_emp_resume`
 -- AUTO_INCREMENT for table `tbl_emp_saved_jobs`
 --
 ALTER TABLE `tbl_emp_saved_jobs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tbl_emp_skills`
@@ -683,7 +696,7 @@ ALTER TABLE `tbl_emp_skills`
 -- AUTO_INCREMENT for table `tbl_job_application`
 --
 ALTER TABLE `tbl_job_application`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `tbl_job_category`
@@ -695,7 +708,7 @@ ALTER TABLE `tbl_job_category`
 -- AUTO_INCREMENT for table `tbl_job_listing`
 --
 ALTER TABLE `tbl_job_listing`
-  MODIFY `job_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `job_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Constraints for dumped tables
@@ -705,88 +718,88 @@ ALTER TABLE `tbl_job_listing`
 -- Constraints for table `tbl_admin_login`
 --
 ALTER TABLE `tbl_admin_login`
-  ADD CONSTRAINT `adminlogfk` FOREIGN KEY (`admin_id`) REFERENCES `tbl_admin` (`admin_id`);
+  ADD CONSTRAINT `adminlogfk` FOREIGN KEY (`admin_id`) REFERENCES `tbl_admin` (`admin_id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_comp_login`
 --
 ALTER TABLE `tbl_comp_login`
-  ADD CONSTRAINT `company_id` FOREIGN KEY (`company_id`) REFERENCES `tbl_comp_info` (`company_id`);
+  ADD CONSTRAINT `company_id` FOREIGN KEY (`company_id`) REFERENCES `tbl_comp_info` (`company_id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_comp_verification`
 --
 ALTER TABLE `tbl_comp_verification`
-  ADD CONSTRAINT `comp_verID` FOREIGN KEY (`comp_id`) REFERENCES `tbl_comp_info` (`company_id`);
+  ADD CONSTRAINT `comp_verID` FOREIGN KEY (`comp_id`) REFERENCES `tbl_comp_info` (`company_id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_emp_careerhistory`
 --
 ALTER TABLE `tbl_emp_careerhistory`
-  ADD CONSTRAINT `empcareerfk` FOREIGN KEY (`user_id`) REFERENCES `tbl_emp_info` (`user_id`);
+  ADD CONSTRAINT `empcareerfk` FOREIGN KEY (`user_id`) REFERENCES `tbl_emp_info` (`user_id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_emp_certification`
 --
 ALTER TABLE `tbl_emp_certification`
-  ADD CONSTRAINT `empcertfk` FOREIGN KEY (`user_id`) REFERENCES `tbl_emp_info` (`user_id`);
+  ADD CONSTRAINT `empcertfk` FOREIGN KEY (`user_id`) REFERENCES `tbl_emp_info` (`user_id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_emp_cv`
 --
 ALTER TABLE `tbl_emp_cv`
-  ADD CONSTRAINT `empcvfk` FOREIGN KEY (`emp_id`) REFERENCES `tbl_emp_info` (`user_id`);
+  ADD CONSTRAINT `empcvfk` FOREIGN KEY (`emp_id`) REFERENCES `tbl_emp_info` (`user_id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_emp_educback`
 --
 ALTER TABLE `tbl_emp_educback`
-  ADD CONSTRAINT `empeducfk` FOREIGN KEY (`user_id`) REFERENCES `tbl_emp_info` (`user_id`);
+  ADD CONSTRAINT `empeducfk` FOREIGN KEY (`user_id`) REFERENCES `tbl_emp_info` (`user_id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_emp_language`
 --
 ALTER TABLE `tbl_emp_language`
-  ADD CONSTRAINT `emplanguagefk` FOREIGN KEY (`user_id`) REFERENCES `tbl_emp_info` (`user_id`);
+  ADD CONSTRAINT `emplanguagefk` FOREIGN KEY (`user_id`) REFERENCES `tbl_emp_info` (`user_id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_emp_login`
 --
 ALTER TABLE `tbl_emp_login`
-  ADD CONSTRAINT `emploginfk` FOREIGN KEY (`user_id`) REFERENCES `tbl_emp_info` (`user_id`);
+  ADD CONSTRAINT `emploginfk` FOREIGN KEY (`user_id`) REFERENCES `tbl_emp_info` (`user_id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_emp_resume`
 --
 ALTER TABLE `tbl_emp_resume`
-  ADD CONSTRAINT `empresumefk` FOREIGN KEY (`user_id`) REFERENCES `tbl_emp_info` (`user_id`);
+  ADD CONSTRAINT `empresumefk` FOREIGN KEY (`user_id`) REFERENCES `tbl_emp_info` (`user_id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_emp_saved_jobs`
 --
 ALTER TABLE `tbl_emp_saved_jobs`
-  ADD CONSTRAINT `empsavefk` FOREIGN KEY (`user_id`) REFERENCES `tbl_emp_info` (`user_id`),
-  ADD CONSTRAINT `jobsavefk` FOREIGN KEY (`job_id`) REFERENCES `tbl_job_listing` (`job_id`);
+  ADD CONSTRAINT `empsavefk` FOREIGN KEY (`user_id`) REFERENCES `tbl_emp_info` (`user_id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `jobsavefk` FOREIGN KEY (`job_id`) REFERENCES `tbl_job_listing` (`job_id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_emp_skills`
 --
 ALTER TABLE `tbl_emp_skills`
-  ADD CONSTRAINT `empskillfk` FOREIGN KEY (`user_id`) REFERENCES `tbl_emp_info` (`user_id`);
+  ADD CONSTRAINT `empskillfk` FOREIGN KEY (`user_id`) REFERENCES `tbl_emp_info` (`user_id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_job_application`
 --
 ALTER TABLE `tbl_job_application`
-  ADD CONSTRAINT `empfk` FOREIGN KEY (`emp_id`) REFERENCES `tbl_emp_info` (`user_id`),
-  ADD CONSTRAINT `jobfk` FOREIGN KEY (`job_id`) REFERENCES `tbl_job_listing` (`job_id`);
+  ADD CONSTRAINT `empfk` FOREIGN KEY (`emp_id`) REFERENCES `tbl_emp_info` (`user_id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `jobfk` FOREIGN KEY (`job_id`) REFERENCES `tbl_job_listing` (`job_id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_job_listing`
 --
 ALTER TABLE `tbl_job_listing`
-  ADD CONSTRAINT `catfk` FOREIGN KEY (`category_id`) REFERENCES `tbl_job_category` (`category_id`),
-  ADD CONSTRAINT `compfk` FOREIGN KEY (`employer_id`) REFERENCES `tbl_comp_info` (`company_id`);
+  ADD CONSTRAINT `catfk` FOREIGN KEY (`category_id`) REFERENCES `tbl_job_category` (`category_id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `compfk` FOREIGN KEY (`employer_id`) REFERENCES `tbl_comp_info` (`company_id`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
