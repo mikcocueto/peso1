@@ -21,15 +21,19 @@ try {
         if ($category === 'careerhistory') {
             $stmt = $conn->prepare("DELETE FROM tbl_emp_careerhistory WHERE id = ? AND user_id = ?");
             $stmt->bind_param('ii', $id, $user_id);
-            if ($stmt->execute()) {
-                $response['success'] = true;
-            } else {
-                throw new Exception('Failed to delete entry');
-            }
-            $stmt->close();
+        } elseif ($category === 'languages') {
+            $stmt = $conn->prepare("DELETE FROM tbl_emp_language WHERE id = ? AND user_id = ?");
+            $stmt->bind_param('ii', $id, $user_id);
         } else {
             throw new Exception('Invalid category');
         }
+
+        if ($stmt->execute()) {
+            $response['success'] = true;
+        } else {
+            throw new Exception('Failed to delete entry');
+        }
+        $stmt->close();
     } else {
         throw new Exception('Invalid request method');
     }

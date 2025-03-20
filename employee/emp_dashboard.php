@@ -256,6 +256,7 @@ include '../includes/employee/emp_fetch_profile.php';
         function openCareerHistoryEditModal(data) {
             closeCareerHistoryListModal();
             openModal('careerhistory', data);
+            document.getElementById('careerhistory_Jdescription').value = data.JDescription || '';
         }
 
         function openLanguagesListModal() {
@@ -268,7 +269,26 @@ include '../includes/employee/emp_fetch_profile.php';
 
         function removeLanguage(id) {
             if (confirm('Are you sure you want to remove this language?')) {
-                // Implement the removal logic here, e.g., send an AJAX request to the server to remove the language
+                fetch('../includes/employee/emp_delete_profile_entry.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ category: 'languages', id: id })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Language removed successfully');
+                        location.reload(); // Reload the page to reflect changes
+                    } else {
+                        alert('Failed to remove language: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while removing the language.');
+                });
             }
         }
 
@@ -424,11 +444,7 @@ include '../includes/employee/emp_fetch_profile.php';
                                     <div class="pb-1 text-secondary"><?php echo htmlspecialchars($employee['gender']); ?></div>
                                 </div>
                                 <div class="col-sm-4">
-                                    <div class="pb-1">Civil Status</div>
-                                </div>
-                                <div class="col-sm-8">
-                                    <div class="pb-1 text-secondary"><?php echo htmlspecialchars($employee['relationship_status']); ?></div>
-                                </div>
+                                    
                             </div>
                         </div>
                     </div>
@@ -541,10 +557,14 @@ include '../includes/employee/emp_fetch_profile.php';
                         <span class="close-button" onclick="closeCvUploadModal()">&times;</span>
                         <h3>Upload Curriculum Vitae</h3>
                         <form action="../includes/employee/emp_cv_upload_process.php" method="POST" enctype="multipart/form-data">
-                            <label for="cv_name">CV Name:</label>
-                            <input type="text" name="cv_name" id="cv_name" required>
-                            <label for="cv_file">Upload CV (PDF only):</label>
-                            <input type="file" name="cv_file" id="cv_file" accept="application/pdf" required>
+                            <div class="mb-3">
+                                <label for="cv_name" class="form-label">CV Name:</label>
+                                <input type="text" class="form-control" name="cv_name" id="cv_name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="cv_file" class="form-label">Upload CV (PDF only):</label>
+                                <input type="file" class="form-control" name="cv_file" id="cv_file" accept="application/pdf" required>
+                            </div>
                             <button type="submit" class="btn btn-primary mt-2">Upload</button>
                         </form>
                     </div>
@@ -568,18 +588,30 @@ include '../includes/employee/emp_fetch_profile.php';
                 <input type="hidden" id="editCategory" name="category">
                 <input type="hidden" id="id" name="id">
                 <div id="personalFields" class="modal-fields">
-                    <label for="firstName">First Name:</label>
-                    <input type="text" id="personal_firstName" name="firstName"><br>
-                    <label for="lastName">Last Name:</label>
-                    <input type="text" id="personal_lastName" name="lastName"><br>
-                    <label for="emailAddress">Email:</label>
-                    <input type="text" id="personal_emailAddress" name="emailAddress"><br>
-                    <label for="address">Address:</label>
-                    <input type="text" id="personal_address" name="address"><br>
-                    <label for="gender">Gender:</label>
-                    <input type="text" id="personal_gender" name="gender"><br>
-                    <label for="mobileNumber">Mobile Number:</label>
-                    <input type="text" id="personal_mobileNumber" name="mobileNumber"><br>
+                    <div class="mb-3">
+                        <label for="personal_firstName" class="form-label">First Name:</label>
+                        <input type="text" class="form-control" id="personal_firstName" name="firstName">
+                    </div>
+                    <div class="mb-3">
+                        <label for="personal_lastName" class="form-label">Last Name:</label>
+                        <input type="text" class="form-control" id="personal_lastName" name="lastName">
+                    </div>
+                    <div class="mb-3">
+                        <label for="personal_emailAddress" class="form-label">Email:</label>
+                        <input type="email" class="form-control" id="personal_emailAddress" name="emailAddress">
+                    </div>
+                    <div class="mb-3">
+                        <label for="personal_address" class="form-label">Address:</label>
+                        <input type="text" class="form-control" id="personal_address" name="address">
+                    </div>
+                    <div class="mb-3">
+                        <label for="personal_gender" class="form-label">Gender:</label>
+                        <input type="text" class="form-control" id="personal_gender" name="gender">
+                    </div>
+                    <div class="mb-3">
+                        <label for="personal_mobileNumber" class="form-label">Mobile Number:</label>
+                        <input type="text" class="form-control" id="personal_mobileNumber" name="mobileNumber">
+                    </div>
                 </div>
                 <div id="careerhistoryFields" class="modal-fields" style="display:none;">
                     <div class="mb-3">
