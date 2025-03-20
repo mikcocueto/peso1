@@ -317,7 +317,8 @@
 
     <!-- Navigation Tabs -->
     <nav class="tabs">
-        <button class="tab active" data-tab="jobs" onclick="switchTab('jobs')">Jobs</button>
+        <button class="tab active" data-tab="dashboard" onclick="switchTab('dashboard')">Dashboard</button>
+        <button class="tab" data-tab="jobs" onclick="switchTab('jobs')">Jobs</button>
         <button class="tab" data-tab="candidates" onclick="switchTab('candidates')">Candidates</button>
     </nav>
 
