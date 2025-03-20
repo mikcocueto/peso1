@@ -10,7 +10,7 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 
 // Fetch employee details
-$query = "SELECT firstName, lastName, emailAddress, address, gender, mobileNumber, relationship_status FROM tbl_emp_info WHERE user_id = ?";
+$query = "SELECT firstName, lastName, emailAddress, address, gender, mobileNumber, pfp_dir FROM tbl_emp_info WHERE user_id = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();

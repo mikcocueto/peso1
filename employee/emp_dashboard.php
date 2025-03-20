@@ -268,7 +268,26 @@ include '../includes/employee/emp_fetch_profile.php';
 
         function removeLanguage(id) {
             if (confirm('Are you sure you want to remove this language?')) {
-                // Implement the removal logic here, e.g., send an AJAX request to the server to remove the language
+                fetch('../includes/employee/emp_delete_profile_entry.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ category: 'languages', id: id })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Language removed successfully');
+                        location.reload(); // Reload the page to reflect changes
+                    } else {
+                        alert('Failed to remove language: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while removing the language.');
+                });
             }
         }
 
@@ -424,11 +443,7 @@ include '../includes/employee/emp_fetch_profile.php';
                                     <div class="pb-1 text-secondary"><?php echo htmlspecialchars($employee['gender']); ?></div>
                                 </div>
                                 <div class="col-sm-4">
-                                    <div class="pb-1">Civil Status</div>
-                                </div>
-                                <div class="col-sm-8">
-                                    <div class="pb-1 text-secondary"><?php echo htmlspecialchars($employee['relationship_status']); ?></div>
-                                </div>
+                                    
                             </div>
                         </div>
                     </div>
@@ -541,10 +556,14 @@ include '../includes/employee/emp_fetch_profile.php';
                         <span class="close-button" onclick="closeCvUploadModal()">&times;</span>
                         <h3>Upload Curriculum Vitae</h3>
                         <form action="../includes/employee/emp_cv_upload_process.php" method="POST" enctype="multipart/form-data">
-                            <label for="cv_name">CV Name:</label>
-                            <input type="text" name="cv_name" id="cv_name" required>
-                            <label for="cv_file">Upload CV (PDF only):</label>
-                            <input type="file" name="cv_file" id="cv_file" accept="application/pdf" required>
+                            <div class="mb-3">
+                                <label for="cv_name" class="form-label">CV Name:</label>
+                                <input type="text" class="form-control" name="cv_name" id="cv_name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="cv_file" class="form-label">Upload CV (PDF only):</label>
+                                <input type="file" class="form-control" name="cv_file" id="cv_file" accept="application/pdf" required>
+                            </div>
                             <button type="submit" class="btn btn-primary mt-2">Upload</button>
                         </form>
                     </div>

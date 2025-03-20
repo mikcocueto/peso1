@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 18, 2025 at 05:48 AM
+-- Generation Time: Mar 18, 2025 at 09:15 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -87,10 +87,10 @@ CREATE TABLE `tbl_comp_info` (
 INSERT INTO `tbl_comp_info` (`company_id`, `firstName`, `lastName`, `companyName`, `country`, `companyNumber`, `create_time`, `comp_logo_dir`, `company_verified`) VALUES
 (4, '', '', 'adeson', '', 0, '2025-03-11 01:42:08', '', 0),
 (5, 'ade', 'son', '', 'Philippines', 0, '2025-03-11 01:42:08', '', 0),
-(6, 'ggg shan', 'khyle', 'micko', 'USA', 1111111111, '2025-03-18 04:04:00', '../db/images/company/logo/2db6f933-3545-4b93-86d9-38af9e1505f9.jpg', 1),
+(6, 'ggg shan', 'khyle', 'micko', 'USA', 1111111111, '2025-03-18 06:47:20', '../db/images/company/logo/2db6f933-3545-4b93-86d9-38af9e1505f9.jpg', 0),
 (7, 'q', 'q', 'q', 'q', 1, '2025-03-11 01:42:08', '../db/images/company/logo/abstract-logo-design-for-any-corporate-brand-business-company-vector.jpg', 0),
 (8, 'Joshua', 'Lita', 'lita corp', 'Ph', 1, '2025-03-12 04:48:14', '', 1),
-(9, 'Mikco', 'Cueto', 'cueto', 'Philippines', 1, '2025-03-18 04:40:11', '../db/images/company/logo/spc.png', 1);
+(9, 'Mikco', 'Cueto', 'cueto', 'Philippines', 1, '2025-03-18 06:42:13', '../db/images/company/logo/spc.png', 0);
 
 -- --------------------------------------------------------
 
@@ -136,7 +136,7 @@ CREATE TABLE `tbl_comp_verification` (
 --
 
 INSERT INTO `tbl_comp_verification` (`id`, `comp_id`, `status`, `dir_business_permit`) VALUES
-(7, 9, 'accepted', '../../db/pdf/comp_business_permit/FOR LOST FILLING.pdf');
+(21, 6, 'pending', '../../db/pdf/comp_business_permit/final-FOR LOST FILLING.pdf');
 
 -- --------------------------------------------------------
 
@@ -630,7 +630,7 @@ ALTER TABLE `tbl_comp_login`
 -- AUTO_INCREMENT for table `tbl_comp_verification`
 --
 ALTER TABLE `tbl_comp_verification`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `tbl_emp_careerhistory`
