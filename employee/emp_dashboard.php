@@ -23,17 +23,17 @@ include '../includes/employee/emp_fetch_profile.php';
             gap: 10px;
         }
         .action-buttons a, .action-buttons button {
-            padding: 10px; /* Adjust padding for consistent height */
+            padding: 10px; 
             text-decoration: none;
             color: white;
             background-color: #007bff;
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 14px; /* Adjust font size to match edit buttons */
-            width: 100px; /* Set a fixed width for consistency */
-            height: 40px; /* Set a fixed height for consistency */
-            text-align: center; /* Center the text */
+            font-size: 14px; 
+            width: 100px; 
+            height: 40px; 
+            text-align: center; 
             display: flex;
             align-items: center;
             justify-content: center;
@@ -66,7 +66,7 @@ include '../includes/employee/emp_fetch_profile.php';
             margin: 5% auto;
             padding: 20px;
             border: 1px solid #888;
-            width: 80%;
+            width: 40%; 
             border-radius: 10px;
         }
         .close-button {
@@ -85,7 +85,7 @@ include '../includes/employee/emp_fetch_profile.php';
             cursor: pointer;
         }
         #editModal, #passwordModal, #messageModal {
-            z-index: 2; /* Ensure these modals appear on top */
+            z-index: 2; 
         }
         .job-box {
             border: 1px solid #ddd;
@@ -98,11 +98,11 @@ include '../includes/employee/emp_fetch_profile.php';
         .job-title {
             font-size: 1.2em;
             font-weight: bold;
-            color: #007bff; /* Job title color */
+            color: #007bff; 
         }
         .company-name {
             font-size: 1em;
-            color: #6c757d; /* Company name color */
+            color: #6c757d; 
         }
         .job-details {
             margin-top: 10px;
@@ -156,9 +156,9 @@ include '../includes/employee/emp_fetch_profile.php';
             border-radius: 4px;
             cursor: pointer;
             font-size: 14px;
-            width: 100px; /* Set a fixed width for consistency */
-            height: 40px; /* Set a fixed height for consistency */
-            text-align: center; /* Center the text */
+            width: 100px; 
+            height: 40px; 
+            text-align: center; 
             display: flex;
             align-items: center;
             justify-content: center;
@@ -354,6 +354,14 @@ include '../includes/employee/emp_fetch_profile.php';
             document.getElementById('cvUploadModal').style.display = 'none';
         }
 
+        function openCvListModal() {
+            document.getElementById('cvListModal').style.display = 'block';
+        }
+
+        function closeCvListModal() {
+            document.getElementById('cvListModal').style.display = 'none';
+        }
+
         window.onload = function() {
             var successMessage = "<?php echo isset($_SESSION['success_message']) ? $_SESSION['success_message'] : ''; ?>";
             var errorMessage = "<?php echo isset($_SESSION['error_message']) ? $_SESSION['error_message'] : ''; ?>";
@@ -526,6 +534,7 @@ include '../includes/employee/emp_fetch_profile.php';
                 <div class="cv-section px-3 px-lg-4 pb-4">
                     <h2 class="h3 mb-4">Curriculum Vitae 
                         <button class="btn btn-primary" onclick="openCvUploadModal()">Upload</button>
+                        <button class="btn btn-secondary" onclick="openCvListModal()">Edit Names</button>
                     </h2>
                     <table class="table mt-4">
                         <thead>
@@ -567,6 +576,26 @@ include '../includes/employee/emp_fetch_profile.php';
                             </div>
                             <button type="submit" class="btn btn-primary mt-2">Upload</button>
                         </form>
+                    </div>
+                </div>
+                <div id="cvListModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close-button" onclick="closeCvListModal()">&times;</span>
+                        <h3>Edit CV Names</h3>
+                        <ul class="list-group">
+                            <?php foreach ($cvs as $cv): ?>
+                            <li class="list-group-item">
+                                <form action="../includes/employee/emp_cv_edit_process.php" method="POST" enctype="multipart/form-data">
+                                    <input type="hidden" name="cv_id" value="<?php echo $cv['id']; ?>">
+                                    <div class="mb-3">
+                                        <label for="cv_name_<?php echo $cv['id']; ?>" class="form-label">CV Name:</label>
+                                        <input type="text" class="form-control" name="cv_name" id="cv_name_<?php echo $cv['id']; ?>" value="<?php echo htmlspecialchars($cv['cv_name']); ?>" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary mt-2">Save</button>
+                                </form>
+                            </li>
+                            <?php endforeach; ?>
+                        </ul>
                     </div>
                 </div>
                 <hr class="d-print-none"/>
