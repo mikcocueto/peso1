@@ -256,6 +256,7 @@ include '../includes/employee/emp_fetch_profile.php';
         function openCareerHistoryEditModal(data) {
             closeCareerHistoryListModal();
             openModal('careerhistory', data);
+            document.getElementById('careerhistory_Jdescription').value = data.JDescription || '';
         }
 
         function openLanguagesListModal() {
@@ -587,18 +588,30 @@ include '../includes/employee/emp_fetch_profile.php';
                 <input type="hidden" id="editCategory" name="category">
                 <input type="hidden" id="id" name="id">
                 <div id="personalFields" class="modal-fields">
-                    <label for="firstName">First Name:</label>
-                    <input type="text" id="personal_firstName" name="firstName"><br>
-                    <label for="lastName">Last Name:</label>
-                    <input type="text" id="personal_lastName" name="lastName"><br>
-                    <label for="emailAddress">Email:</label>
-                    <input type="text" id="personal_emailAddress" name="emailAddress"><br>
-                    <label for="address">Address:</label>
-                    <input type="text" id="personal_address" name="address"><br>
-                    <label for="gender">Gender:</label>
-                    <input type="text" id="personal_gender" name="gender"><br>
-                    <label for="mobileNumber">Mobile Number:</label>
-                    <input type="text" id="personal_mobileNumber" name="mobileNumber"><br>
+                    <div class="mb-3">
+                        <label for="personal_firstName" class="form-label">First Name:</label>
+                        <input type="text" class="form-control" id="personal_firstName" name="firstName">
+                    </div>
+                    <div class="mb-3">
+                        <label for="personal_lastName" class="form-label">Last Name:</label>
+                        <input type="text" class="form-control" id="personal_lastName" name="lastName">
+                    </div>
+                    <div class="mb-3">
+                        <label for="personal_emailAddress" class="form-label">Email:</label>
+                        <input type="email" class="form-control" id="personal_emailAddress" name="emailAddress">
+                    </div>
+                    <div class="mb-3">
+                        <label for="personal_address" class="form-label">Address:</label>
+                        <input type="text" class="form-control" id="personal_address" name="address">
+                    </div>
+                    <div class="mb-3">
+                        <label for="personal_gender" class="form-label">Gender:</label>
+                        <input type="text" class="form-control" id="personal_gender" name="gender">
+                    </div>
+                    <div class="mb-3">
+                        <label for="personal_mobileNumber" class="form-label">Mobile Number:</label>
+                        <input type="text" class="form-control" id="personal_mobileNumber" name="mobileNumber">
+                    </div>
                 </div>
                 <div id="careerhistoryFields" class="modal-fields" style="display:none;">
                     <div class="mb-3">
