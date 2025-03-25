@@ -152,14 +152,22 @@ $stmt->close();
         .table-header {
             display: flex;
             justify-content: space-between;
+            align-items: center; /* Center content vertically */
             font-weight: bold;
             border-bottom: 2px solid #ddd;
             padding: 10px 0;
+        }
+        .two{
+            padding-left: 250px;
+        }
+        .three{
+            padding-left: 100px;
         }
 
         .job-item {
             display: flex;
             justify-content: space-between;
+            align-items: center; /* Center content vertically */
             padding: 10px 0;
             border-bottom: 1px solid #ddd;
         }
@@ -343,6 +351,21 @@ $stmt->close();
         .job-status-dropdown {
             color: inherit; 
         }
+        .sort-btn, .order-btn{
+            background: #eee;
+            border: 1px solid #ccc; /* Add stroke line */
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 4px; /* Add border radius */
+            transition: transform 0.2s; /* Add transition for pop-out effect */
+        }
+
+        .sort-btn:hover, .order-btn:hover {
+            transform: scale(1.05); /* Pop-out effect on hover */
+        }
+
+        
+        
     </style>
 </head>
 <body>
@@ -352,8 +375,8 @@ $stmt->close();
         <div class="navbar-brand">
             <img src="../fortest/images/peso_icons.png" alt="PESO Logo">
             <div>
-                <span style="font-size: 1.5rem; font-weight: bold;">Public Employment Service Office</span>
-                <span style="font-size: 1.5rem; font-weight: bold; padding-left">Company Module</span>
+                <span style="font-size: 1.5rem; font-weight: bold; color: white;">PESO</span>
+                <span style="font-size: 1.5rem; font-weight: bold; padding-left: 35px; color: white;"> for Company</span>
             </div>
         </div>
         <div class="navbar-icons">
@@ -369,9 +392,10 @@ $stmt->close();
         <button class="tab" data-tab="jobs" onclick="switchTab('jobs')">Jobs</button>
         <button class="tab" data-tab="candidates" onclick="switchTab('candidates')">Candidates</button>
     </nav>
-
+    <!-- Candidates tab-->
     <!-- Job Filters Section (Placed After Tabs) -->
     <section id="job-filters" class="job-filters hidden">
+        <!-- This section contains job filters and should be hidden when in the dashboard tab -->
         <select class="job-position">
             <option>Customer Service Representative</option>
             <option>IT Support Specialist</option>
@@ -413,12 +437,22 @@ $stmt->close();
         </div>
     </section>
 
+<!-- Dashboard Tab -->
+<section id="dashboard" class="content active">
+    <div class="dashboard-content">
+        <h2>Welcome to the Company Dashboard</h2>
+        <p>Here you can manage your job postings, view candidates, and more.</p>
+        <!-- Add more dashboard-specific content here -->
+         
+    </div>
+</section>
+
     <!-- Jobs Tab -->
     <section id="jobs" class="content active">
         <!-- Filters -->
     <section class="filters">
         <div class="left-filters">
-            <button class="filter-btn active">Open and Paused (#)</button>
+            <button class="filter-btn OP">Open and Paused (#)</button>
             <button class="filter-btn">Closed (#)</button>
             <input type="text" placeholder="Search job title">
             <input type="text" placeholder="Search location">
@@ -430,10 +464,10 @@ $stmt->close();
     </section>
         <div class="job-listing">
             <div class="table-header">
-                <div>Job Title</div>
-                <div>Candidates</div>
-                <div>Job Status</div>
-                <div>Action</div>
+                <div class="one">Job Title</div>
+                <div class="two">Candidates</div>
+                <div class="three">Job Status</div>
+                <div class="four">Action</div>
             </div>
             <?php if (empty($jobs)): ?>
                 <div class="job-item">
@@ -545,6 +579,15 @@ $stmt->close();
         </div>
     </div>
 
+    <!-- Candidates Tab -->
+<section id="candidates" class="content active">
+    <div class="candidates-content">
+        <h2>Candidate Management</h2>
+        <p>Here you can view and manage candidates who have applied for your job postings.</p>
+        <!-- Add more candidates-specific content here -->
+    </div>
+</section>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../fortest/js/jquery.min.js"></script>
     <script>
@@ -611,15 +654,23 @@ $stmt->close();
             });
         }
 
+        document.addEventListener('DOMContentLoaded', function() {
+            const activeTab = document.querySelector('.tab.active').getAttribute('data-tab');
+            switchTab(activeTab);
+        });
+
         function switchTab(tabId) {
             document.querySelectorAll('.content').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.tab').forEach(button => button.classList.remove('active'));
 
-            document.getElementById(tabId).classList.add('active');
-            document.querySelector(`.tab[data-tab="${tabId}"]`).classList.add('active');
+            var targetTab = document.getElementById(tabId);
+            if (targetTab) {
+                targetTab.classList.add('active');
+                document.querySelector(`.tab[data-tab="${tabId}"]`).classList.add('active');
+            }
 
-            // Hide job-filters section when in Job Tab
-            if (tabId === 'jobs') {
+            // Hide job-filters section when in Dashboard or Job Tab
+            if (tabId === 'dashboard' || tabId === 'jobs') {
                 document.getElementById('job-filters').classList.add('hidden');
             } else {
                 document.getElementById('job-filters').classList.remove('hidden');
