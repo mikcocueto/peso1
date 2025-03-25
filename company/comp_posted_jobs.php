@@ -57,7 +57,7 @@ $stmt->close();
             align-items: center;
             padding: 15px 20px;
             color: white;
-            height: 50px;
+
         }
 
         .navbar-brand {
@@ -352,8 +352,8 @@ $stmt->close();
         <div class="navbar-brand">
             <img src="../fortest/images/peso_icons.png" alt="PESO Logo">
             <div>
-                <span style="font-size: 1.5rem; font-weight: bold;">PESO</span>
-                <span style="font-size: 1.5rem; font-weight: bold; padding-left:30px;">for Company</span>
+                <span style="font-size: 1.5rem; font-weight: bold;">Public Employment Service Office</span>
+                <span style="font-size: 1.5rem; font-weight: bold; padding-left">Company Module</span>
             </div>
         </div>
         <div class="navbar-icons">
