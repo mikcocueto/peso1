@@ -10,6 +10,13 @@ if (!isset($_SESSION['company_id'])) {
 
 $company_id = $_SESSION['company_id'];
 
+// Fetch job categories from the database
+$categories_result = $conn->query("SELECT category_id, category_name FROM tbl_job_category");
+$categories = [];
+while ($row = $categories_result->fetch_assoc()) {
+    $categories[] = $row;
+}
+
 // Fetch posted jobs by the logged-in company along with candidate counts
 $query = "SELECT jl.job_id, jl.title, jl.description, jl.posted_date, jl.expiry_date, jl.status,
                  (SELECT COUNT(*) FROM tbl_job_application ja WHERE ja.job_id = jl.job_id AND ja.status = 'pending') AS pending_count,
