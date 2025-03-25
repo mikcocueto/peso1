@@ -330,6 +330,19 @@ $stmt->close();
     flex-direction: column;
 }
 
+
+        .job-status-dropdown option[value="active"] {
+            color: green;
+        }
+        .job-status-dropdown option[value="paused"] {
+            color: orange;
+        }
+        .job-status-dropdown option[value="inactive"] {
+            color: red;
+        }
+        .job-status-dropdown {
+            color: inherit; 
+        }
     </style>
 </head>
 <body>
@@ -440,10 +453,10 @@ $stmt->close();
                             <span><?= $job['accepted_count'] ?> Accepted</span>
                         </div>
                         <div>
-                            <select>
-                                <option value="open" <?= $job['status'] == 'open' ? 'selected' : '' ?>>🟢 Open</option>
-                                <option value="paused" <?= $job['status'] == 'paused' ? 'selected' : '' ?>>🟡 Paused</option>
-                                <option value="closed" <?= $job['status'] == 'closed' ? 'selected' : '' ?>>🔴 Closed</option>
+                            <select class="form-select job-status-dropdown" data-job-id="<?= $job['job_id'] ?>" onchange="updateJobStatus(this)">
+                                <option value="active" <?= $job['status'] == 'active' ? 'selected' : '' ?>>● Active</option>
+                                <option value="paused" <?= $job['status'] == 'paused' ? 'selected' : '' ?>>● Paused</option>
+                                <option value="inactive" <?= $job['status'] == 'inactive' ? 'selected' : '' ?>>● Inactive</option>
                             </select>
                         </div>
                         <div>
@@ -535,6 +548,7 @@ $stmt->close();
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../fortest/js/jquery.min.js"></script>
     <script>
+        
         $('#editJobModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
             var jobId = button.data('job-id');
@@ -581,6 +595,21 @@ $stmt->close();
                 }
             });
         });
+
+        function updateJobStatus(selectElement) {
+            var jobId = $(selectElement).data('job-id');
+            var status = $(selectElement).val();
+
+            $.ajax({
+                url: '../includes/company/comp_update_job_status.php',
+                type: 'POST',
+                data: { job_id: jobId, status: status },
+                success: function (response) {
+                    alert('Job status updated successfully!');
+                    location.reload();
+                }
+            });
+        }
 
         function switchTab(tabId) {
             document.querySelectorAll('.content').forEach(tab => tab.classList.remove('active'));
