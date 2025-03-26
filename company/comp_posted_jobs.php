@@ -31,6 +31,15 @@ $stmt->execute();
 $result = $stmt->get_result();
 $jobs = $result->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
+
+// Fetch jobs posted by the logged-in company for the dropdown
+$jobs_dropdown_query = "SELECT job_id, title FROM tbl_job_listing WHERE employer_id = ?";
+$stmt = $conn->prepare($jobs_dropdown_query);
+$stmt->bind_param("i", $company_id);
+$stmt->execute();
+$jobs_dropdown_result = $stmt->get_result();
+$jobs_dropdown = $jobs_dropdown_result->fetch_all(MYSQLI_ASSOC);
+$stmt->close();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -395,19 +404,38 @@ $stmt->close();
         <button class="tab" data-tab="candidates" onclick="switchTab('candidates')">Candidates</button>
     </nav>
     <!-- Candidates tab-->
-    <!-- Job Filters Section (Placed After Tabs) -->
+    <!-- Job Filters Section (Updated) -->
     <section id="job-filters" class="job-filters hidden">
-        <!-- This section contains job filters and should be hidden when in the dashboard tab -->
-        <select class="job-position">
-            <option>Customer Service Representative</option>
-            <option>IT Support Specialist</option>
-            <option>Sales Associate</option>
+        <!-- Dynamic Job Dropdown -->
+        <select id="jobDropdown" class="job-position" onchange="fetchCandidates(this.value)">
+            <option value="">-- Select a Job --</option>
+            <?php foreach ($jobs_dropdown as $job): ?>
+                <option value="<?= $job['job_id'] ?>"><?= htmlspecialchars($job['title']) ?></option>
+            <?php endforeach; ?>
         </select>
 
-        <div class="filter-tabs">
+        <!-- add functionality later nlng -->
+        <div class="filter-tabs" hidden>
             <button class="tab-btn active">Applicants (17)</button>
             <button class="tab-btn">Matched Applicant</button>
         </div>
+
+        <!-- Candidates Table -->
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Candidate Name</th>
+                    <th>Email</th>
+                    <th>Application Time</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="candidatesTableBody">
+                <tr>
+                    <td colspan="4" class="text-center">Select a job to view candidates.</td>
+                </tr>
+            </tbody>
+        </table>
 
         <div class="status-filters">
             <span class="status-link active">17 Active</span>
@@ -439,15 +467,6 @@ $stmt->close();
         </div>
     </section>
 
-<!-- Dashboard Tab -->
-<section >
-    <div class="dashboard-content">
-        <h2>Welcome to the Company Dashboard</h2>
-        <p>Here you can manage your job postings, view candidates, and more.</p>
-        <!-- Add more dashboard-specific content here -->
-        
-    </div>
-</section>
 
 <section id="dashboard" class="content active">
 				<h1 class="h3 mb-3"><strong>Company Details</strong></h1>
@@ -857,14 +876,7 @@ $stmt->close();
         </div>
     </div>
 
-    <!-- Candidates Tab -->
-<section id="candidates" class="content active">
-    <div class="candidates-content">
-        <h2>Candidate Management</h2>
-        <p>Here you can view and manage candidates who have applied for your job postings.</p>
-        <!-- Add more candidates-specific content here -->
-    </div>
-</section>
+    
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../fortest/js/jquery.min.js"></script>
@@ -953,6 +965,41 @@ $stmt->close();
             } else {
                 document.getElementById('job-filters').classList.remove('hidden');
             }
+        }
+
+        function fetchCandidates(jobId) {
+            if (!jobId) {
+                document.getElementById('candidatesTableBody').innerHTML = '<tr><td colspan="4" class="text-center">Select a job to view candidates.</td></tr>';
+                return;
+            }
+
+            // Fetch candidates using AJAX
+            $.ajax({
+                url: '../includes/company/comp_get_candidates.php',
+                type: 'GET',
+                data: { job_id: jobId },
+                success: function (response) {
+                    const candidates = JSON.parse(response);
+                    const tableBody = document.getElementById('candidatesTableBody');
+                    tableBody.innerHTML = '';
+
+                    if (candidates.length === 0) {
+                        tableBody.innerHTML = '<tr><td colspan="4" class="text-center">No candidates found for this job.</td></tr>';
+                    } else {
+                        candidates.forEach(candidate => {
+                            const row = `
+                                <tr>
+                                    <td>${candidate.firstName} ${candidate.lastName}</td>
+                                    <td>${candidate.emailAddress}</td>
+                                    <td>${candidate.application_time}</td>
+                                    <td>${candidate.status}</td>
+                                </tr>
+                            `;
+                            tableBody.innerHTML += row;
+                        });
+                    }
+                }
+            });
         }
     </script>   
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
