@@ -20,6 +20,10 @@
             background-color: #e2e2e2; /* Fallback background color */
             flex-direction: column;
         }
+    .Home{
+      color: white;
+      padding-top: 20px;
+    }
   </style>
   <title>Login Page | Caged Coder</title>
 </head>
@@ -42,6 +46,7 @@
           <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
         </div>
         <p>Don't have an account? <a href="#" id="register" class="highlight">Sign Up here</a></p>
+        
       </form>
     </div>
 
@@ -78,7 +83,8 @@
       </div>
     </div>
   </div>
-
+  <p class="Home"><a href="../index.php" id="register" class="Home">Home</a></p>
+  <p class="Home text-center">Copyright © 2025 Public Employment Service Office. All rights reserved.</p>
   <script>
    document.addEventListener("DOMContentLoaded", function () {
     const container = document.getElementById("container");
