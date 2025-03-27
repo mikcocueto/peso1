@@ -1,213 +1,172 @@
-<?php
-require "../includes/db_connect.php"; // Database connection
-
-$registrationMessage = "";
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $firstName = trim($_POST['firstName']);
-    $lastName = trim($_POST['lastName']);
-    $country = trim($_POST['country']);
-    $companyNumber = trim($_POST['companyNumber']);
-    $email = trim($_POST['emailAddress']);
-    $password = trim($_POST['password']);
-    $confirm_password = trim($_POST['confirm_password']);
-
-    // Basic validation
-    if (empty($firstName) || empty($lastName) || empty($country) || empty($companyNumber) || empty($email) || empty($password) || empty($confirm_password)) {
-        $registrationMessage = "All fields are required.";
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $registrationMessage = "Invalid email format.";
-    } elseif ($password !== $confirm_password) {
-        $registrationMessage = "Passwords do not match.";
-    } else {
-        // Check if email already exists in `tbl_comp_login`
-        $checkStmt = $conn->prepare("SELECT id FROM tbl_comp_login WHERE emailAddress = ?");
-        $checkStmt->bind_param("s", $email);
-        $checkStmt->execute();
-        $checkStmt->store_result();
-
-        if ($checkStmt->num_rows > 0) {
-            $registrationMessage = "Email is already registered.";
-            $checkStmt->close();
-        } else {
-            $checkStmt->close();
-
-            // Generate a salt and hash the password
-            $salt = bin2hex(random_bytes(16)); // Generate a random 16-character salt
-            $hashedPassword = password_hash($password . $salt, PASSWORD_BCRYPT);
-
-            // Insert Company Details into `tbl_comp_info`
-            $stmt1 = $conn->prepare("INSERT INTO tbl_comp_info (firstName, lastName, country, companyNumber, create_time) VALUES (?, ?, ?, ?, NOW())");
-            $stmt1->bind_param("ssss", $firstName, $lastName, $country, $companyNumber);
-
-            if ($stmt1->execute()) {
-                // Get the last inserted company_id
-                $company_id = $conn->insert_id;
-                
-                // Insert Login Credentials into `tbl_comp_login`
-                $stmt2 = $conn->prepare("INSERT INTO tbl_comp_login (company_id, emailAddress, password, salt) VALUES (?, ?, ?, ?)");
-                $stmt2->bind_param("isss", $company_id, $email, $hashedPassword, $salt);
-
-                if ($stmt2->execute()) {
-                    $registrationMessage = "Registration successful!";
-                    header("Location: comp_login.php");
-                    exit();
-                } else {
-                    $registrationMessage = "Error inserting into login table: " . $stmt2->error;
-                }
-                $stmt2->close();
-            } else {
-                $registrationMessage = "Error inserting into company table: " . $stmt1->error;
-            }
-            $stmt1->close();
-        }
-    }
-}
-$conn->close();
-?>
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Company Register</title>
-    <!-- plugins:css -->
-    <link rel="stylesheet" href="../assets/vendors/iconfonts/mdi/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="../assets/vendors/iconfonts/ionicons/dist/css/ionicons.css">
-    <link rel="stylesheet" href="../assets/vendors/iconfonts/flag-icon-css/css/flag-icon.min.css">
-    <link rel="stylesheet" href="../assets/vendors/css/vendor.bundle.base.css">
-    <link rel="stylesheet" href="../assets/vendors/css/vendor.bundle.addons.css">
-    <!-- endinject -->
-    <!-- plugin css for this page -->
-    <!-- End plugin css for this page -->
-    <!-- inject:css -->
-    <link rel="stylesheet" href="../assets/css/shared/style.css">
-    <!-- endinject -->
-    <!-- Layout styles -->
-    <link rel="stylesheet" href="../assets/css/demo_1/style.css">
-    <!-- End Layout styles -->
-    <link rel="shortcut icon" href="../assets/images/peso.ico" />
-  </head>
-  <body>
-    <div class="container-scroller">
-      <div class="container-fluid page-body-wrapper full-page-wrapper">
-        <div class="content-wrapper d-flex align-items-center auth register-bg-1 theme-one">
-          <div class="row w-100">
-            <div class="col-lg-4 mx-auto">
-              <div class="auto-form-wrapper">
-                <h2 class="text-center mb-4">Register</h2>
-                <form action="" method="POST">
-                  <div class="form-group">
-                    <div class="input-group">
-                      <input type="text" name="firstName" class="form-control" placeholder="First Name" required>
-                      <div class="input-group-append">
-                        <span class="input-group-text">
-                          <i class="mdi mdi-check-circle-outline"></i>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="input-group">
-                      <input type="text" name="lastName" class="form-control" placeholder="Last Name" required>
-                      <div class="input-group-append">
-                        <span class="input-group-text">
-                          <i class="mdi mdi-check-circle-outline"></i>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="input-group">
-                      <input type="text" name="country" class="form-control" placeholder="Country" required>
-                      <div class="input-group-append">
-                        <span class="input-group-text">
-                          <i class="mdi mdi-check-circle-outline"></i>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="input-group">
-                      <input type="text" name="companyNumber" class="form-control" placeholder="Company Number" required>
-                      <div class="input-group-append">
-                        <span class="input-group-text">
-                          <i class="mdi mdi-check-circle-outline"></i>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="input-group">
-                      <input type="email" name="emailAddress" class="form-control" placeholder="Email Address" required>
-                      <div class="input-group-append">
-                        <span class="input-group-text">
-                          <i class="mdi mdi-check-circle-outline"></i>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="input-group">
-                      <input type="password" name="password" class="form-control" placeholder="Password" required>
-                      <div class="input-group-append">
-                        <span class="input-group-text">
-                          <i class="mdi mdi-check-circle-outline"></i>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="input-group">
-                      <input type="password" name="confirm_password" class="form-control" placeholder="Confirm Password" required>
-                      <div class="input-group-append">
-                        <span class="input-group-text">
-                          <i class="mdi mdi-check-circle-outline"></i>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <?php if (!empty($registrationMessage)): ?>
-                    <div class="form-group">
-                      <div class="alert alert-danger" role="alert">
-                        <?php echo $registrationMessage; ?>
-                      </div>
-                    </div>
-                  <?php endif; ?>
-                  <div class="form-group d-flex justify-content-center">
-                    <div class="form-check form-check-flat mt-0">
-                      
-                  <label class="form-check-label">
-                        <input type="checkbox" name="agree_terms" class="form-check-input" required> I agree to the terms and conditions
-                      </label>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <button class="btn btn-primary submit-btn btn-block">Register</button>
-                  </div>
-                  <div class="text-block text-center my-3">
-                    <span class="text-small font-weight-semibold">Already have an account?</span>
-                    <a href="comp_login.php" class="text-black text-small">Login</a>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register as an Employer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('../fortest/images/SPC_old_city_hall.jpg'); /* Ensure the correct file extension */
+            background-size: cover;
+            background-position: center;
+            background-color: #e2e2e2; /* Fallback background color */
+            flex-direction: column;
+        }
+        .navbar { 
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            /*background-color: #6267FF; /* Changed background color to blue */
+            padding: 10px;
+            /*box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);*/
+            z-index: 1000;
+            display: flex; 
+            align-items: center; /* Align items vertically */
+        }
+        .navbar .navbar-brand {
+            display: flex;
+            align-items: center; /* Align items vertically */
+        }
+        .navbar .navbar-brand img {
+            margin-right: 10px; /* Add space beside logo */
+        }
+        .navbar span {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add shadow */
+        }
+        .container {
+            max-width: 500px;
+            margin-top: 50px; /* Adjusted to avoid overlap with navbar and logo */
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin-top: 150px; /* Further adjust margin for smaller screens */
+                padding: 0 20px; /* Add padding to avoid edge touching */
+            }
+            .navbar {
+                flex-direction: row; /* Keep navbar items in a row on small screens */
+                justify-content: center; /* Center items horizontally */
+                align-items: center; /* Center items vertically */
+                text-align: center; /* Center text on small screens */
+            }
+            .navbar img {
+                width: 80px; /* Adjust logo size for small screens */
+                margin-right: 10px; /* Add space beside logo */
+            }
+            .navbar span {
+                font-size: 1.2rem; /* Adjust text size for small screens */
+                margin-right: 0; /* Remove right margin */
+            }
+        }
+        .card {
+            background-color: #5c6bc0;
+            color: white;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+        }
+        .form-control {
+            border-radius: 5px;
+        }
+        .btn-register, .btn-signin {
+            background-color: black;
+            color: white;
+            border-radius: 5px;
+            width: 100%;
+            padding: 10px;
+            font-weight: bold;
+        }
+        .text-muted {
+            font color:white;
+            text-align: left;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+        .form-label {
+            text-align: left;
+            display: block;
+            
+        }
+        .hidden {
+            display: none;
+        }
+        .Home{
+        color: white;
+        text-align: center;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar">
+    <div class="navbar-brand">
+        <img src="../fortest/images/peso_icons.png" alt="PESO Logo" style="width: 120px; height: auto;">
+        <div class="d-flex flex-column">
+        <span style="color: white; font-size: 1.5rem; font-weight: bold;">PESO</span>
+        <span style="color: white; font-size: 1.5rem; font-weight: bold; padding-left:30px;">for Company</span> <!-- Adjusted text beside logo -->
         </div>
-        <!-- content-wrapper ends -->
-      </div>
-      <!-- page-body-wrapper ends -->
     </div>
-    <!-- container-scroller -->
-    <!-- plugins:js -->
-    <script src="../assets/vendors/js/vendor.bundle.base.js"></script>
-    <script src="../assets/vendors/js/vendor.bundle.addons.js"></script>
-    <!-- endinject -->
-    <!-- inject:js -->
-    <script src="../assets/js/shared/off-canvas.js"></script>
-    <script src="../assets/js/shared/misc.js"></script>
-    <!-- endinject -->
-    <script src="../assets/js/shared/jquery.cookie.js" type="text/javascript"></script>
-  </body>
+</nav>
+<div class="container">
+    <div class="card" id="register-container">
+        <h3>Register as an employer</h3>
+        <form>
+            <div class="mb-3">
+                <label class="form-label">Email Address</label>
+                <input type="email" class="form-control" placeholder="Email" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input type="password" class="form-control" placeholder="Password" required>
+            </div>
+            <button type="submit" class="btn btn-register">Register employer Account</button>
+        </form>
+        <p class="text-muted text-grey">Already have an account? <a href="#" class="text-white" onclick="toggleForms()">Sign In</a></p>
+    </div>
+    <div class="container mt-4">
+    <div class="card hidden" id="signin-container">
+        <h3 class="text-center">Sign In</h3>
+        <form>
+            <div class="mb-3">
+                <label class="form-label">Email Address</label>
+                <input type="email" class="form-control" placeholder="Email" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input type="password" class="form-control" placeholder="Password" required>
+            </div>
+            <button type="submit" class="btn btn-signin">Sign In</button>
+        </form>
+        <p class="text-muted text-grey">Don't have an account? <a href="#" class="text-white" onclick="toggleForms()">Register</a></p>
+    </div>
+</div>
+<p class="Home"><a href="../index.php" id="register" class="Home text-center">Home</a></p>
+  <p class="Home text-center">Copyright © 2025 Public Employment Service Office. All rights reserved.</p>
+
+<script>
+    function toggleForms() {
+        var registerContainer = document.getElementById('register-container');
+        var signinContainer = document.getElementById('signin-container');
+
+        // Toggle visibility
+        if (registerContainer.style.display === "none") {
+            registerContainer.style.display = "block";
+            signinContainer.style.display = "none";
+        } else {
+            registerContainer.style.display = "none";
+            signinContainer.style.display = "block";
+        }
+    }
+
+    // Ensure the correct one is shown on page load
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById('register-container').style.display = "block"; 
+        document.getElementById('signin-container').style.display = "none";  
+    });
+</script>
+</body>
 </html>
