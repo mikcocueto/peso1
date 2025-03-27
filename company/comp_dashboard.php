@@ -88,70 +88,6 @@ $stmt->close();
         <button class="tab" data-tab="posted-jobs" onclick="switchTab('posted-jobs')">Posted Job</button>
     </nav>
 
-    <!-- Candidates Tab -->
-    <section id="candidates" class="content hidden">
-        <!-- Job Filters Section -->
-        <section id="job-filters" class="job-filters hidden">
-            <!-- add functionality later nlng -->
-            <div class="filter-tabs" hidden>
-                <button class="tab-btn active">Applicants (17)</button>
-                <button class="tab-btn">Matched Applicant</button>
-            </div>
-
-            <!-- Candidates Table -->
-            <div class="status-filters">
-                <span class="status-link active">17 Active</span>
-                <span>12 Awaiting review</span>
-                <span>2 Reviewed</span>
-                <span>2 Contacted</span>
-                <span>0 Hired</span>
-                <span>22 Rejected</span>
-            </div>
-                    <!-- Dynamic Job Dropdown -->
-                <select id="jobDropdown" class="job-position" onchange="fetchCandidates(this.value)">
-                    <option value="">-- Select a Job --</option>
-                    <?php foreach ($jobs_dropdown as $job): ?>
-                    <option value="<?= $job['job_id'] ?>"><?= htmlspecialchars($job['title']) ?></option>
-                    <?php endforeach; ?>
-                </select>
-            <div class="filter-controls">
-                <select class="filter-dropdown">
-                    <option>Screener questions: Any</option>
-                    <option>Answered</option>
-                    <option>Not Answered</option>
-                </select>
-
-                <select class="filter-dropdown">
-                    <option>Assessment: Any</option>
-                    <option>Passed</option>
-                    <option>Failed</option>
-                </select>
-
-                <select class="sort-dropdown">
-                    <option>Sort: Apply date (Newest)</option>
-                    <option>Sort: Apply date (Oldest)</option>
-                    <option>Sort: Relevance</option>
-                </select>
-            </div>
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>Candidate Name</th>
-                        <th>Email</th>
-                        <th>Application Time</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody id="candidatesTableBody">
-                    <tr>
-                        <td colspan="4" class="text-center">Select a job to view candidates.</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            
-        </section>
-    </section>
 
 <section id="dashboard" class="content active">
 				<h1 class="h3 mb-3"><strong>Company Details</strong></h1>
@@ -324,8 +260,7 @@ $stmt->close();
     </script>
 				</section>
 
-
-    <!-- Jobs Tab -->
+    <!-- Job posted list Tab -->
     <section id="jobs" class="content active">
         <!-- Filters -->
     <section class="filters">
@@ -382,6 +317,139 @@ $stmt->close();
             </div>
         </div>
     </section>
+
+<!-- Candidates Tab -->
+<section id="candidates" class="content hidden">
+        <!-- Job Filters Section -->
+        <section id="job-filters" class="job-filters hidden">
+            <!-- add functionality later nlng -->
+            <div class="filter-tabs" hidden>
+                <button class="tab-btn active">Applicants (17)</button>
+                <button class="tab-btn">Matched Applicant</button>
+            </div>
+
+            <!-- Candidates Table -->
+            <div class="status-filters">
+                <span class="status-link active">17 Active</span>
+                <span>12 Awaiting review</span>
+                <span>2 Reviewed</span>
+                <span>2 Contacted</span>
+                <span>0 Hired</span>
+                <span>22 Rejected</span>
+            </div>
+                    <!-- Dynamic Job Dropdown -->
+                <select id="jobDropdown" class="job-position" onchange="fetchCandidates(this.value)">
+                    <option value="">-- Select a Job --</option>
+                    <?php foreach ($jobs_dropdown as $job): ?>
+                    <option value="<?= $job['job_id'] ?>"><?= htmlspecialchars($job['title']) ?></option>
+                    <?php endforeach; ?>
+                </select>
+            <div class="filter-controls">
+                <select class="filter-dropdown">
+                    <option>Screener questions: Any</option>
+                    <option>Answered</option>
+                    <option>Not Answered</option>
+                </select>
+
+                <select class="filter-dropdown">
+                    <option>Assessment: Any</option>
+                    <option>Passed</option>
+                    <option>Failed</option>
+                </select>
+
+                <select class="sort-dropdown">
+                    <option>Sort: Apply date (Newest)</option>
+                    <option>Sort: Apply date (Oldest)</option>
+                    <option>Sort: Relevance</option>
+                </select>
+            </div>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Candidate Name</th>
+                        <th>Email</th>
+                        <th>Application Time</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="candidatesTableBody">
+                    <tr>
+                        <td colspan="4" class="text-center">Select a job to view candidates.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            
+        </section>
+    </section>
+
+<!-- post new job form Tab -->
+<section id="post-job" class="content hidden">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-lg">
+                    <div class="card-body">
+                        <h3 class="text-center">Create Job Listing</h3>
+                        <form action="../includes/company/comp_job_process.php" method="POST">
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Job Title</label>
+                                <input type="text" class="form-control" name="title" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Description</label>
+                                <textarea class="form-control" name="description" rows="4" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="requirements" class="form-label">Requirements</label>
+                                <textarea class="form-control" name="requirements" rows="4" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="employment_type" class="form-label">Employment Type</label>
+                                <select class="form-select" name="employment_type" required>
+                                    <option value="Full time">Full-time</option>
+                                    <option value="Part time">Part-time</option>
+                                    <option value="Contract">Contract</option>
+                                    <option value="Temporary">Temporary</option>
+                                    <option value="Internship">Internship</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="location" class="form-label">Location</label>
+                                <input type="text" class="form-control" name="location" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="salary_min" class="form-label">Minimum Salary</label>
+                                <input type="number" class="form-control" name="salary_min" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="salary_max" class="form-label">Maximum Salary</label>
+                                <input type="number" class="form-control" name="salary_max" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="currency" class="form-label">Currency</label>
+                                <input type="text" class="form-control" name="currency" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="category_id" class="form-label">Job Category</label>
+                                <select class="form-select" name="category_id" required>
+                                    <?php foreach ($categories as $category): ?>
+                                        <option value="<?= $category['category_id'] ?>"><?= htmlspecialchars($category['category_name']) ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="expiry_date" class="form-label">Expiry Date</label>
+                                <input type="date" class="form-control" name="expiry_date" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Create Job Listing</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
     <!-- Edit Job Modal -->
     <div class="modal fade" id="editJobModal" tabindex="-1" aria-labelledby="editJobModalLabel" aria-hidden="true">
@@ -459,20 +527,18 @@ $stmt->close();
         </div>
     </div>
 
-    
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../fortest/js/jquery.min.js"></script>
-    <script src="script/script.js"></script>   
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    function updateTime() {
-        const options = { timeZone: 'Asia/Manila', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
-        const currentTime = new Date().toLocaleTimeString('en-US', options);
-        document.getElementById('currentTime').textContent = currentTime;
-    }
-    setInterval(updateTime, 1000);
-    updateTime();
-</script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="../fortest/js/jquery.min.js"></script>
+        <script src="script/script.js"></script>   
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            function updateTime() {
+                const options = { timeZone: 'Asia/Manila', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+                const currentTime = new Date().toLocaleTimeString('en-US', options);
+                document.getElementById('currentTime').textContent = currentTime;
+            }
+            setInterval(updateTime, 1000);
+            updateTime();
+        </script>
 </body>
 </html>
