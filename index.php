@@ -272,7 +272,7 @@ $conn->close();
         <div class="row mb-5 justify-content-center">
           <div class="col-md-7 text-center">
             <h2 class="section-title mb-2 text-white">JobBoard Site Stats</h2>
-            <p class="lead text-white">Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita unde officiis recusandae sequi excepturi corrupti.</p>
+            <p class="lead text-white">This section highlights key JobBoard stats, including applicants, jobs posted, jobs filled, and participating companies, offering insight into the platform's growth and impact.</p>
           </div>
         </div>
         <div class="row pb-0 block__19738 section-counter">
@@ -384,14 +384,14 @@ $conn->close();
       </div>
     </section>
 
-    <section style="background: #6c63ff; color: #fff; padding: 50px 0; text-align: center;">
+    <section id="contacts" style="background: #6c63ff; color: #fff; padding: 50px 0; text-align: center;">
     <div style="max-width: 1100px; margin: auto; display: flex; flex-wrap: wrap; justify-content: space-between;">
         <div style="flex: 1; min-width: 500px; text-align: left; padding: 50px;">
             <h2 style="color:white;">Contact Us</h2>
             <p>Reach out to us for any inquiries or assistance. We're here to help!</p>
             <div style="margin-top: 50px;">
                 <p><strong>📍 Address:</strong> 4th floor City Governance Bldg. City Hall Compound Brgy. V-A , San Pablo City, Philippines</p>
-                <p><strong>📞 Phone:</strong> 561-456-2321</p>
+                <p><strong>📞 Phone:</strong> 9999-999-9999</p>
                 <p><strong>📧 Email:</strong> pesosanpablo@gmail.com</p>
             </div>
         </div>
@@ -450,7 +450,7 @@ $conn->close();
           <div class="col-6 col-md-3 mb-4 mb-md-0">
             <h3>Contact Us</h3>
             <div class="footer-social">
-              <a href="#"><span class="icon-facebook"></span></a>
+              <a href="https://web.facebook.com/PESO.sanpablo"><span class="icon-facebook"></span></a>
               <a href="#"><span class="icon-twitter"></span></a>
               <a href="#"><span class="icon-instagram"></span></a>
               <a href="#"><span class="icon-linkedin"></span></a>

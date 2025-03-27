@@ -66,6 +66,7 @@ $stmt->close();
             </div>
         </div>
         <div class="c_dash_navbar-icons">
+            <span id="currentTime" style="color: white; margin-right: 20px;"></span>
             <i class="bx bx-bell"></i>
             <i class="bx bx-chat"></i>
             <div class="dropdown">
@@ -464,5 +465,14 @@ $stmt->close();
     <script src="../fortest/js/jquery.min.js"></script>
     <script src="script/script.js"></script>   
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function updateTime() {
+        const options = { timeZone: 'Asia/Manila', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+        const currentTime = new Date().toLocaleTimeString('en-US', options);
+        document.getElementById('currentTime').textContent = currentTime;
+    }
+    setInterval(updateTime, 1000);
+    updateTime();
+</script>
 </body>
 </html>

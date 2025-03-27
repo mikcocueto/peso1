@@ -51,7 +51,7 @@ if (isset($_SESSION['user_id'])) {
                 </ul>
               </li>
               
-              <li><a href="contact.html">Contact</a></li>
+              <li><a href="#contacts">Contact</a></li>
               <?php if (isset($_SESSION['user_id'])): ?>
               <li class="d-lg-none has-children">
                 <a href="#"><span class="icon-user"></span> <?= htmlspecialchars($user_name) ?></a>

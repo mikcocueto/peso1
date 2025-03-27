@@ -1,4 +1,4 @@
-<?php
+Add<?php
 session_start(); // Start the session
 include '../includes/db_connect.php'; // Include database connection
 include '../includes/nav.php'; // Include navigation bar
