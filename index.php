@@ -387,7 +387,7 @@ $conn->close();
     <section style="background: #6c63ff; color: #fff; padding: 50px 0; text-align: center;">
     <div style="max-width: 1100px; margin: auto; display: flex; flex-wrap: wrap; justify-content: space-between;">
         <div style="flex: 1; min-width: 500px; text-align: left; padding: 50px;">
-            <h2>Contact Us</h2>
+            <h2 style="color:white;">Contact Us</h2>
             <p>Reach out to us for any inquiries or assistance. We're here to help!</p>
             <div style="margin-top: 50px;">
                 <p><strong>📍 Address:</strong> 4th floor City Governance Bldg. City Hall Compound Brgy. V-A , San Pablo City, Philippines</p>
