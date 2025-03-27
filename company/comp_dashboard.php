@@ -81,13 +81,41 @@ $stmt->close();
 
     <!-- Navigation Tabs -->
     <nav class="tabs">
-        <button class="tab active" data-tab="dashboard" onclick="switchTab('dashboard')">Dashboard</button>
-        <button class="tab" data-tab="jobs" onclick="switchTab('jobs')">Jobs</button>
-        <button class="tab" data-tab="candidates" onclick="switchTab('candidates')">Candidates</button>
-        <button class="tab" data-tab="post-job" onclick="switchTab('post-job')">Post a Job</button>
-        <button class="tab" data-tab="posted-jobs" onclick="switchTab('posted-jobs')">Posted Job</button>
+        <button class="hamburger-menu d-md-none" onclick="toggleHamburgerMenu()">☰</button>
+        <div id="tabsContainer" class="tabs-container d-none d-md-flex">
+            <button class="tab active" data-tab="dashboard" onclick="switchTab('dashboard')">Dashboard</button>
+            <button class="tab" data-tab="jobs" onclick="switchTab('jobs')">Jobs</button>
+            <button class="tab" data-tab="candidates" onclick="switchTab('candidates')">Candidates</button>
+            <button class="tab" data-tab="post-job" onclick="switchTab('post-job')">Post a Job</button>
+        </div>
     </nav>
 
+    <style>
+        .hamburger-menu {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            margin: 10px;
+        }
+        .tabs-container {
+            flex-direction: column;
+            background-color: #f8f9fa;
+            padding: 10px;
+        }
+        .tabs-container.d-md-flex {
+            flex-direction: row;
+            background-color: transparent;
+            padding: 0;
+        }
+    </style>
+
+    <script>
+        function toggleHamburgerMenu() {
+            const tabsContainer = document.getElementById('tabsContainer');
+            tabsContainer.classList.toggle('d-none');
+        }
+    </script>
 
 <section id="dashboard" class="content active">
 				<h1 class="h3 mb-3"><strong>Company Details</strong></h1>
@@ -264,17 +292,31 @@ $stmt->close();
     <section id="jobs" class="content active">
         <!-- Filters -->
     <section class="filters">
-        <div class="left-filters">
-            <button class="filter-btn OP">Open and Paused (#)</button>
-            <button class="filter-btn">Closed (#)</button>
-            <input type="text" id="searchInput" placeholder="Search job title">
-            <button type="button" class="filter-btn" onclick="searchJobs()">Search</button>
+    <div class="container">
+        <div class="row mb-3 align-items-center">
+             <!-- Filter Buttons -->
+            <div class="row mb-3">
+                <div class="col-md-6 d-flex">
+                    <button class="btn btn-outline-primary me-2">Open and Paused (#)</button>
+                    <button class="btn btn-outline-secondary">Closed (#)</button>
+                </div>
+            </div>
+            <!-- Search Bar -->
+            <div class="col-md-6">
+                <div class="input-group">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Search job title">
+                    <button type="button" class="btn btn-primary" onclick="searchJobs()">Search</button>
+                </div>
+            </div>
+            <!-- Sorting Options -->
+            <div class="col-md-6 text-end">
+                <button class="btn btn-outline-secondary me-2">Sort by Posting Date</button>
+                <button class="btn btn-outline-secondary">Order: Descending</button>
+            </div>
         </div>
-        <div class="right-filters">
-            <button class="sort-btn">Sort by Posting Date</button>
-            <button class="order-btn">Order: Descending</button>
-        </div>
-    </section>
+       
+    </div>
+</section>
         <div class="job-listing">
             <div class="table-header">
                 <div class="one">Job Title</div>
@@ -383,7 +425,7 @@ $stmt->close();
         </section>
     </section>
 
-<!-- post new job form Tab -->
+                    <!--
 <section id="post-job" class="content hidden">
     <div class="container mt-5">
         <div class="row justify-content-center">
@@ -449,7 +491,166 @@ $stmt->close();
             </div>
         </div>
     </div>
+</section>             -->
+
+<!-- Post a Job Tab -->
+<section id="post-job" class="content hidden">
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h2>Create Job</h2>
+                    <!-- Alert Notification -->
+                    <div id="jobPostAlert" class="alert alert-success d-none" role="alert">
+                        Job post created successfully!
+                    </div>
+                    <form onsubmit="handleJobPost(event)">
+                        <div class="row">
+                            <!-- Left Column -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="jobTitle">Job Title</label>
+                                    <input type="text" class="form-control" id="jobTitle" placeholder="Example: Housekeeping Attendant">
+                                </div>
+                                <div class="form-group">
+                                    <label for="jobCategory">Job Category</label>
+                                    <select class="form-control" id="jobCategory">
+                                        <option>Select Job Category</option>
+                                        <option>Accounting & Finance</option>
+                                        <option>Administrative & Office Support</option>
+                                        <option>Advertising & Marketing</option>
+                                        <option>Aerospace & Aviation</option>
+                                        <option>Agriculture & Farming</option>
+                                        <option>Architecture & Design</option>
+                                        <option>Arts, Media & Entertainment</option>
+                                        <option>Automotive & Transportation</option>
+                                        <option>Banking & Insurance</option>
+                                        <option>Biotechnology & Pharmaceuticals</option>
+                                        <option>Business & Consulting</option>
+                                        <option>Construction & Civil Engineering</option>
+                                        <option>Customer Service & Support</option>
+                                        <option>Data Science & Analytics</option>
+                                        <option>Education & Training</option>
+                                        <option>Energy & Utilities</option>
+                                        <option>Engineering (Mechanical, Electrical, Civil, etc.)</option>
+                                        <option>Environmental & Sustainability</option>
+                                        <option>Fashion & Textile</option>
+                                        <option>Food & Beverage</option>
+                                        <option>Government & Public Sector</option>
+                                        <option>Graphic Design & Multimedia</option>
+                                        <option>Healthcare & Medical</option>
+                                        <option>Hospitality & Tourism</option>
+                                        <option>Human Resources & Recruitment</option>
+                                        <option>Information Technology (IT) & Software Development</option>
+                                        <option>Journalism & Writing</option>
+                                        <option>Legal & Compliance</option>
+                                        <option>Logistics & Supply Chain</option>
+                                        <option>Manufacturing & Production</option>
+                                        <option>Military & Defense</option>
+                                        <option>Nonprofit & Social Services</option>
+                                        <option>Real Estate & Property Management</option>
+                                        <option>Research & Development</option>
+                                        <option>Retail & E-commerce</option>
+                                        <option>Sales & Business Development</option>
+                                        <option>Science & Laboratory Work</option>
+                                        <option>Security & Law Enforcement</option>
+                                        <option>Sports & Fitness</option>
+                                        <option>Telecommunications</option>
+                                        <option>Transportation & Warehousing</option>
+                                        <option>Veterinary & Animal Care</option>
+                                        <option>Virtual Assistance & Remote Work</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Employment Type</label><br>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="employmentType" value="part-time" checked>
+                                                <label class="form-check-label">Part-time</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="employmentType" value="full-time">
+                                                <label class="form-check-label">Full-time</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="employmentType" value="internship">
+                                                <label class="form-check-label">Internship</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="employmentType" value="contract">
+                                                <label class="form-check-label">Contract</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="deadline">Deadline</label>
+                                    <input type="date" class="form-control" id="deadline">
+                                </div>
+                                <div class="form-group">
+                                    <label for="numberOpenings">Number of Openings</label>
+                                    <input type="number" class="form-control" id="numberOpenings" value="15">
+                                </div>
+                            </div>
+                            <!-- Right Column -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="startDate">Start Date</label>
+                                    <input type="date" class="form-control" id="startDate">
+                                </div>
+                                <div class="form-group">
+                                    <label for="endDate">End Date</label>
+                                    <input type="date" class="form-control" id="endDate">
+                                </div>
+                                <div class="form-group">
+                                    <label for="rateDetails">Rate Details</label>
+                                    <div class="d-flex align-items-center">
+                                        <div class="mr-2">
+                                            <label for="rateAmount">Currency</label>
+                                            <input type="text" class="form-control" id="rateAmount" placeholder="PHP 200 - PHP 600 / Hour">
+                                        </div>
+                                        <div class="mr-2">
+                                            <label for="minRate">Min Rate</label>
+                                            <input type="number" class="form-control" id="minRate" placeholder="Min Rate">
+                                        </div>
+                                        <div>
+                                            <label for="maxRate">Max Rate</label>
+                                            <input type="number" class="form-control" id="maxRate" placeholder="Max Rate">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="jobDescription">Job Description</label>
+                                    <textarea class="form-control" id="jobDescription" rows="5"></textarea>
+                                </div>
+                                <div class="form-group text-end" style="padding-top: 20px;">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </section>
+
+<script>
+    function handleJobPost(event) {
+        event.preventDefault();
+        // Simulate job post creation
+        const alertBox = document.getElementById('jobPostAlert');
+        alertBox.classList.remove('d-none');
+        setTimeout(() => {
+            alertBox.classList.add('d-none');
+        }, 3000);
+    }
+</script>
 
     <!-- Edit Job Modal -->
     <div class="modal fade" id="editJobModal" tabindex="-1" aria-labelledby="editJobModalLabel" aria-hidden="true">
