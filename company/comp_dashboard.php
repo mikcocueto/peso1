@@ -73,7 +73,7 @@ $stmt->close();
                 <i class="bx bx-user" onclick="toggleDropdown()"></i>
                 <div class="dropdown-menu">
                     <a href="comp_profile.php">Profile</a>
-                    <a href="comp_logout.php">Logout</a>
+                    <a href="../includes/company/comp_logout.php">Logout</a>
                 </div>
             </div>
         </div>
@@ -511,12 +511,12 @@ $stmt->close();
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="jobTitle">Job Title</label>
-                                    <input type="text" class="form-control" id="jobTitle" placeholder="Example: Housekeeping Attendant">
+                                    <input type="text" class="form-control" id="jobTitle" placeholder="Example: Housekeeping Attendant" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="jobCategory">Job Category</label>
-                                    <select class="form-control" id="jobCategory">
-                                        <option>Select Job Category</option>
+                                    <select class="form-control" id="jobCategory" required>
+                                        <option value="">Select Job Category</option>
                                         <option>Accounting & Finance</option>
                                         <option>Administrative & Office Support</option>
                                         <option>Advertising & Marketing</option>
@@ -589,43 +589,43 @@ $stmt->close();
                                 </div>
                                 <div class="form-group">
                                     <label for="deadline">Deadline</label>
-                                    <input type="date" class="form-control" id="deadline">
+                                    <input type="date" class="form-control" id="deadline" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="numberOpenings">Number of Openings</label>
-                                    <input type="number" class="form-control" id="numberOpenings" value="15">
+                                    <input type="number" class="form-control" id="numberOpenings" value="15" required>
                                 </div>
                             </div>
                             <!-- Right Column -->
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="startDate">Start Date</label>
-                                    <input type="date" class="form-control" id="startDate">
+                                    <input type="date" class="form-control" id="startDate" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="endDate">End Date</label>
-                                    <input type="date" class="form-control" id="endDate">
+                                    <input type="date" class="form-control" id="endDate" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="rateDetails">Rate Details</label>
                                     <div class="d-flex align-items-center">
                                         <div class="mr-2">
                                             <label for="rateAmount">Currency</label>
-                                            <input type="text" class="form-control" id="rateAmount" placeholder="PHP 200 - PHP 600 / Hour">
+                                            <input type="text" class="form-control" id="rateAmount" placeholder="e.g. PHP/USD" required>
                                         </div>
                                         <div class="mr-2">
                                             <label for="minRate">Min Rate</label>
-                                            <input type="number" class="form-control" id="minRate" placeholder="Min Rate">
+                                            <input type="number" class="form-control" id="minRate" placeholder="Min Rate" required>
                                         </div>
                                         <div>
                                             <label for="maxRate">Max Rate</label>
-                                            <input type="number" class="form-control" id="maxRate" placeholder="Max Rate">
+                                            <input type="number" class="form-control" id="maxRate" placeholder="Max Rate" required>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="jobDescription">Job Description</label>
-                                    <textarea class="form-control" id="jobDescription" rows="5"></textarea>
+                                    <textarea class="form-control" id="jobDescription" rows="5" required></textarea>
                                 </div>
                                 <div class="form-group text-end" style="padding-top: 20px;">
                                     <button type="submit" class="btn btn-primary">Submit</button>
