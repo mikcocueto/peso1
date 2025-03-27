@@ -35,10 +35,7 @@ if (isset($_SESSION['user_id'])) {
               <li><a href="#about">About</a></li>
               <li class="has-children">
                 <a href="job-listings.html">Job Listings</a>
-                <ul class="dropdown">
-                  <li><a href="employee/emp_job_list.php">Job Listings</a></li>
-                  <li><a href="post-job.html">Post a Job</a></li>
-                </ul>
+                
               </li>
               <li class="has-children">
                 <a href="services.html">Pages</a>
