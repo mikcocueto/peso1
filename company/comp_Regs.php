@@ -95,6 +95,10 @@
         .hidden {
             display: none;
         }
+        .Home{
+        color: white;
+        text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -140,6 +144,8 @@
         <p class="text-muted text-grey">Don't have an account? <a href="#" class="text-white" onclick="toggleForms()">Register</a></p>
     </div>
 </div>
+<p class="Home"><a href="../index.php" id="register" class="Home text-center">Home</a></p>
+  <p class="Home text-center">Copyright © 2025 Public Employment Service Office. All rights reserved.</p>
 
 <script>
     function toggleForms() {

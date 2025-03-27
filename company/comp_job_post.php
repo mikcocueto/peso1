@@ -62,10 +62,6 @@ $categories = $conn->query("SELECT category_id, category_name FROM tbl_job_categ
                             <input type="number" class="form-control" name="salary_max" required>
                         </div>
                         <div class="mb-3">
-                            <label for="currency" class="form-label">Currency</label>
-                            <input type="text" class="form-control" name="currency" required>
-                        </div>
-                        <div class="mb-3">
                             <label for="category_id" class="form-label">Job Category</label>
                             <select class="form-select" name="category_id" required>
                                 <?php while ($category = $categories->fetch_assoc()): ?>

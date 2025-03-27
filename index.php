@@ -148,6 +148,13 @@ $conn->close();
         width: 120px;
         height: auto;
       }
+      .owl-carousel .slide img {
+        width: auto;
+        height: auto;
+        max-width: 100%;
+        max-height: 200px; /* Set a maximum height to maintain aspect ratio */
+        object-fit: contain; /* Ensure the image fits within the container without distortion */
+      }
     </style>
   </head>
   <body id="top">
@@ -362,15 +369,15 @@ $conn->close();
     
     <section id="Blogs" class="bg-light pt-5 Announcement">
       <div class="container">
-        <h2>Our Blogs</h2>
+        <h2>Announcements</h2>
         <div class="owl-carousel customer-logos">
-          <div class="slide"><img src="https://image.freepik.com/free-vector/luxury-letter-e-logo-design_1017-8903.jpg"></div>
-          <div class="slide"><img src="https://image.freepik.com/free-vector/3d-box-logo_1103-876.jpg"></div>
-          <div class="slide"><img src="https://image.freepik.com/free-vector/blue-tech-logo_1103-822.jpg"></div>
-          <div class="slide"><img src="https://image.freepik.com/free-vector/colors-curl-logo-template_23-2147536125.jpg"></div>
-          <div class="slide"><img src="https://image.freepik.com/free-vector/abstract-cross-logo_23-2147536124.jpg"></div>
-          <div class="slide"><img src="https://image.freepik.com/free-vector/football-logo-background_1195-244.jpg"></div>
-          <div class="slide"><img src="https://image.freepik.com/free-vector/background-of-spots-halftone_1035-3847.jpg"></div>
+          <div class="slide"><img src="fortest/images/Maxim.png" alt="Maxim"></div>
+          <div class="slide"><img src="fortest/images/Maxim2.png" alt="Maxim"></div>
+          <div class="slide"><img src="fortest/images/Alorica.png" alt="Alorica"></div>
+          <div class="slide"><img src="fortest/images/Alorica1.png" alt="Alorica"></div>
+          <div class="slide"><img src="fortest/images/Canon1.png" alt="Canon"></div>
+          <div class="slide"><img src="fortest/images/Canon2.png" alt="Canon"></div>
+          <div class="slide"><img src="fortest/images/Canon3.png" alt="Canon"></div>
         </div>
       </div>
     </section>
