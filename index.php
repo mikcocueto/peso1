@@ -314,8 +314,9 @@ $conn->close();
     <div class="container bg-light p-5 d-flex flex-column flex-md-row align-items-center">
         <div class="col-md-6 mb-4 mb-md-0">
             <h1 class="display-4 font-weight-bold mb-3">ABOUT US</h1>
-            <p style="color: #333; class=text-muted mb-3">Lorem ipsum dolor sit amet, consectetur adipiscing</p>
-            <p style="color: #333; class=text-muted mb-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <p style="color: #333; class=text-muted mb-3">The Public Employment Service Office (PESO) of San Pablo City is a government office dedicated to assisting job seekers and employers by providing employment services, 
+              career counseling, and job placement opportunities. Our mission is to bridge the gap between job seekers and the labor market, ensuring a sustainable
+               livelihood for the community.</p>
             <a href="https://owwamember.com/peso-public-employment-service-office/" target="_blank" class="btn btn-dark mb-3">Read More</a>
             <div class="d-flex">
                 <a class="text-danger mr-3" href="#"><i class="fab fa-facebook-f"></i></a>
@@ -341,7 +342,7 @@ $conn->close();
                     <img src="https://storage.googleapis.com/a1aa/image/-B1FBR_Shx4RkCN2nVEy4ksyaapLS-I4yXDpLzecEc4.jpg" class="card-img-top mx-auto" alt="Icon representing job search" style="width: 64px; height: 64px;">
                     <div class="card-body text-black">
                         <h5 class="card-title">1. Search a job</h5>
-                        <p class="card-text">Sorem spsum dolor sit amsectetur adipisclit, seddo eiusmod tempor incididunt ut laborea.</p>
+                        <p class="card-text">Visit PESO San Pablo City, explore job listings, and discover opportunities that align with your skills and career goals.</p>
                     </div>
                 </div>
             </div>
@@ -349,8 +350,9 @@ $conn->close();
                 <div class="card p-4">
                     <img src="https://storage.googleapis.com/a1aa/image/YIYYs-dEqsNdyJqJEfJLDAe1cON3DEbtamQpaM3pE04.jpg" class="card-img-top mx-auto" alt="Icon representing job application" style="width: 64px; height: 64px;">
                     <div class="card-body text-black">
-                        <h5 class="card-title">2. Apply for job</h5>
-                        <p class="card-text">Sorem spsum dolor sit amsectetur adipisclit, seddo eiusmod tempor incididunt ut laborea.</p>
+                        <h5 class="card-title">2. Apply for job
+                        </h5>
+                        <p class="card-text">Register at PESO, submit your resume, get matched with job openings, and attend interviews or screenings.</p>
                     </div>
                 </div>
             </div>
@@ -359,7 +361,7 @@ $conn->close();
                     <img src="https://storage.googleapis.com/a1aa/image/SPg_obwdygMCcsDWmQUBKKDLkSV4aF42IDTrT0c9R9g.jpg" class="card-img-top mx-auto" alt="Icon representing getting a job" style="width: 64px; height: 64px;">
                     <div class="card-body text-black">
                         <h5 class="card-title">3. Get your job</h5>
-                        <p class="card-text">Sorem spsum dolor sit amsectetur adipisclit, seddo eiusmod tempor incididunt ut laborea.</p>
+                        <p class="card-text">Secure a job offer, complete requirements, and begin your career with PESO’s guidance, ensuring a smooth transition into employment.</p>
                     </div>
                 </div>
             </div>
@@ -382,9 +384,32 @@ $conn->close();
       </div>
     </section>
 
-    <section class="pt-5 bg-image overlay-primary fixed overlay" style="background-image: url('fortest/images/hero_1.jpg');">
+    <section style="background: #6c63ff; color: #fff; padding: 50px 0; text-align: center;">
+    <div style="max-width: 1100px; margin: auto; display: flex; flex-wrap: wrap; justify-content: space-between;">
+        <div style="flex: 1; min-width: 500px; text-align: left; padding: 50px;">
+            <h2>Contact Us</h2>
+            <p>Reach out to us for any inquiries or assistance. We're here to help!</p>
+            <div style="margin-top: 50px;">
+                <p><strong>📍 Address:</strong> 4th floor City Governance Bldg. City Hall Compound Brgy. V-A , San Pablo City, Philippines</p>
+                <p><strong>📞 Phone:</strong> 561-456-2321</p>
+                <p><strong>📧 Email:</strong> pesosanpablo@gmail.com</p>
+            </div>
+        </div>
+        
+        <div style="flex: 1; min-width: 300px; background: #fff; color: #000; padding: 20px; border-radius: 8px;">
+            <h3>Send Message</h3>
+            <form action="#" method="POST">
+                <input type="text" name="name" placeholder="Full Name" required style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc;">
+                <input type="email" name="email" placeholder="Email" required style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc;">
+                <textarea name="message" placeholder="Type your message..." required style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; height: 100px;"></textarea>
+                <button type="submit" style="width: 100%; padding: 12px; background: #00bcd4; color: white; border: none; cursor: pointer;">Send</button>
+            </form>
+        </div>
+    </div>
+</section>
+
       
-    </section>
+
     
     <footer class="site-footer">
 
