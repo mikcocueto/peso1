@@ -154,23 +154,26 @@ $stmt->close();
 					<!-- New container for company details -->
 					<div class="row mb-3">
 						<div class="col-12">
-							<div class="card">
-								<div class="card-body">
-									<div class="d-flex justify-content-between align-items-center">
-                                    <img src="../assets/images/fds.jpg" class="img-fluid" alt="Company Logo" style="max-height: 200px;">
-										<div>
-											<h3>Company Information</h3>
-											<p class="card-text">Company Name: XYZ Corp</p>
-											<p class="card-text">Country: Philippines</p>
-											<p class="card-text">Company Address: San Pablo City</p>
-											<p class="card-text">Company Hotline: 4444 444</p>
-											<p class="card-text">Company Number: 0912-345-6789 </p>
-											<p class="card-text">Human Resource: John Doe</p>
+							<div class="card border-0 bg-transparent">
+								<div class="card-body position-relative">
+									<div class="d-flex justify-content-center align-items-center">
+										<div class="d-flex align-items-center gap-5">
+											<div class="text-center" style="width: 200px;">
+												<img src="../assets/images/fds.jpg" class="img-fluid" alt="Company Logo" style="max-height: 200px; object-fit: contain;">
+											</div>
+											<div class="company-info">
+												<h3 class="mb-4 px-3 py-2" style="background-color: #f8f9fa; border-radius: 8px;">Company Information</h3>
+												<p class="card-text">Company Name: FDS Asya Philippines</p>
+												<p class="card-text">Country: Philippines</p>
+												<p class="card-text"><strong>Company Address:</strong> San Pablo City</p>
+												<p class="card-text"><strong>Company Hotline:</strong> 4444 444</p>
+												<p class="card-text"><strong>Company Number:</strong> 0912-345-6789</p>
+												<p class="card-text">Human Resource: John Doe</p>
+											</div>
 										</div>
-										
 									</div>
-									<div class="d-flex justify-content-end mt-3">
-										<button class="btn btn-primary" onclick="editCompanyDetails()">Edit</button>
+									<div style="position: absolute; bottom: 15px; right: 15px;">
+										<button class="btn btn-primary btn-lg rounded-pill px-4" style="background-color: #0d6efd; border: none; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" onclick="editCompanyDetails()">Edit</button>
 									</div>
 								</div>
 							</div>
@@ -185,84 +188,80 @@ $stmt->close();
 							<div class="w-100">
 								<div class="row">
 									<div class="col-sm-6">
-										<div class="card">
+										<div class="card shadow-sm">
 											<div class="card-body">
 												<div class="row">
 													<div class="col mt-0">
 														<h5 class="card-title">Applicants</h5>
 													</div>
-
 													<div class="col-auto">
 														<div class="stat text-primary">
 															<i class="align-middle" data-feather="truck"></i>
 														</div>
 													</div>
 												</div>
-												<h1 class="mt-1 mb-3">2.382</h1>
+												<h1 class="mt-1 mb-3" style="font-size: 2.5rem; font-weight: 700;">2.382</h1>
 												<div class="mb-0">
-													<span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> -3.65% </span>
+													<span class="text-danger">❌ -3.65%</span>
 													<span class="text-muted">Since last week</span>
 												</div>
 											</div>
 										</div>
-                                        <div class="card">
+										<div class="card shadow-sm">
 											<div class="card-body">
 												<div class="row">
 													<div class="col mt-0">
 														<h5 class="card-title">Visitors</h5>
 													</div>
-
 													<div class="col-auto">
 														<div class="stat text-primary">
 															<i class="align-middle" data-feather="users"></i>
 														</div>
 													</div>
 												</div>
-												<h1 class="mt-1 mb-3">14.212</h1>
+												<h1 class="mt-1 mb-3" style="font-size: 2.5rem; font-weight: 700;">14.212</h1>
 												<div class="mb-0">
-													<span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> 5.25% </span>
+													<span class="text-success">✅ 5.25%</span>
 													<span class="text-muted">Since last week</span>
 												</div>
 											</div>
 										</div>
 									</div>
 									<div class="col-sm-6">
-										<div class="card">
+										<div class="card shadow-sm">
 											<div class="card-body">
 												<div class="row">
 													<div class="col mt-0">
-														<h5 class="card-title">Posted Jobs  </h5>
+														<h5 class="card-title">Posted Jobs</h5>
 													</div>
-
 													<div class="col-auto">
 														<div class="stat text-primary">
 															<i class="align-middle" data-feather="dollar-sign"></i>
 														</div>
 													</div>
 												</div>
-												<h1 class="mt-1 mb-3">$21.300</h1>
+												<h1 class="mt-1 mb-3" style="font-size: 2.5rem; font-weight: 700;">21.300</h1>
 												<div class="mb-0">
-													<span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> 6.65% </span>
+													<span class="text-success">✅ 6.65%</span>
 													<span class="text-muted">Since last week</span>
 												</div>
 											</div>
 										</div>
-										<div class="card">
+										<div class="card shadow-sm">
 											<div class="card-body">
 												<div class="row">
 													<div class="col mt-0">
 														<h5 class="card-title">Hired Applicants</h5>
 													</div>
-
 													<div class="col-auto">
 														<div class="stat text-primary">
 															<i class="align-middle" data-feather="shopping-cart"></i>
 														</div>
 													</div>
 												</div>
-												<h1 class="mt-1 mb-3">64</h1>
+												<h1 class="mt-1 mb-3" style="font-size: 2.5rem; font-weight: 700;">64</h1>
 												<div class="mb-0">
-													<span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> -2.25% </span>
+													<span class="text-danger">❌ -2.25%</span>
 													<span class="text-muted">Since last week</span>
 												</div>
 											</div>
@@ -385,9 +384,9 @@ $stmt->close();
                             </div>
                             <div>
                                 <select class="form-select job-status-dropdown" data-job-id="<?= $job['job_id'] ?>" onchange="updateJobStatus(this)">
-                                    <option value="active" <?= $job['status'] == 'active' ? 'selected' : '' ?>>● Active</option>
-                                    <option value="paused" <?= $job['status'] == 'paused' ? 'selected' : '' ?>>● Paused</option>
-                                    <option value="inactive" <?= $job['status'] == 'inactive' ? 'selected' : '' ?>>● Inactive</option>
+                                    <option value="active" <?= $job['status'] == 'active' ? 'selected' : '' ?> style="color: #28a745;">🟢 Active</option>
+                                    <option value="paused" <?= $job['status'] == 'paused' ? 'selected' : '' ?> style="color: #ffc107;">🟡 Paused</option>
+                                    <option value="inactive" <?= $job['status'] == 'inactive' ? 'selected' : '' ?> style="color: #dc3545;">🔴 Inactive</option>
                                 </select>
                             </div>
                             <div>
@@ -469,50 +468,50 @@ $stmt->close();
 
 <!-- Post a Job Tab-->
 <section id="post-job" class="content hidden">
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-md-12">
+<div class="container-fluid mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
             <div class="card shadow">
-                <div class="card-body">
-                    <h2>Create Job Listing</h2>
+                <div class="card-body p-5">
+                    <h2 class="mb-4">Create Job Listing</h2>
                     <?php if (!$is_verified): ?>
-                        <div class="alert alert-warning" role="alert">
+                        <div class="alert alert-warning mb-4" role="alert">
                             <i class="bx bx-info-circle"></i> Your company needs to be verified before you can post jobs. 
                             <a href="#" class="alert-link" data-bs-toggle="modal" data-bs-target="#verificationModal">Please submit your business permit for verification</a>.
                         </div>
                     <?php endif; ?>
                     <?php if (isset($_SESSION['success'])): ?>
-                        <div class="alert alert-success" role="alert">
+                        <div class="alert alert-success mb-4" role="alert">
                             <?= $_SESSION['success'] ?>
                         </div>
                         <?php unset($_SESSION['success']); ?>
                     <?php endif; ?>
                     <?php if (isset($_SESSION['error'])): ?>
-                        <div class="alert alert-danger" role="alert">
+                        <div class="alert alert-danger mb-4" role="alert">
                             <?= $_SESSION['error'] ?>
                         </div>
                         <?php unset($_SESSION['error']); ?>
                     <?php endif; ?>
                     <form action="../includes/company/comp_job_process.php" method="POST">
-                        <div class="row">
+                        <div class="row g-4">
                             <!-- Left Column -->
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="jobTitle">Job Title</label>
-                                    <input type="text" class="form-control" id="jobTitle" name="title" placeholder="Example: Housekeeping Attendant" required>
+                                <div class="form-group mb-4">
+                                    <label for="jobTitle" class="form-label">Job Title</label>
+                                    <input type="text" class="form-control form-control-lg" id="jobTitle" name="title" placeholder="Example: Housekeeping Attendant" required>
                                 </div>
-                                <div class="form-group">
-                                    <label for="jobCategory">Job Category</label>
-                                    <select class="form-control" id="jobCategory" name="category_id" required>
+                                <div class="form-group mb-4">
+                                    <label for="jobCategory" class="form-label">Job Category</label>
+                                    <select class="form-select form-select-lg" id="jobCategory" name="category_id" required>
                                         <option value="">Select Job Category</option>
                                         <?php foreach ($categories as $category): ?>
                                             <option value="<?= $category['category_id'] ?>"><?= htmlspecialchars($category['category_name']) ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
-                                <div class="form-group">
-                                    <label>Employment Type</label><br>
-                                    <div class="row">
+                                <div class="form-group mb-4">
+                                    <label class="form-label">Employment Type</label><br>
+                                    <div class="row g-3">
                                         <div class="col-md-6">
                                             <div class="form-check">
                                                 <input class="form-check-input" type="radio" name="employment_type" value="Part-Time" checked>
@@ -536,44 +535,44 @@ $stmt->close();
                                     </div>
                                 </div>
                                 
-                                <div class="form-group">
-                                    <label for="jobDescription">Job Description</label>
-                                    <textarea class="form-control" id="jobDescription" name="description" rows="5" required></textarea>
+                                <div class="form-group mb-4">
+                                    <label for="jobDescription" class="form-label">Job Description</label>
+                                    <textarea class="form-control" id="jobDescription" name="description" rows="6" required></textarea>
                                 </div>
                             </div>
                             <!-- Right Column -->
                             <div class="col-md-6">
-                            <div class="form-group">
-                                    <label for="location">Location</label>
-                                    <input type="text" class="form-control" id="location" name="location" required>
+                                <div class="form-group mb-4">
+                                    <label for="location" class="form-label">Location</label>
+                                    <input type="text" class="form-control form-control-lg" id="location" name="location" required>
                                 </div>
-                                <div class="form-group">
-                                    <label for="rateDetails">Rate Details</label>
-                                    <div class="d-flex align-items-center">
-                                        <div class="mr-2">
-                                            <label for="currency">Currency</label>
+                                <div class="form-group mb-4">
+                                    <label for="rateDetails" class="form-label">Rate Details</label>
+                                    <div class="row g-3">
+                                        <div class="col-md-4">
+                                            <label for="currency" class="form-label">Currency</label>
                                             <input type="text" class="form-control" id="currency" name="currency" placeholder="e.g. PHP/USD" required>
                                         </div>
-                                        <div class="mr-2">
-                                            <label for="salary_min">Min Rate</label>
+                                        <div class="col-md-4">
+                                            <label for="salary_min" class="form-label">Min Rate</label>
                                             <input type="number" class="form-control" id="salary_min" name="salary_min" placeholder="Min Rate" required>
                                         </div>
-                                        <div>
-                                            <label for="salary_max">Max Rate</label>
+                                        <div class="col-md-4">
+                                            <label for="salary_max" class="form-label">Max Rate</label>
                                             <input type="number" class="form-control" id="salary_max" name="salary_max" placeholder="Max Rate" required>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="expiry_date">Expiry Date</label>
-                                    <input type="date" class="form-control" id="expiry_date" name="expiry_date" required>
+                                <div class="form-group mb-4">
+                                    <label for="expiry_date" class="form-label">Expiry Date</label>
+                                    <input type="date" class="form-control form-control-lg" id="expiry_date" name="expiry_date" required>
                                 </div>
-                                <div class="form-group">
-                                    <label for="requirements">Requirements</label>
-                                    <textarea class="form-control" id="requirements" name="requirements" rows="5" required></textarea>
+                                <div class="form-group mb-4">
+                                    <label for="requirements" class="form-label">Requirements</label>
+                                    <textarea class="form-control" id="requirements" name="requirements" rows="6" required></textarea>
                                 </div>
-                                <div class="form-group text-end" style="padding-top: 20px;">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                <div class="form-group text-end">
+                                    <button type="submit" class="btn btn-primary btn-lg px-5">Submit</button>
                                 </div>
                             </div>
                         </div>
@@ -736,11 +735,41 @@ $stmt->close();
                 fetchJobs(document.getElementById('sortBy').value, currentSortOrder, currentSearchQuery);
             }
 
+            function updateJobStatusColors() {
+                const statusDropdowns = document.querySelectorAll('.job-status-dropdown');
+                statusDropdowns.forEach(dropdown => {
+                    const selectedOption = dropdown.options[dropdown.selectedIndex];
+                    const status = selectedOption.value;
+                    let color;
+                    
+                    switch(status) {
+                        case 'active':
+                            color = '#28a745';
+                            break;
+                        case 'paused':
+                            color = '#ffc107';
+                            break;
+                        case 'inactive':
+                            color = '#dc3545';
+                            break;
+                    }
+                    
+                    dropdown.style.color = color;
+                    selectedOption.style.color = color;
+                });
+            }
+
+            // Call the function when the page loads
+            document.addEventListener('DOMContentLoaded', updateJobStatusColors);
+
+            // Update the fetchJobs function to maintain colors
             function fetchJobs(sortBy, sortOrder, searchQuery) {
                 fetch(`fetch_jobs.php?sort_by=${sortBy}&sort_order=${sortOrder}&search=${searchQuery}`)
                     .then(response => response.text())
                     .then(html => {
                         document.getElementById('jobResults').innerHTML = html;
+                        // Add a small delay to ensure the DOM is updated
+                        setTimeout(updateJobStatusColors, 100);
                     })
                     .catch(error => console.error('Error:', error));
             }
@@ -751,6 +780,14 @@ $stmt->close();
                     searchJobs();
                 }
             });
+
+            // Add event listener for status dropdown changes
+            document.addEventListener('change', function(e) {
+                if (e.target.classList.contains('job-status-dropdown')) {
+                    updateJobStatusColors();
+                }
+            });
         </script>
 </body>
 </html>
+    
