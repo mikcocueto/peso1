@@ -29,12 +29,33 @@ $stmt->close();
 
 // Handle job search
 $search_query = isset($_GET['search']) ? '%' . $_GET['search'] . '%' : '%';
+$sort_by = isset($_GET['sort_by']) ? $_GET['sort_by'] : 'posted_date';
+$sort_order = isset($_GET['sort_order']) ? $_GET['sort_order'] : 'desc';
+
 $query = "SELECT jl.job_id, jl.title, jl.description, jl.posted_date, jl.expiry_date, jl.status,
                  (SELECT COUNT(*) FROM tbl_job_application ja WHERE ja.job_id = jl.job_id AND ja.status = 'pending') AS pending_count,
                  (SELECT COUNT(*) FROM tbl_job_application ja WHERE ja.job_id = jl.job_id AND ja.status = 'awaiting') AS awaiting_count,
                  (SELECT COUNT(*) FROM tbl_job_application ja WHERE ja.job_id = jl.job_id AND ja.status = 'accepted') AS accepted_count
           FROM tbl_job_listing jl 
           WHERE jl.employer_id = ? AND jl.title LIKE ?";
+
+// Add sorting based on the sort_by parameter
+switch($sort_by) {
+    case 'title':
+        $query .= " ORDER BY jl.title " . ($sort_order === 'asc' ? 'ASC' : 'DESC');
+        break;
+    case 'posted_date':
+        $query .= " ORDER BY jl.posted_date " . ($sort_order === 'asc' ? 'ASC' : 'DESC');
+        break;
+    case 'expiry_date':
+        $query .= " ORDER BY jl.expiry_date " . ($sort_order === 'asc' ? 'ASC' : 'DESC');
+        break;
+    case 'pending_count':
+        $query .= " ORDER BY pending_count " . ($sort_order === 'asc' ? 'ASC' : 'DESC');
+        break;
+    default:
+        $query .= " ORDER BY jl.posted_date DESC";
+}
 
 $stmt = $conn->prepare($query);
 $stmt->bind_param("is", $company_id, $search_query);
@@ -320,8 +341,18 @@ $stmt->close();
             </div>
             <!-- Sorting Options -->
             <div class="col-md-6 text-end">
-                <button class="btn btn-outline-secondary me-2">Sort by Posting Date</button>
-                <button class="btn btn-outline-secondary">Order: Descending</button>
+                <div class="btn-group">
+                    <select class="form-select me-2" id="sortBy" onchange="updateSort()">
+                        <option value="posted_date" <?= $sort_by === 'posted_date' ? 'selected' : '' ?>>Sort by Post Date</option>
+                        <option value="title" <?= $sort_by === 'title' ? 'selected' : '' ?>>Sort by A-Z</option>
+                        <option value="expiry_date" <?= $sort_by === 'expiry_date' ? 'selected' : '' ?>>Sort by Expiry Date</option>
+                        <option value="pending_count" <?= $sort_by === 'pending_count' ? 'selected' : '' ?>>Sort by Pending Applicants</option>
+                    </select>
+                    <button class="btn btn-outline-secondary" onclick="toggleSortOrder()">
+                        <i class="bx bx-sort"></i>
+                        <span id="sortOrderIndicator"><?= $sort_order === 'desc' ? 'Descending' : 'Ascending' ?></span>
+                    </button>
+                </div>
             </div>
         </div>
        
@@ -552,8 +583,8 @@ $stmt->close();
                                     <input type="date" class="form-control" id="startDate" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="endDate">End Date</label>
-                                    <input type="date" class="form-control" id="endDate" required>
+                                    <label for="endDate">Expiry Date</label>
+                                    <input type="date" class="form-control" id="expDate" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="rateDetails">Rate Details</label>
@@ -718,6 +749,43 @@ $stmt->close();
             }
             setInterval(updateTime, 1000);
             updateTime();
+        </script>
+        <script>
+            let currentSortOrder = '<?= $sort_order ?>';
+            let currentSearchQuery = '<?= isset($_GET['search']) ? $_GET['search'] : '' ?>';
+
+            function updateSort() {
+                const sortBy = document.getElementById('sortBy').value;
+                fetchJobs(sortBy, currentSortOrder, currentSearchQuery);
+            }
+
+            function toggleSortOrder() {
+                currentSortOrder = currentSortOrder === 'desc' ? 'asc' : 'desc';
+                document.getElementById('sortOrderIndicator').textContent = currentSortOrder === 'desc' ? 'Descending' : 'Ascending';
+                fetchJobs(document.getElementById('sortBy').value, currentSortOrder, currentSearchQuery);
+            }
+
+            function searchJobs() {
+                const searchInput = document.getElementById('searchInput');
+                currentSearchQuery = searchInput.value;
+                fetchJobs(document.getElementById('sortBy').value, currentSortOrder, currentSearchQuery);
+            }
+
+            function fetchJobs(sortBy, sortOrder, searchQuery) {
+                fetch(`fetch_jobs.php?sort_by=${sortBy}&sort_order=${sortOrder}&search=${searchQuery}`)
+                    .then(response => response.text())
+                    .then(html => {
+                        document.getElementById('jobResults').innerHTML = html;
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+
+            // Add event listener for search input
+            document.getElementById('searchInput').addEventListener('keyup', function(event) {
+                if (event.key === 'Enter') {
+                    searchJobs();
+                }
+            });
         </script>
 </body>
 </html>
