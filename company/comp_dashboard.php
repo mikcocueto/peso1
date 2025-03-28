@@ -17,6 +17,16 @@ while ($row = $categories_result->fetch_assoc()) {
     $categories[] = $row;
 }
 
+// Fetch company verification status from tbl_comp_info
+$verification_query = "SELECT company_verified FROM tbl_comp_info WHERE company_id = ?";
+$stmt = $conn->prepare($verification_query);
+$stmt->bind_param("i", $company_id);
+$stmt->execute();
+$verification_result = $stmt->get_result();
+$verification_status = $verification_result->fetch_assoc();
+$is_verified = $verification_status && $verification_status['company_verified'] == 1;
+$stmt->close();
+
 // Handle job search
 $search_query = isset($_GET['search']) ? '%' . $_GET['search'] . '%' : '%';
 $query = "SELECT jl.job_id, jl.title, jl.description, jl.posted_date, jl.expiry_date, jl.status,
@@ -425,75 +435,8 @@ $stmt->close();
         </section>
     </section>
 
-                    <!--
-<section id="post-job" class="content hidden">
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card shadow-lg">
-                    <div class="card-body">
-                        <h3 class="text-center">Create Job Listing</h3>
-                        <form action="../includes/company/comp_job_process.php" method="POST">
-                            <div class="mb-3">
-                                <label for="title" class="form-label">Job Title</label>
-                                <input type="text" class="form-control" name="title" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="description" class="form-label">Description</label>
-                                <textarea class="form-control" name="description" rows="4" required></textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label for="requirements" class="form-label">Requirements</label>
-                                <textarea class="form-control" name="requirements" rows="4" required></textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label for="employment_type" class="form-label">Employment Type</label>
-                                <select class="form-select" name="employment_type" required>
-                                    <option value="Full time">Full-time</option>
-                                    <option value="Part time">Part-time</option>
-                                    <option value="Contract">Contract</option>
-                                    <option value="Temporary">Temporary</option>
-                                    <option value="Internship">Internship</option>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="location" class="form-label">Location</label>
-                                <input type="text" class="form-control" name="location" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="salary_min" class="form-label">Minimum Salary</label>
-                                <input type="number" class="form-control" name="salary_min" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="salary_max" class="form-label">Maximum Salary</label>
-                                <input type="number" class="form-control" name="salary_max" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="currency" class="form-label">Currency</label>
-                                <input type="text" class="form-control" name="currency" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="category_id" class="form-label">Job Category</label>
-                                <select class="form-select" name="category_id" required>
-                                    <?php foreach ($categories as $category): ?>
-                                        <option value="<?= $category['category_id'] ?>"><?= htmlspecialchars($category['category_name']) ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="expiry_date" class="form-label">Expiry Date</label>
-                                <input type="date" class="form-control" name="expiry_date" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary w-100">Create Job Listing</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>             -->
 
-<!-- Post a Job Tab -->
+<!-- Post a Job Tab NEW UI BUT NO BACK END yet-->
 <section id="post-job" class="content hidden">
 <div class="container mt-5">
     <div class="row">
@@ -501,6 +444,12 @@ $stmt->close();
             <div class="card shadow">
                 <div class="card-body">
                     <h2>Create Job</h2>
+                    <?php if (!$is_verified): ?>
+                        <div class="alert alert-warning" role="alert">
+                            <i class="bx bx-info-circle"></i> Your company needs to be verified before you can post jobs. 
+                            <a href="#" class="alert-link" data-bs-toggle="modal" data-bs-target="#verificationModal">Please submit your business permit for verification</a>.
+                        </div>
+                    <?php endif; ?>
                     <!-- Alert Notification -->
                     <div id="jobPostAlert" class="alert alert-success d-none" role="alert">
                         Job post created successfully!
@@ -640,10 +589,39 @@ $stmt->close();
 </div>
 </section>
 
+<!-- Verification Modal -->
+<div class="modal fade" id="verificationModal" tabindex="-1" aria-labelledby="verificationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="verificationModalLabel">Verification Required</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>You are currently not verified to post jobs. Please upload your business permit for verification.</p>
+                <form action="../includes/company/comp_verification_process.php" method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="business_permit" class="form-label">Business Permit (PDF)</label>
+                        <input type="file" class="form-control" id="business_permit" name="business_permit" accept="application/pdf" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit for Verification</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     function handleJobPost(event) {
         event.preventDefault();
-        // Simulate job post creation
+        <?php if (!$is_verified): ?>
+            // Show verification modal if company is not verified
+            var verificationModal = new bootstrap.Modal(document.getElementById('verificationModal'));
+            verificationModal.show();
+            return;
+        <?php endif; ?>
+        
+        // If verified, proceed with job post
         const alertBox = document.getElementById('jobPostAlert');
         alertBox.classList.remove('d-none');
         setTimeout(() => {
