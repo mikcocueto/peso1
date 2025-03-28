@@ -368,7 +368,7 @@ $stmt->close();
             <div id="jobResults">
                 <?php if (empty($jobs)): ?>
                     <div class="job-item">
-                        <div colspan="4" class="text-center">No jobs found.</div>
+                        <div colspan="4" class="text-center">No jobs found. Create your first listing now!</div>
                     </div>
                 <?php else: ?>
                     <?php foreach ($jobs as $job): ?>
@@ -467,79 +467,47 @@ $stmt->close();
     </section>
 
 
-<!-- Post a Job Tab NEW UI BUT NO BACK END yet-->
+<!-- Post a Job Tab-->
 <section id="post-job" class="content hidden">
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-12">
             <div class="card shadow">
                 <div class="card-body">
-                    <h2>Create Job</h2>
+                    <h2>Create Job Listing</h2>
                     <?php if (!$is_verified): ?>
                         <div class="alert alert-warning" role="alert">
                             <i class="bx bx-info-circle"></i> Your company needs to be verified before you can post jobs. 
                             <a href="#" class="alert-link" data-bs-toggle="modal" data-bs-target="#verificationModal">Please submit your business permit for verification</a>.
                         </div>
                     <?php endif; ?>
-                    <!-- Alert Notification -->
-                    <div id="jobPostAlert" class="alert alert-success d-none" role="alert">
-                        Job post created successfully!
-                    </div>
-                    <form onsubmit="handleJobPost(event)">
+                    <?php if (isset($_SESSION['success'])): ?>
+                        <div class="alert alert-success" role="alert">
+                            <?= $_SESSION['success'] ?>
+                        </div>
+                        <?php unset($_SESSION['success']); ?>
+                    <?php endif; ?>
+                    <?php if (isset($_SESSION['error'])): ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?= $_SESSION['error'] ?>
+                        </div>
+                        <?php unset($_SESSION['error']); ?>
+                    <?php endif; ?>
+                    <form action="../includes/company/comp_job_process.php" method="POST">
                         <div class="row">
                             <!-- Left Column -->
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="jobTitle">Job Title</label>
-                                    <input type="text" class="form-control" id="jobTitle" placeholder="Example: Housekeeping Attendant" required>
+                                    <input type="text" class="form-control" id="jobTitle" name="title" placeholder="Example: Housekeeping Attendant" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="jobCategory">Job Category</label>
-                                    <select class="form-control" id="jobCategory" required>
+                                    <select class="form-control" id="jobCategory" name="category_id" required>
                                         <option value="">Select Job Category</option>
-                                        <option>Accounting & Finance</option>
-                                        <option>Administrative & Office Support</option>
-                                        <option>Advertising & Marketing</option>
-                                        <option>Aerospace & Aviation</option>
-                                        <option>Agriculture & Farming</option>
-                                        <option>Architecture & Design</option>
-                                        <option>Arts, Media & Entertainment</option>
-                                        <option>Automotive & Transportation</option>
-                                        <option>Banking & Insurance</option>
-                                        <option>Biotechnology & Pharmaceuticals</option>
-                                        <option>Business & Consulting</option>
-                                        <option>Construction & Civil Engineering</option>
-                                        <option>Customer Service & Support</option>
-                                        <option>Data Science & Analytics</option>
-                                        <option>Education & Training</option>
-                                        <option>Energy & Utilities</option>
-                                        <option>Engineering (Mechanical, Electrical, Civil, etc.)</option>
-                                        <option>Environmental & Sustainability</option>
-                                        <option>Fashion & Textile</option>
-                                        <option>Food & Beverage</option>
-                                        <option>Government & Public Sector</option>
-                                        <option>Graphic Design & Multimedia</option>
-                                        <option>Healthcare & Medical</option>
-                                        <option>Hospitality & Tourism</option>
-                                        <option>Human Resources & Recruitment</option>
-                                        <option>Information Technology (IT) & Software Development</option>
-                                        <option>Journalism & Writing</option>
-                                        <option>Legal & Compliance</option>
-                                        <option>Logistics & Supply Chain</option>
-                                        <option>Manufacturing & Production</option>
-                                        <option>Military & Defense</option>
-                                        <option>Nonprofit & Social Services</option>
-                                        <option>Real Estate & Property Management</option>
-                                        <option>Research & Development</option>
-                                        <option>Retail & E-commerce</option>
-                                        <option>Sales & Business Development</option>
-                                        <option>Science & Laboratory Work</option>
-                                        <option>Security & Law Enforcement</option>
-                                        <option>Sports & Fitness</option>
-                                        <option>Telecommunications</option>
-                                        <option>Transportation & Warehousing</option>
-                                        <option>Veterinary & Animal Care</option>
-                                        <option>Virtual Assistance & Remote Work</option>
+                                        <?php foreach ($categories as $category): ?>
+                                            <option value="<?= $category['category_id'] ?>"><?= htmlspecialchars($category['category_name']) ?></option>
+                                        <?php endforeach; ?>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -547,65 +515,62 @@ $stmt->close();
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="employmentType" value="part-time" checked>
+                                                <input class="form-check-input" type="radio" name="employment_type" value="Part-Time" checked>
                                                 <label class="form-check-label">Part-time</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="employmentType" value="full-time">
+                                                <input class="form-check-input" type="radio" name="employment_type" value="Full-Time">
                                                 <label class="form-check-label">Full-time</label>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="employmentType" value="internship">
+                                                <input class="form-check-input" type="radio" name="employment_type" value="Internship">
                                                 <label class="form-check-label">Internship</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="employmentType" value="contract">
+                                                <input class="form-check-input" type="radio" name="employment_type" value="Contract">
                                                 <label class="form-check-label">Contract</label>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                
                                 <div class="form-group">
-                                    <label for="deadline">Deadline</label>
-                                    <input type="date" class="form-control" id="deadline" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="numberOpenings">Number of Openings</label>
-                                    <input type="number" class="form-control" id="numberOpenings" value="15" required>
+                                    <label for="jobDescription">Job Description</label>
+                                    <textarea class="form-control" id="jobDescription" name="description" rows="5" required></textarea>
                                 </div>
                             </div>
                             <!-- Right Column -->
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="startDate">Start Date</label>
-                                    <input type="date" class="form-control" id="startDate" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="endDate">Expiry Date</label>
-                                    <input type="date" class="form-control" id="expDate" required>
+                            <div class="form-group">
+                                    <label for="location">Location</label>
+                                    <input type="text" class="form-control" id="location" name="location" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="rateDetails">Rate Details</label>
                                     <div class="d-flex align-items-center">
                                         <div class="mr-2">
-                                            <label for="rateAmount">Currency</label>
-                                            <input type="text" class="form-control" id="rateAmount" placeholder="e.g. PHP/USD" required>
+                                            <label for="currency">Currency</label>
+                                            <input type="text" class="form-control" id="currency" name="currency" placeholder="e.g. PHP/USD" required>
                                         </div>
                                         <div class="mr-2">
-                                            <label for="minRate">Min Rate</label>
-                                            <input type="number" class="form-control" id="minRate" placeholder="Min Rate" required>
+                                            <label for="salary_min">Min Rate</label>
+                                            <input type="number" class="form-control" id="salary_min" name="salary_min" placeholder="Min Rate" required>
                                         </div>
                                         <div>
-                                            <label for="maxRate">Max Rate</label>
-                                            <input type="number" class="form-control" id="maxRate" placeholder="Max Rate" required>
+                                            <label for="salary_max">Max Rate</label>
+                                            <input type="number" class="form-control" id="salary_max" name="salary_max" placeholder="Max Rate" required>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="jobDescription">Job Description</label>
-                                    <textarea class="form-control" id="jobDescription" rows="5" required></textarea>
+                                    <label for="expiry_date">Expiry Date</label>
+                                    <input type="date" class="form-control" id="expiry_date" name="expiry_date" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="requirements">Requirements</label>
+                                    <textarea class="form-control" id="requirements" name="requirements" rows="5" required></textarea>
                                 </div>
                                 <div class="form-group text-end" style="padding-top: 20px;">
                                     <button type="submit" class="btn btn-primary">Submit</button>
