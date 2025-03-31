@@ -528,21 +528,23 @@ include '../includes/employee/emp_fetch_profile.php';
                     <h2 class="h3 mb-4">Career History 
                         <button class="btn btn-primary" onclick="openCareerHistoryListModal()">Edit</button>
                     </h2>
-                    <div class="timeline">
+                    <div class="row">
                         <?php foreach ($career_history as $job): ?>
-                        <div class="timeline-card timeline-card-primary card shadow-sm">
-                            <div class="card-body">
-                                <div class="h5 mb-1"><?php echo htmlspecialchars($job['job_title']); ?> 
-                                    <span class="text-muted h6">at <?php echo htmlspecialchars($job['company_name']); ?></span>
-                                </div>
-                                <?php if ($job['still_in_role']): ?>
+                        <div class="col-md-6">
+                            <div class="timeline-card timeline-card-primary card shadow-sm">
+                                <div class="card-body">
+                                    <div class="h5 mb-1"><?php echo htmlspecialchars($job['job_title']); ?> 
+                                        <span class="text-muted h6">at <?php echo htmlspecialchars($job['company_name']); ?></span>
+                                    </div>
+                                    <?php if ($job['still_in_role']): ?>
                                         <span style="color: red;">Still in role</span>
                                     <?php endif; ?>
-                                <div class="text-muted text-small mb-2">
-                                    from <?php echo htmlspecialchars($job['start_date'] === '0000-00-00' ? 'unspecified' : $job['start_date']); ?> 
-                                    to <?php echo htmlspecialchars($job['end_date'] === '0000-00-00' ? 'unspecified' : $job['end_date']); ?>
+                                    <div class="text-muted text-small mb-2">
+                                        from <?php echo htmlspecialchars($job['start_date'] === '0000-00-00' ? 'unspecified' : $job['start_date']); ?> 
+                                        to <?php echo htmlspecialchars($job['end_date'] === '0000-00-00' ? 'unspecified' : $job['end_date']); ?>
+                                    </div>
+                                    <div><?php echo htmlspecialchars($job['JDescription']); ?></div>
                                 </div>
-                                <div><?php echo htmlspecialchars($job['JDescription']); ?></div>
                             </div>
                         </div>
                         <?php endforeach; ?>
@@ -577,15 +579,17 @@ include '../includes/employee/emp_fetch_profile.php';
                     <h2 class="h3 mb-4">Educational Background 
                         <button class="btn btn-primary" onclick="openEducationListModal()">Edit</button>
                     </h2>
-                    <div class="timeline">
+                    <div class="row">
                         <?php foreach ($education as $edu): ?>
-                        <div class="timeline-card timeline-card-success card shadow-sm">
-                            <div class="card-body">
-                                <div class="h5 mb-1"><?php echo htmlspecialchars($edu['course']); ?> 
-                                    <span class="text-muted h6">from <?php echo htmlspecialchars($edu['institution']); ?></span>
+                        <div class="col-md-6">
+                            <div class="timeline-card timeline-card-success card shadow-sm">
+                                <div class="card-body">
+                                    <div class="h5 mb-1"><?php echo htmlspecialchars($edu['course']); ?> 
+                                        <span class="text-muted h6">from <?php echo htmlspecialchars($edu['institution']); ?></span>
+                                    </div>
+                                    <div class="text-muted text-small mb-2"><?php echo htmlspecialchars($edu['ending_date']); ?></div>
+                                    <div><?php echo htmlspecialchars($edu['course_highlights']); ?></div>
                                 </div>
-                                <div class="text-muted text-small mb-2"><?php echo htmlspecialchars($edu['ending_date']); ?></div>
-                                <div><?php echo htmlspecialchars($edu['course_highlights']); ?></div>
                             </div>
                         </div>
                         <?php endforeach; ?>
