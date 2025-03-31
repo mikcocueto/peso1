@@ -42,6 +42,14 @@ $stmt->execute();
 $languages = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
 
+// Fetch skills
+$query = "SELECT id, skill_name FROM tbl_emp_skills WHERE user_id = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$skills = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+$stmt->close();
+
 // Fetch certifications
 $query = "SELECT id, licence_name, issuing_organization, issue_date, expiry_date, description FROM tbl_emp_certification WHERE user_id = ?";
 $stmt = $conn->prepare($query);

@@ -362,6 +362,39 @@ include '../includes/employee/emp_fetch_profile.php';
             document.getElementById('cvListModal').style.display = 'none';
         }
 
+        function openSkillsListModal() {
+            document.getElementById('skillsListModal').style.display = 'block';
+        }
+
+        function closeSkillsListModal() {
+            document.getElementById('skillsListModal').style.display = 'none';
+        }
+
+        function removeSkill(id) {
+            if (confirm('Are you sure you want to remove this skill?')) {
+                fetch('../includes/employee/emp_delete_profile_entry.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ category: 'skills', id: id })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Skill removed successfully');
+                        location.reload(); // Reload the page to reflect changes
+                    } else {
+                        alert('Failed to remove skill: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while removing the skill.');
+                });
+            }
+        }
+
         window.onload = function() {
             var successMessage = "<?php echo isset($_SESSION['success_message']) ? $_SESSION['success_message'] : ''; ?>";
             var errorMessage = "<?php echo isset($_SESSION['error_message']) ? $_SESSION['error_message'] : ''; ?>";
@@ -423,7 +456,7 @@ include '../includes/employee/emp_fetch_profile.php';
                                     mobileNumber: '<?php echo htmlspecialchars($employee['mobileNumber']); ?>'
                                 })">Edit</button>
                             </h2>
-                            <p>Hello! I’m <?php echo htmlspecialchars($employee['firstName'] . ' ' . $employee['lastName']); ?>. I am passionate about my work and always strive to improve my skills.</p>
+                            <p>Hello! I'm <?php echo htmlspecialchars($employee['firstName'] . ' ' . $employee['lastName']); ?>. I am passionate about my work and always strive to improve my skills.</p>
                         </div>
                         <div class="col-md-5 offset-md-1">
                             <div class="row mt-2">
@@ -490,6 +523,18 @@ include '../includes/employee/emp_fetch_profile.php';
                         <div class="tag">
                             <?php echo htmlspecialchars($lang['language_name']); ?>
                             <span class="close-btn" onclick="removeLanguage(<?php echo $lang['id']; ?>)">×</span>
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+                <hr class="d-print-none"/>
+                <div class="skills-section px-3 px-lg-4">
+                    <h2 class="h3 mb-4">Skills <button class="btn btn-primary" onclick="openSkillsListModal()">Edit</button></h2>
+                    <div id="skills-container">
+                        <?php foreach ($skills as $skill): ?>
+                        <div class="tag">
+                            <?php echo htmlspecialchars($skill['skill_name']); ?>
+                            <span class="close-btn" onclick="removeSkill(<?php echo $skill['id']; ?>)">×</span>
                         </div>
                         <?php endforeach; ?>
                     </div>
@@ -682,6 +727,10 @@ include '../includes/employee/emp_fetch_profile.php';
                     <label for="language_name">Language:</label>
                     <input type="text" id="languages_language_name" name="language_name"><br>
                 </div>
+                <div id="skillsFields" class="modal-fields" style="display:none;">
+                    <label for="skill_name">Skill:</label>
+                    <input type="text" id="skills_skill_name" name="skill_name"><br>
+                </div>
                 <div id="certificationFields" class="modal-fields" style="display:none;">
                     <label for="certification_licence_name">Licence Name:</label>
                     <input type="text" id="certification_licence_name" name="licence_name"><br>
@@ -761,6 +810,23 @@ include '../includes/employee/emp_fetch_profile.php';
                 <?php endforeach; ?>
             </ul>
             <button class="btn btn-primary mt-3" onclick='openAddModal("languages")'>Add</button>
+        </div>
+    </div>
+
+    <div id="skillsListModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeSkillsListModal()">&times;</span>
+            <h3>Skills</h3>
+            <ul class="list-group">
+                <?php foreach ($skills as $skill): ?>
+                <li class="list-group-item">
+                    <?php echo htmlspecialchars($skill['skill_name']); ?>
+                    <button class="btn btn-danger btn-sm float-end" onclick="removeSkill(<?php echo $skill['id']; ?>)">x</button>
+                    <button class="btn btn-secondary btn-sm float-end me-2" onclick='openModal("skills", <?php echo json_encode($skill); ?>)'>✏️</button>
+                </li>
+                <?php endforeach; ?>
+            </ul>
+            <button class="btn btn-primary mt-3" onclick='openAddModal("skills")'>Add</button>
         </div>
     </div>
 

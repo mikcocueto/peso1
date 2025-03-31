@@ -67,6 +67,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
             break;
 
+        case 'skills':
+            $skill_name = trim($_POST['skill_name']);
+
+            if ($id) {
+                $stmt = $conn->prepare("UPDATE tbl_emp_skills SET skill_name = ? WHERE id = ? AND user_id = ?");
+                $stmt->bind_param("sii", $skill_name, $id, $user_id);
+            } else {
+                $stmt = $conn->prepare("INSERT INTO tbl_emp_skills (user_id, skill_name) VALUES (?, ?)");
+                $stmt->bind_param("is", $user_id, $skill_name);
+            }
+            break;
+
         case 'certification':
             $licence_name = trim($_POST['licence_name']);
             $issuing_organization = trim($_POST['issuing_organization']);

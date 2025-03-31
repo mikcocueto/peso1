@@ -24,6 +24,9 @@ try {
         } elseif ($category === 'languages') {
             $stmt = $conn->prepare("DELETE FROM tbl_emp_language WHERE id = ? AND user_id = ?");
             $stmt->bind_param('ii', $id, $user_id);
+        } elseif ($category === 'skills') {
+            $stmt = $conn->prepare("DELETE FROM tbl_emp_skills WHERE id = ? AND user_id = ?");
+            $stmt->bind_param('ii', $id, $user_id);
         } else {
             throw new Exception('Invalid category');
         }
