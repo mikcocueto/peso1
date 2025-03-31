@@ -15,12 +15,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $address = trim($_POST['address']);
             $gender = trim($_POST['gender']);
             $mobileNumber = trim($_POST['mobileNumber']);
-            $relationship_status = trim($_POST['relationship_status']);
+           
             $first_name = trim($_POST['firstName']); // New field for first name
             $last_name = trim($_POST['lastName']); // New field for last name
 
-            $stmt = $conn->prepare("UPDATE tbl_emp_info SET emailAddress = ?, address = ?, gender = ?, mobileNumber = ?, relationship_status = ?, firstName = ?, lastName = ? WHERE user_id = ?");
-            $stmt->bind_param("sssssssi", $email, $address, $gender, $mobileNumber, $relationship_status, $first_name, $last_name, $user_id);
+            $stmt = $conn->prepare("UPDATE tbl_emp_info SET emailAddress = ?, address = ?, gender = ?, mobileNumber = ?, firstName = ?, lastName = ? WHERE user_id = ?");
+            $stmt->bind_param("ssssssi", $email, $address, $gender, $mobileNumber, $first_name, $last_name, $user_id);
             break;
 
         case 'careerhistory':
