@@ -9,11 +9,24 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
+// Function to generate random prefix
+function generateRandomPrefix($length = 8) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $prefix = '';
+    for ($i = 0; $i < $length; $i++) {
+        $prefix .= $characters[rand(0, strlen($characters) - 1)];
+    }
+    return $prefix;
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['cv_file']) && isset($_POST['cv_name'])) {
     $file = $_FILES['cv_file'];
     $cv_name = $_POST['cv_name'];
     $upload_dir = '../../db/pdf/emp_cv/';
-    $file_name = basename($file['name']);
+    $original_name = basename($file['name']);
+    $file_extension = pathinfo($original_name, PATHINFO_EXTENSION);
+    $random_prefix = generateRandomPrefix();
+    $file_name = $random_prefix . '_' . $original_name;
     $target_file = $upload_dir . $file_name;
     $file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
