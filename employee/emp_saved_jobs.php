@@ -37,12 +37,18 @@ $conn->close();
     <link rel="stylesheet" href="../fortest/style2/animate.min.css">
     <link rel="stylesheet" href="../fortest/style2/style.css">
     <style>
+        body {
+            background-image: url('../assets/images/auth/ree.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
         .job-box {
             border: 1px solid #ddd;
             padding: 20px;
             margin-bottom: 20px;
             border-radius: 5px;
-            background-color: #f9f9f9;
+            background-color: rgba(249, 249, 249, 0.9); /* Made slightly transparent */
         }
         .job-title {
             font-size: 1.5em;
@@ -61,6 +67,12 @@ $conn->close();
         .unsave-job-btn {
             margin-top: 10px;
         }
+        .container {
+            background-color: rgba(255, 255, 255, 0.8); /* Added semi-transparent white background */
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -69,18 +81,18 @@ $conn->close();
         <div class="container-fluid">
             <div class="row align-items-center">
                 <div class="site-logo col-6">
-                    <a href="../index.php">
-                        <img src="../fortest/images/peso_icons.png" alt="PESO Logo" style="height: 150px;">
-                        <div style="display: inline-block; vertical-align: middle; margin-left: 10px;">
-                            <div style="color: #6267FF; font-family: Impact,serif;">PESO</div>
-                            <div style="color: #6267FF; padding-left: 30px; font-family: Impact,serif;">Job Hiring</div>
+                    <a href="../index.php" style="display: flex; align-items: center;">
+                        <img src="../fortest/images/peso_icons.png" alt="PESO Logo" style="height: 120px;">
+                        <div style="display: inline-block; margin-left: 10px;">
+                            <div style="color: white; font-size: 1.5rem; font-weight: bold; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">PESO</div>
+                            <div style="color: white; font-size: 1.5rem; font-weight: bold; padding-left:30px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">Job Hiring</div>
                         </div>
                     </a>
                 </div>
                 <nav class="mx-auto site-navigation">
                     <ul class="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
                         <li><a href="../index.php" class="nav-link active">Home</a></li>
-                        <li><a href="../job-listings.html">Job Listings</a></li>
+                        <li><a href="../employee/emp_job_list.php">Job Listings</a></li>
                         <li><a href="../about.html">About</a></li>
                         <li><a href="../contact.html">Contact</a></li>
                     </ul>

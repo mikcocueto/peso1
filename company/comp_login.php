@@ -116,7 +116,7 @@ $conn->close();
                   </div>
                   <div class="text-block text-center my-3">
                     <span class="text-small font-weight-semibold">Not a member ?</span>
-                    <a href="comp_reg.php" class="text-black text-small">Create new account</a>
+                    <a href="comp_reg_old.php" class="text-black text-small">Create new account</a>
                   </div>
                 </form>
               </div>

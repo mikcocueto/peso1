@@ -34,7 +34,7 @@ if (isset($_SESSION['user_id'])) {
               <li><a href="index.html" class="nav-link active">Home</a></li>
               <li><a href="#about">About</a></li>
               <li class="has-children">
-                <a href="job-listings.html">Job Listings</a>
+                <a href="employee/emp_job_list.php">Job Listings</a>
                 
               </li>
               <li class="has-children">

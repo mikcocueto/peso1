@@ -74,6 +74,7 @@ $jobs_dropdown = $jobs_dropdown_result->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
 ?>
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -92,14 +93,99 @@ $stmt->close();
         <div class="c_dash_navbar-brand">
             <img src="../fortest/images/peso_icons.png" alt="PESO Logo">
             <div>
-                <span style="font-size: 1.5rem; font-weight: bold; color: white;">PESO</span>
-                <span style="font-size: 1.5rem; font-weight: bold; padding-left: 35px; color: white;"> for Company</span>
+                <span style="font-size: 1.5rem; font-weight: bold; color: white;">Public Employment Service Office</span>
+                <span style="font-size: 1.5rem; font-weight: bold; padding-left: px; color: white;"> for Company</span>
             </div>
         </div>
         <div class="c_dash_navbar-icons">
             <span id="currentTime" style="color: white; margin-right: 20px;"></span>
-            <i class="bx bx-bell"></i>
-            <i class="bx bx-chat"></i>
+            <div class="notification-dropdown">
+                <i class="bx bx-bell" onclick="toggleNotification()"></i>
+                <span class="notification-badge">3</span>
+                <div class="notification-content" id="notificationContent">
+                    <div class="notification-header">
+                        <h5>Notifications</h5>
+                        <button class="mark-all-read">Mark all as read</button>
+                    </div>
+                    <div class="notification-list">
+                        <div class="notification-item unread">
+                            <div class="notification-icon">
+                                <i class="bx bx-user-plus"></i>
+                            </div>
+                            <div class="notification-details">
+                                <p>New application received for Software Engineer position</p>
+                                <span class="notification-time">2 minutes ago</span>
+                            </div>
+                        </div>
+                        <div class="notification-item unread">
+                            <div class="notification-icon">
+                                <i class="bx bx-check-circle"></i>
+                            </div>
+                            <div class="notification-details">
+                                <p>Your job posting has been approved</p>
+                                <span class="notification-time">1 hour ago</span>
+                            </div>
+                        </div>
+                        <div class="notification-item">
+                            <div class="notification-icon">
+                                <i class="bx bx-info-circle"></i>
+                            </div>
+                            <div class="notification-details">
+                                <p>Your company profile has been updated</p>
+                                <span class="notification-time">2 hours ago</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="notification-footer">
+                        <a href="#" class="view-all">View all notifications</a>
+                    </div>
+                </div>
+            </div>
+            <div class="message-dropdown">
+                <i class="bx bx-chat" onclick="toggleMessage()"></i>
+                <span class="message-badge">2</span>
+                <div class="message-content" id="messageContent">
+                    <div class="message-header">
+                        <h5>Messages</h5>
+                        <button class="mark-all-read">Mark all as read</button>
+                    </div>
+                    <div class="message-list">
+                        <div class="message-item unread">
+                            <div class="message-avatar">
+                                <img src="../fortest/images/person_2.jpg" alt="User Avatar">
+                            </div>
+                            <div class="message-details">
+                                <div class="message-sender">John Doe</div>
+                                <p>Thank you for considering my application...</p>
+                                <span class="message-time">2 minutes ago</span>
+                            </div>
+                        </div>
+                        <div class="message-item unread">
+                            <div class="message-avatar">
+                            <img src="../fortest/images/person_1.jpg" alt="User Avatar">
+                            </div>
+                            <div class="message-details">
+                                <div class="message-sender">Jane Smith</div>
+                                <p>I would like to schedule an interview...</p>
+                                <span class="message-time">1 hour ago</span>
+                            </div>
+                        </div>
+                        <div class="message-item">
+                            <div class="message-avatar">
+                            <img src="../fortest/images/person_3.jpg" alt="User Avatar">
+                            </div>
+                            <div class="message-details">
+                                <div class="message-sender">Mike Johnson</div>
+                                <p>Thank you for the opportunity...</p>
+                                <span class="message-time">2 hours ago</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="message-footer">
+                        <a href="#" class="view-all">View all messages</a>
+                    </div>
+                </div>
+            </div>
             <div class="dropdown">
                 <i class="bx bx-user" onclick="toggleDropdown()"></i>
                 <div class="dropdown-menu">
@@ -139,6 +225,256 @@ $stmt->close();
             background-color: transparent;
             padding: 0;
         }
+        .notification-dropdown {
+            position: relative;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #ff4444;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            min-width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        
+        }
+
+        .notification-dropdown i {
+            cursor: pointer;
+            color: white;
+            font-size: 1.5rem;
+            position: relative;
+        }
+
+        .notification-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background-color: white;
+            min-width: 300px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            z-index: 1000;
+            margin-top: 10px;
+        }
+
+        .notification-content.show {
+            display: block;
+        }
+
+        .notification-header {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .notification-header h5 {
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        .mark-all-read {
+            background: none;
+            border: none;
+            color: #007bff;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .notification-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .notification-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: flex-start;
+            cursor: pointer;
+        }
+
+        .notification-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .notification-item.unread {
+            background-color: #f0f7ff;
+        }
+
+        .notification-icon {
+            margin-right: 10px;
+            color: #007bff;
+        }
+
+        .notification-details {
+            flex: 1;
+        }
+
+        .notification-details p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #333;
+        }
+
+        .notification-time {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .notification-footer {
+            padding: 10px 15px;
+            text-align: center;
+            border-top: 1px solid #eee;
+        }
+
+        .view-all {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .view-all:hover {
+            text-decoration: underline;
+        }
+
+        .message-dropdown {
+            position: relative;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .message-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #ff4444;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            min-width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .message-dropdown i {
+            cursor: pointer;
+            color: white;
+            font-size: 1.5rem;
+            position: relative;
+        }
+
+        .message-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background-color: white;
+            min-width: 350px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            z-index: 1000;
+            margin-top: 10px;
+        }
+
+        .message-content.show {
+            display: block;
+        }
+
+        .message-header {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .message-header h5 {
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        .message-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .message-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: flex-start;
+            cursor: pointer;
+        }
+
+        .message-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .message-item.unread {
+            background-color: #f0f7ff;
+        }
+
+        .message-avatar {
+            margin-right: 15px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .message-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .message-details {
+            flex: 1;
+        }
+
+        .message-sender {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .message-details p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #666;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .message-time {
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+        .message-footer {
+            padding: 10px 15px;
+            text-align: center;
+            border-top: 1px solid #eee;
+        }
     </style>
 
     <script>
@@ -149,174 +485,176 @@ $stmt->close();
     </script>
 
 <section id="dashboard" class="content active">
-				<h1 class="h3 mb-3"><strong>Company Details</strong></h1>
-				<div class="container-fluid p-0">
-					<!-- New container for company details -->
-					<div class="row mb-3">
-						<div class="col-12">
-							<div class="card border-0 bg-transparent">
-								<div class="card-body position-relative">
-									<div class="d-flex justify-content-center align-items-center">
-										<div class="d-flex align-items-center gap-5">
-											<div class="text-center" style="width: 200px;">
-												<img src="../assets/images/fds.jpg" class="img-fluid" alt="Company Logo" style="max-height: 200px; object-fit: contain;">
-											</div>
-											<div class="company-info">
-												<h3 class="mb-4 px-3 py-2" style="background-color: #f8f9fa; border-radius: 8px;">Company Information</h3>
-												<p class="card-text">Company Name: FDS Asya Philippines</p>
-												<p class="card-text">Country: Philippines</p>
-												<p class="card-text"><strong>Company Address:</strong> San Pablo City</p>
-												<p class="card-text"><strong>Company Hotline:</strong> 4444 444</p>
-												<p class="card-text"><strong>Company Number:</strong> 0912-345-6789</p>
-												<p class="card-text">Human Resource: John Doe</p>
-											</div>
-										</div>
-									</div>
-									<div style="position: absolute; bottom: 15px; right: 15px;">
-										<button class="btn btn-primary btn-lg rounded-pill px-4" style="background-color: #0d6efd; border: none; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" onclick="editCompanyDetails()">Edit</button>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- End of new container -->
-
-					<h1 class="h3 mb-3"><strong>Analytics Dashboard</strong></h1>
-
-					<div class="row">
-						<div class="col-xl-6 col-xxl-5 d-flex">
-							<div class="w-100">
-								<div class="row">
-									<div class="col-sm-6">
-										<div class="card shadow-sm">
-											<div class="card-body">
-												<div class="row">
-													<div class="col mt-0">
-														<h5 class="card-title">Applicants</h5>
-													</div>
-													<div class="col-auto">
-														<div class="stat text-primary">
-															<i class="align-middle" data-feather="truck"></i>
-														</div>
-													</div>
-												</div>
-												<h1 class="mt-1 mb-3" style="font-size: 2.5rem; font-weight: 700;">2.382</h1>
-												<div class="mb-0">
-													<span class="text-danger">❌ -3.65%</span>
-													<span class="text-muted">Since last week</span>
-												</div>
-											</div>
-										</div>
-										<div class="card shadow-sm">
-											<div class="card-body">
-												<div class="row">
-													<div class="col mt-0">
-														<h5 class="card-title">Visitors</h5>
-													</div>
-													<div class="col-auto">
-														<div class="stat text-primary">
-															<i class="align-middle" data-feather="users"></i>
-														</div>
-													</div>
-												</div>
-												<h1 class="mt-1 mb-3" style="font-size: 2.5rem; font-weight: 700;">14.212</h1>
-												<div class="mb-0">
-													<span class="text-success">✅ 5.25%</span>
-													<span class="text-muted">Since last week</span>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-6">
-										<div class="card shadow-sm">
-											<div class="card-body">
-												<div class="row">
-													<div class="col mt-0">
-														<h5 class="card-title">Posted Jobs</h5>
-													</div>
-													<div class="col-auto">
-														<div class="stat text-primary">
-															<i class="align-middle" data-feather="dollar-sign"></i>
-														</div>
-													</div>
-												</div>
-												<h1 class="mt-1 mb-3" style="font-size: 2.5rem; font-weight: 700;">21.300</h1>
-												<div class="mb-0">
-													<span class="text-success">✅ 6.65%</span>
-													<span class="text-muted">Since last week</span>
-												</div>
-											</div>
-										</div>
-										<div class="card shadow-sm">
-											<div class="card-body">
-												<div class="row">
-													<div class="col mt-0">
-														<h5 class="card-title">Hired Applicants</h5>
-													</div>
-													<div class="col-auto">
-														<div class="stat text-primary">
-															<i class="align-middle" data-feather="shopping-cart"></i>
-														</div>
-													</div>
-												</div>
-												<h1 class="mt-1 mb-3" style="font-size: 2.5rem; font-weight: 700;">64</h1>
-												<div class="mb-0">
-													<span class="text-danger">❌ -2.25%</span>
-													<span class="text-muted">Since last week</span>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-                        <div class="col-xl-6 col-xxl-7">
-        <div class="card flex-fill w-100">
-            <div class="card-header">
-                <h5 class="card-title mb-0">Recent Movement</h5>
+    <h1 class="h3 mb-3"><strong>Dashboard Overview</strong></h1>
+    <div class="container-fluid p-0">
+        <!-- Company Overview and Recent Movement Row -->
+        <div class="row mb-4">
+            <!-- Company Details Column -->
+            <div class="col-xl-6">
+                <div class="card border-0 bg-transparent">
+                    <div class="card-body position-relative">
+                        <div class="d-flex justify-content-center align-items-center">
+                            <div class="d-flex align-items-center gap-5">
+                                <div class="text-center" style="width: 200px;">
+                                    <img src="../assets/images/fds.jpg" class="img-fluid" alt="Company Logo" style="max-height: 200px; object-fit: contain;">
+                                </div>
+                                <div class="company-info">
+                                    <h3 class="mb-4 px-3 py-2" style="background-color: #f8f9fa; border-radius: 8px;">Company Information</h3>
+                                    <p class="card-text">Company Name: FDS Asya Philippines</p>
+                                    <p class="card-text">Country: Philippines</p>
+                                    <p class="card-text"><strong>Company Address:</strong> San Pablo City</p>
+                                    <p class="card-text"><strong>Company Hotline:</strong> 4444 444</p>
+                                    <p class="card-text"><strong>Company Number:</strong> 0912-345-6789</p>
+                                    <p class="card-text">Human Resource: John Doe</p>
+                                </div>
+                            </div>
+                        </div>  
+                    </div>
+                </div>
             </div>
-            <div class="card-body py-3">
-                <div class="chart chart-sm">
-                    <canvas id="lineChart"></canvas>
+
+            <!-- Recent Movement Column -->
+            <div class="col-xl-6">
+                <div class="card flex-fill w-100">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Recent Movement</h5>
+                    </div>
+                    <div class="card-body py-3">
+                        <div class="chart chart-sm">
+                            <canvas id="lineChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics Dashboard Row -->
+        <div class="row mt-4">
+            <div class="col-12 mb-3">
+                <h3 class="px-3 py-2" style="background-color: #f8f9fa; border-radius: 8px; display: inline-block;">Dashboard Analytics</h3>
+            </div>
+            <div class="col-xl-3">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col mt-0">
+                                <h5 class="card-title">Applicants</h5>
+                            </div>
+                            <div class="col-auto">
+                                <div class="stat text-primary">
+                                    <i class="align-middle" data-feather="truck"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <h1 class="mt-1 mb-3" style="font-size: 2.5rem; font-weight: 700;">2.382</h1>
+                        <div class="mb-0">
+                            <span class="text-danger">❌ -3.65%</span>
+                            <span class="text-muted">Since last week</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col mt-0">
+                                <h5 class="card-title">Posted Jobs</h5>
+                            </div>
+                            <div class="col-auto">
+                                <div class="stat text-primary">
+                                    <i class="align-middle" data-feather="dollar-sign"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <h1 class="mt-1 mb-3" style="font-size: 2.5rem; font-weight: 700;">21.300</h1>
+                        <div class="mb-0">
+                            <span class="text-success">✅ 6.65%</span>
+                            <span class="text-muted">Since last week</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col mt-0">
+                                <h5 class="card-title">Visitors</h5>
+                            </div>
+                            <div class="col-auto">
+                                <div class="stat text-primary">
+                                    <i class="align-middle" data-feather="users"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <h1 class="mt-1 mb-3" style="font-size: 2.5rem; font-weight: 700;">14.212</h1>
+                        <div class="mb-0">
+                            <span class="text-success">✅ 5.25%</span>
+                            <span class="text-muted">Since last week</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col mt-0">
+                                <h5 class="card-title">Hired Applicants</h5>
+                            </div>
+                            <div class="col-auto">
+                                <div class="stat text-primary">
+                                    <i class="align-middle" data-feather="shopping-cart"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <h1 class="mt-1 mb-3" style="font-size: 2.5rem; font-weight: 700;">64</h1>
+                        <div class="mb-0">
+                            <span class="text-danger">❌ -2.25%</span>
+                            <span class="text-muted">Since last week</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    
-    <script>
-        const ctx = document.getElementById('lineChart').getContext('2d');
-        const lineChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                datasets: [{
-                    label: 'Monthly Data',
-                    data: [10, 20, 15, 25, 30, 35, 40, 38, 32, 28, 22, 18],
-                    borderColor: 'blue',
-                    borderWidth: 2,
-                    fill: false
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Months'
-                        }
-                    },
-                    y: {
-                        title: {
-                            display: true,
-                            text: 'Value'
-                        }
+</section>
+
+<!-- Chart Script -->
+<script>
+    const ctx = document.getElementById('lineChart').getContext('2d');
+    const lineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            datasets: [{
+                label: 'Monthly Data',
+                data: [10, 20, 15, 25, 30, 35, 40, 38, 32, 28, 22, 18],
+                borderColor: 'blue',
+                borderWidth: 2,
+                fill: false
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Months'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Value'
                     }
                 }
             }
-        });
-    </script>
-				</section>
+        }
+    });
+</script>
 
     <!-- Job posted list Tab -->
     <section id="jobs" class="content active">
@@ -786,6 +1124,90 @@ $stmt->close();
                 if (e.target.classList.contains('job-status-dropdown')) {
                     updateJobStatusColors();
                 }
+            });
+        </script>
+        <script>
+            function toggleNotification() {
+                const notificationContent = document.getElementById('notificationContent');
+                notificationContent.classList.toggle('show');
+            }
+
+            // Close notification dropdown when clicking outside
+            document.addEventListener('click', function(event) {
+                const notificationDropdown = document.querySelector('.notification-dropdown');
+                const notificationContent = document.getElementById('notificationContent');
+                
+                if (!notificationDropdown.contains(event.target) && notificationContent.classList.contains('show')) {
+                    notificationContent.classList.remove('show');
+                }
+            });
+
+            // Mark all notifications as read
+            document.querySelector('.mark-all-read').addEventListener('click', function() {
+                const unreadNotifications = document.querySelectorAll('.notification-item.unread');
+                unreadNotifications.forEach(notification => {
+                    notification.classList.remove('unread');
+                });
+            });
+
+            // Mark individual notification as read when clicked
+            document.querySelectorAll('.notification-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    this.classList.remove('unread');
+                });
+            });
+        </script>
+        <script>
+            function toggleMessage() {
+                const messageContent = document.getElementById('messageContent');
+                messageContent.classList.toggle('show');
+            }
+
+            // Close message dropdown when clicking outside
+            document.addEventListener('click', function(event) {
+                const messageDropdown = document.querySelector('.message-dropdown');
+                const messageContent = document.getElementById('messageContent');
+                
+                if (!messageDropdown.contains(event.target) && messageContent.classList.contains('show')) {
+                    messageContent.classList.remove('show');
+                }
+            });
+
+            // Mark all messages as read
+            document.querySelectorAll('.mark-all-read').forEach(button => {
+                button.addEventListener('click', function() {
+                    const container = this.closest('.message-content, .notification-content');
+                    const unreadItems = container.querySelectorAll('.unread');
+                    unreadItems.forEach(item => {
+                        item.classList.remove('unread');
+                    });
+                    
+                    // Update badge count
+                    if (container.classList.contains('message-content')) {
+                        const messageBadge = document.querySelector('.message-badge');
+                        messageBadge.textContent = '0';
+                        messageBadge.style.display = 'none';
+                    } else {
+                        const notificationBadge = document.querySelector('.notification-badge');
+                        notificationBadge.textContent = '0';
+                        notificationBadge.style.display = 'none';
+                    }
+                });
+            });
+
+            // Mark individual message as read when clicked
+            document.querySelectorAll('.message-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    this.classList.remove('unread');
+                    // Update badge count
+                    const messageBadge = document.querySelector('.message-badge');
+                    const currentCount = parseInt(messageBadge.textContent);
+                    if (currentCount > 1) {
+                        messageBadge.textContent = (currentCount - 1).toString();
+                    } else {
+                        messageBadge.style.display = 'none';
+                    }
+                });
             });
         </script>
 </body>
