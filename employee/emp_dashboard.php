@@ -395,6 +395,39 @@ include '../includes/employee/emp_fetch_profile.php';
             }
         }
 
+        function openCertificationsListModal() {
+            document.getElementById('certificationsListModal').style.display = 'block';
+        }
+
+        function closeCertificationsListModal() {
+            document.getElementById('certificationsListModal').style.display = 'none';
+        }
+
+        function removeCertification(id) {
+            if (confirm('Are you sure you want to remove this certification?')) {
+                fetch('../includes/employee/emp_delete_profile_entry.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ category: 'certification', id: id })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Certification removed successfully');
+                        location.reload(); // Reload the page to reflect changes
+                    } else {
+                        alert('Failed to remove certification: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while removing the certification.');
+                });
+            }
+        }
+
         window.onload = function() {
             var successMessage = "<?php echo isset($_SESSION['success_message']) ? $_SESSION['success_message'] : ''; ?>";
             var errorMessage = "<?php echo isset($_SESSION['error_message']) ? $_SESSION['error_message'] : ''; ?>";
@@ -560,7 +593,7 @@ include '../includes/employee/emp_fetch_profile.php';
                 </div>
                 <hr class="d-print-none"/>
                 <div class="contact-section px-3 px-lg-4 pb-4" id="contact">
-                    <h2 class="h3 text">Certifications</h2>
+                    <h2 class="h3 text">Certifications <button class="btn btn-primary" onclick="openCertificationsListModal()">Edit</button></h2>
                     <div class="row">
                         <?php foreach ($certifications as $cert): ?>
                         <div class="col-md-6">
@@ -845,6 +878,31 @@ include '../includes/employee/emp_fetch_profile.php';
                 </div>
             </div>
             <button class="btn btn-success mt-3" onclick="openAddModal('education')">Add</button>
+        </div>
+    </div>
+
+    <div id="certificationsListModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeCertificationsListModal()">&times;</span>
+            <h3>Certifications</h3>
+            <ul class="list-group">
+                <?php foreach ($certifications as $cert): ?>
+                <li class="list-group-item">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong><?php echo htmlspecialchars($cert['licence_name']); ?></strong>
+                            <br>
+                            <small class="text-muted"><?php echo htmlspecialchars($cert['issuing_organization']); ?></small>
+                        </div>
+                        <div>
+                            <button class="btn btn-secondary btn-sm me-2" onclick='openModal("certification", <?php echo json_encode($cert); ?>)'>✏️</button>
+                            <button class="btn btn-danger btn-sm" onclick="removeCertification(<?php echo $cert['id']; ?>)">×</button>
+                        </div>
+                    </div>
+                </li>
+                <?php endforeach; ?>
+            </ul>
+            <button class="btn btn-primary mt-3" onclick='openAddModal("certification")'>Add Certification</button>
         </div>
     </div>
 
