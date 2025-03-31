@@ -747,14 +747,22 @@ include '../includes/employee/emp_fetch_profile.php';
                     </div>
                 </div>
                 <div id="educationFields" class="modal-fields" style="display:none;">
-                    <label for="education_course">Course:</label>
-                    <input type="text" id="education_course" name="course"><br>
-                    <label for="education_institution">Institution:</label>
-                    <input type="text" id="education_institution" name="institution"><br>
-                    <label for="education_ending_date">End Date:</label>
-                    <input type="date" id="education_ending_date" name="ending_date"><br>
-                    <label for="education_course_highlights">Course Highlights:</label>
-                    <input type="text" id="education_course_highlights" name="course_highlights"><br>
+                    <div class="mb-3">
+                        <label for="education_course" class="form-label">Course:</label>
+                        <input type="text" class="form-control" id="education_course" name="course">
+                    </div>
+                    <div class="mb-3">
+                        <label for="education_institution" class="form-label">Institution:</label>
+                        <input type="text" class="form-control" id="education_institution" name="institution">
+                    </div>
+                    <div class="mb-3">
+                        <label for="education_ending_date" class="form-label">End Date:</label>
+                        <input type="date" class="form-control" id="education_ending_date" name="ending_date">
+                    </div>
+                    <div class="mb-3">
+                        <label for="education_course_highlights" class="form-label">Course Highlights:</label>
+                        <textarea class="form-control" id="education_course_highlights" name="course_highlights"></textarea>
+                    </div>
                 </div>
                 <div id="languagesFields" class="modal-fields" style="display:none;">
                     <label for="language_name">Language:</label>
@@ -765,16 +773,26 @@ include '../includes/employee/emp_fetch_profile.php';
                     <input type="text" id="skills_skill_name" name="skill_name"><br>
                 </div>
                 <div id="certificationFields" class="modal-fields" style="display:none;">
-                    <label for="certification_licence_name">Licence Name:</label>
-                    <input type="text" id="certification_licence_name" name="licence_name"><br>
-                    <label for="certification_issuing_organization">Issuing Organization:</label>
-                    <input type="text" id="certification_issuing_organization" name="issuing_organization"><br>
-                    <label for="certification_issue_date">Issue Date:</label>
-                    <input type="date" id="certification_issue_date" name="issue_date"><br>
-                    <label for="certification_expiry_date">Expiry Date:</label>
-                    <input type="date" id="certification_expiry_date" name="expiry_date"><br>
-                    <label for="certification_description">Description:</label>
-                    <textarea id="certification_description" name="description"></textarea><br>
+                    <div class="mb-3">
+                        <label for="certification_licence_name" class="form-label">Licence Name:</label>
+                        <input type="text" class="form-control" id="certification_licence_name" name="licence_name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="certification_issuing_organization" class="form-label">Issuing Organization:</label>
+                        <input type="text" class="form-control" id="certification_issuing_organization" name="issuing_organization">
+                    </div>
+                    <div class="mb-3">
+                        <label for="certification_issue_date" class="form-label">Issue Date:</label>
+                        <input type="date" class="form-control" id="certification_issue_date" name="issue_date">
+                    </div>
+                    <div class="mb-3">
+                        <label for="certification_expiry_date" class="form-label">Expiry Date:</label>
+                        <input type="date" class="form-control" id="certification_expiry_date" name="expiry_date">
+                    </div>
+                    <div class="mb-3">
+                        <label for="certification_description" class="form-label">Description:</label>
+                        <textarea class="form-control" id="certification_description" name="description"></textarea>
+                    </div>
                 </div>
                 <div class="d-flex justify-content-between">
                     <button type="button" class="btn btn-danger" onclick="deleteEntry()">Delete</button>
@@ -884,25 +902,18 @@ include '../includes/employee/emp_fetch_profile.php';
     <div id="certificationsListModal" class="modal">
         <div class="modal-content">
             <span class="close-button" onclick="closeCertificationsListModal()">&times;</span>
-            <h3>Certifications</h3>
-            <ul class="list-group">
-                <?php foreach ($certifications as $cert): ?>
-                <li class="list-group-item">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <strong><?php echo htmlspecialchars($cert['licence_name']); ?></strong>
-                            <br>
-                            <small class="text-muted"><?php echo htmlspecialchars($cert['issuing_organization']); ?></small>
-                        </div>
-                        <div>
-                            <button class="btn btn-secondary btn-sm me-2" onclick='openModal("certification", <?php echo json_encode($cert); ?>)'>✏️</button>
-                            <button class="btn btn-danger btn-sm" onclick="removeCertification(<?php echo $cert['id']; ?>)">×</button>
-                        </div>
+            <h3>Select Certification to Edit</h3>
+            <div class="job-list-container">
+                <div class="job-list">
+                    <?php foreach ($certifications as $cert): ?>
+                    <div id="cert-<?= $cert['id'] ?>" class="job-box" onclick='openModal("certification", <?php echo json_encode($cert); ?>)'>
+                        <div class="job-title"><?php echo htmlspecialchars($cert['licence_name']); ?></div>
+                        <div class="company-name">from <?php echo htmlspecialchars($cert['issuing_organization']); ?></div>
                     </div>
-                </li>
-                <?php endforeach; ?>
-            </ul>
-            <button class="btn btn-primary mt-3" onclick='openAddModal("certification")'>Add Certification</button>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+            <button class="btn btn-success mt-3" onclick="openAddModal('certification')">Add Certification</button>
         </div>
     </div>
 
@@ -913,4 +924,5 @@ include '../includes/employee/emp_fetch_profile.php';
         <p>Account Created: <?php echo htmlspecialchars($account_creation_date); ?></p>
     </footer>
 </body>
+</html>
 </html>
