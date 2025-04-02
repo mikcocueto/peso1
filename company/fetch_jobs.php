@@ -51,24 +51,24 @@ if (empty($jobs)): ?>
 <?php else: ?>
     <?php foreach ($jobs as $job): ?>
         <div class="job-item">
-            <div>
-                <strong><?= htmlspecialchars($job['title']) ?></strong><br>
-                <small><?= htmlspecialchars($job['description']) ?></small><br>
-                <small>Created: <?= htmlspecialchars(date('Y-m-d', strtotime($job['posted_date']))) ?> - Ends: <?= htmlspecialchars(date('Y-m-d', strtotime($job['expiry_date']))) ?></small>
+            <div class="job-title-column">
+                <span class="job-title"><?= htmlspecialchars($job['title']) ?></span>
+                <div class="job-description"><?= htmlspecialchars($job['description']) ?></div>
+                <span class="job-dates">Created: <?= htmlspecialchars(date('Y-m-d', strtotime($job['posted_date']))) ?> - Ends: <?= htmlspecialchars(date('Y-m-d', strtotime($job['expiry_date']))) ?></span>
             </div>
-            <div>
-                <span><?= $job['pending_count'] ?> Pending</span> | 
-                <span><?= $job['awaiting_count'] ?> Awaiting</span> | 
-                <span><?= $job['accepted_count'] ?> Accepted</span>
+            <div class="candidates-column">
+                <span style="white-space: nowrap; overflow: visible; text-overflow: clip;">
+                    <?= $job['pending_count'] ?> Pending | <?= $job['awaiting_count'] ?> Awaiting | <?= $job['accepted_count'] ?> Accepted
+                </span>
             </div>
-            <div>
+            <div class="status-column">
                 <select class="form-select job-status-dropdown" data-job-id="<?= $job['job_id'] ?>" onchange="updateJobStatus(this)">
-                    <option value="active" <?= $job['status'] == 'active' ? 'selected' : '' ?>>● Active</option>
-                    <option value="paused" <?= $job['status'] == 'paused' ? 'selected' : '' ?>>● Paused</option>
-                    <option value="inactive" <?= $job['status'] == 'inactive' ? 'selected' : '' ?>>● Inactive</option>
+                    <option value="active" <?= $job['status'] == 'active' ? 'selected' : '' ?>>🟢 Active</option>
+                    <option value="paused" <?= $job['status'] == 'paused' ? 'selected' : '' ?>>🟡 Paused</option>
+                    <option value="inactive" <?= $job['status'] == 'inactive' ? 'selected' : '' ?>>🔴 Inactive</option>
                 </select>
             </div>
-            <div>
+            <div class="action-column">
                 <button class="action-btn" data-bs-toggle="modal" data-bs-target="#editJobModal" data-job-id="<?= $job['job_id'] ?>">Edit</button>
             </div>
         </div>

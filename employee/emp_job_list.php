@@ -59,62 +59,366 @@ $jobs = $conn->query($query);
     <link rel="stylesheet" href="../fortest/style2/animate.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/css/bootstrap-select.min.css">
     <style>
-        .job-box {
-            border: 1px solid #ddd;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-            cursor: pointer;
+        body {
+            background-image: url('../fortest/images/7lakes.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .site-navbar {
+            position: relative;
+            z-index: 1000;            
+            padding: 20px 0;
+        }
+
+        .site-navbar .container-fluid {
+            padding: 0 60px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .site-navbar .row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .site-navbar .site-logo {
+            flex: 0 0 250px;
+        }
+
+        .site-navbar .site-logo img {
+            width: 120px;
+            height: auto;
+            margin-right: 15px;
+            object-fit: contain;
+        }
+
+        .site-navbar .site-logo span {
+            font-size: 24px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .site-navbar .site-navigation {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            margin: 0 40px;
+        }
+
+        .site-navbar .site-menu {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            gap: 20px;
+        }
+
+        .site-navbar .site-menu li {
+            margin: 0;
+        }
+
+        .site-navbar .site-menu a {
+            color: #fff;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .site-navbar .site-menu a:hover {
+            color: #e3f2fd;
+        }
+
+        .site-navbar .site-menu .active a {
+            color: #e3f2fd;
+        }
+
+        .site-navbar .right-cta-menu {
+            flex: 0 0 300px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .site-navbar .btn-outline-white {
+            color: #fff;
+            border-color: #fff;
+            padding: 10px 25px;
+            font-weight: 500;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .site-navbar .btn-outline-white:hover {
+            background: #fff;
+            color: #1a237e;
+        }
+
+        .site-navbar .btn-primary {
+            background: #fff;
+            border-color: #fff;
+            color: #1a237e;
+            padding: 10px 25px;
+            font-weight: 500;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .site-navbar .btn-primary:hover {
+            background: #e3f2fd;
+            border-color: #e3f2fd;
+        }
+
+        .site-navbar .dropdown-menu {
+            background: #fff;
+            border: none;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 10px 0;
+            min-width: 200px;
+            display: none;
+            position: absolute;
+            z-index: 1000;
+        }
+
+        .site-navbar .dropdown-menu.show {
+            display: block;
+        }
+
+        .site-navbar .dropdown-item {
+            color: #1a237e;
+            padding: 10px 25px;
+            font-size: 14px;
+            display: block;
+            width: 100%;
+            text-align: left;
+            background: transparent;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .site-navbar .dropdown-item:hover {
+            background: #e3f2fd;
+            color: #1a237e;
+        }
+
+        .site-navbar .dropdown {
             position: relative;
         }
-        .job-title {
-            font-size: 1.2em;
-            font-weight: bold;
+
+        .site-navbar .dropdown-toggle {
+            cursor: pointer;
         }
-        .job-details {
-            margin-top: 10px;
+
+        .main-content-section {
+            padding-top: 20px;
+            min-height: 100vh;
         }
-        .selected-job {
-            background-color: #e9ecef;
+
+        .listing-container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin: 20px auto;
+            backdrop-filter: blur(5px);
+            max-width: 1400px;
         }
+
+        .listing-container h2 {
+            color: #1a237e;
+            font-weight: 600;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 28px;
+        }
+
         .job-list-container {
             max-height: 80vh;
             overflow-y: auto;
+            padding-right: 15px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            backdrop-filter: blur(5px);
         }
-        @media (max-width: 767.98px) {
-            .job-list-container {
-                max-height: 80vh;
-            }
+
+        .job-box {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 20px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(26, 35, 126, 0.1);
         }
-        .search-jobs-form .form-control, .search-jobs-form .selectpicker, .search-jobs-form .btn-search {
-            margin-bottom: 0;
+
+        .job-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            border-color: rgba(26, 35, 126, 0.3);
         }
+
+        .job-image-container {
+            position: relative;
+            height: 150px;
+            background: rgba(248, 249, 250, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow: hidden;
+        }
+
         .company-logo {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            object-fit: cover;
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .job-box:hover .company-logo {
+            transform: scale(1.1);
+        }
+
+        .job-type-badge {
             position: absolute;
             top: 10px;
             right: 10px;
+            background: #1a237e;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: 500;
         }
-        .category-select {
-            width: 100%;
-            height: calc(1.5em + 0.75rem + 2px);
-            padding: 0.375rem 0.75rem;
-            font-size: 1rem;
-            font-weight: 400;
-            line-height: 1.5;
-            color: #495057;
-            background-color: #fff;
-            background-clip: padding-box;
-            border: 1px solid #ced4da;
-            border-radius: 0.25rem;
-            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+        .job-content {
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        .job-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .job-box:hover .job-title {
+            color: #1a237e;
+        }
+
+        .job-details {
+            color: #6c757d;
+            margin-bottom: 15px;
+        }
+
+        .job-details p {
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .job-details i {
+            color: #1a237e;
+        }
+
+        .selected-job {
+            border: 2px solid #1a237e;
+        }
+
+        #job-details {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            padding: 20px;
+            min-height: 400px;
+        }
+
+        #job-details p {
+            color: #6c757d;
+            margin-bottom: 15px;
+        }
+
+        #job-details h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        #job-details .btn {
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        #job-details .btn-primary {
+            background: #6c63ff;
+            border-color: #6c63ff;
+        }
+
+        #job-details .btn-primary:hover {
+            background: #5a52e0;
+            border-color: #5a52e0;
+        }
+
+        #job-details .btn-secondary {
+            background: #6c757d;
+            border-color: #6c757d;
+        }
+
+        #job-details .btn-secondary:hover {
+            background: #5a6268;
+            border-color: #5a6268;
         }
     </style>
     <script>
+        // Initialize dropdowns
+        $(document).ready(function() {
+            // Initialize Bootstrap dropdowns
+            $('.dropdown-toggle').on('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                $(this).next('.dropdown-menu').toggleClass('show');
+            });
+
+            // Close dropdown when clicking outside
+            $(document).on('click', function(e) {
+                if (!$(e.target).closest('.dropdown').length) {
+                    $('.dropdown-menu').removeClass('show');
+                }
+            });
+
+            // Initialize mobile menu toggle
+            $('.js-menu-toggle').click(function(e) {
+                e.preventDefault();
+                $('.site-menu').toggleClass('active');
+            });
+
+            // Initialize Bootstrap Select
+            $('.selectpicker').selectpicker();
+        });
+
         function showJobDetails(jobId) {
             const jobDetails = document.getElementById('job-details');
             const jobBoxes = document.querySelectorAll('.job-box');
@@ -165,101 +469,122 @@ $jobs = $conn->query($query);
         }
     </script>
 </head>
-<body class="bg-light">
-
-    <!-- Search -->
-    <div class="container">
-        <div class="row align-items-center justify-content-center">
-            <div class="col-md-12 col-lg-10">
-                <form method="get" class="search-jobs-form">
-                    <div class="row mb-5">
-                        <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                            <input type="text" class="form-control form-control-lg" name="search_title" placeholder="Job title, Company..." value="<?= htmlspecialchars($search_title) ?>">
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                            <select class="selectpicker form-control form-control-lg" name="search_category[]" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select Category" multiple>
-                                <option disabled>Select Category</option>
-                                <?php foreach ($categories as $category): ?>
-                                    <option value="<?php echo $category['category_id']; ?>" <?php echo in_array($category['category_id'], $search_category) ? 'selected' : ''; ?>><?php echo $category['category_name']; ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                            <select class="selectpicker form-control form-control-lg" name="search_type" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select Job Type">
-                                <option disabled>Select Job Type</option>
-                                <option value="" <?php echo $search_type == '' ? 'selected' : ''; ?>>All</option>
-                                <option value="Part-Time" <?php echo $search_type == 'Part-Time' ? 'selected' : ''; ?>>Part-Time</option>
-                                <option value="Full-Time" <?php echo $search_type == 'Full-Time' ? 'selected' : ''; ?>>Full-Time</option>
-                                <option value="Contract" <?php echo $search_type == 'Contract' ? 'selected' : ''; ?>>Contract</option>
-                                <option value="Temporary" <?php echo $search_type == 'Temporary' ? 'selected' : ''; ?>>Temporary</option>
-                                <option value="Internship" <?php echo $search_type == 'Internship' ? 'selected' : ''; ?>>Internship</option>
-                            </select>
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                            <button type="submit" class="btn btn-primary btn-lg btn-block btn-search"><span class="icon-search icon mr-2"></span>Search Job</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
+<body id="top">
+    <div id="overlayer"></div>
+    <div class="loader">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
         </div>
     </div>
+    
+    <div class="site-wrap">
+        
+        <!-- Navbar Section -->
+        <?php 
+        $logo_path = "../fortest/images/peso_icons.jpg";
+        require "../includes/nav_index.php"; 
+        ?>
 
-    <!-- Listing cards -->
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-6 mb-4 mb-md-0">
-                <h2 class="text-center mb-4">Job Listings</h2>
-                <div class="job-list-container">
-                    <div class="job-list">
-                        <?php while ($job = $jobs->fetch_assoc()): ?>
-                            <div id="job-<?= $job['job_id'] ?>" class="job-box" onclick="showJobDetails(<?= $job['job_id'] ?>)">
-                                <img src="<?= htmlspecialchars($job['comp_logo_dir']) ?>" alt="Company Logo" class="company-logo">
-                                <div>
-                                    <div class="job-title"><?= htmlspecialchars($job['title']) ?></div>
-                                    <div class="job-details">
-                                        <p><strong>Company:</strong> <?= htmlspecialchars($job['companyName']) ?></p>
-                                        <p><strong>Employment Type:</strong> <?= htmlspecialchars($job['employment_type']) ?></p>
-                                    </div>
+        <!-- Main Content Section -->
+        <section class="main-content-section">
+            <!-- Search -->
+            <div class="container" style="margin-top: 100px;">
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-md-12 col-lg-10">
+                        <form method="get" class="search-jobs-form">
+                            <div class="row mb-5">
+                                <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
+                                    <input type="text" class="form-control form-control-lg" name="search_title" placeholder="Job title, Company..." value="<?= htmlspecialchars($search_title) ?>">
+                                </div>
+                                <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
+                                    <select class="selectpicker form-control form-control-lg" name="search_category[]" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select Category" multiple>
+                                        <option disabled>Select Category</option>
+                                        <?php foreach ($categories as $category): ?>
+                                            <option value="<?php echo $category['category_id']; ?>" <?php echo in_array($category['category_id'], $search_category) ? 'selected' : ''; ?>><?php echo $category['category_name']; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                                <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
+                                    <select class="selectpicker form-control form-control-lg" name="search_type" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select Job Type">
+                                        <option disabled>Select Job Type</option>
+                                        <option value="" <?php echo $search_type == '' ? 'selected' : ''; ?>>All</option>
+                                        <option value="Part-Time" <?php echo $search_type == 'Part-Time' ? 'selected' : ''; ?>>Part-Time</option>
+                                        <option value="Full-Time" <?php echo $search_type == 'Full-Time' ? 'selected' : ''; ?>>Full-Time</option>
+                                        <option value="Contract" <?php echo $search_type == 'Contract' ? 'selected' : ''; ?>>Contract</option>
+                                        <option value="Temporary" <?php echo $search_type == 'Temporary' ? 'selected' : ''; ?>>Temporary</option>
+                                        <option value="Internship" <?php echo $search_type == 'Internship' ? 'selected' : ''; ?>>Internship</option>
+                                    </select>
+                                </div>
+                                <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
+                                    <button type="submit" class="btn btn-primary btn-lg btn-block btn-search"><span class="icon-search icon mr-2"></span>Search Job</button>
                                 </div>
                             </div>
-                        <?php endwhile; ?>
+                        </form>
                     </div>
                 </div>
             </div>
 
-            <!-- Details -->
-            <div class="col-md-6">
-                <h2 class="text-center mb-4">Job Details</h2>
-                <div id="job-details">
-                    <p>Select a job on the list</p>
+            <!-- Listing cards -->
+            <div class="listing-container">
+                <div class="row">
+                    <div class="col-md-6 mb-4 mb-md-0">
+                        <h2>Job Listings</h2>
+                        <div class="job-list-container">
+                            <div class="job-list">
+                                <?php while ($job = $jobs->fetch_assoc()): ?>
+                                    <div id="job-<?= $job['job_id'] ?>" class="job-box" onclick="showJobDetails(<?= $job['job_id'] ?>)">
+                                        <div class="job-image-container">
+                                            <img src="<?= htmlspecialchars($job['comp_logo_dir']) ?>" 
+                                                 alt="<?= htmlspecialchars($job['companyName']) ?> Logo" 
+                                                 class="company-logo">
+                                            <div class="job-type-badge"><?= htmlspecialchars($job['employment_type']) ?></div>
+                                        </div>
+                                        <div class="job-content">
+                                            <h5 class="job-title"><?= htmlspecialchars($job['title']) ?></h5>
+                                            <div class="job-details">
+                                                <p><i class="icon-building"></i> <?= htmlspecialchars($job['companyName']) ?></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endwhile; ?>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Details -->
+                    <div class="col-md-6">
+                        <h2>Job Details</h2>
+                        <div id="job-details">
+                            <div class="text-center text-muted">
+                                <i class="icon-search" style="font-size: 48px;"></i>
+                                <p class="mt-3">Select a job from the list to view details</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
+
+        <!-- Update the index button with home icon -->
+        
     </div>
+    
 
-    <!-- Update the index button with home icon -->
-    <div style="position: fixed; bottom: 30px; right: 30px; z-index: 1000;">
-        <a href="../index.php" class="btn btn-primary" style="padding: 10px 20px; font-size: 16px;">
-            <i class="icon-home" style="margin-right: 5px;"></i>Home
-        </a>
-    </div>
-</div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"></script>
+    <script src="../fortest/js/jquery.min.js"></script>
+    <script src="../fortest/js/bootstrap.bundle.min.js"></script>
+    <script src="../fortest/js/isotope.pkgd.min.js"></script>
+    <script src="../fortest/js/stickyfill.min.js"></script>
+    <script src="../fortest/js/jquery.fancybox.min.js"></script>
+    <script src="../fortest/js/jquery.easing.1.3.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"></script>
-<script src="../fortest/js/jquery.min.js"></script>
-<script src="../fortest/js/bootstrap.bundle.min.js"></script>
-<script src="../fortest/js/isotope.pkgd.min.js"></script>
-<script src="../fortest/js/stickyfill.min.js"></script>
-<script src="../fortest/js/jquery.fancybox.min.js"></script>
-<script src="../fortest/js/jquery.easing.1.3.js"></script>
+    <script src="../fortest/js/jquery.waypoints.min.js"></script>
+    <script src="../fortest/js/jquery.animateNumber.min.js"></script>
+    <script src="../fortest/js/owl.carousel.min.js"></script>
 
-<script src="../fortest/js/jquery.waypoints.min.js"></script>
-<script src="../fortest/js/jquery.animateNumber.min.js"></script>
-<script src="../fortest/js/owl.carousel.min.js"></script>
+    <script src="../fortest/js/bootstrap-select.min.js"></script>
 
-<script src="../fortest/js/bootstrap-select.min.js"></script>
-
-<script src="../fortest/js/custom.js"></script>                       
+    <script src="../fortest/js/custom.js"></script>
 </body>
 </html>

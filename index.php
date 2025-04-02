@@ -88,72 +88,117 @@ $conn->close();
     <!-- MAIN CSS -->
     <link rel="stylesheet" href="fortest/style2/style.css">    
     <style>
-      .job-box {
-        border: 1px solid #ddd;
-        padding: 20px;
-        margin-bottom: 20px;
-        border-radius: 5px;
-        background-color: #f9f9f9;
-        position: relative; /* Add this line */
-      }
-      .job-title {
-        font-size: 1.5em;
-        font-weight: bold;
-      }
-      .job-details {
-        margin-top: 10px;
-      }
-      .save-job-btn {
-        position: absolute; /* Add this line */
-        bottom: 10px; /* Add this line */
-        right: 10px; /* Add this line */
-      }
-      /* Owl Carousel */
-      .owl-nav {
-        position: absolute;
-        top: 50%;
-        width: 100%;
+      .job-card {
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        overflow: hidden;
+        transition: all 0.3s ease;
+        height: 100%;
         display: flex;
-        justify-content: space-between;
+        flex-direction: column;
       }
-      .owl-nav button {
-        background: none;
-        border: none;
-        font-size: 2em;
-        color: #333;
+
+      .job-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 20px rgba(0,0,0,0.15);
       }
-      .owl-nav button.owl-prev {
-        position: absolute;
-        left: -25px;
-      }
-      .owl-nav button.owl-next {
-        position: absolute;
-        right: -25px;
-      }
-      .Announcement .container {
-        text-align: center;
-      }
-      .Announcement .owl-carousel .slide {
+
+      .job-image-container {
+        position: relative;
+        height: 150px;
+        background: #f8f9fa;
         display: flex;
-        justify-content: center;
         align-items: center;
-        padding-bottom: 50px; /* Add padding below the images */
+        justify-content: center;
+        padding: 20px;
+        overflow: hidden;
       }
-          .logo-container {
-        position: absolute;
-        top: 70px; /* Adjust based on the height of your nav bar */
-        left: 20px;
-      }
-      .logo-container img {
-        width: 120px;
-        height: auto;
-      }
-      .owl-carousel .slide img {
-        width: auto;
-        height: auto;
+
+      .job-company-logo {
         max-width: 100%;
-        max-height: 200px; /* Set a maximum height to maintain aspect ratio */
-        object-fit: contain; /* Ensure the image fits within the container without distortion */
+        max-height: 100%;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+      }
+
+      .job-card:hover .job-company-logo {
+        transform: scale(1.1);
+      }
+
+      .job-type-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: #6c63ff;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 15px;
+        font-size: 0.8em;
+        font-weight: 500;
+      }
+
+      .job-content {
+        padding: 20px;
+        flex-grow: 1;
+      }
+
+      .job-title {
+        font-size: 1.2em;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 10px;
+        transition: color 0.3s ease;
+      }
+
+      .job-card:hover .job-title {
+        color: #6c63ff;
+      }
+
+      .company-name {
+        color: #6c757d;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .company-name i {
+        color: #6c63ff;
+      }
+
+      .btn-save-job {
+        width: 100%;
+        padding: 8px 15px;
+        border: 2px solid #6c63ff;
+        background: transparent;
+        color: #6c63ff;
+        border-radius: 5px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+      }
+
+      .btn-save-job:hover {
+        background: #6c63ff;
+        color: white;
+      }
+
+      .btn-save-job.saved {
+        background: #6c63ff;
+        color: white;
+      }
+
+      .btn-save-job.saved:hover {
+        background: #dc3545;
+        border-color: #dc3545;
+      }
+
+      .btn-save-job i {
+        font-size: 1.1em;
       }
     </style>
   </head>
@@ -177,10 +222,7 @@ $conn->close();
       <div class="site-mobile-menu-body"></div>
     </div> <!-- .site-mobile-menu -->
     
-    <div class="logo-container">
-      <img src="fortest/images/spc_logo.png" alt="San Pablo Logo">
-    </div>
-
+  
     <!-- HOME -->
     <section class="home-section section-hero overlay bg-image" style="background-image: url('fortest/images/HOMEBG.jpg');" id="home-section">
 
@@ -236,28 +278,34 @@ $conn->close();
         <h2 class="text-center mb-4">Recent Job Listings</h2>
         <div class="row" style="max-height: 400px; overflow-y: auto;">
           <?php while ($job = $jobs->fetch_assoc()): ?>
-            <div class="col-md-6">
-              <div class="job-box">
-                <div class="d-flex justify-content-between">
-                  <div class="job-title"><?= htmlspecialchars($job['title']) ?></div>
-                  <div class="company-logo">
-                    <img src="<?= str_replace('../', '', htmlspecialchars($job['comp_logo_dir'])) ?>" alt="<?= htmlspecialchars($job['companyName']) ?> Logo" style="width: 50px; height: auto;">
-                  </div>
+            <div class="col-md-6 mb-4">
+              <div class="job-card">
+                <div class="job-image-container">
+                  <img src="<?= str_replace('../', '', htmlspecialchars($job['comp_logo_dir'])) ?>" 
+                       alt="<?= htmlspecialchars($job['companyName']) ?> Logo" 
+                       class="job-company-logo">
+                  <div class="job-type-badge"><?= htmlspecialchars($job['employment_type']) ?></div>
                 </div>
-                <div class="job-details">
-                  <p><strong>Company:</strong> <?= htmlspecialchars($job['companyName']) ?></p>
-                  <p><strong>Employment Type:</strong> <?= htmlspecialchars($job['employment_type']) ?></p>
+                <div class="job-content">
+                  <h5 class="job-title"><?= htmlspecialchars($job['title']) ?></h5>
+                  <p class="company-name">
+                    <i class="icon-building"></i> <?= htmlspecialchars($job['companyName']) ?>
+                  </p>
+                  <?php if (isset($_SESSION['user_id'])): ?>
+                    <form method="post" action="includes/save_job_process.php" class="save-job-form">
+                      <input type="hidden" name="job_id" value="<?= $job['job_id'] ?>">
+                      <?php if (in_array($job['job_id'], $saved_jobs)): ?>
+                        <button type="submit" name="action" value="unsave" class="btn btn-save-job saved">
+                          <i class="icon-heart"></i> <span>Saved</span>
+                        </button>
+                      <?php else: ?>
+                        <button type="submit" name="action" value="save" class="btn btn-save-job">
+                          <i class="icon-heart"></i> <span>Save Job</span>
+                        </button>
+                      <?php endif; ?>
+                    </form>
+                  <?php endif; ?>
                 </div>
-                <?php if (isset($_SESSION['user_id'])): ?>
-                  <form method="post" action="includes/save_job_process.php" class="save-job-btn">
-                    <input type="hidden" name="job_id" value="<?= $job['job_id'] ?>">
-                    <?php if (in_array($job['job_id'], $saved_jobs)): ?>
-                      <button type="submit" name="action" value="unsave" class="btn btn-outline-danger">Unsave</button>
-                    <?php else: ?>
-                      <button type="submit" name="action" value="save" class="btn btn-outline-primary">Save</button>
-                    <?php endif; ?>
-                  </form>
-                <?php endif; ?>
               </div>
             </div>
           <?php endwhile; ?>
@@ -361,7 +409,7 @@ $conn->close();
                     <img src="https://storage.googleapis.com/a1aa/image/SPg_obwdygMCcsDWmQUBKKDLkSV4aF42IDTrT0c9R9g.jpg" class="card-img-top mx-auto" alt="Icon representing getting a job" style="width: 64px; height: 64px;">
                     <div class="card-body text-black">
                         <h5 class="card-title">3. Get your job</h5>
-                        <p class="card-text">Secure a job offer, complete requirements, and begin your career with PESO’s guidance, ensuring a smooth transition into employment.</p>
+                        <p class="card-text">Secure a job offer, complete requirements, and begin your career with PESO's guidance, ensuring a smooth transition into employment.</p>
                     </div>
                 </div>
             </div>

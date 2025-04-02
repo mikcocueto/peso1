@@ -213,7 +213,6 @@ include '../includes/employee/emp_fetch_profile.php';
     </header>
     <div class="page-content">
         <div class="container">
-            <div class="cover shadow-lg bg-white">
             <div class="site-nav">
                     <nav role="navigation">
                         <ul class="nav justify-content-center">

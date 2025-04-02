@@ -15,80 +15,78 @@ if (isset($_SESSION['user_id'])) {
     $user_query->close();
 }
 
+// Determine correct path prefix based on script location
+$path_prefix = (strpos($_SERVER['PHP_SELF'], "/includes/") !== false || strpos($_SERVER['PHP_SELF'], "/employee/") !== false) ? "../" : "";
 ?>
+
 <!-- NAVBAR -->
 <header class="site-navbar mt-3">
-      <div class="container-fluid">
+    <div class="container-fluid">
         <div class="row align-items-center">
-        <div class="site-logo col-6 d-flex align-items-center">
-            <a href="index.php" class="d-flex align-items-center text-decoration-none">
-                <img src="fortest/images/peso_icons.png" alt="PESO Logo" style="width: 120px; height: auto; margin-right: 10px;">
-                <div class="d-flex flex-column">
-                    <span>PESO</span>
-                    <span style="padding-left: 30px;">Job Hiring</span>
-                </div>
-            </a>
-        </div>
-          <nav class="mx-auto site-navigation">
-            <ul class="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
-              <li><a href="index.html" class="nav-link active">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li class="has-children">
-                <a href="employee/emp_job_list.php">Job Listings</a>
-                
-              </li>
-              <li class="has-children">
-                <a href="services.html">Pages</a>
-                <ul class="dropdown">
-                  <li><a href="services.html">Services</a></li>
-                  <li><a href="service-single.html">Service Single</a></li>
-                  <li><a href="blog-single.html">Blog Single</a></li>
-                  <li><a href="portfolio.html">Portfolio</a></li>
-                  <li><a href="portfolio-single.html">Portfolio Single</a></li>
-                  <li><a href="testimonials.html">Testimonials</a></li>
-                  <li><a href="faq.html">Frequently Ask Questions</a></li>
-                  <li><a href="gallery.html">Gallery</a></li>
-                </ul>
-              </li>
-              
-              <li><a href="#contacts">Contact</a></li>
-              <?php if (isset($_SESSION['user_id'])): ?>
-              <li class="d-lg-none has-children">
-                <a href="#"><span class="icon-user"></span> <?= htmlspecialchars($user_name) ?></a>
-                <ul class="dropdown">
-                  <li><a href="employee/emp_dashboard.php">Profile</a></li>
-                  <li><a href="employee/emp_saved_jobs.php">Saved</a></li>
-                  <li><a href="includes/employee/emp_logout.php">Logout</a></li>
-                </ul>
-              </li>
-              <?php else: ?>
-              <li class="d-lg-none"><a href="company/comp_login.php"><span class="mr-2">+</span> Company Log In</a></li>
-              <li class="d-lg-none"><a href="employee/emp_login.php">Log In</a></li>
-              <?php endif; ?>
-            </ul>
-          </nav>
-          
-          <div class="right-cta-menu text-right d-flex align-items-center col-6">
-            <div class="ml-auto">
-              <?php if (isset($_SESSION['user_id'])): ?>
-                <div class="dropdown d-none d-lg-inline-block">
-                  <a href="#" class="btn btn-outline-white border-width-2 dropdown-toggle" id="profileDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="mr-2 icon-user"></span><?= htmlspecialchars($user_name) ?>
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="profileDropdown">
-                    <a class="dropdown-item" href="employee/emp_dashboard.php">Profile</a>
-                    <a class="dropdown-item" href="employee/emp_saved_jobs.php">Saved</a>
-                    <a class="dropdown-item" href="includes/employee/emp_logout.php">Logout</a>
-                  </div>
-                </div>
-              <?php else: ?>
-              <a href="company/comp_login.php" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Company Log In</a>
-              <a href="employee/emp_login.php" class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-lock_outline"></span>Log In</a>
-              <?php endif; ?>
+            <div class="site-logo col-6 d-flex align-items-center">
+                <a href="<?php echo $path_prefix; ?>index.php" class="d-flex align-items-center text-decoration-none">
+                    <img src="<?php echo $path_prefix; ?>fortest/images/peso_icons.png" alt="PESO Logo" style="width: 120px; height: auto; margin-right: 10px;">
+                    <div class="d-flex flex-column">
+                        <span>PESO</span>
+                        <span style="padding-left: 30px;">Job Hiring</span>
+                    </div>
+                </a>
             </div>
-            <a href="#" class="site-menu-toggle js-menu-toggle d-inline-block d-xl-none mt-lg-2 ml-3"><span class="icon-menu h3 m-0 p-0 mt-2"></span></a>
-          </div>
-
+            <nav class="mx-auto site-navigation">
+                <ul class="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
+                    <li><a href="<?php echo $path_prefix; ?>index.php" class="nav-link <?php echo (strpos($_SERVER['PHP_SELF'], 'index.php') !== false) ? 'active' : ''; ?>">Home</a></li>
+                    <li><a href="<?php echo $path_prefix; ?>index.php#about">About</a></li>
+                    <li><a href="<?php echo $path_prefix; ?>employee/emp_job_list.php" class="nav-link <?php echo (strpos($_SERVER['PHP_SELF'], 'emp_job_list.php') !== false) ? 'active' : ''; ?>">Job Listings</a></li>
+                    <li class="has-children">
+                        <a href="<?php echo $path_prefix; ?>services.html">Pages</a>
+                        <ul class="dropdown">
+                            <li><a href="<?php echo $path_prefix; ?>services.html">Services</a></li>
+                            <li><a href="<?php echo $path_prefix; ?>service-single.html">Service Single</a></li>
+                            <li><a href="<?php echo $path_prefix; ?>blog-single.html">Blog Single</a></li>
+                            <li><a href="<?php echo $path_prefix; ?>portfolio.html">Portfolio</a></li>
+                            <li><a href="<?php echo $path_prefix; ?>portfolio-single.html">Portfolio Single</a></li>
+                            <li><a href="<?php echo $path_prefix; ?>testimonials.html">Testimonials</a></li>
+                            <li><a href="<?php echo $path_prefix; ?>faq.html">FAQ</a></li>
+                            <li><a href="<?php echo $path_prefix; ?>gallery.html">Gallery</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="<?php echo $path_prefix; ?>index.php#contacts">Contact</a></li>
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                        <li class="d-lg-none has-children">
+                            <a href="#"><span class="icon-user"></span> <?= htmlspecialchars($user_name) ?></a>
+                            <ul class="dropdown">
+                                <li><a href="<?php echo $path_prefix; ?>employee/emp_dashboard.php">Profile</a></li>
+                                <li><a href="<?php echo $path_prefix; ?>employee/emp_saved_jobs.php">Saved</a></li>
+                                <li><a href="<?php echo $path_prefix; ?>includes/employee/emp_logout.php">Logout</a></li>
+                            </ul>
+                        </li>
+                    <?php else: ?>
+                        <li class="d-lg-none"><a href="<?php echo $path_prefix; ?>company/comp_login.php">+ Company Log In</a></li>
+                        <li class="d-lg-none"><a href="<?php echo $path_prefix; ?>employee/emp_login.php">Log In</a></li>
+                    <?php endif; ?>
+                </ul>
+            </nav>
+            
+            <div class="right-cta-menu text-right d-flex align-items-center col-6">
+                <div class="ml-auto">
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                        <div class="dropdown d-none d-lg-inline-block">
+                            <a href="#" class="btn btn-outline-white border-width-2 dropdown-toggle" id="profileDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 icon-user"></span><?= htmlspecialchars($user_name) ?>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="profileDropdown">
+                                <a class="dropdown-item" href="<?php echo $path_prefix; ?>employee/emp_dashboard.php">Profile</a>
+                                <a class="dropdown-item" href="<?php echo $path_prefix; ?>employee/emp_saved_jobs.php">Saved</a>
+                                <a class="dropdown-item" href="<?php echo $path_prefix; ?>includes/employee/emp_logout.php">Logout</a>
+                            </div>
+                        </div>
+                    <?php else: ?>
+                        <a href="<?php echo $path_prefix; ?>company/comp_login.php" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Company Log In</a>
+                        <a href="<?php echo $path_prefix; ?>employee/emp_login.php" class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-lock_outline"></span>Log In</a>
+                    <?php endif; ?>
+                </div>
+                <a href="#" class="site-menu-toggle js-menu-toggle d-inline-block d-xl-none mt-lg-2 ml-3"><span class="icon-menu h3 m-0 p-0 mt-2"></span></a>
+            </div>
         </div>
-      </div>
-    </header>
+    </div>
+</header>

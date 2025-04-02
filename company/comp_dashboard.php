@@ -475,6 +475,235 @@ $stmt->close();
             text-align: center;
             border-top: 1px solid #eee;
         }
+
+        .job-listing {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .table-header {
+            display: grid;
+            grid-template-columns: 400px 200px 150px 100px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+            font-weight: bold;
+        }
+
+        .table-header .one,
+        .table-header .two,
+        .table-header .three,
+        .table-header .four {
+            padding: 0 10px;
+        }
+
+        .job-item {
+            display: grid;
+            grid-template-columns: 400px 200px 150px 100px;
+            padding: 15px;
+            border-bottom: 1px solid #dee2e6;
+            align-items: start;
+        }
+
+        .job-title-column {
+            width: 400px;
+            overflow: hidden;
+            padding: 0 10px;
+        }
+
+        .job-title {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .job-description {
+            width: 100%;
+            max-height: 3em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            margin: 5px 0;
+            color: #666;
+            font-size: 0.9em;
+            word-wrap: break-word;
+            line-height: 1.4;
+        }
+
+        .job-dates {
+            font-size: 0.8em;
+            color: #666;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .candidates-column {
+            width: 200px;
+            padding: 0 10px;
+            white-space: nowrap;
+            overflow: visible;
+            text-overflow: clip;
+        }
+
+        .status-column {
+            width: 150px;
+            padding: 0 10px;
+        }
+
+        .action-column {
+            width: 100px;
+            padding: 0 10px;
+            text-align: center;
+        }
+
+        .job-status-dropdown {
+            width: 100%;
+            padding: 5px;
+        }
+
+        .action-btn {
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .action-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border: 1px solid #dee2e6;
+            background-color: white;
+            color: #495057;
+            border-radius: 4px;
+            cursor: pointer;
+            white-space: nowrap;
+            overflow: visible;
+            text-overflow: clip;
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn:hover {
+            background-color: #f8f9fa;
+            border-color: #adb5bd;
+        }
+
+        .filter-btn.active {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .filter-btn.outline-primary {
+            color: #007bff;
+            border-color: #007bff;
+        }
+
+        .filter-btn.outline-primary:hover {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .filter-btn.outline-secondary {
+            color: #6c757d;
+            border-color: #6c757d;
+        }
+
+        .filter-btn.outline-secondary:hover {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        /* Add these styles for status filters and filter controls */
+        .status-filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+
+        .status-link {
+            padding: 8px 16px;
+            border: 1px solid #dee2e6;
+            background-color: white;
+            color: #495057;
+            border-radius: 4px;
+            cursor: pointer;
+            white-space: nowrap;
+            overflow: visible;
+            text-overflow: clip;
+            transition: all 0.2s ease;
+        }
+
+        .status-link:hover {
+            background-color: #f8f9fa;
+            border-color: #adb5bd;
+        }
+
+        .status-link.active {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+
+        .filter-dropdown,
+        .sort-dropdown {
+            padding: 8px 16px;
+            border: 1px solid #dee2e6;
+            background-color: white;
+            color: #495057;
+            border-radius: 4px;
+            cursor: pointer;
+            white-space: nowrap;
+            overflow: visible;
+            text-overflow: clip;
+            min-width: 200px;
+        }
+
+        /* Hide scrollbar but keep functionality */
+        .status-filters::-webkit-scrollbar,
+        .filter-controls::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .status-filters::-webkit-scrollbar-track,
+        .filter-controls::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .status-filters::-webkit-scrollbar-thumb,
+        .filter-controls::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 3px;
+        }
+
+        .status-filters::-webkit-scrollbar-thumb:hover,
+        .filter-controls::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
     </style>
 
     <script>
@@ -665,8 +894,8 @@ $stmt->close();
              <!-- Filter Buttons -->
             <div class="row mb-3">
                 <div class="col-md-6 d-flex">
-                    <button class="btn btn-outline-primary me-2">Open and Paused (#)</button>
-                    <button class="btn btn-outline-secondary">Closed (#)</button>
+                    <button class="filter-btn outline-primary me-2">Open and Paused (#)</button>
+                    <button class="filter-btn outline-secondary">Closed (#)</button>
                 </div>
             </div>
             <!-- Search Bar -->
@@ -685,7 +914,7 @@ $stmt->close();
                         <option value="expiry_date" <?= $sort_by === 'expiry_date' ? 'selected' : '' ?>>Sort by Expiry Date</option>
                         <option value="pending_count" <?= $sort_by === 'pending_count' ? 'selected' : '' ?>>Sort by Pending Applicants</option>
                     </select>
-                    <button class="btn btn-outline-secondary" onclick="toggleSortOrder()">
+                    <button class="filter-btn outline-secondary" onclick="toggleSortOrder()">
                         <i class="bx bx-sort"></i>
                         <span id="sortOrderIndicator"><?= $sort_order === 'desc' ? 'Descending' : 'Ascending' ?></span>
                     </button>
@@ -710,26 +939,25 @@ $stmt->close();
                 <?php else: ?>
                     <?php foreach ($jobs as $job): ?>
                         <div class="job-item">
-                            <div>
-                                <strong><?= htmlspecialchars($job['title']) ?></strong><br>
-                                <small><?= htmlspecialchars($job['description']) ?></small><br>
-                                <small>Created: <?= htmlspecialchars(date('Y-m-d', strtotime($job['posted_date']))) ?> - Ends: <?= htmlspecialchars(date('Y-m-d', strtotime($job['expiry_date']))) ?></small>
+                            <div class="job-title-column">
+                                <span class="job-title"><?= htmlspecialchars($job['title']) ?></span>
+                                <div class="job-description"><?= htmlspecialchars($job['description']) ?></div>
+                                <span class="job-dates">Created: <?= htmlspecialchars(date('Y-m-d', strtotime($job['posted_date']))) ?> - Ends: <?= htmlspecialchars(date('Y-m-d', strtotime($job['expiry_date']))) ?></span>
                             </div>
-                            <div>
+                            <div class="candidates-column">
                                 <span><?= $job['pending_count'] ?> Pending</span> | 
                                 <span><?= $job['awaiting_count'] ?> Awaiting</span> | 
                                 <span><?= $job['accepted_count'] ?> Accepted</span>
                             </div>
-                            <div>
+                            <div class="status-column">
                                 <select class="form-select job-status-dropdown" data-job-id="<?= $job['job_id'] ?>" onchange="updateJobStatus(this)">
                                     <option value="active" <?= $job['status'] == 'active' ? 'selected' : '' ?> style="color: #28a745;">🟢 Active</option>
                                     <option value="paused" <?= $job['status'] == 'paused' ? 'selected' : '' ?> style="color: #ffc107;">🟡 Paused</option>
                                     <option value="inactive" <?= $job['status'] == 'inactive' ? 'selected' : '' ?> style="color: #dc3545;">🔴 Inactive</option>
                                 </select>
                             </div>
-                            <div>
-                            <button class="action-btn" data-bs-toggle="modal" data-bs-target="#editJobModal" data-job-id="<?= $job['job_id'] ?>">Edit</button>
-
+                            <div class="action-column">
+                                <button class="action-btn" data-bs-toggle="modal" data-bs-target="#editJobModal" data-job-id="<?= $job['job_id'] ?>">Edit</button>
                             </div>
                         </div>
                     <?php endforeach; ?>
@@ -751,11 +979,11 @@ $stmt->close();
             <!-- Candidates Table -->
             <div class="status-filters">
                 <span class="status-link active">17 Active</span>
-                <span>12 Awaiting review</span>
-                <span>2 Reviewed</span>
-                <span>2 Contacted</span>
-                <span>0 Hired</span>
-                <span>22 Rejected</span>
+                <span class="status-link">12 Awaiting review</span>
+                <span class="status-link">2 Reviewed</span>
+                <span class="status-link">2 Contacted</span>
+                <span class="status-link">0 Hired</span>
+                <span class="status-link">22 Rejected</span>
             </div>
                     <!-- Dynamic Job Dropdown -->
                 <select id="jobDropdown" class="job-position" onchange="fetchCandidates(this.value)">
