@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="../style/style.css">
 </head>
+</html>
 <body>
    <nav class="navbar navbar-expand-lg navbar-dark bg-dark w-100" >
         <a class="navbar-brand" href="#">test</a>

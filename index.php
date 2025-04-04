@@ -97,6 +97,7 @@ $conn->close();
         height: 100%;
         display: flex;
         flex-direction: column;
+        position: relative;
       }
 
       .job-card:hover {
@@ -168,33 +169,32 @@ $conn->close();
       }
 
       .btn-save-job {
-        width: 100%;
-        padding: 8px 15px;
-        border: 2px solid #6c63ff;
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        width: auto;
+        height: auto;
+        padding: 8px;
+        border: none;
         background: transparent;
         color: #6c63ff;
-        border-radius: 5px;
-        font-weight: 500;
-        transition: all 0.3s ease;
+        font-size: 1.5em;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 5px;
+        transition: color 0.3s ease;
       }
 
       .btn-save-job:hover {
-        background: #6c63ff;
-        color: white;
+        color: #dc3545;
       }
 
       .btn-save-job.saved {
-        background: #6c63ff;
-        color: white;
+        color: #dc3545;
       }
 
       .btn-save-job.saved:hover {
-        background: #dc3545;
-        border-color: #dc3545;
+        color: #6c63ff;
       }
 
       .btn-save-job i {
@@ -296,11 +296,11 @@ $conn->close();
                       <input type="hidden" name="job_id" value="<?= $job['job_id'] ?>">
                       <?php if (in_array($job['job_id'], $saved_jobs)): ?>
                         <button type="submit" name="action" value="unsave" class="btn btn-save-job saved">
-                          <i class="icon-heart"></i> <span>Saved</span>
+                          <i class="icon-heart"></i>
                         </button>
                       <?php else: ?>
                         <button type="submit" name="action" value="save" class="btn btn-save-job">
-                          <i class="icon-heart"></i> <span>Save Job</span>
+                          <i class="icon-heart"></i>
                         </button>
                       <?php endif; ?>
                     </form>

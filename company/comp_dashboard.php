@@ -620,7 +620,7 @@ $stmt->close();
                                     <p class="card-text"><strong>Company Address:</strong> San Pablo City</p>
                                     <p class="card-text"><strong>Company Hotline:</strong> 4444 444</p>
                                     <p class="card-text"><strong>Company Number:</strong> 0912-345-6789</p>
-                                    <p class="card-text">Human Resource: John Doe</p>
+                                    <p class="card-text">Human Resource: ggg shan khyle</p>
                                 </div>
                             </div>
                         </div>  

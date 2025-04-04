@@ -90,3 +90,25 @@ $path_prefix = (strpos($_SERVER['PHP_SELF'], "/includes/") !== false || strpos($
         </div>
     </div>
 </header>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Ensure Bootstrap dropdowns are initialized
+        const dropdownToggles = document.querySelectorAll('[data-toggle="dropdown"]');
+        dropdownToggles.forEach(function (toggle) {
+            toggle.addEventListener('click', function (e) {
+                e.preventDefault();
+                const dropdownMenu = this.nextElementSibling;
+                dropdownMenu.classList.toggle('show');
+            });
+        });
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function (e) {
+            if (!e.target.closest('.dropdown')) {
+                document.querySelectorAll('.dropdown-menu.show').forEach(function (menu) {
+                    menu.classList.remove('show');
+                });
+            }
+        });
+    });
+</script>

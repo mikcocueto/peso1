@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 require "../includes/db_connect.php";
 
 // Check if the user is logged in as a company
