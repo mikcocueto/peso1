@@ -441,7 +441,7 @@ $jobs = $conn->query($query);
                                 applyButton.textContent = 'Apply';
                                 applyButton.classList.add('btn', 'btn-primary');
                                 applyButton.onclick = function() {
-                                    applyForJob(jobId);
+                                    showCVSelectionModal(jobId);
                                 };
                             }
                             jobDetails.appendChild(applyButton);
@@ -449,25 +449,112 @@ $jobs = $conn->query($query);
                 });
         }
 
-        function applyForJob(jobId) {
+        function showCVSelectionModal(jobId) {
+            fetch('../includes/employee/emp_get_uploaded_cvs.php')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const modalBody = document.getElementById('cv-modal-body');
+                    modalBody.innerHTML = '';
+
+                    data.forEach(cv => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td><input type="checkbox" name="cv_files" value="${cv.file_path}" onchange="limitSelection(this)"></td>
+                            <td>${cv.cv_name}</td>
+                        `;
+                        modalBody.appendChild(row);
+                    });
+
+                    const sendButton = document.getElementById('send-application-btn');
+                    sendButton.onclick = function () {
+                        const selectedFiles = Array.from(document.querySelectorAll('input[name="cv_files"]:checked')).map(input => input.value);
+                        if (selectedFiles.length > 0) {
+                            applyForJobWithCVs(jobId, selectedFiles);
+                        } else {
+                            alert('Please select at least one CV.');
+                        }
+                    };
+
+                    const cvModal = new bootstrap.Modal(document.getElementById('cvModal'));
+                    cvModal.show();
+                })
+                .catch(error => {
+                    console.error('Error fetching CVs:', error);
+                    alert('Failed to load CVs. Please try again later.');
+                });
+        }
+
+        function limitSelection(checkbox) {
+            const selected = document.querySelectorAll('input[name="cv_files"]:checked');
+            if (selected.length > 5) {
+                checkbox.checked = false;
+                alert('You can select a maximum of 5 CVs.');
+            }
+        }
+
+        function applyForJobWithCVs(jobId, selectedFiles) {
             fetch('../includes/employee/emp_apply_job.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ job_id: jobId })
+                body: JSON.stringify({ job_id: jobId, selected_files: selectedFiles })
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => {
                 if (data.success) {
                     alert('Application submitted successfully');
-                    showJobDetails(jobId); // Refresh job details to update the button
+                    const cvModal = bootstrap.Modal.getInstance(document.getElementById('cvModal'));
+                    cvModal.hide();
                 } else {
-                    alert('Failed to submit application');
+                    alert(data.error || 'Failed to submit application');
                 }
+            })
+            .catch(error => {
+                console.error('Error submitting application:', error);
+                alert('Failed to submit application. Please try again later.');
             });
         }
     </script>
+
+    <!-- CV Selection Modal -->
+    <div class="modal fade" id="cvModal" tabindex="-1" aria-labelledby="cvModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cvModalLabel">Select CVs to Submit</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Select</th>
+                                <th>CV Name</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cv-modal-body">
+                            <!-- CV list will be dynamically populated here -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="send-application-btn">Send Application</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </head>
 <body id="top">
     <div id="overlayer"></div>
