@@ -11,7 +11,7 @@ ob_start();
 
 $user_id = $_SESSION['user_id'];
 
-$query = "SELECT cv_dir, cv_name FROM tbl_emp_cv WHERE emp_id = ?";
+$query = "SELECT cv_dir, cv_file_name, cv_name FROM tbl_emp_cv WHERE emp_id = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();

@@ -464,7 +464,7 @@ $jobs = $conn->query($query);
                     data.forEach(cv => {
                         const row = document.createElement('tr');
                         row.innerHTML = `
-                            <td><input type="checkbox" name="cv_files" value="${cv.file_path}" onchange="limitSelection(this)"></td>
+                            <td><input type="checkbox" name="cv_files" value='${JSON.stringify(cv)}' onchange="limitSelection(this)"></td>
                             <td>${cv.cv_name}</td>
                         `;
                         modalBody.appendChild(row);
@@ -472,7 +472,7 @@ $jobs = $conn->query($query);
 
                     const sendButton = document.getElementById('send-application-btn');
                     sendButton.onclick = function () {
-                        const selectedFiles = Array.from(document.querySelectorAll('input[name="cv_files"]:checked')).map(input => input.value);
+                        const selectedFiles = Array.from(document.querySelectorAll('input[name="cv_files"]:checked')).map(input => JSON.parse(input.value));
                         if (selectedFiles.length > 0) {
                             applyForJobWithCVs(jobId, selectedFiles);
                         } else {
@@ -507,7 +507,7 @@ $jobs = $conn->query($query);
             })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    throw new Error(`Network response was not ok: ${response.statusText}`);
                 }
                 return response.json();
             })
@@ -517,7 +517,8 @@ $jobs = $conn->query($query);
                     const cvModal = bootstrap.Modal.getInstance(document.getElementById('cvModal'));
                     cvModal.hide();
                 } else {
-                    alert(data.error || 'Failed to submit application');
+                    console.error('Server error:', data.error, data.details || '');
+                    alert(`${data.error}\nDetails:\n${(data.details || []).join('\n')}`);
                 }
             })
             .catch(error => {
