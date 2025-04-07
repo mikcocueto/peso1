@@ -25,48 +25,34 @@ $stmt->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
-<body class="bg-gray-100">
-    <header class="bg-blue-600 text-white p-4 flex justify-between items-center">
-        <div class="flex items-center space-x-2">
-            <h1 class="text-xl font-bold">PESO for Company</h1>
+<body class="bg-light">
+    <?php include 'company/comp_navbar&tab.php'; ?> 
+    <main class="p-4 d-flex gap-4">
+        <div class="bg-white p-3 border rounded shadow-sm w-25">
+            <img src="<?php echo $company['comp_logo_dir'] ? htmlspecialchars($company['comp_logo_dir']) : 'path/to/placeholder.png'; ?>" alt="Company Logo" class="d-block mx-auto mb-3" width="100" height="100">
+            <p class="text-center fw-semibold">Welcome, <?php echo htmlspecialchars($company['firstName'] . ' ' . $company['lastName']); ?></p>
         </div>
-        <h2 class="text-xl">Dashboard</h2>
-        <div class="flex items-center space-x-4">
-            <i class="fas fa-bell text-xl"></i>
-            <i class="fas fa-envelope text-xl"></i>
-            <i class="fas fa-user-circle text-xl"></i>
-        </div>
-    </header>
-    <nav class="bg-gray-300 p-2 flex space-x-4">
-        <a href="#" class="text-black font-semibold">Dashboard</a>
-        <a href="#" class="text-black font-semibold">Jobs</a>
-        <a href="#" class="text-black font-semibold">Candidates</a>
-    </nav>
-    <main class="p-4 flex space-x-4">
-        <div class="bg-white p-4 border rounded shadow w-1/4">
-            <img src="<?php echo $company['comp_logo_dir'] ? htmlspecialchars($company['comp_logo_dir']) : 'path/to/placeholder.png'; ?>" alt="Company Logo" class="mx-auto mb-4" width="100" height="100">
-            <p class="text-center font-semibold">Welcome, <?php echo htmlspecialchars($company['firstName'] . ' ' . $company['lastName']); ?></p>
-        </div>
-        <div class="bg-white p-4 border rounded shadow w-3/4">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-bold">Company Information</h3>
+        <div class="bg-white p-3 border rounded shadow-sm w-75">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3 class="h5 fw-bold">Company Information</h3>
             </div>
-            <div class="space-y-2">
-                <p><span class="font-semibold">First Name:</span> <?php echo htmlspecialchars($company['firstName']); ?></p>
-                <p><span class="font-semibold">Last Name:</span> <?php echo htmlspecialchars($company['lastName']); ?></p>
-                <p><span class="font-semibold">Company Name:</span> <?php echo htmlspecialchars($company['companyName']); ?></p>
-                <p><span class="font-semibold">Country:</span> <?php echo htmlspecialchars($company['country']); ?></p>
-                <p><span class="font-semibold">Company Number:</span> <?php echo htmlspecialchars($company['companyNumber']); ?></p>
+            <div class="mb-2">
+                <p><span class="fw-semibold">First Name:</span> <?php echo htmlspecialchars($company['firstName']); ?></p>
+                <p><span class="fw-semibold">Last Name:</span> <?php echo htmlspecialchars($company['lastName']); ?></p>
+                <p><span class="fw-semibold">Company Name:</span> <?php echo htmlspecialchars($company['companyName']); ?></p>
+                <p><span class="fw-semibold">Country:</span> <?php echo htmlspecialchars($company['country']); ?></p>
+                <p><span class="fw-semibold">Company Number:</span> <?php echo htmlspecialchars($company['companyNumber']); ?></p>
             </div>
         </div>
     </main>
-    <footer class="p-4 flex justify-end">
+    <footer class="p-3 d-flex justify-content-end">
         <form method="POST" action="includes/company/comp_logout.php">
-            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Logout</button>
+            <button type="submit" class="btn btn-danger">Logout</button>
         </form>
     </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
