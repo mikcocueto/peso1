@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 18, 2025 at 09:15 AM
+-- Generation Time: Apr 07, 2025 at 03:53 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -87,10 +87,13 @@ CREATE TABLE `tbl_comp_info` (
 INSERT INTO `tbl_comp_info` (`company_id`, `firstName`, `lastName`, `companyName`, `country`, `companyNumber`, `create_time`, `comp_logo_dir`, `company_verified`) VALUES
 (4, '', '', 'adeson', '', 0, '2025-03-11 01:42:08', '', 0),
 (5, 'ade', 'son', '', 'Philippines', 0, '2025-03-11 01:42:08', '', 0),
-(6, 'ggg shan', 'khyle', 'micko', 'USA', 1111111111, '2025-03-18 06:47:20', '../db/images/company/logo/2db6f933-3545-4b93-86d9-38af9e1505f9.jpg', 0),
+(6, 'ggg shan', 'khyle', 'FDS Asya', 'USA', 1111111111, '2025-04-02 01:21:33', '../db/images/company/logo/fds.png', 1),
 (7, 'q', 'q', 'q', 'q', 1, '2025-03-11 01:42:08', '../db/images/company/logo/abstract-logo-design-for-any-corporate-brand-business-company-vector.jpg', 0),
 (8, 'Joshua', 'Lita', 'lita corp', 'Ph', 1, '2025-03-12 04:48:14', '', 1),
-(9, 'Mikco', 'Cueto', 'cueto', 'Philippines', 1, '2025-03-18 06:42:13', '../db/images/company/logo/spc.png', 0);
+(9, 'Mikco', 'Cueto', 'cueto', 'Philippines', 1, '2025-03-18 06:42:13', '../db/images/company/logo/spc.png', 0),
+(10, 'shantest', 'tester', '', 'Philippines', 123456789, '2025-03-28 03:06:11', '', 0),
+(11, 'Adeson', 'Macaraig', 'Frontline Business Solution, Inc.', 'Philippines', 321, '2025-04-02 01:37:50', '../db/images/company/logo/fbs.jpg', 1),
+(12, 'Justine', 'De Castro', 'Toyota San Pablo Inc.', 'Philippines', 2147483647, '2025-04-02 01:45:31', '../db/images/company/logo/toyota.jpg', 1);
 
 -- --------------------------------------------------------
 
@@ -116,7 +119,10 @@ INSERT INTO `tbl_comp_login` (`id`, `company_id`, `emailAddress`, `password`, `s
 (3, 6, 'shan@gmail.com', '$2y$10$wq4sgzuIPXJLHDsbMjbk6eQYFd.BhXnXVo3i9hqh/M.NQWfVL6ev.', '999312668b481428a3b67a6cb281c90d'),
 (4, 7, 'q@gmail.com', '$2y$10$78acVWX/E7FaN6Id1y4FQurGB4ahoafy2zZBjnu95AYVpRsowiwa6', '881a3819116611b7de23d30d93f45960'),
 (5, 8, 'lita@gmail.com', '$2y$10$M3GO6eXNLAqlRBMDn93IlOmRS59jR.4TrAjWf00.FXOW5XtpzybVO', '4570a471cd8c900d28a2a448eace6fcd'),
-(6, 9, 'cueto@gmail.com', '$2y$10$aSs8vP.dO6Zb3JneONUHJuExXRZpbr9Njz19XsjfSGpJKvaqlz.rO', 'e6553904a0aa34a6d56674835a8874bf');
+(6, 9, 'cueto@gmail.com', '$2y$10$aSs8vP.dO6Zb3JneONUHJuExXRZpbr9Njz19XsjfSGpJKvaqlz.rO', 'e6553904a0aa34a6d56674835a8874bf'),
+(7, 10, 'shanaaa@gmail.com', '$2y$10$E.p9unCI32EWMl7LMVWoJeC3Obj6jO.rEqhbczXJRGpBdy3CBl98S', '84d8b77a102382764687852622d3746e'),
+(8, 11, 'adesonpogi@gmail.com', '$2y$10$oaRb.j3GvHldwY18xH2/i.fYhyIj22xus52eR8kJ2RJFPGpw6coEK', 'c2ac4c250617b00bc36c06d8cb39b277'),
+(9, 12, 'justinepogi@gmail.com', '$2y$10$5nnAQATFOrpqhhM4F7ToNuNx0QVnn.uCtf3vO3W/ZR3L27B2fsqWe', 'eac93425256816109a2edc0ebc5cc85d');
 
 -- --------------------------------------------------------
 
@@ -136,7 +142,8 @@ CREATE TABLE `tbl_comp_verification` (
 --
 
 INSERT INTO `tbl_comp_verification` (`id`, `comp_id`, `status`, `dir_business_permit`) VALUES
-(21, 6, 'pending', '../../db/pdf/comp_business_permit/final-FOR LOST FILLING.pdf');
+(25, 11, 'accepted', '../../db/pdf/comp_business_permit/qSGouZ2t_FOR LOST FILLING111.pdf'),
+(26, 12, 'accepted', '../../db/pdf/comp_business_permit/okgQM3GZ_FOR LOST FILLING111.pdf');
 
 -- --------------------------------------------------------
 
@@ -168,7 +175,7 @@ INSERT INTO `tbl_emp_careerhistory` (`id`, `user_id`, `job_title`, `company_name
 (9, 13, 'd', 'a', '2025-02-01', '0000-00-00', 1, 'wa'),
 (11, 14, 'naqqqqqqqqqqqq', 'reeeeeeee', '2024-02-01', '2024-02-03', 0, 'werrr'),
 (12, 16, 'miso', 'miso', '2025-02-04', '2025-02-05', 0, 'qqqqqqqqq'),
-(13, 17, 'CEO', 'Shan inc.', '2016-01-04', '0000-00-00', 1, 'do it'),
+(13, 17, 'CEO', 'Shan inc.', '2016-01-04', '0000-00-00', 1, 'do itss'),
 (14, 18, 'OJT', 'MIS', '2025-03-02', '2025-03-28', 1, '');
 
 -- --------------------------------------------------------
@@ -192,7 +199,11 @@ CREATE TABLE `tbl_emp_certification` (
 --
 
 INSERT INTO `tbl_emp_certification` (`id`, `user_id`, `licence_name`, `issuing_organization`, `issue_date`, `expiry_date`, `description`) VALUES
-(1, 16, 'Ethical hackerss', 'ciscoss', '2025-02-04', '2025-02-05', '111');
+(1, 16, 'Ethical hackerss', 'ciscoss', '2025-02-04', '2025-02-05', '111'),
+(2, 17, 'Ethical hackers', 'cisco', '2025-03-30', '2025-03-29', '0'),
+(3, 17, 'unethical hax', 'fresco', '2025-03-31', '2025-02-26', 'wala naman'),
+(4, 17, 'cert 3', 'ako', '2025-03-02', '2025-03-14', 'shan'),
+(5, 17, '4', 'ciscoqqq', '2025-03-01', '2025-03-08', 'qwe');
 
 -- --------------------------------------------------------
 
@@ -214,12 +225,13 @@ CREATE TABLE `tbl_emp_cv` (
 --
 
 INSERT INTO `tbl_emp_cv` (`id`, `emp_id`, `cv_file_name`, `cv_name`, `cv_dir`, `upload_timestamp`) VALUES
-(1, 12, 'Kennie Grades.pdf', NULL, '../db/pdf/emp_cv/', '2025-02-26 08:05:48'),
+(1, 12, 'Kennie Grades.pdf', 'eee', '../db/pdf/emp_cv/', '2025-03-31 05:49:38'),
 (7, 12, 'final-FOR LOST FILLING.pdf', NULL, '../db/pdf/emp_cv/', '2025-02-28 07:12:46'),
 (8, 12, 'UPDATED DOCS.pdf', NULL, '../db/pdf/emp_cv/', '2025-02-28 08:27:21'),
-(9, 17, 'UPDATED-FOR LOST FILLING.pdf', NULL, '../../db/pdf/emp_cv/', '2025-03-18 02:32:43'),
-(11, 17, 'Certificate of Registration.pdf', 'test1', '../../db/pdf/emp_cv/', '2025-03-18 02:44:02'),
-(12, 18, 'PASCOdocx.pdf', 'Resume/Paused', '../../db/pdf/emp_cv/', '2025-03-18 04:10:35');
+(9, 17, 'UPDATED-FOR LOST FILLING.pdf', 'abbbbb', '../../db/pdf/emp_cv/', '2025-03-31 04:30:44'),
+(11, 17, 'Certificate of Registration.pdf', 'test12', '../../db/pdf/emp_cv/', '2025-03-20 01:33:36'),
+(12, 18, 'PASCOdocx.pdf', 'Resume/Paused', '../../db/pdf/emp_cv/', '2025-03-18 04:10:35'),
+(14, 17, 'nQytaoCF_FOR LOST FILLING111.pdf', 'test1', '../../db/pdf/emp_cv/', '2025-03-31 05:26:48');
 
 -- --------------------------------------------------------
 
@@ -242,7 +254,8 @@ CREATE TABLE `tbl_emp_educback` (
 
 INSERT INTO `tbl_emp_educback` (`id`, `user_id`, `course`, `institution`, `ending_date`, `course_highlights`) VALUES
 (1, 17, 'BATMAN', 'BATMAN', '2025-03-02', 'BATMAN'),
-(2, 18, 'BSN', 'LSPU-Sta. Cruz', '2027-08-20', 'Notepad');
+(2, 18, 'BSN', 'LSPU-Sta. Cruz', '2027-08-20', 'Notepad'),
+(3, 17, 'SUPARMAN', 'SUPARMAN', '2025-03-14', 'SUPARMAN');
 
 -- --------------------------------------------------------
 
@@ -259,14 +272,14 @@ CREATE TABLE `tbl_emp_info` (
   `gender` varchar(255) NOT NULL,
   `mobileNumber` varchar(20) NOT NULL,
   `create_timestamp` timestamp NOT NULL DEFAULT current_timestamp(),
-  `relationship_status` varchar(255) NOT NULL
+  `pfp_dir` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tbl_emp_info`
 --
 
-INSERT INTO `tbl_emp_info` (`user_id`, `firstName`, `lastName`, `address`, `emailAddress`, `gender`, `mobileNumber`, `create_timestamp`, `relationship_status`) VALUES
+INSERT INTO `tbl_emp_info` (`user_id`, `firstName`, `lastName`, `address`, `emailAddress`, `gender`, `mobileNumber`, `create_timestamp`, `pfp_dir`) VALUES
 (10, 'eric', 'eric', '', 'eric@gmail.com', '', '', '2025-02-12 04:38:54', ''),
 (11, 'Mikco', 'Cueto', '', 'cuetomikco08@gmail.com', '', '', '2025-02-12 04:39:53', ''),
 (12, 'justine', 'justine', 'aa', 'justine@gmail.com', 'dd', '111', '2025-02-12 05:33:23', ''),
@@ -301,13 +314,12 @@ INSERT INTO `tbl_emp_language` (`id`, `user_id`, `language_name`) VALUES
 (5, 16, 'tangalog'),
 (6, 12, 'en'),
 (7, 12, 'saa'),
-(8, 17, 'English'),
-(9, 17, 'Tagalog'),
 (10, 12, 'Wow ang sipag'),
 (20, 18, 'Spanish'),
 (21, 18, 'Mandarin'),
 (22, 18, 'Japanese'),
-(23, 18, 'Filipino');
+(23, 18, 'Filipino'),
+(25, 17, 'english');
 
 -- --------------------------------------------------------
 
@@ -367,10 +379,7 @@ CREATE TABLE `tbl_emp_saved_jobs` (
 --
 
 INSERT INTO `tbl_emp_saved_jobs` (`id`, `user_id`, `job_id`) VALUES
-(1, 12, 1),
-(2, 12, 2),
-(7, 15, 1),
-(8, 16, 1);
+(14, 17, 14);
 
 -- --------------------------------------------------------
 
@@ -383,6 +392,13 @@ CREATE TABLE `tbl_emp_skills` (
   `user_id` int(11) NOT NULL,
   `skill_name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_emp_skills`
+--
+
+INSERT INTO `tbl_emp_skills` (`id`, `user_id`, `skill_name`) VALUES
+(2, 17, 'HTML');
 
 -- --------------------------------------------------------
 
@@ -403,14 +419,19 @@ CREATE TABLE `tbl_job_application` (
 --
 
 INSERT INTO `tbl_job_application` (`id`, `emp_id`, `job_id`, `application_time`, `status`) VALUES
-(1, 12, 5, '2025-02-28 05:54:33', 'pending'),
-(3, 12, 3, '2025-02-28 08:24:27', 'pending'),
-(6, 17, 3, '2025-03-07 07:37:58', 'pending'),
-(7, 17, 4, '2025-03-12 04:50:03', 'pending'),
-(8, 12, 1, '2025-03-12 06:01:06', 'pending'),
-(9, 18, 4, '2025-03-18 04:06:09', 'pending'),
-(10, 18, 1, '2025-03-18 04:11:00', 'pending'),
-(11, 18, 2, '2025-03-18 04:11:04', 'pending');
+(12, 17, 14, '2025-04-07 01:41:35', 'pending');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_job_application_files`
+--
+
+CREATE TABLE `tbl_job_application_files` (
+  `id` int(11) NOT NULL,
+  `application_id` int(11) DEFAULT NULL,
+  `file_inserted_dir` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -449,7 +470,7 @@ CREATE TABLE `tbl_job_listing` (
   `location` varchar(255) NOT NULL,
   `salary_min` decimal(11,2) NOT NULL,
   `salary_max` decimal(11,2) NOT NULL,
-  `currency` varchar(10) NOT NULL,
+  `currency` varchar(10) DEFAULT NULL,
   `category_id` int(11) NOT NULL,
   `posted_date` timestamp NULL DEFAULT NULL,
   `expiry_date` timestamp NULL DEFAULT NULL,
@@ -461,13 +482,18 @@ CREATE TABLE `tbl_job_listing` (
 --
 
 INSERT INTO `tbl_job_listing` (`job_id`, `employer_id`, `title`, `description`, `requirements`, `employment_type`, `location`, `salary_min`, `salary_max`, `currency`, `category_id`, `posted_date`, `expiry_date`, `status`) VALUES
-(1, 7, 'ttest', 'dtest', 'rtest', 'Full-time', 'spc', 1.00, 2.00, 'php', 1, '2025-02-16 16:00:00', '2025-02-16 16:00:00', 'active'),
-(2, 7, 'test2 title', 'test2 desc', 'test2 reqs', 'Internship', 'test2 loc', 122.00, 123.00, 'ddd', 1, '2025-02-16 16:00:00', '2025-02-27 16:00:00', 'active'),
-(3, 6, 'dddd', 'qqqqqq', 'tyuqwerty', 'Contract', '32323', 310.00, 360.00, 'dollar', 2, '2025-02-18 16:00:00', '2025-02-28 16:00:00', 'active'),
-(4, 6, 'job 4', 'geng geng', 'madami frfr', 'Internship', '4', 4.00, 4.00, '4', 3, '2025-02-18 16:00:00', '2025-02-16 16:00:00', 'active'),
+(3, 6, 'jab', 'qqqqqq', 'tyuqwerty', 'Contract', '32323', 310.00, 360.00, 'dollar', 2, '2025-02-18 16:00:00', '2025-02-27 16:00:00', 'inactive'),
+(4, 6, 'job 4', 'geng geng', 'madami frfr', 'Internship', '4', 4.00, 4.00, '4', 3, '2025-02-18 16:00:00', '2025-02-16 16:00:00', 'inactive'),
 (5, 6, 'poso negro', '5 cent', '5tyrrrrrrrrrrr', 'Contract', 'dito', 5.00, 5.00, '$', 4, '2025-02-18 16:00:00', '2025-02-17 16:00:00', 'inactive'),
-(7, 6, 'IT professional', 'magaling it', 'it maalam', 'Full time', 'san pablo', 12.00, 120.00, 'php', 4, '2025-02-18 16:00:00', '2025-02-25 16:00:00', 'active'),
-(12, 9, 'mikco it', 'it', 'it', 'Part-Time', '3', 19.00, 80.00, 'p', 1, '2025-03-17 16:00:00', '2025-03-25 16:00:00', 'inactive');
+(7, 6, 'IT professional', 'magaling it', 'it maalam', 'Full time', 'san pablo', 12.00, 120.00, 'php', 4, '2025-02-18 16:00:00', '2025-02-25 16:00:00', 'inactive'),
+(12, 9, 'mikco it', 'it', 'it', 'Part-Time', '3', 19.00, 80.00, 'p', 1, '2025-03-17 16:00:00', '2025-03-25 16:00:00', 'inactive'),
+(13, 6, 'ass', 'a', 'b', 'Part-Time', 'san pablo cityyy', 1.00, 2.00, 'php', 2, '2025-03-26 16:00:00', '2025-03-28 16:00:00', 'inactive'),
+(14, 6, 'Software Engineer (Full Stack)', 'Develop and maintain scalable web applications using React.js, Node.js, and PostgreSQL.', '3+ years experience, JavaScript/TypeScript, Git, API development.', 'Full-Time', 'San Pablo City', 80.00, 110.00, 'php', 2, '2025-03-27 16:00:00', '2025-03-22 16:00:00', 'active'),
+(15, 6, 'house', 'aa', 'ff', 'Full-time', 'san pablo cityyy', 1.00, 2.00, 'php', 1, '2025-03-27 16:00:00', '2025-03-27 16:00:00', 'inactive'),
+(16, 6, 'Web Developer', 'Must know how to debug using python, pycharm and html.', 'Resume\r\n5 years experienced\r\n', 'Internship', 'San Pablo City', 15000.00, 50000.00, 'php', 4, '2025-04-01 16:00:00', '2025-04-01 16:00:00', 'inactive'),
+(17, 11, 'Digital Marketing Specialist', 'Plan and execute digital marketing campaigns, including SEO, PPC, and social media ads.', 'Google Ads, Facebook Ads, SEO, content writing.', 'Contract', 'San Pablo City', 30.00, 40.00, 'php', 4, '2025-04-01 16:00:00', '2025-04-24 16:00:00', 'active'),
+(18, 12, 'Customer Service Representative', 'Provide customer support via chat, email, and phone. Maintain customer satisfaction.', 'Provide customer support via chat, email, and phone. Maintain customer satisfaction.', 'Full-Time', 'San Pablo City', 18.00, 22.00, 'php', 2, '2025-04-01 16:00:00', '2025-04-29 16:00:00', 'active'),
+(19, 6, 'Registered Nurse (RN)', 'Provide patient care, monitor vital signs, and coordinate with doctors.', 'Valid RN license, BLS/CPR certification, 1+ year experience.', 'Part-Time', 'San Pablo City', 20000.00, 500000.00, 'PHP', 2, '2025-04-02 16:00:00', '2025-04-29 16:00:00', 'inactive');
 
 --
 -- Indexes for dumped tables
@@ -585,6 +611,13 @@ ALTER TABLE `tbl_job_application`
   ADD KEY `jobfk` (`job_id`);
 
 --
+-- Indexes for table `tbl_job_application_files`
+--
+ALTER TABLE `tbl_job_application_files`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `file_inserted_dir` (`application_id`);
+
+--
 -- Indexes for table `tbl_job_category`
 --
 ALTER TABLE `tbl_job_category`
@@ -618,19 +651,19 @@ ALTER TABLE `tbl_admin_login`
 -- AUTO_INCREMENT for table `tbl_comp_info`
 --
 ALTER TABLE `tbl_comp_info`
-  MODIFY `company_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `company_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `tbl_comp_login`
 --
 ALTER TABLE `tbl_comp_login`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tbl_comp_verification`
 --
 ALTER TABLE `tbl_comp_verification`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `tbl_emp_careerhistory`
@@ -642,19 +675,19 @@ ALTER TABLE `tbl_emp_careerhistory`
 -- AUTO_INCREMENT for table `tbl_emp_certification`
 --
 ALTER TABLE `tbl_emp_certification`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tbl_emp_cv`
 --
 ALTER TABLE `tbl_emp_cv`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `tbl_emp_educback`
 --
 ALTER TABLE `tbl_emp_educback`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tbl_emp_info`
@@ -666,7 +699,7 @@ ALTER TABLE `tbl_emp_info`
 -- AUTO_INCREMENT for table `tbl_emp_language`
 --
 ALTER TABLE `tbl_emp_language`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `tbl_emp_login`
@@ -684,19 +717,25 @@ ALTER TABLE `tbl_emp_resume`
 -- AUTO_INCREMENT for table `tbl_emp_saved_jobs`
 --
 ALTER TABLE `tbl_emp_saved_jobs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `tbl_emp_skills`
 --
 ALTER TABLE `tbl_emp_skills`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tbl_job_application`
 --
 ALTER TABLE `tbl_job_application`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT for table `tbl_job_application_files`
+--
+ALTER TABLE `tbl_job_application_files`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_job_category`
@@ -708,7 +747,7 @@ ALTER TABLE `tbl_job_category`
 -- AUTO_INCREMENT for table `tbl_job_listing`
 --
 ALTER TABLE `tbl_job_listing`
-  MODIFY `job_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `job_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- Constraints for dumped tables
@@ -793,6 +832,12 @@ ALTER TABLE `tbl_emp_skills`
 ALTER TABLE `tbl_job_application`
   ADD CONSTRAINT `empfk` FOREIGN KEY (`emp_id`) REFERENCES `tbl_emp_info` (`user_id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `jobfk` FOREIGN KEY (`job_id`) REFERENCES `tbl_job_listing` (`job_id`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `tbl_job_application_files`
+--
+ALTER TABLE `tbl_job_application_files`
+  ADD CONSTRAINT `file_inserted_dir` FOREIGN KEY (`application_id`) REFERENCES `tbl_job_application` (`id`);
 
 --
 -- Constraints for table `tbl_job_listing`

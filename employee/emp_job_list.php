@@ -48,7 +48,7 @@ $jobs = $conn->query($query);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Job Listings</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="../fortest/style2/style.css" rel="stylesheet">
     <link rel="stylesheet" href="../fortest/style2/custom-bs.css">
     <link rel="stylesheet" href="../fortest/style2/jquery.fancybox.min.css">
@@ -514,8 +514,9 @@ $jobs = $conn->query($query);
             .then(data => {
                 if (data.success) {
                     alert('Application submitted successfully');
-                    const cvModal = bootstrap.Modal.getInstance(document.getElementById('cvModal'));
-                    cvModal.hide();
+                    const cvModal = document.getElementById('cvModal');
+                    const modalInstance = bootstrap.Modal.getOrCreateInstance(cvModal); // Use getOrCreateInstance for compatibility
+                    modalInstance.hide();
                 } else {
                     console.error('Server error:', data.error, data.details || '');
                     alert(`${data.error}\nDetails:\n${(data.details || []).join('\n')}`);
