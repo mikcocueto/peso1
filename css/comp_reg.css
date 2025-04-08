@@ -1,0 +1,90 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url('../fortest/images/SPC_old_city_hall.jpg'); /* Ensure the correct file extension */
+    background-size: cover;
+    background-position: center;
+    background-color: #e2e2e2; /* Fallback background color */
+    flex-direction: column;
+}
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+}
+.navbar .navbar-brand {
+    display: flex;
+    align-items: center;
+}
+.navbar .navbar-brand img {
+    margin-right: 10px;
+}
+.navbar span {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+.container {
+    max-width: 500px;
+    margin-top: 50px;
+}
+@media (max-width: 768px) {
+    .container {
+        margin-top: 150px;
+        padding: 0 20px;
+    }
+    .navbar {
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+    .navbar img {
+        width: 80px;
+        margin-right: 10px;
+    }
+    .navbar span {
+        font-size: 1.2rem;
+        margin-right: 0;
+    }
+}
+.card {
+    background-color: #5c6bc0;
+    color: white;
+    border-radius: 15px;
+    padding: 2rem;
+    text-align: center;
+}
+.form-control {
+    border-radius: 5px;
+}
+.btn-register, .btn-signin {
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+    width: 100%;
+    padding: 10px;
+    font-weight: bold;
+}
+.text-muted {
+    font color: white;
+    text-align: left;
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+.form-label {
+    text-align: left;
+    display: block;
+}
+.hidden {
+    display: none;
+}
+.Home {
+    color: white;
+    text-align: center;
+}

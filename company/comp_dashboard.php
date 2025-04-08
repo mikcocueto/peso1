@@ -88,22 +88,16 @@ $stmt->close();
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-
     <?php include 'comp_navbar&tab.php'; ?>
-      
     <!-- Navigation Tabs -->
-    
-   
-
     <script>
         function toggleHamburgerMenu() {
             const tabsContainer = document.getElementById('tabsContainer');
-            tabsContainer.classList.toggle('d-none');
+            tabsContainer.classList.toggle('d-none ');
         }
     </script>
-
 <section id="dashboard" class="content active">
-    <h1 class="h3 mb-3"><strong>Dashboard Overview</strong></h1>
+<h1 class="h3 mb-3"><strong>Dashboard Overview</strong></h1>
     <div class="container-fluid p-0">
         <!-- Company Overview and Recent Movement Row -->
         <div class="row mb-4">
@@ -145,9 +139,8 @@ $stmt->close();
                 </div>
             </div>
         </div>
-
-        <!-- Analytics Dashboard Row -->
-        <div class="row mt-4">
+    <!-- Analytics Dashboard Row -->
+    <div class="row mt-4">
             <div class="col-12 mb-3">
                 <h3 class="px-3 py-2" style="background-color: #f8f9fa; border-radius: 8px; display: inline-block;">Dashboard Analytics</h3>
             </div>
@@ -237,6 +230,86 @@ $stmt->close();
             </div>
         </div>
     </div>
+    <div class="mt-5">
+  <h5 class="mb-4">Applicant Demographics</h5>
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+
+    <!-- Gender Distribution -->
+    <div class="col">
+      <div class="card h-70">
+        <div class="card-body">
+          <h6 class="card-title">Gender Distribution</h6>
+          <canvas id="genderChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Age Range -->
+    <div class="col">
+      <div class="card h-100">
+        <div class="card-body">
+          <h6 class="card-title">Age Range</h6>
+          <canvas id="ageChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Location Distribution -->
+    <div class="col">
+      <div class="card h-70">
+        <div class="card-body">
+          <h6 class="card-title">Location</h6>
+          <canvas id="locationChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- Chart.js Internal Script -->
+<script>
+  // Minimal Chart.js setup (internal)
+  (function () {
+    const script = document.createElement('script');
+    script.src = "https://cdn.jsdelivr.net/npm/chart.js";
+    script.onload = () => {
+      const genderChart = new Chart(document.getElementById('genderChart'), {
+        type: 'doughnut',
+        data: {
+          labels: ['Male', 'Female', 'Other'],
+          datasets: [{
+            data: [55, 40, 5],
+            backgroundColor: ['#4e73df', '#e83e8c', '#36b9cc']
+          }]
+        }
+      });
+
+      const ageChart = new Chart(document.getElementById('ageChart'), {
+        type: 'bar',
+        data: {
+          labels: ['18-24', '25-34', '35-44', '45-54', '55+'],
+          datasets: [{
+            label: 'Applicants',
+            data: [30, 45, 15, 7, 3],
+            backgroundColor: '#1cc88a'
+          }]
+        }
+      });
+
+      const locationChart = new Chart(document.getElementById('locationChart'), {
+        type: 'pie',
+        data: {
+          labels: ['San Pablo', 'Calamba', 'Los Baños', 'Others'],
+          datasets: [{
+            data: [40, 30, 20, 10],
+            backgroundColor: ['#f6c23e', '#36b9cc', '#4e73df', '#858796']
+          }]
+        }
+      });
+    };
+    document.head.appendChild(script);
+  })();
+</script>     
 </section>
 
 <!-- Chart Script -->
@@ -447,8 +520,45 @@ $stmt->close();
                         </div>
                         <?php unset($_SESSION['error']); ?>
                     <?php endif; ?>
-                    <form action="../includes/company/comp_job_process.php" method="POST">
+                    <section>
+                        
+                    </section>
+                    <form action="../includes/company/comp_job_process.php" method="POST" enctype="multipart/form-data">
+                    <div class="col-md-6">
+                            </div>
+                            <div class="form-group mb-4">
+    <label for="jobPhoto" class="form-label">Job Cover (Optional)</label>
+    <div class="image-upload-wrapper text-center border rounded p-3" style="cursor: pointer; position: relative;">
+        <input type="file" class="form-control form-control-lg" id="jobPhoto" name="job_photo" accept="image/*" style="opacity: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: pointer;">
+        <div id="jobPhotoPreview" class="d-flex flex-column align-items-center justify-content-center" style="height: 150px;">
+            <i class="bx bx-upload" style="font-size: 2rem; color: #6c757d;"></i>
+            <span class="text-muted">Tap to upload an image</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    const jobPhotoInput = document.getElementById('jobPhoto');
+    const jobPhotoPreview = document.getElementById('jobPhotoPreview');
+
+    jobPhotoInput.addEventListener('change', function (e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                jobPhotoPreview.innerHTML = `<img src="${event.target.result}" alt="Job Cover Preview" class="img-fluid rounded" style="max-height: 150px;">`;
+            };
+            reader.readAsDataURL(file);
+        } else {
+            jobPhotoPreview.innerHTML = `
+                <i class="bx bx-upload" style="font-size: 2rem; color: #6c757d;"></i>
+                <span class="text-muted">Tap to upload an image</span>
+            `;
+        }
+    });
+</script>
                         <div class="row g-4">
+                            <!-- New Column -->
                             <!-- Left Column -->
                             <div class="col-md-6">
                                 <div class="form-group mb-4">
@@ -526,6 +636,8 @@ $stmt->close();
                                     <label for="requirements" class="form-label">Requirements</label>
                                     <textarea class="form-control" id="requirements" name="requirements" rows="6" required></textarea>
                                 </div>
+                                
+                                
                                 <div class="form-group text-end">
                                     <button type="submit" class="btn btn-primary btn-lg px-5">Submit</button>
                                 </div>
