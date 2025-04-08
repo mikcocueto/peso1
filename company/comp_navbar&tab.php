@@ -29,12 +29,13 @@ $company_id = $_SESSION['company_id'];
         <div class="c_dash_navbar-brand">
             <img src="../fortest/images/peso_icons.png" alt="PESO Logo">
             <div>
-                <span style="font-size: 1.5rem; font-weight: bold; color: white;">Public Employment Service Office</span>
-                <span style="font-size: 1.5rem; font-weight: bold; padding-left: px; color: white;"> for Company</span>
+                <span class="navbar-title-large" style="font-size: 1.5rem; font-weight: bold; color: white;">Public Employment Service Office</span>
+                <span class="navbar-title-large" style="font-size: 1.5rem; font-weight: bold; padding-left: px; color: white;"> for Company</span>
+                <span class="navbar-title-small d-md-none" style="font-size: 1.5rem; font-weight: bold; color: white;">PESO for Company</span>
             </div>
         </div>
         <div class="c_dash_navbar-icons">
-            <span id="currentTime" style="color: white; margin-right: 20px;"></span>
+            <span id="currentTime" class="current-time" style="color: white; margin-right: 20px;"></span>
             <div class="notification-dropdown">
                 <i class="bx bx-bell" onclick="toggleNotification()"></i>
                 <span class="notification-badge">3</span>
@@ -396,6 +397,18 @@ $company_id = $_SESSION['company_id'];
         .mark-all-read:hover {
             text-decoration: underline;
             color: #5a52e0;
+        }
+
+        @media (max-width: 768px) {
+            .navbar-title-large {
+                display: none !important;
+            }
+            .navbar-title-small {
+                display: inline !important;
+            }
+            .current-time {
+                display: none !important;
+            }
         }
     </style>
 

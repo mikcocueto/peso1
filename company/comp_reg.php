@@ -113,17 +113,25 @@
 </nav>
 <div class="container">
     <div class="card" id="register-container">
-        <h3>Register as an employer</h3>
+        <h3 class="p-3">Register as an employer</h3>
         <form>
             <div class="mb-3">
-                <label class="form-label">Email Address</label>
+                <label class="form-label"></label>
                 <input type="email" class="form-control" placeholder="Email" required>
             </div>
             <div class="mb-3">
-                <label class="form-label">Password</label>
+                <label class="form-label"></label>
+                <input type="password" class="form-control" placeholder="Password" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label"></label>
                 <input type="password" class="form-control" placeholder="Password" required>
             </div>
             <button type="submit" class="btn btn-register">Register employer Account</button>
+            <div class="mb-3">
+                <span>or use your email for registration</span>
+
+            </div>
         </form>
         <p class="text-muted text-grey">Already have an account? <a href="#" class="text-white" onclick="toggleForms()">Sign In</a></p>
     </div>
