@@ -586,8 +586,7 @@ $jobs = $conn->query($query);
                                     <input type="text" class="form-control form-control-lg" name="search_title" placeholder="Job title, Company..." value="<?= htmlspecialchars($search_title) ?>">
                                 </div>
                                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                                    <select class="selectpicker form-control form-control-lg" name="search_category[]" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select Category" multiple>
-                                        <option disabled>Select Category</option>
+                                    <select class="selectpicker form-control form-control-lg" name="search_category[]" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select Category" mu                                /option>
                                         <?php foreach ($categories as $category): ?>
                                             <option value="<?php echo $category['category_id']; ?>" <?php echo in_array($category['category_id'], $search_category) ? 'selected' : ''; ?>><?php echo $category['category_name']; ?></option>
                                         <?php endforeach; ?>
@@ -653,16 +652,12 @@ $jobs = $conn->query($query);
                 </div>
             </div>
         </section>
-
-        <!-- Update the index button with home icon -->
         
     </div>
     
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"></script>
     <script src="../fortest/js/jquery.min.js"></script>
-    <script src="../fortest/js/bootstrap.bundle.min.js"></script>
     <script src="../fortest/js/isotope.pkgd.min.js"></script>
     <script src="../fortest/js/stickyfill.min.js"></script>
     <script src="../fortest/js/jquery.fancybox.min.js"></script>
