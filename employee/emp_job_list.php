@@ -48,7 +48,7 @@ $jobs = $conn->query($query);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Job Listings</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="../fortest/style2/style.css" rel="stylesheet">
     <link rel="stylesheet" href="../fortest/style2/custom-bs.css">
     <link rel="stylesheet" href="../fortest/style2/jquery.fancybox.min.css">
@@ -441,7 +441,7 @@ $jobs = $conn->query($query);
                                 applyButton.textContent = 'Apply';
                                 applyButton.classList.add('btn', 'btn-primary');
                                 applyButton.onclick = function() {
-                                    applyForJob(jobId);
+                                    showCVSelectionModal(jobId);
                                 };
                             }
                             jobDetails.appendChild(applyButton);
@@ -449,25 +449,114 @@ $jobs = $conn->query($query);
                 });
         }
 
-        function applyForJob(jobId) {
+        function showCVSelectionModal(jobId) {
+            fetch('../includes/employee/emp_get_uploaded_cvs.php')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const modalBody = document.getElementById('cv-modal-body');
+                    modalBody.innerHTML = '';
+
+                    data.forEach(cv => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td><input type="checkbox" name="cv_files" value='${JSON.stringify(cv)}' onchange="limitSelection(this)"></td>
+                            <td>${cv.cv_name}</td>
+                        `;
+                        modalBody.appendChild(row);
+                    });
+
+                    const sendButton = document.getElementById('send-application-btn');
+                    sendButton.onclick = function () {
+                        const selectedFiles = Array.from(document.querySelectorAll('input[name="cv_files"]:checked')).map(input => JSON.parse(input.value));
+                        if (selectedFiles.length > 0) {
+                            applyForJobWithCVs(jobId, selectedFiles);
+                        } else {
+                            alert('Please select at least one CV.');
+                        }
+                    };
+
+                    const cvModal = new bootstrap.Modal(document.getElementById('cvModal'));
+                    cvModal.show();
+                })
+                .catch(error => {
+                    console.error('Error fetching CVs:', error);
+                    alert('Failed to load CVs. Please try again later.');
+                });
+        }
+
+        function limitSelection(checkbox) {
+            const selected = document.querySelectorAll('input[name="cv_files"]:checked');
+            if (selected.length > 5) {
+                checkbox.checked = false;
+                alert('You can select a maximum of 5 CVs.');
+            }
+        }
+
+        function applyForJobWithCVs(jobId, selectedFiles) {
             fetch('../includes/employee/emp_apply_job.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ job_id: jobId })
+                body: JSON.stringify({ job_id: jobId, selected_files: selectedFiles })
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Network response was not ok: ${response.statusText}`);
+                }
+                return response.json();
+            })
             .then(data => {
                 if (data.success) {
                     alert('Application submitted successfully');
-                    showJobDetails(jobId); // Refresh job details to update the button
+                    const cvModal = document.getElementById('cvModal');
+                    const modalInstance = bootstrap.Modal.getOrCreateInstance(cvModal); // Use getOrCreateInstance for compatibility
+                    modalInstance.hide();
                 } else {
-                    alert('Failed to submit application');
+                    console.error('Server error:', data.error, data.details || '');
+                    alert(`${data.error}\nDetails:\n${(data.details || []).join('\n')}`);
                 }
+            })
+            .catch(error => {
+                console.error('Error submitting application:', error);
+                alert('Failed to submit application. Please try again later.');
             });
         }
     </script>
+
+    <!-- CV Selection Modal -->
+    <div class="modal fade" id="cvModal" tabindex="-1" aria-labelledby="cvModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cvModalLabel">Select CVs to Submit</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Select</th>
+                                <th>CV Name</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cv-modal-body">
+                            <!-- CV list will be dynamically populated here -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="send-application-btn">Send Application</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </head>
 <body id="top">
     <div id="overlayer"></div>
@@ -497,8 +586,7 @@ $jobs = $conn->query($query);
                                     <input type="text" class="form-control form-control-lg" name="search_title" placeholder="Job title, Company..." value="<?= htmlspecialchars($search_title) ?>">
                                 </div>
                                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                                    <select class="selectpicker form-control form-control-lg" name="search_category[]" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select Category" multiple>
-                                        <option disabled>Select Category</option>
+                                    <select class="selectpicker form-control form-control-lg" name="search_category[]" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select Category" mu                                /option>
                                         <?php foreach ($categories as $category): ?>
                                             <option value="<?php echo $category['category_id']; ?>" <?php echo in_array($category['category_id'], $search_category) ? 'selected' : ''; ?>><?php echo $category['category_name']; ?></option>
                                         <?php endforeach; ?>
@@ -564,16 +652,12 @@ $jobs = $conn->query($query);
                 </div>
             </div>
         </section>
-
-        <!-- Update the index button with home icon -->
         
     </div>
     
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"></script>
     <script src="../fortest/js/jquery.min.js"></script>
-    <script src="../fortest/js/bootstrap.bundle.min.js"></script>
     <script src="../fortest/js/isotope.pkgd.min.js"></script>
     <script src="../fortest/js/stickyfill.min.js"></script>
     <script src="../fortest/js/jquery.fancybox.min.js"></script>

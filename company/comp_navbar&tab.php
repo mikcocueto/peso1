@@ -2,7 +2,7 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-require "../includes/db_connect.php";
+require __DIR__ . '/../includes/db_connect.php'; // Use __DIR__ for an absolute path relative to this file
 
 // Check if the user is logged in as a company
 if (!isset($_SESSION['company_id'])) {
