@@ -35,49 +35,73 @@ $stmt->close();
             <div class="bg-white p-4 border rounded shadow w-3/4">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-xl font-bold">Company Information</h3>
-                    <button id="editButton" class="bg-blue-500 text-white px-4 py-2 rounded">Edit</button>
+                    <button type="submit" style="background-color: #0000FF; color: white;" class="px-4 py-2 rounded">Edit</button>
                 </div>
                 <div id="infoSection" class="space-y-2">
-                    <p><span class="font-semibold">First Name:</span> <?php echo htmlspecialchars($company['firstName']); ?></p>
-                    <p><span class="font-semibold">Last Name:</span> <?php echo htmlspecialchars($company['lastName']); ?></p>
-                    <p><span class="font-semibold">Company Name:</span> <?php echo htmlspecialchars($company['companyName']); ?></p>
-                    <p><span class="font-semibold">Country:</span> <?php echo htmlspecialchars($company['country']); ?></p>
-                    <p><span class="font-semibold">Company Number:</span> <?php echo htmlspecialchars($company['companyNumber']); ?></p>
-                </div>
+                    <div class="flex space-x-4">
+                        <!-- Existing Table -->
+                        <table class="table-auto w-1/2">
+                            <tbody>
+                                <tr>
+                                    <td class="px-4 py-2 font-semibold">First Name:</td>
+                                    <td class="px-4 py-2"><?php echo htmlspecialchars($company['firstName']); ?></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2 font-semibold">Last Name:</td>
+                                    <td class="px-4 py-2"><?php echo htmlspecialchars($company['lastName']); ?></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2 font-semibold">Company Name:</td>
+                                    <td class="px-4 py-2"><?php echo htmlspecialchars($company['companyName']); ?></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2 font-semibold">Country:</td>
+                                    <td class="px-4 py-2"><?php echo htmlspecialchars($company['country']); ?></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2 font-semibold">Company Number:</td>
+                                    <td class="px-4 py-2"><?php echo htmlspecialchars($company['companyNumber']); ?></td>
+                                </tr>
+                            </tbody>
+                        </table>
 
-                <!-- Edit Form (Hidden by Default) -->
-                <form id="editForm" method="POST" action="includes/company/update_company_info.php" enctype="multipart/form-data" class="hidden">
-                    <div class="space-y-4">
-                        <div>
-                            <label for="firstName" class="block font-semibold">First Name</label>
-                            <input type="text" id="firstName" name="firstName" value="<?php echo htmlspecialchars($company['firstName']); ?>" class="w-full border rounded px-3 py-2">
-                        </div>
-                        <div>
-                            <label for="lastName" class="block font-semibold">Last Name</label>
-                            <input type="text" id="lastName" name="lastName" value="<?php echo htmlspecialchars($company['lastName']); ?>" class="w-full border rounded px-3 py-2">
-                        </div>
-                        <div>
-                            <label for="companyName" class="block font-semibold">Company Name</label>
-                            <input type="text" id="companyName" name="companyName" value="<?php echo htmlspecialchars($company['companyName']); ?>" class="w-full border rounded px-3 py-2">
-                        </div>
-                        <div>
-                            <label for="country" class="block font-semibold">Country</label>
-                            <input type="text" id="country" name="country" value="<?php echo htmlspecialchars($company['country']); ?>" class="w-full border rounded px-3 py-2">
-                        </div>
-                        <div>
-                            <label for="companyNumber" class="block font-semibold">Company Number</label>
-                            <input type="text" id="companyNumber" name="companyNumber" value="<?php echo htmlspecialchars($company['companyNumber']); ?>" class="w-full border rounded px-3 py-2">
-                        </div>
-                        <div>
-                            <label for="companyLogo" class="block font-semibold">Company Logo</label>
-                            <input type="file" id="companyLogo" name="companyLogo" class="w-full border rounded px-3 py-2">
-                        </div>
+                        <!-- New Table for Edit Form -->
+                        <form id="editForm" method="POST" action="includes/company/update_company_info.php" enctype="multipart/form-data" class="hidden w-1/2">
+                            <table class="table-auto w-full">
+                                <tbody>
+                                    <tr>
+                                        <td class="px-4 py-2 font-semibold"><label for="firstName">First Name</label></td>
+                                        <td class="px-4 py-2"><input type="text" id="firstName" name="firstName" value="<?php echo htmlspecialchars($company['firstName']); ?>" class="w-full border rounded px-3 py-2"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-2 font-semibold"><label for="lastName">Last Name</label></td>
+                                        <td class="px-4 py-2"><input type="text" id="lastName" name="lastName" value="<?php echo htmlspecialchars($company['lastName']); ?>" class="w-full border rounded px-3 py-2"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-2 font-semibold"><label for="companyName">Company Name</label></td>
+                                        <td class="px-4 py-2"><input type="text" id="companyName" name="companyName" value="<?php echo htmlspecialchars($company['companyName']); ?>" class="w-full border rounded px-3 py-2"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-2 font-semibold"><label for="country">Country</label></td>
+                                        <td class="px-4 py-2"><input type="text" id="country" name="country" value="<?php echo htmlspecialchars($company['country']); ?>" class="w-full border rounded px-3 py-2"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-2 font-semibold"><label for="companyNumber">Company Number</label></td>
+                                        <td class="px-4 py-2"><input type="text" id="companyNumber" name="companyNumber" value="<?php echo htmlspecialchars($company['companyNumber']); ?>" class="w-full border rounded px-3 py-2"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-2 font-semibold"><label for="companyLogo">Company Logo</label></td>
+                                        <td class="px-4 py-2"><input type="file" id="companyLogo" name="companyLogo" class="w-full border rounded px-3 py-2"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="flex justify-end space-x-4 mt-4">
+                            <button type="button" id="cancelButton" style="background-color:rgb(255, 0, 0); color: white;" class="px-4 py-2 rounded">Cancel</button>
+                            <button type="submit" style="background-color: #0000FF; color: white;" class="px-4 py-2 rounded">Save</button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="flex justify-end space-x-4 mt-4">
-                        <button type="button" id="cancelButton" class="bg-gray-500 text-white px-4 py-2 rounded">Cancel</button>
-                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Save</button>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
     </main>
@@ -115,7 +139,7 @@ $stmt->close();
 
     <footer class="p-4 flex justify-end">
         <form method="POST" action="includes/company/comp_logout.php">
-            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Logout</button>
+        <button type="submit" style="background-color: red; color: white;" class="px-4 py-2 rounded">Logout</button>
         </form>
     </footer>
 </body>

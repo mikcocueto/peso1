@@ -86,9 +86,10 @@ unset($_SESSION['success_message'], $_SESSION['error_message']);
     </div>
     <table>
         <tr class="category-header">
-            <th>Field</th>
-            <th>Value</th>
-            <th class="table-column-action">Action</th>
+        <th style="background-color:rgb(0, 159, 245); color: white;">Field</th>
+<th style="background-color:rgb(0, 159, 245); color: white;">Value</th>
+<th class="table-column-action" style="background-color:rgb(0, 159, 245); color: white;">Action</th>
+
         </tr>
         <tr>
             <td>First Name</td>

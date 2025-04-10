@@ -112,12 +112,32 @@ $stmt->close();
                                 </div>
                                 <div class="company-info">
                                     <h3 class="mb-4 px-3 py-2" style="background-color: #f8f9fa; border-radius: 8px;">Company Information</h3>
-                                    <p class="card-text">Company Name: FDS Asya Philippines</p>
-                                    <p class="card-text">Country: Philippines</p>
-                                    <p class="card-text"><strong>Company Address:</strong> San Pablo City</p>
-                                    <p class="card-text"><strong>Company Hotline:</strong> 4444 444</p>
-                                    <p class="card-text"><strong>Company Number:</strong> 0912-345-6789</p>
-                                    <p class="card-text">Human Resource: ggg shan khyle</p>
+                                    <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                                        <tr>
+                                            <td style="padding: 4px 8px;">Company Name:</td>
+                                            <td style="padding: 4px 8px;">FDS Asya Philippines</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 4px 8px;">Country:</td>
+                                            <td style="padding: 4px 8px;">Philippines</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 4px 8px;"><strong>Company Address:</strong></td>
+                                            <td style="padding: 4px 8px;">San Pablo City</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 4px 8px;"><strong>Company Hotline:</strong></td>
+                                            <td style="padding: 4px 8px;">4444 444</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 4px 8px;"><strong>Company Number:</strong></td>
+                                            <td style="padding: 4px 8px;">0912-345-6789</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 4px 8px;">Human Resource:</td>
+                                            <td style="padding: 4px 8px;">ggg shan khyle</td>
+                                        </tr>
+                                    </table>
                                 </div>
                             </div>
                         </div>  
@@ -496,159 +516,139 @@ $stmt->close();
 
 <!-- Post a Job Tab-->
 <section id="post-job" class="content hidden">
-<div class="container-fluid mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-10">
-            <div class="card shadow">
-                <div class="card-body p-5">
-                    <h2 class="mb-4">Create Job Listing</h2>
-                    <?php if (!$is_verified): ?>
-                        <div class="alert alert-warning mb-4" role="alert">
-                            <i class="bx bx-info-circle"></i> Your company needs to be verified before you can post jobs. 
-                            <a href="#" class="alert-link" data-bs-toggle="modal" data-bs-target="#verificationModal">Please submit your business permit for verification</a>.
-                        </div>
-                    <?php endif; ?>
-                    <?php if (isset($_SESSION['success'])): ?>
-                        <div class="alert alert-success mb-4" role="alert">
-                            <?= $_SESSION['success'] ?>
-                        </div>
-                        <?php unset($_SESSION['success']); ?>
-                    <?php endif; ?>
-                    <?php if (isset($_SESSION['error'])): ?>
-                        <div class="alert alert-danger mb-4" role="alert">
-                            <?= $_SESSION['error'] ?>
-                        </div>
-                        <?php unset($_SESSION['error']); ?>
-                    <?php endif; ?>
-                    <section>
-                        
-                    </section>
-                    <form action="../includes/company/comp_job_process.php" method="POST" enctype="multipart/form-data">
-                    <div class="col-md-6">
+    <div class="container-fluid mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="card shadow">
+                    <div class="card-body p-5">
+                        <h2 class="mb-4">Create Job Listing</h2>
+
+                        <!-- Verification Alert -->
+                        <?php if (!$is_verified): ?>
+                            <div class="alert alert-warning mb-4" role="alert">
+                                <i class="bx bx-info-circle"></i> Your company needs to be verified before you can post jobs. 
+                                <a href="#" class="alert-link" data-bs-toggle="modal" data-bs-target="#verificationModal">Please submit your business permit for verification</a>.
                             </div>
+                        <?php endif; ?>
+
+                        <!-- Success and Error Alerts -->
+                        <?php if (isset($_SESSION['success'])): ?>
+                            <div class="alert alert-success mb-4" role="alert">
+                                <?= $_SESSION['success'] ?>
+                            </div>
+                            <?php unset($_SESSION['success']); ?>
+                        <?php endif; ?>
+                        <?php if (isset($_SESSION['error'])): ?>
+                            <div class="alert alert-danger mb-4" role="alert">
+                                <?= $_SESSION['error'] ?>
+                            </div>
+                            <?php unset($_SESSION['error']); ?>
+                        <?php endif; ?>
+
+                        <!-- Job Form -->
+                        <form action="../includes/company/comp_job_process.php" method="POST" enctype="multipart/form-data">
+                            <!-- Job Cover -->
                             <div class="form-group mb-4">
-    <label for="jobPhoto" class="form-label">Job Cover (Optional)</label>
-    <div class="image-upload-wrapper text-center border rounded p-3" style="cursor: pointer; position: relative;">
-        <input type="file" class="form-control form-control-lg" id="jobPhoto" name="job_photo" accept="image/*" style="opacity: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: pointer;">
-        <div id="jobPhotoPreview" class="d-flex flex-column align-items-center justify-content-center" style="height: 150px;">
-            <i class="bx bx-upload" style="font-size: 2rem; color: #6c757d;"></i>
-            <span class="text-muted">Tap to upload an image</span>
-        </div>
-    </div>
-</div>
-
-<script>
-    const jobPhotoInput = document.getElementById('jobPhoto');
-    const jobPhotoPreview = document.getElementById('jobPhotoPreview');
-
-    jobPhotoInput.addEventListener('change', function (e) {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function (event) {
-                jobPhotoPreview.innerHTML = `<img src="${event.target.result}" alt="Job Cover Preview" class="img-fluid rounded" style="max-height: 150px;">`;
-            };
-            reader.readAsDataURL(file);
-        } else {
-            jobPhotoPreview.innerHTML = `
-                <i class="bx bx-upload" style="font-size: 2rem; color: #6c757d;"></i>
-                <span class="text-muted">Tap to upload an image</span>
-            `;
-        }
-    });
-</script>
-                        <div class="row g-4">
-                            <!-- New Column -->
-                            <!-- Left Column -->
-                            <div class="col-md-6">
-                                <div class="form-group mb-4">
-                                    <label for="jobTitle" class="form-label">Job Title</label>
-                                    <input type="text" class="form-control form-control-lg" id="jobTitle" name="title" placeholder="Example: Housekeeping Attendant" required>
+                                <label for="jobPhoto" class="form-label">Job Cover (Optional)</label>
+                                <div class="image-upload-wrapper text-center border rounded p-3" style="cursor: pointer; position: relative;">
+                                    <input type="file" class="form-control form-control-lg" id="jobPhoto" name="job_photo" accept="image/*" style="opacity: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: pointer;">
+                                    <div id="jobPhotoPreview" class="d-flex flex-column align-items-center justify-content-center" style="height: 150px;">
+                                        <i class="bx bx-upload" style="font-size: 2rem; color: #6c757d;"></i>
+                                        <span class="text-muted">Tap to upload an image</span>
+                                    </div>
                                 </div>
-                                <div class="form-group mb-4">
-                                    <label for="jobCategory" class="form-label">Job Category</label>
-                                    <select class="form-select form-select-lg" id="jobCategory" name="category_id" required>
-                                        <option value="">Select Job Category</option>
-                                        <?php foreach ($categories as $category): ?>
-                                            <option value="<?= $category['category_id'] ?>"><?= htmlspecialchars($category['category_name']) ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="form-group mb-4">
-                                    <label class="form-label">Employment Type</label><br>
-                                    <div class="row g-3">
-                                        <div class="col-md-6">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="employment_type" value="Part-Time" checked>
-                                                <label class="form-check-label">Part-time</label>
+                            </div>
+
+                            <!-- Job Details -->
+                            <div class="row g-4">
+                                <!-- Left Column -->
+                                <div class="col-md-6">
+                                    <div class="form-group mb-4">
+                                        <label for="jobTitle" class="form-label">Job Title</label>
+                                        <input type="text" class="form-control form-control-lg" id="jobTitle" name="title" placeholder="Example: Housekeeping Attendant" required>
+                                    </div>
+                                    <div class="form-group mb-4">
+                                        <label for="jobCategory" class="form-label">Job Category</label>
+                                        <select class="form-select form-select-lg" id="jobCategory" name="category_id" required>
+                                            <option value="">Select Job Category</option>
+                                            <?php foreach ($categories as $category): ?>
+                                                <option value="<?= $category['category_id'] ?>"><?= htmlspecialchars($category['category_name']) ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group mb-4">
+                                        <label class="form-label">Employment Type</label><br>
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="employment_type" value="Part-Time" checked>
+                                                    <label class="form-check-label">Part-time</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="employment_type" value="Full-Time">
+                                                    <label class="form-check-label">Full-time</label>
+                                                </div>
                                             </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="employment_type" value="Full-Time">
-                                                <label class="form-check-label">Full-time</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="employment_type" value="Internship">
-                                                <label class="form-check-label">Internship</label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="employment_type" value="Contract">
-                                                <label class="form-check-label">Contract</label>
+                                            <div class="col-md-6">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="employment_type" value="Internship">
+                                                    <label class="form-check-label">Internship</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="employment_type" value="Contract">
+                                                    <label class="form-check-label">Contract</label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                
-                                <div class="form-group mb-4">
-                                    <label for="jobDescription" class="form-label">Job Description</label>
-                                    <textarea class="form-control" id="jobDescription" name="description" rows="6" required></textarea>
-                                </div>
-                            </div>
-                            <!-- Right Column -->
-                            <div class="col-md-6">
-                                <div class="form-group mb-4">
-                                    <label for="location" class="form-label">Location</label>
-                                    <input type="text" class="form-control form-control-lg" id="location" name="location" required>
-                                </div>
-                                <div class="form-group mb-4">
-                                    <label for="rateDetails" class="form-label">Rate Details</label>
-                                    <div class="row g-3">
-                                        <div class="col-md-4">
-                                            <label for="currency" class="form-label">Currency</label>
-                                            <input type="text" class="form-control" id="currency" name="currency" placeholder="e.g. PHP/USD" required>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label for="salary_min" class="form-label">Min Rate</label>
-                                            <input type="number" class="form-control" id="salary_min" name="salary_min" placeholder="Min Rate" required>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label for="salary_max" class="form-label">Max Rate</label>
-                                            <input type="number" class="form-control" id="salary_max" name="salary_max" placeholder="Max Rate" required>
-                                        </div>
+                                    <div class="form-group mb-4">
+                                        <label for="jobDescription" class="form-label">Job Description</label>
+                                        <textarea class="form-control" id="jobDescription" name="description" rows="6" required></textarea>
                                     </div>
                                 </div>
-                                <div class="form-group mb-4">
-                                    <label for="expiry_date" class="form-label">Expiry Date</label>
-                                    <input type="date" class="form-control form-control-lg" id="expiry_date" name="expiry_date" required>
-                                </div>
-                                <div class="form-group mb-4">
-                                    <label for="requirements" class="form-label">Requirements</label>
-                                    <textarea class="form-control" id="requirements" name="requirements" rows="6" required></textarea>
-                                </div>
-                                
-                                
-                                <div class="form-group text-end">
-                                    <button type="submit" class="btn btn-primary btn-lg px-5">Submit</button>
+
+                                <!-- Right Column -->
+                                <div class="col-md-6">
+                                    <div class="form-group mb-4">
+                                        <label for="location" class="form-label">Location</label>
+                                        <input type="text" class="form-control form-control-lg" id="location" name="location" required>
+                                    </div>
+                                    <div class="form-group mb-4">
+                                        <label for="rateDetails" class="form-label">Rate Details</label>
+                                        <div class="row g-3">
+                                            <div class="col-md-4">
+                                                <label for="currency" class="form-label">Currency</label>
+                                                <input type="text" class="form-control" id="currency" name="currency" placeholder="e.g. PHP/USD" required>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="salary_min" class="form-label">Min Rate</label>
+                                                <input type="number" class="form-control" id="salary_min" name="salary_min" placeholder="Min Rate" required>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="salary_max" class="form-label">Max Rate</label>
+                                                <input type="number" class="form-control" id="salary_max" name="salary_max" placeholder="Max Rate" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mb-4">
+                                        <label for="expiry_date" class="form-label">Expiry Date</label>
+                                        <input type="date" class="form-control form-control-lg" id="expiry_date" name="expiry_date" required>
+                                    </div>
+                                    <div class="form-group mb-4">
+                                        <label for="requirements" class="form-label">Requirements</label>
+                                        <textarea class="form-control" id="requirements" name="requirements" rows="6" required></textarea>
+                                    </div>
+                                    <div class="form-group text-end">
+                                        <button type="submit" class="btn btn-primary btn-lg px-5">Submit</button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </section>
 
 <!-- Verification Modal -->
@@ -689,6 +689,48 @@ $stmt->close();
         setTimeout(() => {
             alertBox.classList.add('d-none');
         }, 3000);
+    }
+</script>
+
+<script>
+    const jobPhotoInput = document.getElementById('jobPhoto');
+    const jobPhotoPreview = document.getElementById('jobPhotoPreview');
+
+    jobPhotoInput.addEventListener('change', function (e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                // Replace the container with the uploaded image and add an "X" button
+                jobPhotoPreview.innerHTML = `
+                    <div style="position: relative; display: inline-block;">
+                        <img src="${event.target.result}" alt="Job Cover Preview" class="img-fluid rounded" style="max-height: 150px; object-fit: cover;">
+                        <button type="button" id="removeImageButton" style="position: absolute; top: 5px; right: 5px; background-color: red; color: white; border: none; border-radius: 50%; width: 25px; height: 25px; cursor: pointer;">X</button>
+                    </div>
+                `;
+                addRemoveImageListener();
+            };
+            reader.readAsDataURL(file);
+        } else {
+            resetJobPhotoPreview();
+        }
+    });
+
+    function addRemoveImageListener() {
+        const removeImageButton = document.getElementById('removeImageButton');
+        if (removeImageButton) {
+            removeImageButton.addEventListener('click', function () {
+                resetJobPhotoPreview();
+                jobPhotoInput.value = ''; // Clear the file input
+            });
+        }
+    }
+
+    function resetJobPhotoPreview() {
+        jobPhotoPreview.innerHTML = `
+            <i class="bx bx-upload" style="font-size: 2rem; color: #6c757d;"></i>
+            <span class="text-muted">Tap to upload an image</span>
+        `;
     }
 </script>
 
