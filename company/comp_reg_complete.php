@@ -1,3 +1,71 @@
+<?php
+session_start(); // Start the session
+require "../includes/db_connect.php"; // Database connection
+
+if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
+    header("Location: comp_reg.php");
+    exit();
+}
+
+$email = $_SESSION['email'];
+$password = $_SESSION['password'];
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $firstName = trim($_POST['firstName']);
+    $lastName = trim($_POST['lastName']);
+    $companyName = trim($_POST['companyName']);
+    $country = trim($_POST['country']);
+    $companyNumber = trim($_POST['companyNumber']);
+
+    // Basic validation
+    if (empty($firstName) || empty($lastName) || empty($companyName) || empty($country) || empty($companyNumber)) {
+        $error = "All fields are required.";
+    } else {
+        // Check if email already exists in `tbl_comp_login`
+        $checkStmt = $conn->prepare("SELECT id FROM tbl_comp_login WHERE emailAddress = ?");
+        $checkStmt->bind_param("s", $email);
+        $checkStmt->execute();
+        $checkStmt->store_result();
+
+        if ($checkStmt->num_rows > 0) {
+            $error = "Email is already registered.";
+            $checkStmt->close();
+        } else {
+            $checkStmt->close();
+
+            // Generate a salt and hash the password
+            $salt = bin2hex(random_bytes(16)); // Generate a random 16-character salt
+            $hashedPassword = password_hash($password . $salt, PASSWORD_BCRYPT);
+
+            // Insert Company Details into `tbl_comp_info`
+            $stmt1 = $conn->prepare("INSERT INTO tbl_comp_info (firstName, lastName, companyName, country, companyNumber, create_time) VALUES (?, ?, ?, ?, ?, NOW())");
+            $stmt1->bind_param("sssss", $firstName, $lastName, $companyName, $country, $companyNumber);
+
+            if ($stmt1->execute()) {
+                // Get the last inserted company_id
+                $company_id = $conn->insert_id;
+
+                // Insert Login Credentials into `tbl_comp_login`
+                $stmt2 = $conn->prepare("INSERT INTO tbl_comp_login (company_id, emailAddress, password, salt) VALUES (?, ?, ?, ?)");
+                $stmt2->bind_param("isss", $company_id, $email, $hashedPassword, $salt);
+
+                if ($stmt2->execute()) {
+                    // Registration successful
+                    unset($_SESSION['email'], $_SESSION['password']); // Clear session data
+                    header("Location: comp_login.php");
+                    exit();
+                } else {
+                    $error = "Error inserting into login table: " . $stmt2->error;
+                }
+                $stmt2->close();
+            } else {
+                $error = "Error inserting into company table: " . $stmt1->error;
+            }
+            $stmt1->close();
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -203,17 +271,17 @@
             <p>We need a real name to verify your account</p>
 
             <h4>Email</h4>
-            <p>Exampleaccount@gmail.com</p>
+            <p><?php echo htmlspecialchars($email); ?></p>
             
-            <form>
+            <form action="" method="POST">
                 <div class="c_cplete_prof_form-row">
                     <div class="c_cplete_prof_form-group">
                         <label for="c_cplete_prof_given-name">Given name</label>
-                        <input type="text" id="c_cplete_prof_given-name"  placeholder="Juan" required>
+                        <input type="text" name="firstName" id="c_cplete_prof_given-name" placeholder="Juan" required>
                     </div>
                     <div class="c_cplete_prof_form-group">
                         <label for="c_cplete_prof_family-name">Family name</label>
-                        <input type="text" id="c_cplete_prof_family-name"  placeholder="Dela Cruz" required>
+                        <input type="text" name="lastName" id="c_cplete_prof_family-name" placeholder="Dela Cruz" required>
                     </div>
                 </div>
                 <h4>Business Details</h4>
@@ -221,23 +289,26 @@
                 We need your registered business name to verify your account.</p>
                 <div class="c_cplete_prof_form-group">
                     <label for="c_cplete_prof_business-name">Business name</label>
-                    <input type="text" id="c_cplete_prof_business-name"  placeholder="Your registered business name" required>
+                    <input type="text" name="companyName" id="c_cplete_prof_business-name" placeholder="Your registered business name" required>
                 </div>
                 <div class="c_cplete_prof_form-group">
                     <label for="c_cplete_prof_country">Country</label>
-                    <select id="c_cplete_prof_country">
+                    <select name="country" id="c_cplete_prof_country">
                         <option>Philippines</option>
                     </select>
                 </div>
                 <div class="c_cplete_prof_form-group">
                     <label for="c_cplete_prof_phone-number">Phone Number</label>
                     <div class="c_cplete_prof_phone-group">
-                        <select>
+                        <select name="phoneCode">
                             <option>Philippines (+63)</option>
                         </select>
-                        <input type="text" id="c_cplete_prof_phone-number"  placeholder="+63 9123456789" required>
+                        <input type="text" name="companyNumber" id="c_cplete_prof_phone-number" placeholder="+63 9123456789" required>
                     </div>
                 </div>
+                <?php if (!empty($error)): ?>
+                    <div class="alert alert-danger"><?php echo $error; ?></div>
+                <?php endif; ?>
                 <button type="submit">Create new account</button>
             </form>
         </div>
