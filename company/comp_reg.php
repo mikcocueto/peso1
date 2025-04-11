@@ -1,6 +1,12 @@
 <?php
 session_start(); // Start the session to store user data
 
+// Database connection
+$conn = new mysqli("localhost", "root", "", "pesodb"); // Update with your database credentials
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = trim($_POST['email']);
     $password = trim($_POST['password']);
@@ -14,15 +20,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } elseif ($password !== $confirm_password) {
         $error = "Passwords do not match.";
     } else {
-        // Temporarily store email and password in session
-        $_SESSION['email'] = $email;
-        $_SESSION['password'] = $password;
+        // Check if email is already registered
+        $stmt = $conn->prepare("SELECT id FROM tbl_comp_login WHERE emailAddress = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $stmt->store_result();
 
-        // Redirect to the next page
-        header("Location: comp_reg_complete.php");
-        exit();
+        if ($stmt->num_rows > 0) {
+            $error = "This email is already registered.";
+        } else {
+            // Temporarily store email and password in session
+            $_SESSION['email'] = $email;
+            $_SESSION['password'] = $password;
+
+            // Redirect to the next page
+            header("Location: comp_reg_complete.php");
+            exit();
+        }
+
+        $stmt->close();
     }
 }
+
+$conn->close();
 ?>
 <!DOCTYPE html>
 <html lang="en">
