@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["business_permit"])) {
     // Move the uploaded file to the target directory
     if (move_uploaded_file($_FILES["business_permit"]["tmp_name"], $target_file)) {
         // Insert verification request into `tbl_comp_verification`
-        $stmt = $conn->prepare("INSERT INTO tbl_comp_verification (comp_id, status, dir_business_permit) VALUES (?, 'pending', ?)");
+        $stmt = $conn->prepare("INSERT INTO tbl_comp_verification (comp_id, status, dir_business_permit, ver_time_stamp) VALUES (?, 'pending', ?, NOW())");
         $stmt->bind_param("is", $company_id, $target_file);
 
         if ($stmt->execute()) {

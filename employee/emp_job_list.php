@@ -517,6 +517,11 @@ $jobs = $conn->query($query);
                     const cvModal = document.getElementById('cvModal');
                     const modalInstance = bootstrap.Modal.getOrCreateInstance(cvModal); // Use getOrCreateInstance for compatibility
                     modalInstance.hide();
+
+                    // Reselect the job listing after modal closes
+                    modalInstance._element.addEventListener('hidden.bs.modal', () => {
+                        showJobDetails(jobId);
+                    }, { once: true });
                 } else {
                     console.error('Server error:', data.error, data.details || '');
                     alert(`${data.error}\nDetails:\n${(data.details || []).join('\n')}`);
