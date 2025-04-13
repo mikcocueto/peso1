@@ -639,7 +639,10 @@ $stmt->close();
                                         <textarea class="form-control" id="requirements" name="requirements" rows="6" required></textarea>
                                     </div>
                                     <div class="form-group text-end">
-                                        <button type="submit" class="btn btn-primary btn-lg px-5">Submit</button>
+                                        <button type="submit" class="btn btn-primary btn-lg px-5" 
+                                            <?= !$is_verified ? 'disabled style="background-color: #6c757d; border-color: #6c757d; cursor: not-allowed;"' : '' ?>>
+                                            Submit
+                                        </button>
                                     </div>
                                 </div>
                             </div>

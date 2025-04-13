@@ -1,3 +1,49 @@
+<?php
+session_start(); // Start the session to store user data
+
+// Database connection
+$conn = new mysqli("localhost", "root", "", "pesodb"); // Update with your database credentials
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = trim($_POST['email']);
+    $password = trim($_POST['password']);
+    $confirm_password = trim($_POST['confirm_password']);
+
+    // Basic validation
+    if (empty($email) || empty($password) || empty($confirm_password)) {
+        $error = "All fields are required.";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $error = "Invalid email format.";
+    } elseif ($password !== $confirm_password) {
+        $error = "Passwords do not match.";
+    } else {
+        // Check if email is already registered
+        $stmt = $conn->prepare("SELECT id FROM tbl_comp_login WHERE emailAddress = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $stmt->store_result();
+
+        if ($stmt->num_rows > 0) {
+            $error = "This email is already registered.";
+        } else {
+            // Temporarily store email and password in session
+            $_SESSION['email'] = $email;
+            $_SESSION['password'] = $password;
+
+            // Redirect to the next page
+            header("Location: comp_reg_complete.php");
+            exit();
+        }
+
+        $stmt->close();
+    }
+}
+
+$conn->close();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,23 +66,25 @@
 <div class="container">
     <div class="card" id="register-container">
         <h3 class="p-3">Register as an employer</h3>
-        <form>
+        <form action="" method="POST">
             <div class="mb-3">
                 <label class="form-label"></label>
-                <input type="email" class="form-control" placeholder="Email" required>
+                <input type="email" name="email" class="form-control" placeholder="Email" required>
             </div>
             <div class="mb-3">
                 <label class="form-label"></label>
-                <input type="password" class="form-control" placeholder="Password" required>
+                <input type="password" name="password" class="form-control" placeholder="Password" required>
             </div>
             <div class="mb-3">
                 <label class="form-label"></label>
-                <input type="password" class="form-control" placeholder="Password" required>
+                <input type="password" name="confirm_password" class="form-control" placeholder="Confirm Password" required>
             </div>
+            <?php if (!empty($error)): ?>
+                <div class="alert alert-danger"><?php echo $error; ?></div>
+            <?php endif; ?>
             <button type="submit" class="btn btn-register">Register employer Account</button>
             <div class="mb-3">
                 <span>or use your email for registration</span>
-
             </div>
         </form>
         <p class="text-muted text-grey">Already have an account? <a href="#" class="text-white" onclick="toggleForms()">Sign In</a></p>

@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 07, 2025 at 03:53 AM
+-- Generation Time: Apr 11, 2025 at 04:08 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.1.25
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -93,7 +93,9 @@ INSERT INTO `tbl_comp_info` (`company_id`, `firstName`, `lastName`, `companyName
 (9, 'Mikco', 'Cueto', 'cueto', 'Philippines', 1, '2025-03-18 06:42:13', '../db/images/company/logo/spc.png', 0),
 (10, 'shantest', 'tester', '', 'Philippines', 123456789, '2025-03-28 03:06:11', '', 0),
 (11, 'Adeson', 'Macaraig', 'Frontline Business Solution, Inc.', 'Philippines', 321, '2025-04-02 01:37:50', '../db/images/company/logo/fbs.jpg', 1),
-(12, 'Justine', 'De Castro', 'Toyota San Pablo Inc.', 'Philippines', 2147483647, '2025-04-02 01:45:31', '../db/images/company/logo/toyota.jpg', 1);
+(12, 'Justine', 'De Castro', 'Toyota San Pablo Inc.', 'Philippines', 2147483647, '2025-04-02 01:45:31', '../db/images/company/logo/toyota.jpg', 1),
+(13, 'test', 'now', 'Company X', 'ph', 911, '2025-04-11 01:30:26', '', 1),
+(14, 'Eric', 'ric', 'Eric inc', 'Philippines', 91, '2025-04-11 01:58:36', '', 0);
 
 -- --------------------------------------------------------
 
@@ -122,7 +124,9 @@ INSERT INTO `tbl_comp_login` (`id`, `company_id`, `emailAddress`, `password`, `s
 (6, 9, 'cueto@gmail.com', '$2y$10$aSs8vP.dO6Zb3JneONUHJuExXRZpbr9Njz19XsjfSGpJKvaqlz.rO', 'e6553904a0aa34a6d56674835a8874bf'),
 (7, 10, 'shanaaa@gmail.com', '$2y$10$E.p9unCI32EWMl7LMVWoJeC3Obj6jO.rEqhbczXJRGpBdy3CBl98S', '84d8b77a102382764687852622d3746e'),
 (8, 11, 'adesonpogi@gmail.com', '$2y$10$oaRb.j3GvHldwY18xH2/i.fYhyIj22xus52eR8kJ2RJFPGpw6coEK', 'c2ac4c250617b00bc36c06d8cb39b277'),
-(9, 12, 'justinepogi@gmail.com', '$2y$10$5nnAQATFOrpqhhM4F7ToNuNx0QVnn.uCtf3vO3W/ZR3L27B2fsqWe', 'eac93425256816109a2edc0ebc5cc85d');
+(9, 12, 'justinepogi@gmail.com', '$2y$10$5nnAQATFOrpqhhM4F7ToNuNx0QVnn.uCtf3vO3W/ZR3L27B2fsqWe', 'eac93425256816109a2edc0ebc5cc85d'),
+(10, 13, 'april11@gmail.com', '$2y$10$fbR7tp0Xz9SQ2aEPmhnZ8OsPO6T/gwQFJVoWd3oGWfeWaXgj4eYpW', '846b478b1e079f65116190bf574d4b9d'),
+(11, 14, 'eric@gmail.com', '$2y$10$MiE2cn4i/cQv83sEgcwF5.RPMR6JEdDJ3Z5t53aCCESysPvIU2oSG', '1b15e69750298c8255530923c8b6a7d9');
 
 -- --------------------------------------------------------
 
@@ -134,16 +138,18 @@ CREATE TABLE `tbl_comp_verification` (
   `id` int(11) NOT NULL,
   `comp_id` int(11) NOT NULL,
   `status` varchar(32) NOT NULL DEFAULT 'pending',
-  `dir_business_permit` varchar(255) NOT NULL
+  `dir_business_permit` varchar(255) NOT NULL,
+  `ver_time_stamp` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tbl_comp_verification`
 --
 
-INSERT INTO `tbl_comp_verification` (`id`, `comp_id`, `status`, `dir_business_permit`) VALUES
-(25, 11, 'accepted', '../../db/pdf/comp_business_permit/qSGouZ2t_FOR LOST FILLING111.pdf'),
-(26, 12, 'accepted', '../../db/pdf/comp_business_permit/okgQM3GZ_FOR LOST FILLING111.pdf');
+INSERT INTO `tbl_comp_verification` (`id`, `comp_id`, `status`, `dir_business_permit`, `ver_time_stamp`) VALUES
+(25, 11, 'accepted', '../../db/pdf/comp_business_permit/qSGouZ2t_FOR LOST FILLING111.pdf', '2025-04-11 01:09:50'),
+(26, 12, 'accepted', '../../db/pdf/comp_business_permit/okgQM3GZ_FOR LOST FILLING111.pdf', '2025-04-11 01:09:50'),
+(27, 13, 'accepted', '../../db/pdf/comp_business_permit/SwADs5Mm_FOR LOST111 FILLING.pdf', '2025-04-11 01:27:06');
 
 -- --------------------------------------------------------
 
@@ -225,13 +231,7 @@ CREATE TABLE `tbl_emp_cv` (
 --
 
 INSERT INTO `tbl_emp_cv` (`id`, `emp_id`, `cv_file_name`, `cv_name`, `cv_dir`, `upload_timestamp`) VALUES
-(1, 12, 'Kennie Grades.pdf', 'eee', '../db/pdf/emp_cv/', '2025-03-31 05:49:38'),
-(7, 12, 'final-FOR LOST FILLING.pdf', NULL, '../db/pdf/emp_cv/', '2025-02-28 07:12:46'),
-(8, 12, 'UPDATED DOCS.pdf', NULL, '../db/pdf/emp_cv/', '2025-02-28 08:27:21'),
-(9, 17, 'UPDATED-FOR LOST FILLING.pdf', 'abbbbb', '../../db/pdf/emp_cv/', '2025-03-31 04:30:44'),
-(11, 17, 'Certificate of Registration.pdf', 'test12', '../../db/pdf/emp_cv/', '2025-03-20 01:33:36'),
-(12, 18, 'PASCOdocx.pdf', 'Resume/Paused', '../../db/pdf/emp_cv/', '2025-03-18 04:10:35'),
-(14, 17, 'nQytaoCF_FOR LOST FILLING111.pdf', 'test1', '../../db/pdf/emp_cv/', '2025-03-31 05:26:48');
+(15, 17, 'R1Fu6T4r_KATHERINE CUETO-RESUME (1).pdf', '1', '../../db/pdf/emp_cv/', '2025-04-08 07:13:19');
 
 -- --------------------------------------------------------
 
@@ -287,7 +287,7 @@ INSERT INTO `tbl_emp_info` (`user_id`, `firstName`, `lastName`, `address`, `emai
 (14, 'Mikco', 'Cueto', 'Sta. Maria SPC', 'c@gmail.com', 'Female', '099999999999', '2025-02-14 03:58:48', ''),
 (15, 'q', 'q', '', 'q@gmail.com', '', '', '2025-02-17 05:23:39', ''),
 (16, 'new', 'user', '', 'new@gmail.com', '', '', '2025-02-24 06:25:21', ''),
-(17, 'shan', 'punzalan', 'cavite', 'shan@gmail.com', 'male', '911', '2025-03-07 03:25:23', ''),
+(17, 'shan', 'test', 'cavite', 'shan@gmail.com', 'male', '911', '2025-03-07 03:25:23', ''),
 (18, 'MIKCO', 'Mikco', 'Purok 7 Brgy Sta Maria', '0321-2980@lspu.edu.ph', 'You Decide', '9076532552', '2025-03-18 04:05:12', '');
 
 -- --------------------------------------------------------
@@ -419,7 +419,7 @@ CREATE TABLE `tbl_job_application` (
 --
 
 INSERT INTO `tbl_job_application` (`id`, `emp_id`, `job_id`, `application_time`, `status`) VALUES
-(12, 17, 14, '2025-04-07 01:41:35', 'pending');
+(20, 17, 14, '2025-04-11 01:06:08', 'pending');
 
 -- --------------------------------------------------------
 
@@ -432,6 +432,13 @@ CREATE TABLE `tbl_job_application_files` (
   `application_id` int(11) DEFAULT NULL,
   `file_inserted_dir` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_job_application_files`
+--
+
+INSERT INTO `tbl_job_application_files` (`id`, `application_id`, `file_inserted_dir`) VALUES
+(7, 20, '../../db/pdf/application_files/R1Fu6T4r_KATHERINE CUETO-RESUME (1).pdf');
 
 -- --------------------------------------------------------
 
@@ -651,19 +658,19 @@ ALTER TABLE `tbl_admin_login`
 -- AUTO_INCREMENT for table `tbl_comp_info`
 --
 ALTER TABLE `tbl_comp_info`
-  MODIFY `company_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `company_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `tbl_comp_login`
 --
 ALTER TABLE `tbl_comp_login`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `tbl_comp_verification`
 --
 ALTER TABLE `tbl_comp_verification`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `tbl_emp_careerhistory`
@@ -681,7 +688,7 @@ ALTER TABLE `tbl_emp_certification`
 -- AUTO_INCREMENT for table `tbl_emp_cv`
 --
 ALTER TABLE `tbl_emp_cv`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `tbl_emp_educback`
@@ -729,13 +736,13 @@ ALTER TABLE `tbl_emp_skills`
 -- AUTO_INCREMENT for table `tbl_job_application`
 --
 ALTER TABLE `tbl_job_application`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `tbl_job_application_files`
 --
 ALTER TABLE `tbl_job_application_files`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tbl_job_category`
