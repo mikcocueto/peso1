@@ -876,7 +876,7 @@ $stmt->close();
 
             // Update the fetchJobs function to maintain colors
             function fetchJobs(sortBy, sortOrder, searchQuery) {
-                fetch(`fetch_jobs.php?sort_by=${sortBy}&sort_order=${sortOrder}&search=${searchQuery}`)
+                fetch(`../includes/company/comp_dashboard_fetch_jobs.php?sort_by=${sortBy}&sort_order=${sortOrder}&search=${searchQuery}`)
                     .then(response => response.text())
                     .then(html => {
                         document.getElementById('jobResults').innerHTML = html;
