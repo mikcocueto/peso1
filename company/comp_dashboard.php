@@ -454,68 +454,68 @@ $stmt->close();
 
 <!-- Candidates Tab -->
 <section id="candidates" class="content hidden">
-        <!-- Job Filters Section -->
-        <section id="job-filters" class="job-filters hidden">
-            <!-- add functionality later nlng -->
-            <div class="filter-tabs" hidden>
-                <button class="tab-btn active">Applicants (17)</button>
-                <button class="tab-btn">Matched Applicant</button>
-            </div>
+    <!-- Job Filters Section -->
+    <section id="job-filters" class="job-filters hidden">
+        <!-- add functionality later nlng -->
+        <div class="filter-tabs" hidden>
+            <button class="tab-btn active">Applicants (17)</button>
+            <button class="tab-btn">Matched Applicant</button>
+        </div>
 
-            <!-- Candidates Table -->
-            <div class="status-filters">
-                <span class="status-link active">17 Active</span>
-                <span class="status-link">12 Awaiting review</span>
-                <span class="status-link">2 Reviewed</span>
-                <span class="status-link">2 Contacted</span>
-                <span class="status-link">0 Hired</span>
-                <span class="status-link">22 Rejected</span>
-            </div>
-                    <!-- Dynamic Job Dropdown -->
-                <select id="jobDropdown" class="job-position" onchange="fetchCandidates(this.value)">
-                    <option value="">-- Select a Job --</option>
-                    <?php foreach ($jobs_dropdown as $job): ?>
-                    <option value="<?= $job['job_id'] ?>"><?= htmlspecialchars($job['title']) ?></option>
-                    <?php endforeach; ?>
-                </select>
-            <div class="filter-controls">
-                <select class="filter-dropdown">
-                    <option>Screener questions: Any</option>
-                    <option>Answered</option>
-                    <option>Not Answered</option>
-                </select>
+        <!-- Candidates Table -->
+        <div class="status-filters d-flex justify-content-start flex-wrap gap-2 mb-3">
+            <span class="status-link badge bg-success text-white rounded-pill px-2 py-1">17 Active</span>
+            <span class="status-link badge bg-primary text-white rounded-pill px-2 py-1">12 Awaiting review</span>
+            <span class="status-link badge bg-secondary text-white rounded-pill px-2 py-1">2 Reviewed</span>
+            <span class="status-link badge bg-info text-dark rounded-pill px-2 py-1">2 Contacted</span>
+            <span class="status-link badge bg-warning text-dark rounded-pill px-2 py-1">0 Hired</span>
+            <span class="status-link badge bg-danger text-white rounded-pill px-2 py-1">22 Rejected</span>
+        </div>
+        <!-- Dynamic Job Dropdown -->
+        <select id="jobDropdown" class="job-position" onchange="fetchCandidates(this.value)">
+            <option value="">-- Select a Job --</option>
+            <?php foreach ($jobs_dropdown as $job): ?>
+                <option value="<?= $job['job_id'] ?>"><?= htmlspecialchars($job['title']) ?></option>
+            <?php endforeach; ?>
+        </select>
+        <div class="filter-controls">
+            <select class="filter-dropdown">
+                <option>Screener questions: Any</option>
+                <option>Answered</option>
+                <option>Not Answered</option>
+            </select>
 
-                <select class="filter-dropdown">
-                    <option>Assessment: Any</option>
-                    <option>Passed</option>
-                    <option>Failed</option>
-                </select>
+            <select class="filter-dropdown">
+                <option>Assessment: Any</option>
+                <option>Passed</option>
+                <option>Failed</option>
+            </select>
 
-                <select class="sort-dropdown">
-                    <option>Sort: Apply date (Newest)</option>
-                    <option>Sort: Apply date (Oldest)</option>
-                    <option>Sort: Relevance</option>
-                </select>
-            </div>
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>Candidate Name</th>
-                        <th>Email</th>
-                        <th>Application Time</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody id="candidatesTableBody">
-                    <tr>
-                        <td colspan="4" class="text-center">Select a job to view candidates.</td>
-                    </tr>
-                </tbody>
-            </table>
+            <select class="sort-dropdown">
+                <option>Sort: Apply date (Newest)</option>
+                <option>Sort: Apply date (Oldest)</option>
+                <option>Sort: Relevance</option>
+            </select>
+        </div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Candidate Name</th>
+                    <th>Email</th>
+                    <th>Application Time</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="candidatesTableBody">
+                <tr>
+                    <td colspan="4" class="text-center">Select a job to view candidates.</td>
+                </tr>
+            </tbody>
+        </table>
 
-            
-        </section>
+        
     </section>
+</section>
 
 
 <!-- Post a Job Tab-->
