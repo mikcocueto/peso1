@@ -562,6 +562,7 @@ $stmt->close();
                                     </div>
                                 </div>
                             </div>
+                            <input type="hidden" id="jobCoverPath" name="job_cover_img">
 
                             <!-- Job Details -->
                             <div class="row g-4">
@@ -708,7 +709,6 @@ $stmt->close();
         if (file) {
             const reader = new FileReader();
             reader.onload = function (event) {
-                // Replace the container with the uploaded image and add an "X" button
                 jobPhotoPreview.innerHTML = `
                     <div style="position: relative; display: inline-block;">
                         <img src="${event.target.result}" alt="Job Cover Preview" class="img-fluid rounded" style="max-height: 150px; object-fit: cover;">

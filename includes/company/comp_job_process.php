@@ -20,6 +20,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $category_id = $_POST['category_id'];
     $expiry_date = $_POST['expiry_date'];
     $posted_date = date('Y-m-d');
+    $job_cover_img = null;
+
+    // Handle file upload
+    if (isset($_FILES['job_photo']) && $_FILES['job_photo']['error'] == UPLOAD_ERR_OK) {
+        $upload_dir = '../../db/images/job_listing/';
+        $file_tmp = $_FILES['job_photo']['tmp_name'];
+        $file_name = $_FILES['job_photo']['name'];
+        $file_ext = pathinfo($file_name, PATHINFO_EXTENSION);
+
+        // Generate a unique file name
+        $random_string = bin2hex(random_bytes(8));
+        $new_file_name = $random_string . '_' . time() . '.' . $file_ext;
+
+        // Move the uploaded file to the target directory
+        if (move_uploaded_file($file_tmp, $upload_dir . $new_file_name)) {
+            $job_cover_img = $new_file_name; // Save only the file name
+        }
+    }
 
     // Check if company is verified
     $verification_query = "SELECT company_verified FROM tbl_comp_info WHERE company_id = ?";
@@ -39,12 +57,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Insert job listing
     $query = "INSERT INTO tbl_job_listing (employer_id, title, description, requirements, employment_type, 
-              location, salary_min, salary_max, currency, category_id, posted_date, expiry_date, status) 
-              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'active')";
+              location, salary_min, salary_max, currency, category_id, posted_date, expiry_date, job_cover_img, status) 
+              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'active')";
     
     $stmt = $conn->prepare($query);
-    $stmt->bind_param("isssssddssss", $company_id, $title, $description, $requirements, $employment_type, 
-                      $location, $salary_min, $salary_max, $currency, $category_id, $posted_date, $expiry_date);
+    $stmt->bind_param("isssssddsssss", $company_id, $title, $description, $requirements, $employment_type, 
+                      $location, $salary_min, $salary_max, $currency, $category_id, $posted_date, $expiry_date, $job_cover_img);
     
     if ($stmt->execute()) {
         $_SESSION['success'] = "Job posted successfully!";
