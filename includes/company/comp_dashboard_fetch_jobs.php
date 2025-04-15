@@ -37,40 +37,30 @@ switch($sort_by) {
         $query .= " ORDER BY jl.posted_date DESC";
 }
 
+header('Content-Type: application/json');
+
+// Fetch sorted jobs
 $stmt = $conn->prepare($query);
 $stmt->bind_param("is", $company_id, $search_query);
 $stmt->execute();
 $result = $stmt->get_result();
-$jobs = $result->fetch_all(MYSQLI_ASSOC);
+$jobs = [];
+
+while ($row = $result->fetch_assoc()) {
+    $jobs[] = [
+        'job_id' => $row['job_id'],
+        'title' => htmlspecialchars($row['title']),
+        'description' => htmlspecialchars($row['description']),
+        'posted_date' => htmlspecialchars(date('Y-m-d', strtotime($row['posted_date']))),
+        'expiry_date' => htmlspecialchars(date('Y-m-d', strtotime($row['expiry_date']))),
+        'status' => $row['status'],
+        'pending_count' => $row['pending_count'],
+        'awaiting_count' => $row['awaiting_count'],
+        'accepted_count' => $row['accepted_count']
+    ];
+}
+
 $stmt->close();
 
-if (empty($jobs)): ?>
-    <div class="job-item">
-        <div colspan="4" class="text-center">No jobs found.</div>
-    </div>
-<?php else: ?>
-    <?php foreach ($jobs as $job): ?>
-        <div class="job-item">
-            <div class="job-title-column">
-                <span class="job-title"><?= htmlspecialchars($job['title']) ?></span>
-                <div class="job-description"><?= htmlspecialchars($job['description']) ?></div>
-                <span class="job-dates">Created: <?= htmlspecialchars(date('Y-m-d', strtotime($job['posted_date']))) ?> - Ends: <?= htmlspecialchars(date('Y-m-d', strtotime($job['expiry_date']))) ?></span>
-            </div>
-            <div class="candidates-column">
-                <span style="white-space: nowrap; overflow: visible; text-overflow: clip;">
-                    <?= $job['pending_count'] ?> Pending | <?= $job['awaiting_count'] ?> Awaiting | <?= $job['accepted_count'] ?> Accepted
-                </span>
-            </div>
-            <div class="status-column">
-                <select class="form-select job-status-dropdown" data-job-id="<?= $job['job_id'] ?>" onchange="updateJobStatus(this)">
-                    <option value="active" <?= $job['status'] == 'active' ? 'selected' : '' ?>>🟢 Active</option>
-                    <option value="paused" <?= $job['status'] == 'paused' ? 'selected' : '' ?>>🟡 Paused</option>
-                    <option value="inactive" <?= $job['status'] == 'inactive' ? 'selected' : '' ?>>🔴 Inactive</option>
-                </select>
-            </div>
-            <div class="action-column">
-                <button class="action-btn" data-bs-toggle="modal" data-bs-target="#editJobModal" data-job-id="<?= $job['job_id'] ?>">Edit</button>
-            </div>
-        </div>
-    <?php endforeach; ?>
-<?php endif; ?> 
+// Return jobs as JSON
+echo json_encode(['jobs' => $jobs]);

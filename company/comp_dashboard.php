@@ -114,11 +114,11 @@ $stmt->close();
                                     <h3 class="mb-4 px-3 py-2" style="background-color: #f8f9fa; border-radius: 8px;">Company Information</h3>
                                     <table style="width: 100%; border-collapse: collapse; text-align: left;">
                                         <tr>
-                                            <td style="padding: 4px 8px;">Company Name:</td>
+                                            <td style="padding: 4px 8px;"><strong>Company Name:</strong></td>
                                             <td style="padding: 4px 8px;">FDS Asya Philippines</td>
                                         </tr>
                                         <tr>
-                                            <td style="padding: 4px 8px;">Country:</td>
+                                            <td style="padding: 4px 8px;"><strong>Country:</strong></td>
                                             <td style="padding: 4px 8px;">Philippines</td>
                                         </tr>
                                         <tr>
@@ -134,7 +134,7 @@ $stmt->close();
                                             <td style="padding: 4px 8px;">0912-345-6789</td>
                                         </tr>
                                         <tr>
-                                            <td style="padding: 4px 8px;">Human Resource:</td>
+                                            <td style="padding: 4px 8px;"><strong>Human Resource:</strong></td>
                                             <td style="padding: 4px 8px;">ggg shan khyle</td>
                                         </tr>
                                     </table>
@@ -881,11 +881,49 @@ $stmt->close();
             // Update the fetchJobs function to maintain colors
             function fetchJobs(sortBy, sortOrder, searchQuery) {
                 fetch(`../includes/company/comp_dashboard_fetch_jobs.php?sort_by=${sortBy}&sort_order=${sortOrder}&search=${searchQuery}`)
-                    .then(response => response.text())
-                    .then(html => {
-                        document.getElementById('jobResults').innerHTML = html;
-                        // Add a small delay to ensure the DOM is updated
-                        setTimeout(updateJobStatusColors, 100);
+                    .then(response => response.json()) // Expect JSON response
+                    .then(data => {
+                        const jobResults = document.getElementById('jobResults');
+                        jobResults.innerHTML = ''; // Clear existing rows
+
+                        if (data.jobs.length === 0) {
+                            jobResults.innerHTML = `
+                                <tr>
+                                    <td colspan="4" class="text-center">No jobs found. Create your first listing now!</td>
+                                </tr>
+                            `;
+                        } else {
+                            data.jobs.forEach(job => {
+                                const row = `
+                                    <tr>
+                                        <td>
+                                            <strong>${job.title}</strong>
+                                            <div class="text-muted">${job.description}</div>
+                                            <small class="text-muted">Created: ${job.posted_date} - Ends: ${job.expiry_date}</small>
+                                        </td>
+                                        <td>
+                                            <span>${job.pending_count} Pending</span> | 
+                                            <span>${job.awaiting_count} Awaiting</span> | 
+                                            <span>${job.accepted_count} Accepted</span>
+                                        </td>
+                                        <td>
+                                            <select class="form-select job-status-dropdown" data-job-id="${job.job_id}" onchange="updateJobStatus(this)">
+                                                <option value="active" ${job.status === 'active' ? 'selected' : ''} style="color: #28a745;">🟢 Active</option>
+                                                <option value="paused" ${job.status === 'paused' ? 'selected' : ''} style="color: #ffc107;">🟡 Paused</option>
+                                                <option value="inactive" ${job.status === 'inactive' ? 'selected' : ''} style="color: #dc3545;">🔴 Inactive</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editJobModal" data-job-id="${job.job_id}">Edit</button>
+                                        </td>
+                                    </tr>
+                                `;
+                                jobResults.insertAdjacentHTML('beforeend', row);
+                            });
+                        }
+
+                        // Ensure job status colors are updated
+                        updateJobStatusColors();
                     })
                     .catch(error => console.error('Error:', error));
             }
