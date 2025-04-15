@@ -122,7 +122,7 @@ $stmt->close();
                 <div class="bg-white p-4 border rounded shadow">
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h3 class="fw-bold">Company Information</h3>
-                        <button id="editButton" type="button" class="btn btn-primary">Edit</button>
+                        <button id="editButton" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
                     </div>
 
                     <!-- Info Display -->
@@ -137,30 +137,42 @@ $stmt->close();
                             </tbody>
                         </table>
                     </div>
+                </div>
+            </div>
 
-                    <!-- Edit Form -->
-                    <form id="editForm" method="POST" action="includes/company/update_company_info.php" enctype="multipart/form-data" class="d-none">
-                        <table class="table">
-                            <tbody>
-                                <tr><td class="fw-semibold"><label for="firstName">First Name</label></td>
-                                    <td><input type="text" id="firstName" name="firstName" value="<?php echo htmlspecialchars($company['firstName']); ?>" class="form-control"></td></tr>
-                                <tr><td class="fw-semibold"><label for="lastName">Last Name</label></td>
-                                    <td><input type="text" id="lastName" name="lastName" value="<?php echo htmlspecialchars($company['lastName']); ?>" class="form-control"></td></tr>
-                                <tr><td class="fw-semibold"><label for="companyName">Company Name</label></td>
-                                    <td><input type="text" id="companyName" name="companyName" value="<?php echo htmlspecialchars($company['companyName']); ?>" class="form-control"></td></tr>
-                                <tr><td class="fw-semibold"><label for="country">Country</label></td>
-                                    <td><input type="text" id="country" name="country" value="<?php echo htmlspecialchars($company['country']); ?>" class="form-control"></td></tr>
-                                <tr><td class="fw-semibold"><label for="companyNumber">Company Number</label></td>
-                                    <td><input type="text" id="companyNumber" name="companyNumber" value="<?php echo htmlspecialchars($company['companyNumber']); ?>" class="form-control"></td></tr>
-                                <tr><td class="fw-semibold"><label for="companyLogo">Company Logo</label></td>
-                                    <td><input type="file" id="companyLogo" name="companyLogo" class="form-control"></td></tr>
-                            </tbody>
-                        </table>
-                        <div class="d-flex justify-content-end gap-2 mt-4">
-                            <button type="button" id="cancelButton" class="btn btn-danger">Cancel</button>
-                            <button type="submit" class="btn btn-primary">Save</button>
+            <!-- Edit Modal -->
+            <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editModalLabel">Edit Company Information</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                    </form>
+                        <form id="editForm" method="POST" action="includes/company/update_company_info.php" enctype="multipart/form-data">
+                            <div class="modal-body">
+                                <table class="table">
+                                    <tbody>
+                                        <tr><td class="fw-semibold"><label for="firstName">First Name</label></td>
+                                            <td><input type="text" id="firstName" name="firstName" value="<?php echo htmlspecialchars($company['firstName']); ?>" class="form-control"></td></tr>
+                                        <tr><td class="fw-semibold"><label for="lastName">Last Name</label></td>
+                                            <td><input type="text" id="lastName" name="lastName" value="<?php echo htmlspecialchars($company['lastName']); ?>" class="form-control"></td></tr>
+                                        <tr><td class="fw-semibold"><label for="companyName">Company Name</label></td>
+                                            <td><input type="text" id="companyName" name="companyName" value="<?php echo htmlspecialchars($company['companyName']); ?>" class="form-control"></td></tr>
+                                        <tr><td class="fw-semibold"><label for="country">Country</label></td>
+                                            <td><input type="text" id="country" name="country" value="<?php echo htmlspecialchars($company['country']); ?>" class="form-control"></td></tr>
+                                        <tr><td class="fw-semibold"><label for="companyNumber">Company Number</label></td>
+                                            <td><input type="text" id="companyNumber" name="companyNumber" value="<?php echo htmlspecialchars($company['companyNumber']); ?>" class="form-control"></td></tr>
+                                        <tr><td class="fw-semibold"><label for="companyLogo">Company Logo</label></td>
+                                            <td><input type="file" id="companyLogo" name="companyLogo" class="form-control"></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

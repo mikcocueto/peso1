@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 11, 2025 at 04:08 AM
+-- Generation Time: Apr 15, 2025 at 04:10 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -470,6 +470,7 @@ INSERT INTO `tbl_job_category` (`category_id`, `category_name`) VALUES
 CREATE TABLE `tbl_job_listing` (
   `job_id` int(11) NOT NULL,
   `employer_id` int(11) NOT NULL,
+  `job_cover_img` varchar(255) DEFAULT NULL,
   `title` varchar(255) NOT NULL,
   `description` text NOT NULL,
   `requirements` text NOT NULL,
@@ -488,19 +489,19 @@ CREATE TABLE `tbl_job_listing` (
 -- Dumping data for table `tbl_job_listing`
 --
 
-INSERT INTO `tbl_job_listing` (`job_id`, `employer_id`, `title`, `description`, `requirements`, `employment_type`, `location`, `salary_min`, `salary_max`, `currency`, `category_id`, `posted_date`, `expiry_date`, `status`) VALUES
-(3, 6, 'jab', 'qqqqqq', 'tyuqwerty', 'Contract', '32323', 310.00, 360.00, 'dollar', 2, '2025-02-18 16:00:00', '2025-02-27 16:00:00', 'inactive'),
-(4, 6, 'job 4', 'geng geng', 'madami frfr', 'Internship', '4', 4.00, 4.00, '4', 3, '2025-02-18 16:00:00', '2025-02-16 16:00:00', 'inactive'),
-(5, 6, 'poso negro', '5 cent', '5tyrrrrrrrrrrr', 'Contract', 'dito', 5.00, 5.00, '$', 4, '2025-02-18 16:00:00', '2025-02-17 16:00:00', 'inactive'),
-(7, 6, 'IT professional', 'magaling it', 'it maalam', 'Full time', 'san pablo', 12.00, 120.00, 'php', 4, '2025-02-18 16:00:00', '2025-02-25 16:00:00', 'inactive'),
-(12, 9, 'mikco it', 'it', 'it', 'Part-Time', '3', 19.00, 80.00, 'p', 1, '2025-03-17 16:00:00', '2025-03-25 16:00:00', 'inactive'),
-(13, 6, 'ass', 'a', 'b', 'Part-Time', 'san pablo cityyy', 1.00, 2.00, 'php', 2, '2025-03-26 16:00:00', '2025-03-28 16:00:00', 'inactive'),
-(14, 6, 'Software Engineer (Full Stack)', 'Develop and maintain scalable web applications using React.js, Node.js, and PostgreSQL.', '3+ years experience, JavaScript/TypeScript, Git, API development.', 'Full-Time', 'San Pablo City', 80.00, 110.00, 'php', 2, '2025-03-27 16:00:00', '2025-03-22 16:00:00', 'active'),
-(15, 6, 'house', 'aa', 'ff', 'Full-time', 'san pablo cityyy', 1.00, 2.00, 'php', 1, '2025-03-27 16:00:00', '2025-03-27 16:00:00', 'inactive'),
-(16, 6, 'Web Developer', 'Must know how to debug using python, pycharm and html.', 'Resume\r\n5 years experienced\r\n', 'Internship', 'San Pablo City', 15000.00, 50000.00, 'php', 4, '2025-04-01 16:00:00', '2025-04-01 16:00:00', 'inactive'),
-(17, 11, 'Digital Marketing Specialist', 'Plan and execute digital marketing campaigns, including SEO, PPC, and social media ads.', 'Google Ads, Facebook Ads, SEO, content writing.', 'Contract', 'San Pablo City', 30.00, 40.00, 'php', 4, '2025-04-01 16:00:00', '2025-04-24 16:00:00', 'active'),
-(18, 12, 'Customer Service Representative', 'Provide customer support via chat, email, and phone. Maintain customer satisfaction.', 'Provide customer support via chat, email, and phone. Maintain customer satisfaction.', 'Full-Time', 'San Pablo City', 18.00, 22.00, 'php', 2, '2025-04-01 16:00:00', '2025-04-29 16:00:00', 'active'),
-(19, 6, 'Registered Nurse (RN)', 'Provide patient care, monitor vital signs, and coordinate with doctors.', 'Valid RN license, BLS/CPR certification, 1+ year experience.', 'Part-Time', 'San Pablo City', 20000.00, 500000.00, 'PHP', 2, '2025-04-02 16:00:00', '2025-04-29 16:00:00', 'inactive');
+INSERT INTO `tbl_job_listing` (`job_id`, `employer_id`, `job_cover_img`, `title`, `description`, `requirements`, `employment_type`, `location`, `salary_min`, `salary_max`, `currency`, `category_id`, `posted_date`, `expiry_date`, `status`) VALUES
+(3, 6, NULL, 'jab', 'qqqqqq', 'tyuqwerty', 'Contract', '32323', 310.00, 360.00, 'dollar', 2, '2025-02-18 16:00:00', '2025-02-27 16:00:00', 'inactive'),
+(4, 6, NULL, 'job 4', 'geng geng', 'madami frfr', 'Internship', '4', 4.00, 4.00, '4', 3, '2025-02-18 16:00:00', '2025-02-16 16:00:00', 'inactive'),
+(5, 6, NULL, 'poso negro', '5 cent', '5tyrrrrrrrrrrr', 'Contract', 'dito', 5.00, 5.00, '$', 4, '2025-02-18 16:00:00', '2025-02-17 16:00:00', 'inactive'),
+(7, 6, NULL, 'IT professional', 'magaling it', 'it maalam', 'Full time', 'san pablo', 12.00, 120.00, 'php', 4, '2025-02-18 16:00:00', '2025-02-25 16:00:00', 'inactive'),
+(12, 9, NULL, 'mikco it', 'it', 'it', 'Part-Time', '3', 19.00, 80.00, 'p', 1, '2025-03-17 16:00:00', '2025-03-25 16:00:00', 'inactive'),
+(13, 6, NULL, 'ass', 'a', 'b', 'Part-Time', 'san pablo cityyy', 1.00, 2.00, 'php', 2, '2025-03-26 16:00:00', '2025-03-28 16:00:00', 'active'),
+(14, 6, NULL, 'Software Engineer (Full Stack)', 'Develop and maintain scalable web applications using React.js, Node.js, and PostgreSQL.', '3+ years experience, JavaScript/TypeScript, Git, API development.', 'Full-Time', 'San Pablo City', 80.00, 110.00, 'php', 2, '2025-03-27 16:00:00', '2025-03-22 16:00:00', 'active'),
+(15, 6, NULL, 'house', 'aa', 'ff', 'Full-time', 'san pablo cityyy', 1.00, 2.00, 'php', 1, '2025-03-27 16:00:00', '2025-03-27 16:00:00', 'active'),
+(16, 6, NULL, 'Web Developer', 'Must know how to debug using python, pycharm and html.', 'Resume\r\n5 years experienced\r\n', 'Internship', 'San Pablo City', 15000.00, 50000.00, 'php', 4, '2025-04-01 16:00:00', '2025-04-01 16:00:00', 'inactive'),
+(17, 11, NULL, 'Digital Marketing Specialist', 'Plan and execute digital marketing campaigns, including SEO, PPC, and social media ads.', 'Google Ads, Facebook Ads, SEO, content writing.', 'Contract', 'San Pablo City', 30.00, 40.00, 'php', 4, '2025-04-01 16:00:00', '2025-04-24 16:00:00', 'active'),
+(18, 12, NULL, 'Customer Service Representative', 'Provide customer support via chat, email, and phone. Maintain customer satisfaction.', 'Provide customer support via chat, email, and phone. Maintain customer satisfaction.', 'Full-Time', 'San Pablo City', 18.00, 22.00, 'php', 2, '2025-04-01 16:00:00', '2025-04-29 16:00:00', 'active'),
+(19, 6, NULL, 'Registered Nurse (RN)', 'Provide patient care, monitor vital signs, and coordinate with doctors.', 'Valid RN license, BLS/CPR certification, 1+ year experience.', 'Part-Time', 'San Pablo City', 20000.00, 500000.00, 'PHP', 2, '2025-04-02 16:00:00', '2025-04-29 16:00:00', 'inactive');
 
 --
 -- Indexes for dumped tables
