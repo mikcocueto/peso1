@@ -429,9 +429,8 @@ $jobs = $conn->query($query);
                 .then(response => response.text())
                 .then(data => {
                     jobDetails.innerHTML = `
-                        <div class="job-cover-placeholder text-center mb-3">
-                            <img src="../db/images/job_listing/sample.png" alt="Job Cover Placeholder" class="img-fluid rounded" style="width: 894px; height: 319px; object-fit: cover;">
-                        </div>
+                    
+                        
                     ` + data;
 
                     fetch('../includes/employee/emp_check_application.php?job_id=' + jobId)
