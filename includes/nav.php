@@ -20,7 +20,7 @@
                 <?php
                 $current_page = basename($_SERVER['PHP_SELF']);
                 if ($current_page == 'comp_login.php') {
-                    echo '<li class="nav-item"><a class="nav-link" href="../company/comp_reg.php">Sign up</a></li>';
+                    echo '<li class="nav-item"><a class="nav-link" href="../company/comp_login.php">Sign up</a></li>';
                 } else {
                     echo '<li class="nav-item"><a class="nav-link" href="../company/comp_login.php">Login</a></li>';
                 }

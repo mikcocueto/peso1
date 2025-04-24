@@ -25,17 +25,17 @@ if (isset($_GET['code'])) {
         $google_id = $userinfo->id;
 
         // Now connect to your database
-        $conn = new mysqli("localhost", "root", "", "your_database");
+        $conn = new mysqli("localhost", "root", "", "pesodb");
 
         // Check if user exists
-        $stmt = $conn->prepare("SELECT * FROM employers WHERE email = ?");
+        $stmt = $conn->prepare("SELECT * FROM tbl_emp_login WHERE emailAddress = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
 
         if ($result->num_rows === 0) {
             // User not found – register them
-            $insert = $conn->prepare("INSERT INTO employers (name, email, google_id) VALUES (?, ?, ?)");
+            $insert = $conn->prepare("INSERT INTO tbl_emp_login (name, emailAddress, google_id) VALUES (?, ?, ?)");
             $insert->bind_param("sss", $name, $email, $google_id);
             $insert->execute();
         }

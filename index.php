@@ -274,45 +274,13 @@ $conn->close();
 
     <!-- job preview -->
     <section class="site-section">
-      <div class="container">
+    <div class="container">
         <h2 class="text-center mb-4">Recent Job Listings</h2>
-        <div class="row" style="max-height: 400px; overflow-y: auto;">
-          <?php while ($job = $jobs->fetch_assoc()): ?>
-            <div class="col-md-6 mb-4">
-              <div class="job-card">
-                <div class="job-image-container">
-                  <img src="<?= str_replace('../', '', htmlspecialchars($job['comp_logo_dir'])) ?>" 
-                       alt="<?= htmlspecialchars($job['companyName']) ?> Logo" 
-                       class="job-company-logo">
-                  <div class="job-type-badge"><?= htmlspecialchars($job['employment_type']) ?></div>
-                </div>
-                <div class="job-content">
-                  <h5 class="job-title"><?= htmlspecialchars($job['title']) ?></h5>
-                  <p class="company-name">
-                    <i class="icon-building"></i> <?= htmlspecialchars($job['companyName']) ?>
-                  </p>
-                  <?php if (isset($_SESSION['user_id'])): ?>
-                    <form method="post" action="includes/save_job_process.php" class="save-job-form">
-                      <input type="hidden" name="job_id" value="<?= $job['job_id'] ?>">
-                      <?php if (in_array($job['job_id'], $saved_jobs)): ?>
-                        <button type="submit" name="action" value="unsave" class="btn btn-save-job saved">
-                          <i class="icon-heart"></i>
-                        </button>
-                      <?php else: ?>
-                        <button type="submit" name="action" value="save" class="btn btn-save-job">
-                          <i class="icon-heart"></i>
-                        </button>
-                      <?php endif; ?>
-                    </form>
-                  <?php endif; ?>
-                </div>
-              </div>
-            </div>
-          <?php endwhile; ?>
+        <div class="row" id="recent-jobs-container" style="max-height: 400px; overflow-y: auto;">
+            <!-- Job listings will be dynamically loaded here -->
         </div>
-      </div>
-    </section>
-    
+    </div>
+</section>
 
     <!-- site stats -->
     <section class="py-5 bg-image overlay-primary fixed overlay" id="next" style="background-image: url('fortest/images/HOMEBG.jpg');">
@@ -528,29 +496,45 @@ $conn->close();
     
     <script src="fortest/js/custom.js"></script>
     <script>
-      $(document).ready(function(){
-        $(".owl-carousel").owlCarousel({
-          loop: true,
-          margin: 10,
-          nav: true,
-          navText: ['<span class="icon-keyboard_arrow_left"></span>', '<span class="icon-keyboard_arrow_right"></span>'],
-          autoplay: true, // Enable autoplay
-          autoplayTimeout: 1000, // Set autoplay interval to 1 seconds
-          autoplayHoverPause: true, // Pause on hover
-          responsive: {
-            0: {
-              items: 1
-            },
-            600: {
-              items: 3
-            },
-            1000: {
-              items: 5
-            }
-          }
-        });
-      });
-    </script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const container = document.getElementById("recent-jobs-container");
+
+        fetch("includes/employee/fetch_recent_jobs.php")
+            .then(response => response.json())
+            .then(jobs => {
+                jobs.forEach(job => {
+                    const jobCard = document.createElement("div");
+                    jobCard.className = "col-md-6 mb-4";
+                    jobCard.innerHTML = `
+                        <div class="job-card">
+                            <div class="job-image-container">
+                                <img src="${job.comp_logo_dir.replace('../', '')}" 
+                                     alt="${job.companyName} Logo" 
+                                     class="job-company-logo">
+                                <div class="job-type-badge">${job.employment_type}</div>
+                            </div>
+                            <div class="job-content">
+                                <h5 class="job-title">${job.title}</h5>
+                                <p class="company-name">
+                                    <i class="icon-building"></i> ${job.companyName}
+                                </p>
+                                ${<?php echo isset($_SESSION['user_id']) ? 'true' : 'false'; ?> ? `
+                                    <form method="post" action="includes/save_job_process.php" class="save-job-form">
+                                        <input type="hidden" name="job_id" value="${job.job_id}">
+                                        <button type="submit" name="action" value="save" class="btn btn-save-job">
+                                            <i class="icon-heart"></i>
+                                        </button>
+                                    </form>
+                                ` : ''}
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(jobCard);
+                });
+            })
+            .catch(error => console.error("Error fetching recent jobs:", error));
+    });
+</script>
   </body>
     </html>
 

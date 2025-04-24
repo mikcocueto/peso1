@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 15, 2025 at 04:10 AM
+-- Generation Time: Apr 24, 2025 at 08:11 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -490,7 +490,7 @@ CREATE TABLE `tbl_job_listing` (
 --
 
 INSERT INTO `tbl_job_listing` (`job_id`, `employer_id`, `job_cover_img`, `title`, `description`, `requirements`, `employment_type`, `location`, `salary_min`, `salary_max`, `currency`, `category_id`, `posted_date`, `expiry_date`, `status`) VALUES
-(3, 6, NULL, 'jab', 'qqqqqq', 'tyuqwerty', 'Contract', '32323', 310.00, 360.00, 'dollar', 2, '2025-02-18 16:00:00', '2025-02-27 16:00:00', 'inactive'),
+(3, 6, NULL, 'jab', 'qqqqqq', 'tyuqwerty', 'Contract', '32323', 310.00, 360.00, 'dollar', 2, '2025-02-18 16:00:00', '2025-02-27 16:00:00', 'active'),
 (4, 6, NULL, 'job 4', 'geng geng', 'madami frfr', 'Internship', '4', 4.00, 4.00, '4', 3, '2025-02-18 16:00:00', '2025-02-16 16:00:00', 'inactive'),
 (5, 6, NULL, 'poso negro', '5 cent', '5tyrrrrrrrrrrr', 'Contract', 'dito', 5.00, 5.00, '$', 4, '2025-02-18 16:00:00', '2025-02-17 16:00:00', 'inactive'),
 (7, 6, NULL, 'IT professional', 'magaling it', 'it maalam', 'Full time', 'san pablo', 12.00, 120.00, 'php', 4, '2025-02-18 16:00:00', '2025-02-25 16:00:00', 'inactive'),
@@ -501,7 +501,10 @@ INSERT INTO `tbl_job_listing` (`job_id`, `employer_id`, `job_cover_img`, `title`
 (16, 6, NULL, 'Web Developer', 'Must know how to debug using python, pycharm and html.', 'Resume\r\n5 years experienced\r\n', 'Internship', 'San Pablo City', 15000.00, 50000.00, 'php', 4, '2025-04-01 16:00:00', '2025-04-01 16:00:00', 'inactive'),
 (17, 11, NULL, 'Digital Marketing Specialist', 'Plan and execute digital marketing campaigns, including SEO, PPC, and social media ads.', 'Google Ads, Facebook Ads, SEO, content writing.', 'Contract', 'San Pablo City', 30.00, 40.00, 'php', 4, '2025-04-01 16:00:00', '2025-04-24 16:00:00', 'active'),
 (18, 12, NULL, 'Customer Service Representative', 'Provide customer support via chat, email, and phone. Maintain customer satisfaction.', 'Provide customer support via chat, email, and phone. Maintain customer satisfaction.', 'Full-Time', 'San Pablo City', 18.00, 22.00, 'php', 2, '2025-04-01 16:00:00', '2025-04-29 16:00:00', 'active'),
-(19, 6, NULL, 'Registered Nurse (RN)', 'Provide patient care, monitor vital signs, and coordinate with doctors.', 'Valid RN license, BLS/CPR certification, 1+ year experience.', 'Part-Time', 'San Pablo City', 20000.00, 500000.00, 'PHP', 2, '2025-04-02 16:00:00', '2025-04-29 16:00:00', 'inactive');
+(19, 6, NULL, 'Registered Nurse (RN)', 'Provide patient care, monitor vital signs, and coordinate with doctors.', 'Valid RN license, BLS/CPR certification, 1+ year experience.', 'Part-Time', 'San Pablo City', 20000.00, 500000.00, 'PHP', 2, '2025-04-02 16:00:00', '2025-04-29 16:00:00', 'paused'),
+(20, 6, '5f93b1c5da49ce65_1744684439.png', 'Capitolyo', 'yeasss', 'wwwww', 'Full-Time', 'san pablo cityyy', 1.00, 2.00, 'php', 2, '2025-04-14 16:00:00', '2025-04-29 16:00:00', 'paused'),
+(30, 6, 'f77dd11bbfe40706_1744701773.png', 'Capitolyo12', 'yeasss', 'wwwww', 'Part-Time', 'san pablo cityyy', 1.00, 2.00, 'php', 2, '2025-04-14 16:00:00', '2025-04-08 16:00:00', 'active'),
+(31, 6, 'dc5b51784e9d5d4b_1745218193.png', 'Job Test na Naman', 'fill', 'out', 'Full-Time', 'Quezon', 1.00, 2.00, 'php', 2, '2025-04-20 16:00:00', '2025-04-23 16:00:00', 'active');
 
 --
 -- Indexes for dumped tables
@@ -755,7 +758,7 @@ ALTER TABLE `tbl_job_category`
 -- AUTO_INCREMENT for table `tbl_job_listing`
 --
 ALTER TABLE `tbl_job_listing`
-  MODIFY `job_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `job_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- Constraints for dumped tables

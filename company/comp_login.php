@@ -1,16 +1,56 @@
 <?php
-session_start();
-require "../includes/db_connect.php"; // Database connection
+session_start(); // Start the session to store user data
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+// Database connection
+$conn = new mysqli("localhost", "root", "", "pesodb"); // Update with your database credentials
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
+    $email = trim($_POST['email']);
+    $password = trim($_POST['password']);
+    $confirm_password = trim($_POST['confirm_password']);
+
+    // Basic validation
+    if (empty($email) || empty($password) || empty($confirm_password)) {
+        $error = "All fields are required.";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $error = "Invalid email format.";
+    } elseif ($password !== $confirm_password) {
+        $error = "Passwords do not match.";
+    } else {
+        // Check if email is already registered
+        $stmt = $conn->prepare("SELECT id FROM tbl_comp_login WHERE emailAddress = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $stmt->store_result();
+
+        if ($stmt->num_rows > 0) {
+            $error = "This email is already registered.";
+        } else {
+            // Temporarily store email and password in session
+            $_SESSION['email'] = $email;
+            $_SESSION['password'] = $password;
+
+            // Redirect to the next page
+            header("Location: comp_reg_complete.php");
+            exit();
+        }
+
+        $stmt->close();
+    }
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signin'])) {
     $email = trim($_POST['emailAddress']);
     $password = trim($_POST['password']);
 
     // Validate input
     if (empty($email) || empty($password)) {
-        $error_message = "All fields are required.";
+        $signin_error = "All fields are required.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $error_message = "Invalid email format.";
+        $signin_error = "Invalid email format.";
     } else {
         // Retrieve company credentials from database
         $stmt = $conn->prepare("SELECT company_id, password, salt FROM tbl_comp_login WHERE emailAddress = ?");
@@ -31,123 +71,118 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 header("Location: comp_dashboard.php"); // Redirect to a dashboard or home page
                 exit();
             } else {
-                $error_message = "Invalid password.";
+                $signin_error = "Invalid password.";
             }
         } else {
-            $error_message = "No account found with that email.";
+            $signin_error = "No account found with that email.";
         }
         $stmt->close();
     }
 }
-// Close the connection
+
 $conn->close();
 ?>
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>PESO Login</title>
-    <!-- plugins:css -->
-    <link rel="stylesheet" href="../assets/vendors/iconfonts/mdi/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="../assets/vendors/iconfonts/ionicons/dist/css/ionicons.css">
-    <link rel="stylesheet" href="../assets/vendors/iconfonts/flag-icon-css/css/flag-icon.min.css">
-    <link rel="stylesheet" href="../assets/vendors/css/vendor.bundle.base.css">
-    <link rel="stylesheet" href="../assets/vendors/css/vendor.bundle.addons.css">
-    <!-- endinject -->
-    <!-- plugin css for this page -->
-    <!-- End plugin css for this page -->
-    <!-- inject:css -->
-    <link rel="stylesheet" href="../assets/css/shared/style.css">
-    <!-- endinject -->
-    <link rel="shortcut icon" href="../assets/images/peso.ico" />
-  </head>
-  <body>
-    <div class="container-scroller">
-      <div class="container-fluid page-body-wrapper full-page-wrapper">
-        <div class="content-wrapper d-flex align-items-center auth auth-bg-1 theme-one">
-          <div class="row w-100">
-            <div class="col-lg-4 mx-auto">
-              <div class="auto-form-wrapper">
-                <form action="" method="POST">
-                  <div class="form-group">
-                    <label class="label">Email Address</label>
-                    <div class="input-group">
-                      <input type="email" name="emailAddress" class="form-control" placeholder="Email Address" required>
-                      <div class="input-group-append">
-                        <span class="input-group-text">
-                          <i class="mdi mdi-check-circle-outline"></i>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="label">Password</label>
-                    <div class="input-group">
-                      <input type="password" name="password" class="form-control" placeholder="*********" required>
-                      <div class="input-group-append">
-                        <span class="input-group-text">
-                          <i class="mdi mdi-check-circle-outline"></i>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <?php if (isset($error_message)): ?>
-                    <div class="form-group">
-                      <div class="alert alert-danger" role="alert">
-                        <?php echo $error_message; ?>
-                      </div>
-                    </div>
-                  <?php endif; ?>
-                  <div class="form-group">
-                    <button class="btn btn-primary submit-btn btn-block">Login</button>
-                  </div>
-                  <div class="form-group d-flex justify-content-between">
-                    <div class="form-check form-check-flat mt-0">
-                      <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input" checked> Keep me signed in </label>
-                    </div>
-                    <a href="comp_update_pass.php" class="text-small forgot-password text-black">Forgot Password</a>
-                  </div>
-                  <div class="form-group">
-                    <button class="btn btn-block g-login">
-                      <img class="mr-3" src="../assets/images/file-icons/icon-google.svg" alt="">Log in with Google</button>
-                  </div>
-                  <div class="text-block text-center my-3">
-                    <span class="text-small font-weight-semibold">Not a member ?</span>
-                    <a href="comp_reg_old.php" class="text-black text-small">Create new account</a>
-                  </div>
-                </form>
-              </div>
-              <ul class="auth-footer">
-                <li>
-                  <a href="../index.php">Home</a>
-                </li>
-                <li>
-                  <a href="#">txt</a>
-                </li>
-                <li>
-                  <a href="#">txt</a>
-                </li>
-              </ul>
-              <p class="footer-text text-center">Copyright © 2025 Public Employment Service Office. All rights reserved.</p>
-            </div>
-          </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register as an Employer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/comp_reg.css">
+</head>
+<body>
+<nav class="navbar">
+    <div class="navbar-brand">
+        <img src="../fortest/images/peso_icons.png" alt="PESO Logo" style="width: 120px; height: auto;">
+        <div class="d-flex flex-column">
+        <span style="color: white; font-size: 1.5rem; font-weight: bold;">PESO</span>
+        <span style="color: white; font-size: 1.5rem; font-weight: bold; padding-left:30px;">for Company</span> <!-- Adjusted text beside logo -->
         </div>
-        <!-- content-wrapper ends -->
-      </div>
-      <!-- page-body-wrapper ends -->
     </div>
-    <!-- container-scroller -->
-    <!-- plugins:js -->
-    <script src="../assets/vendors/js/vendor.bundle.base.js"></script>
-    <script src="../assets/vendors/js/vendor.bundle.addons.js"></script>
-    <!-- endinject -->
-    <!-- inject:js -->
-    <script src="../assets/js/shared/off-canvas.js"></script>
-    <script src="../assets/js/shared/misc.js"></script>
-    <!-- endinject -->
-    <script src="../assets/js/shared/jquery.cookie.js" type="text/javascript"></script>
-  </body>
+</nav>
+<div class="container">
+    <div class="card" id="register-container">
+        <h3 class="p-3">Register as an employer</h3>
+        <form action="" method="POST">
+            <div class="mb-3">
+                <label class="form-label"></label>
+                <input type="email" name="email" class="form-control" placeholder="Email" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label"></label>
+                <input type="password" name="password" class="form-control" placeholder="Password" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label"></label>
+                <input type="password" name="confirm_password" class="form-control" placeholder="Confirm Password" required>
+            </div>
+            <?php if (!empty($error)): ?>
+                <div class="alert alert-danger"><?php echo $error; ?></div>
+            <?php endif; ?>
+            <button type="submit" name="register" class="btn btn-register">Register employer Account</button>
+            <div class="mb-3">
+                <span class="text-grey">or</span>
+                <div class="mt-2">
+                    <a href="../google_login.php" class="btn btn-light d-flex align-items-center justify-content-center" style="border: 1px solid #ddd; width: 40px; height: 40px; border-radius: 50%;">
+                        <img src="../fortest/images/google_icon.png" alt="Google Icon" style="width: 20px; height: 20px;">
+                    </a>
+                </div>
+            </div>
+        </form>
+        <p class="text-muted text-blue">Already have an account? <a href="#" class="text-blue" onclick="toggleForms()">Sign In</a></p>
+    </div>
+    <div class="container mt-4">
+    <div class="card hidden" id="signin-container">
+        <h3 class="text-center">Sign In</h3>
+        <form method="POST">
+            <div class="mb-3">
+                <label class="form-label">Email Address</label>
+                <input type="email" name="emailAddress" class="form-control" placeholder="Email" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input type="password" name="password" class="form-control" placeholder="Password" required>
+            </div>
+            <?php if (!empty($signin_error)): ?>
+                <div class="alert alert-danger"><?php echo $signin_error; ?></div>
+            <?php endif; ?>
+            <button type="submit" name="signin" class="btn btn-signin">Sign In</button>
+            <div class="mb-3">
+                <span class="text-grey">or</span>
+                <div class="mt-2">
+                    <a href="../google_login.php" class="btn btn-light d-flex align-items-center justify-content-center" style="border: 1px solid #ddd; width: 40px; height: 40px; border-radius: 50%;">
+                        <img src="../fortest/images/google_icon.png" alt="Google Icon" style="width: 20px; height: 20px;">
+                    </a>
+                </div>
+            </div>
+        </form>
+        <p class="text-muted text-blue">Don't have an account? <a href="#" class="text-blue" onclick="toggleForms()">Register</a></p>
+    </div>
+</div>
+<p class="Home"><a href="../index.php" id="register" class="Home text-center">Home</a></p>
+  <p class="Home text-center">Copyright © 2025 Public Employment Service Office. All rights reserved.</p>
+
+<script>
+    function toggleForms() {
+        var registerContainer = document.getElementById('register-container');
+        var signinContainer = document.getElementById('signin-container');
+
+        // Toggle visibility
+        if (registerContainer.style.display === "none" || registerContainer.style.display === "") {
+            registerContainer.style.display = "block";
+            signinContainer.style.display = "none";
+        } else {
+            registerContainer.style.display = "none";
+            signinContainer.style.display = "block";
+        }
+    }
+
+    // Ensure the correct one is shown on page load
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById('register-container').style.display = "block"; 
+        document.getElementById('signin-container').style.display = "none";  
+    });
+</script>
+</body>
 </html>

@@ -54,7 +54,7 @@ $conn->close();
                         </a>
                     </li>
                     <li class="nav-item mb-2">
-                        <a class="nav-link text-white" href="#">
+                        <a class="nav-link text-white" href="admin_job_category.php">
                             <i class="fas fa-briefcase mr-2"></i> Jobs
                         </a>
                     </li>

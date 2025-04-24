@@ -339,6 +339,42 @@ include '../includes/employee/emp_fetch_profile.php';
                     </div>
                 </div>
                 <hr class="d-print-none"/>
+
+                <div class="job-category-preference-section px-3 px-lg-4">
+                    <h2 class="h3 mb-4">Job Category Preference 
+                        <button class="btn btn-primary" onclick="openJobCategoryPreferenceModal()">Add</button>
+                    </h2>
+                    <div id="job-category-container">
+                        <?php foreach ($job_categories as $category): ?>
+                        <div class="tag">
+                            <?php echo htmlspecialchars($category['category_name']); ?>
+                            <span class="close-btn" onclick="removeJobCategory(<?php echo $category['id']; ?>)">×</span>
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+
+                <div id="jobCategoryPreferenceModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close-button" onclick="closeJobCategoryPreferenceModal()">&times;</span>
+                        <h3>Edit Job Category Preferences</h3>
+                        <form method="POST" action="../includes/employee/emp_category_preference_process.php">
+                            <div class="mb-3">
+                                <label for="job_category" class="form-label">Select Category:</label>
+                                <select class="form-control" id="job_category" name="category_id">
+                                    <?php foreach ($available_categories as $category): ?>
+                                    <option value="<?php echo $category['category_id']; ?>">
+                                        <?php echo htmlspecialchars($category['category_name']); ?>
+                                    </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-2">Add</button>
+                        </form>
+                    </div>
+                </div>
+                <hr class="d-print-none"/>
+
                 <div class="education-section px-3 px-lg-4 pb-4">
                     <h2 class="h3 mb-4">Educational Background 
                         <button class="btn btn-primary" onclick="openEducationListModal()">Edit</button>
@@ -693,3 +729,30 @@ include '../includes/employee/emp_fetch_profile.php';
     </footer>
 </body>
 </html>
+
+<script>
+    function openJobCategoryPreferenceModal() {
+        document.getElementById('jobCategoryPreferenceModal').style.display = 'block';
+    }
+
+    function closeJobCategoryPreferenceModal() {
+        document.getElementById('jobCategoryPreferenceModal').style.display = 'none';
+    }
+
+    function removeJobCategory(id) {
+        if (confirm('Are you sure you want to remove this category?')) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '../includes/employee/emp_category_preference_process.php';
+
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'remove_category_id';
+            input.value = id;
+
+            form.appendChild(input);
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
+</script>

@@ -3,7 +3,7 @@ session_start(); // Start the session
 require "../includes/db_connect.php"; // Database connection
 
 if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
-    header("Location: comp_reg.php");
+    header("Location: comp_login.php");
     exit();
 }
 
@@ -76,7 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         body {
             background-color: #f3f4f6;
             font-family: Arial, sans-serif;
-            background-image: url('../fortest/images/create.png'); /* Added background image */
+            background-image: url('../fortest/images/create1.png'); /* Added background image */
             background-size: cover; /* Ensure the image covers the container */
             background-position: center; /* Center the image */
             position: relative; /* Added for overlay */
@@ -118,11 +118,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 .c_cplete_prof_container {
     display: flex;
     justify-content: center;
-    margin-top: 32px;
+    margin-top: px;
 }
 .c_cplete_prof_form-container {
-    background-color: #6267FF;
-    color: white;
+    background-color: #fdfdfd;
+    color: black; /* Changed text color to black */
     padding: 32px;
     border-radius: 8px;
     width: 100%;
@@ -204,7 +204,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     padding-left: 16px; /* Add padding to the left */
 }
 .c_cplete_prof_footer p {
-    color: white
+    color: black; /* Changed text color to black */
 }
 @media (max-width: 768px) {
     .c_cplete_prof_header {
@@ -223,12 +223,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         padding-left: 0;
     }
     .c_cplete_prof_container {
-        margin-top: 16px;
-        padding: 0 10px;
+        margin-top: 0px;
+        padding: 0 0px;
     }
     .c_cplete_prof_form-container {
         padding: 16px;
-        background-color: rgba(98, 103, 255, 0.9); /* Adjusted background color for better readability */
+        background-color: #f5f7fa; /* Match default container color */
+        color: black; /* Match default text color */
     }
     .c_cplete_prof_form-container h2 {
         font-size: 20px;
@@ -253,15 +254,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
 </head>
 <body>
-    <div class="c_cplete_prof_header">
-        <a href="index.php" class="d-flex align-items-center text-decoration-none">
-            <img src="../fortest/images/peso_icons.png" alt="PESO Logo" style="width: 120px; height: auto; margin-right: 10px;">
-        </a>
-        <div class="c_cplete_prof_brand-text">
-            <span>PESO</span>
-            <span class="c_cplete_prof_sub-text">for Company</span>
-        </div>
-    </div>
     <div class="c_cplete_prof_container">
         <div class="c_cplete_prof_form-container">
             <h2>Your Employer account</h2>
@@ -300,9 +292,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="c_cplete_prof_form-group">
                     <label for="c_cplete_prof_phone-number">Phone Number</label>
                     <div class="c_cplete_prof_phone-group">
-                        <select name="phoneCode">
-                            <option>Philippines (+63)</option>
-                        </select>
                         <input type="text" name="companyNumber" id="c_cplete_prof_phone-number" placeholder="+63 9123456789" required>
                     </div>
                 </div>

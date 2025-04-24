@@ -56,7 +56,7 @@ $conn->close();
         <input type="email" name="emailAddress" placeholder="Email Address" required>
         <input type="password" name="password" placeholder="Password" required>
         <button type="submit">Login</button>
-        <a href="comp_reg.php">Register</a><br>
+        <a href="comp_login.php">Register</a><br>
     </form>
     
 </body>

@@ -54,8 +54,8 @@ body {
     }
 }
 .card {
-    background-color: #5c6bc0;
-    color: white;
+    background-color: #f9f9f9 !important; /* Force background color */
+    color: black !important; /* Force text color */
     border-radius: 15px;
     padding: 2rem;
     text-align: center;
@@ -64,7 +64,7 @@ body {
     border-radius: 5px;
 }
 .btn-register, .btn-signin {
-    background-color: black;
+    background-color: #6c63ff;
     color: white;
     border-radius: 5px;
     width: 100%;
@@ -85,6 +85,15 @@ body {
     display: none;
 }
 .Home {
-    color: white;
+    color: black;
     text-align: center;
+}
+a.btn-light {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin: 0 auto !important; /* Center the button horizontally */
+    border-radius: 0 !important; /* Ensure square corners */
+    width: 40px !important;
+    height: 40px !important;
 }

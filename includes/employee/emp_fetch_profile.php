@@ -75,6 +75,24 @@ $stmt->execute();
 $cvs = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
 
+// Fetch job category preferences
+$query = "SELECT ec.id, jc.category_name 
+          FROM tbl_emp_category_preferences ec 
+          JOIN tbl_job_category jc ON ec.category_id = jc.category_id 
+          WHERE ec.emp_id = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$job_categories = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+$stmt->close();
+
+// Fetch available categories
+$query = "SELECT category_id, category_name FROM tbl_job_category";
+$stmt = $conn->prepare($query);
+$stmt->execute();
+$available_categories = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+$stmt->close();
+
 // Check for success or error messages
 $success_message = isset($_SESSION['success_message']) ? $_SESSION['success_message'] : '';
 $error_message = isset($_SESSION['error_message']) ? $_SESSION['error_message'] : '';
