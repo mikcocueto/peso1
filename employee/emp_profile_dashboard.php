@@ -1,0 +1,338 @@
+<?php
+session_start();
+include '../includes/db_connect.php';
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: emp_login.php");
+    die();
+}
+
+include '../includes/employee/emp_fetch_profile.php';
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Candidate Profile</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+  body {
+    background-color: #eef2f7;
+    font-family: 'Arial', sans-serif;
+  }
+
+  .profile-card {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .profile-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  }
+
+  .profile-img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+    border: 3px solid #007bff;
+  }
+
+  .skill-badge {
+    background: linear-gradient(90deg, #007bff, #5a9bff);
+    color: white;
+    margin: 0.2rem;
+    font-size: 0.8rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 50px;
+    display: inline-block;
+    font-weight: bold;
+  }
+
+  .experience-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
+    background: linear-gradient(90deg, #007bff, #5a9bff);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-right: 1rem;
+  }
+
+  .btn-modern {
+    background: linear-gradient(90deg, #007bff, #5a9bff);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 0.5rem 1.5rem;
+    font-size: 0.9rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+  }
+
+  .btn-modern:hover {
+    background: linear-gradient(90deg, #0056b3, #4a8cff);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+  }
+
+  .btn-outline-modern {
+    border: 2px solid #007bff;
+    color: #007bff;
+    border-radius: 50px;
+    padding: 0.5rem 1.5rem;
+    font-size: 0.9rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+  }
+
+  .btn-outline-modern:hover {
+    background: #007bff;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+  }
+
+  .accordion-button:not(.collapsed) {
+    color: white;
+    background: linear-gradient(90deg, #007bff, #5a9bff);
+    border: none;
+  }
+
+  .accordion-button {
+    border-radius: 50px;
+    padding: 0.5rem 1rem;
+    font-weight: bold;
+  }
+
+  .accordion-item {
+    border: none;
+    margin-bottom: 1rem;
+  }
+  </style>
+</head>
+<body>
+
+<div class="container my-5">
+  <div class="row g-4">
+    <!-- Left Sidebar -->
+    <div class="col-md-4">
+      <div class="profile-card text-center p-4">
+        <img src="../fortest/images/person_1.jpg" alt="Profile Picture" class="profile-img mx-auto">
+        <h4 class="mt-2 mb-0"><?php echo htmlspecialchars($employee['firstName'] . ' ' . $employee['lastName']); ?></h4>
+        <p class="text-muted">UI/UX Designer</p>
+        <p class="small">Full stack product designer with hands-on experience solving client problems across real estate, hospitality, healthcare, IT services, and more.</p>
+        
+        <h6 class="mt-4 mb-2 text-start">Skills</h6>
+        <div class="text-start">
+          <span class="skill-badge">User Interface Designing</span>
+          <span class="skill-badge">UX</span>
+          <span class="skill-badge">UI</span>
+          <span class="skill-badge">Adobe XD</span>
+          <span class="skill-badge">Mobile Apps</span>
+          <span class="skill-badge">User Research</span>
+          <span class="skill-badge">Wireframing</span>
+          <span class="skill-badge">Information Architecture</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Content -->
+    <div class="col-md-8">
+      <div class="profile-card">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5>Basic Information</h5>
+          <div>
+            <button class="btn btn-modern btn-sm me-2">Download Resume</button>
+            <button class="btn btn-outline-modern btn-sm" data-bs-toggle="modal" data-bs-target="#editProfileModal">Edit</button>
+          </div>
+        </div>
+
+        <div class="row">
+         
+          <div class="col-sm-6 small">
+            <strong>Age:</strong><br>
+            <strong>Phone:</strong> <?php echo htmlspecialchars($employee['mobileNumber']); ?><br>
+            <strong>Location: </strong><?php echo htmlspecialchars($employee['address']); ?><br>
+            <strong>Email:</strong> <?php echo htmlspecialchars($employee['emailAddress']); ?>
+          </div>
+        </div>
+
+        <hr>
+
+        <h5 class="mt-4">Experience</h5>
+        <div class="d-flex align-items-start mb-3">
+          <div class="experience-icon">ST</div>
+          <div>
+            <strong>Infosys</strong><br>
+            Product & UI/UX Designer<br>
+            <small class="text-muted">Apr 2018 – Present | Pune, India</small>
+          </div>
+        </div>
+        <div class="d-flex align-items-start mb-3">
+          <div class="experience-icon" style="background-color: #f8d7fa;">PS</div>
+          <div>
+            <strong>Pixel Studio</strong><br>
+            UI/UX Designer<br>
+            <small class="text-muted">Oct 2016 – July 2016 | Bengaluru, India</small>
+          </div>
+        </div>
+        <div class="d-flex align-items-start mb-3">
+          <div class="experience-icon" style="background-color: #fff3cd;">RS</div>
+          <div>
+            <strong>Ramotion Studio</strong><br>
+            Web Designer<br>
+            <small class="text-muted">Apr 2015 – Jul 2016 | Pune, India</small>
+          </div>
+        </div>
+
+        <!-- Accordion -->
+        <div class="accordion mt-4" id="profileAccordion">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingEducation">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEducation">
+                Education
+              </button>
+            </h2>
+            <div id="collapseEducation" class="accordion-collapse collapse" data-bs-parent="#profileAccordion">
+              <div class="accordion-body">
+                Bachelor of Design - National Institute of Design
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingAccomplishments">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAccomplishments">
+                Accomplishments
+              </button>
+            </h2>
+            <div id="collapseAccomplishments" class="accordion-collapse collapse" data-bs-parent="#profileAccordion">
+              <div class="accordion-body">
+                - Won 'Best Designer Award 2020' <br>
+                - Speaker at UX India 2021
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingCertification">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCertification">
+                Certification
+              </button>
+            </h2>
+            <div id="collapseCertification" class="accordion-collapse collapse" data-bs-parent="#profileAccordion">
+              <div class="accordion-body">
+                Certified UX Designer - Interaction Design Foundation
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable" style="max-height: 90vh;">
+    <div class="modal-content" style="border-radius: 1rem; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);">
+      <div class="modal-header" style="background: linear-gradient(90deg, #007bff, #5a9bff); color: white; border-top-left-radius: 1rem; border-top-right-radius: 1rem;">
+        <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="text-center mb-4">
+          <img src="../fortest/images/person_1.jpg" alt="Profile Picture" class="profile-img" style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%;">
+          <div>
+            <button class="btn btn-link btn-sm">Change Photo</button>
+          </div>
+        </div>
+
+        <form class="row g-3">
+          <!-- Form fields -->
+          <div class="col-md-6">
+            <label class="form-label">First Name</label>
+            <input type="text" class="form-control" value="Arthur">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Last Name</label>
+            <input type="text" class="form-control" value="Nancy">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" value="bradley.ortiz@gmail.com">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Phone</label>
+            <input type="text" class="form-control" value="477-046-1827">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Address</label>
+            <input type="text" class="form-control" value="116 Jaskolski Stravenue Suite 883">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Nation</label>
+            <input type="text" class="form-control" value="Colombia">
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Gender</label>
+            <select class="form-select">
+              <option selected>Male</option>
+              <option>Female</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Language</label>
+            <select class="form-select">
+              <option selected>English</option>
+              <option>Spanish</option>
+              <option>Filipino</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Month</label>
+            <select class="form-select">
+              <option selected>September</option>
+              <!-- other months -->
+            </select>
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Day</label>
+            <select class="form-select">
+              <option selected>31</option>
+              <!-- days -->
+            </select>
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Year</label>
+            <select class="form-select">
+              <option selected>1990</option>
+              <!-- years -->
+            </select>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success">Save Changes</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

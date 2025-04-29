@@ -385,20 +385,20 @@ $conn->close();
     </div>
     </section>
     
-    <section id="Blogs" class="bg-light pt-5 Announcement">
-      <div class="container">
-        <h2>Announcements</h2>
-        <div class="owl-carousel customer-logos">
-          <div class="slide"><img src="fortest/images/Maxim.png" alt="Maxim"></div>
-          <div class="slide"><img src="fortest/images/Maxim2.png" alt="Maxim"></div>
-          <div class="slide"><img src="fortest/images/Alorica.png" alt="Alorica"></div>
-          <div class="slide"><img src="fortest/images/Alorica1.png" alt="Alorica"></div>
-          <div class="slide"><img src="fortest/images/Canon1.png" alt="Canon"></div>
-          <div class="slide"><img src="fortest/images/Canon2.png" alt="Canon"></div>
-          <div class="slide"><img src="fortest/images/Canon3.png" alt="Canon"></div>
-        </div>
-      </div>
-    </section>
+    <section id="Blogs" class="bg-light pt-5 Announcement text-center">
+  <div class="container">
+    <h2>Announcements</h2>
+    <div class="owl-carousel customer-logos">
+      <div class="slide"><img src="fortest/images/Maxim.png" alt="Maxim"></div>
+      <div class="slide"><img src="fortest/images/Maxim2.png" alt="Maxim"></div>
+      <div class="slide"><img src="fortest/images/Alorica.png" alt="Alorica"></div>
+      <div class="slide"><img src="fortest/images/Alorica1.png" alt="Alorica"></div>
+      <div class="slide"><img src="fortest/images/Canon1.png" alt="Canon"></div>
+      <div class="slide"><img src="fortest/images/Canon2.png" alt="Canon"></div>
+      <div class="slide"><img src="fortest/images/Canon3.png" alt="Canon"></div>
+    </div>
+  </div>
+</section>
 
     <section id="contacts" style="background: #6c63ff; color: #fff; padding: 50px 0; text-align: center;">
     <div style="max-width: 1100px; margin: auto; display: flex; flex-wrap: wrap; justify-content: space-between;">
@@ -534,6 +534,28 @@ $conn->close();
             })
             .catch(error => console.error("Error fetching recent jobs:", error));
     });
+</script>
+<script>
+  $(document).ready(function() {
+    $(".owl-carousel").owlCarousel({
+      loop: true,
+      margin: 10,
+      nav: true,
+      autoplay: true,
+      autoplayTimeout: 3000,
+      responsive: {
+        0: {
+          items: 1
+        },
+        600: {
+          items: 3
+        },
+        1000: {
+          items: 5
+        }
+      }
+    });
+  });
 </script>
   </body>
     </html>
