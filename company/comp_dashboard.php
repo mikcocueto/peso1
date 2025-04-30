@@ -749,106 +749,89 @@ $stmt->close();
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="editJobForm" enctype="multipart/form-data" method="POST" action="../includes/company/comp_update_job_details.php">
-                        <input type="hidden" name="job_id" id="editJobId">
-                        
-                        <!-- Other Job Fields -->
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="editJobTitle" class="form-label">Title</label>
-                                <input type="text" class="form-control" id="editJobTitle" name="title" required>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="editJobType" class="form-label">Employment Type</label>
-                                <select class="form-select" id="editJobType" name="employment_type" required>
-                                    <option value="Part-Time">Part-Time</option>
-                                    <option value="Full-Time">Full-Time</option>
-                                    <option value="Contract">Contract</option>
-                                    <option value="Temporary">Temporary</option>
-                                    <option value="Internship">Internship</option>
-                                </select>
-                            </div>
+                    <form id="editJobForm" method="POST" action="../includes/company/comp_update_job_details.php">
+                    <input type="hidden" name="job_id" id="editJobId">
+                    <!-- Other Job Fields -->
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="editJobTitle" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="editJobTitle" name="title" required>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="editJobLocation" class="form-label">Location</label>
-                                <input type="text" class="form-control" id="editJobLocation" name="location" required>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="editJobCategory" class="form-label">Category</label>
-                                <select class="form-select" id="editJobCategory" name="category_id" required>
-                                    <?php foreach ($categories as $category): ?>
-                                        <option value="<?= $category['category_id'] ?>"><?= $category['category_name'] ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="editJobType" class="form-label">Employment Type</label>
+                            <select class="form-select" id="editJobType" name="employment_type" required>
+                                <option value="Part-Time">Part-Time</option>
+                                <option value="Full-Time">Full-Time</option>
+                                <option value="Contract">Contract</option>
+                                <option value="Temporary">Temporary</option>
+                                <option value="Internship">Internship</option>
+                            </select>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="editJobSalaryMin" class="form-label">Salary Min</label>
-                                <input type="number" class="form-control" id="editJobSalaryMin" name="salary_min" required>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="editJobSalaryMax" class="form-label">Salary Max</label>
-                                <input type="number" class="form-control" id="editJobSalaryMax" name="salary_max" required>
-                            </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="editJobLocation" class="form-label">Location</label>
+                            <input type="text" class="form-control" id="editJobLocation" name="location" required>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="editJobCurrency" class="form-label">Currency</label>
-                                <input type="text" class="form-control" id="editJobCurrency" name="currency" required>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="editJobExpiryDate" class="form-label">Expiry Date</label>
-                                <input type="date" class="form-control" id="editJobExpiryDate" name="expiry_date" required>
-                            </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="editJobCategory" class="form-label">Category</label>
+                            <select class="form-select" id="editJobCategory" name="category_id" required>
+                                <?php foreach ($categories as $category): ?>
+                                    <option value="<?= $category['category_id'] ?>"><?= $category['category_name'] ?></option>
+                                <?php endforeach; ?>
+                            </select>
                         </div>
-                        <div class="mb-3">
-                            <label for="editJobDescription" class="form-label">Description</label>
-                            <textarea class="form-control" id="editJobDescription" name="description" required></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="editJobSalaryMin" class="form-label">Salary Min</label>
+                            <input type="number" class="form-control" id="editJobSalaryMin" name="salary_min" required>
                         </div>
-                        <div class="mb-3">
-                            <label for="editJobRequirements" class="form-label">Requirements</label>
-                            <textarea class="form-control" id="editJobRequirements" name="requirements" required></textarea>
+                        <div class="col-md-6 mb-3">
+                            <label for="editJobSalaryMax" class="form-label">Salary Max</label>
+                            <input type="number" class="form-control" id="editJobSalaryMax" name="salary_max" required>
                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="editJobCurrency" class="form-label">Currency</label>
+                            <input type="text" class="form-control" id="editJobCurrency" name="currency" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="editJobExpiryDate" class="form-label">Expiry Date</label>
+                            <input type="date" class="form-control" id="editJobExpiryDate" name="expiry_date" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editJobDescription" class="form-label">Description</label>
+                        <textarea class="form-control" id="editJobDescription" name="description" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editJobRequirements" class="form-label">Requirements</label>
+                        <textarea class="form-control" id="editJobRequirements" name="requirements" required></textarea>
+                    </div>
 
-                        <!-- Cover Image Upload and Preview -->
-                        <div class="mb-3">
-                            <label for="editJobPhoto" class="form-label">Cover Image (Optional)</label>
-                            <div class="text-center">
-                                <input type="file" class="form-control" id="editJobPhoto" name="job_photo" accept="image/*">
-                                <div id="editJobPhotoPreview" class="mt-3">
-                                    <span class="text-muted">No cover image selected</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                    </form>
-                </div>
+                    <!-- Update Cover Button -->
+                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#updateCoverImageModal" data-job-id="">Update Cover</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    // Handle updating the cover image preview when a new file is selected
-    const editJobPhotoInput = document.getElementById('editJobPhoto');
-    const editJobPhotoPreview = document.getElementById('editJobPhotoPreview');
+    // Populate job_id in the Edit Job modal
+    const editJobModal = document.getElementById('editJobModal');
+    editJobModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const jobId = button.getAttribute('data-job-id');
+        const editJobIdInput = document.getElementById('editJobId');
+        editJobIdInput.value = jobId;
 
-    editJobPhotoInput.addEventListener('change', function (e) {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function (event) {
-                editJobPhotoPreview.innerHTML = `
-                    <img src="${event.target.result}" alt="Selected Cover Preview" class="img-fluid rounded" style="max-height: 150px; object-fit: cover;">
-                `;
-            };
-            reader.readAsDataURL(file);
-        } else {
-            editJobPhotoPreview.innerHTML = `<span class="text-muted">No cover image selected</span>`;
-        }
+        // Update the job_id for the Update Cover button
+        const updateCoverButton = editJobModal.querySelector('[data-bs-target="#updateCoverImageModal"]');
+        updateCoverButton.setAttribute('data-job-id', jobId);
     });
 </script>
 
@@ -1063,3 +1046,76 @@ $stmt->close();
         </script>
 </body>
 </html>
+
+<!-- Update Cover Image Modal -->
+<div class="modal fade" id="updateCoverImageModal" tabindex="-1" aria-labelledby="updateCoverImageModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateCoverImageModalLabel">Update Cover Image</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="updateCoverImageForm" enctype="multipart/form-data" method="POST" action="../includes/company/comp_update_cover_img.php" onsubmit="return handleCoverImageUpdate(event)">
+                    <input type="hidden" name="job_id" id="updateCoverJobId">
+                    <div class="mb-3">
+                        <label for="newCoverImage" class="form-label">Select New Cover Image</label>
+                        <input type="file" class="form-control" id="newCoverImage" name="job_photo" accept="image/*" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Cover</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Populate job_id in the Update Cover Image modal
+    const updateCoverImageModal = document.getElementById('updateCoverImageModal');
+    updateCoverImageModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const jobId = button.getAttribute('data-job-id');
+        const updateCoverJobIdInput = document.getElementById('updateCoverJobId');
+        updateCoverJobIdInput.value = jobId;
+    });
+
+    // Prevent modal from closing on form submission
+    function handleCoverImageUpdate(event) {
+        event.preventDefault(); // Prevent the default form submission
+        const form = event.target;
+
+        // Perform form validation or AJAX submission here if needed
+        const formData = new FormData(form);
+        fetch(form.action, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert(data.success);
+                // Optionally close the modal after success
+                const modal = bootstrap.Modal.getInstance(updateCoverImageModal);
+                modal.hide();
+            } else {
+                alert(data.error || 'An error occurred.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while updating the cover image.');
+        });
+
+        return false; // Prevent the default form submission
+    }
+
+    // Fix for dimmed screen issue after closing the modal
+    updateCoverImageModal.addEventListener('hidden.bs.modal', function () {
+        const backdrop = document.querySelector('.modal-backdrop');
+        if (backdrop) {
+            backdrop.remove(); // Remove the modal backdrop
+        }
+        document.body.classList.remove('modal-open'); // Remove the 'modal-open' class from the body
+        document.body.style.overflow = ''; // Reset the overflow style
+    });
+</script>
