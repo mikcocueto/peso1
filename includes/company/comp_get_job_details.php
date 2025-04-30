@@ -4,7 +4,7 @@ require "../db_connect.php";
 if (isset($_GET['job_id'])) {
     $job_id = intval($_GET['job_id']);
 
-    $query = "SELECT job_id, title, description, requirements, employment_type, location, salary_min, salary_max, currency, category_id, expiry_date 
+    $query = "SELECT job_id, title, description, requirements, employment_type, location, salary_min, salary_max, currency, category_id, expiry_date, job_cover_img 
               FROM tbl_job_listing 
               WHERE job_id = ?";
 

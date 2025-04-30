@@ -13,6 +13,16 @@
   <input type="text" id="savedAddress" name="savedAddress" class="form-control" readonly>
 </div>
 
+<!-- Display Latitude and Longitude -->
+<div class="mt-3">
+  <label for="latitudeDisplay" class="form-label">Latitude:</label>
+  <input type="text" id="latitudeDisplay" class="form-control" readonly>
+</div>
+<div class="mt-3">
+  <label for="longitudeDisplay" class="form-label">Longitude:</label>
+  <input type="text" id="longitudeDisplay" class="form-control" readonly>
+</div>
+
 <!-- Address Modal -->
 <div class="modal fade" id="addressModal" tabindex="-1" aria-labelledby="addressModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -71,6 +81,11 @@
           const position = marker.getLatLng();
           document.getElementById('latitude').value = position.lat;
           document.getElementById('longitude').value = position.lng;
+
+          // Update displayed latitude and longitude
+          document.getElementById('latitudeDisplay').value = position.lat;
+          document.getElementById('longitudeDisplay').value = position.lng;
+
           reverseGeocode(position.lat, position.lng);
         });
       }

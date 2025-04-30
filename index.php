@@ -519,7 +519,7 @@ $conn->close();
                                     <i class="icon-building"></i> ${job.companyName}
                                 </p>
                                 ${<?php echo isset($_SESSION['user_id']) ? 'true' : 'false'; ?> ? `
-                                    <form method="post" action="includes/save_job_process.php" class="save-job-form">
+                                    <form method="post" action="includes/employee/save_job_process.php" class="save-job-form">
                                         <input type="hidden" name="job_id" value="${job.job_id}">
                                         <button type="submit" name="action" value="save" class="btn btn-save-job">
                                             <i class="icon-heart"></i>

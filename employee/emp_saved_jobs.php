@@ -129,7 +129,7 @@ $conn->close();
                                 <p><strong>Category:</strong> <?= htmlspecialchars($job['category_name']) ?></p>
                                 <p><strong>Expiry Date:</strong> <?= htmlspecialchars($job['expiry_date']) ?></p>
                             </div>
-                            <form method="post" action="../includes/save_job_process.php" class="unsave-job-btn">
+                            <form method="post" action="../includes/employee/save_job_process.php" class="unsave-job-btn">
                                 <input type="hidden" name="job_id" value="<?= $job['job_id'] ?>">
                                 <button type="submit" name="action" value="unsave" class="btn btn-outline-danger">Unsave</button>
                             </form>

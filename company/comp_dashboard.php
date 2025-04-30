@@ -82,7 +82,6 @@ $stmt->close();
     <title>Company Dashboard</title>
     <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
     <link rel="stylesheet" href="../includes/company/style/style.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/Dashboard.css"> <!-- Link to the new CSS file -->
     <link rel="canonical" href="https://demo-basic.adminkit.io/charts-chartjs.html" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -750,8 +749,10 @@ $stmt->close();
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="editJobForm">
+                    <form id="editJobForm" enctype="multipart/form-data" method="POST" action="../includes/company/comp_update_job_details.php">
                         <input type="hidden" name="job_id" id="editJobId">
+                        
+                        <!-- Other Job Fields -->
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="editJobTitle" class="form-label">Title</label>
@@ -810,12 +811,46 @@ $stmt->close();
                             <label for="editJobRequirements" class="form-label">Requirements</label>
                             <textarea class="form-control" id="editJobRequirements" name="requirements" required></textarea>
                         </div>
+
+                        <!-- Cover Image Upload and Preview -->
+                        <div class="mb-3">
+                            <label for="editJobPhoto" class="form-label">Cover Image (Optional)</label>
+                            <div class="text-center">
+                                <input type="file" class="form-control" id="editJobPhoto" name="job_photo" accept="image/*">
+                                <div id="editJobPhotoPreview" class="mt-3">
+                                    <span class="text-muted">No cover image selected</span>
+                                </div>
+                            </div>
+                        </div>
+
                         <button type="submit" class="btn btn-primary">Save Changes</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
+
+<script>
+    // Handle updating the cover image preview when a new file is selected
+    const editJobPhotoInput = document.getElementById('editJobPhoto');
+    const editJobPhotoPreview = document.getElementById('editJobPhotoPreview');
+
+    editJobPhotoInput.addEventListener('change', function (e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                editJobPhotoPreview.innerHTML = `
+                    <img src="${event.target.result}" alt="Selected Cover Preview" class="img-fluid rounded" style="max-height: 150px; object-fit: cover;">
+                `;
+            };
+            reader.readAsDataURL(file);
+        } else {
+            editJobPhotoPreview.innerHTML = `<span class="text-muted">No cover image selected</span>`;
+        }
+    });
+</script>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <script src="../fortest/js/jquery.min.js"></script>
