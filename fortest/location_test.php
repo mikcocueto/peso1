@@ -112,8 +112,8 @@ $savedLocations = $conn->query("SELECT e.id, e.location, c.latitude, c.longitude
   document.addEventListener("DOMContentLoaded", () => {
     const modal = document.getElementById('locationModal');
     const addressInput = document.getElementById('addressInput');
-    const suggestions = document.getElementById('suggestions');
     const locationInput = document.getElementById('location');
+    const suggestions = document.getElementById('suggestions');
     const latitudeInput = document.getElementById('latitudeForm');
     const longitudeInput = document.getElementById('longitudeForm');
 
@@ -141,6 +141,7 @@ $savedLocations = $conn->query("SELECT e.id, e.location, c.latitude, c.longitude
 
     addressInput.addEventListener('input', () => {
       const query = addressInput.value;
+      locationInput.value = query; // Synchronize with location input
       if (query.length < 3) {
         suggestions.innerHTML = '';
         return;
@@ -158,7 +159,7 @@ $savedLocations = $conn->query("SELECT e.id, e.location, c.latitude, c.longitude
 
             li.onclick = () => {
               addressInput.value = item.display_name;
-              locationInput.value = item.display_name;
+              locationInput.value = item.display_name; // Synchronize with location input
               suggestions.innerHTML = '';
 
               const lat = parseFloat(item.lat);
@@ -184,7 +185,7 @@ $savedLocations = $conn->query("SELECT e.id, e.location, c.latitude, c.longitude
         .then(data => {
           const address = data.display_name;
           addressInput.value = address;
-          locationInput.value = address;
+          locationInput.value = address; // Synchronize with location input
         })
         .catch(error => console.error('Error reverse geocoding:', error));
     }
