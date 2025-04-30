@@ -549,7 +549,7 @@ $stmt->close();
                         <?php endif; ?>
 
                         <!-- Job Form -->
-                        <form action="../includes/company/comp_job_process.php" method="POST" enctype="multipart/form-data">
+                        <form action="../includes/company/comp_job_upload_process.php" method="POST" enctype="multipart/form-data">
                             <!-- Job Cover -->
                             <div class="form-group mb-4">
                                 <label for="jobPhoto" class="form-label">Job Cover (Optional)</label>
