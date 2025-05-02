@@ -690,25 +690,27 @@ $stmt->close();
 
 <script>
     let map, marker;
+    let lastKnownCoordinates = { lat: 14.5995, lng: 120.9842 }; // Default to Manila, Philippines
 
     function initMap() {
         if (map) {
             map.remove(); // Remove the existing map instance to avoid reinitialization errors
         }
 
-        map = L.map('map').setView([14.5995, 120.9842], 13); // Default to Manila, Philippines
+        map = L.map('map').setView([lastKnownCoordinates.lat, lastKnownCoordinates.lng], 13);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        marker = L.marker([14.5995, 120.9842], { draggable: true }).addTo(map);
+        marker = L.marker([lastKnownCoordinates.lat, lastKnownCoordinates.lng], { draggable: true }).addTo(map);
 
         marker.on('dragend', function (e) {
             const latlng = marker.getLatLng();
             fetchLocationName(latlng.lat, latlng.lng);
             document.getElementById('latitude').value = latlng.lat;
             document.getElementById('longitude').value = latlng.lng;
+            lastKnownCoordinates = { lat: latlng.lat, lng: latlng.lng }; // Update last known coordinates
         });
     }
 
