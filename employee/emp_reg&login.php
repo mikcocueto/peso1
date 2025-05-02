@@ -40,10 +40,10 @@
         <button>Sign In</button>
         <span>or use your email password</span>
         <div class="social-icons">
-          <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
-          <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
-          <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
-          <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="../google_login.php" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+          <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a> <!-- Existing Facebook icon -->
+          <a href="" class="icon"><i class="fa-solid fa-phone"></i></a> <!-- Added phone number icon -->
+          <a href="https://github.com/login/oauth/authorize?client_id=Ov23liTtetwXNvGYQ8yx&redirect_uri=http://localhost/github-callback.php&scope=user:email" class="icon"><i class="fa-brands fa-github"></i></a>
         </div>
         <p>Don't have an account? <a href="#" id="register" class="highlight">Sign Up here</a></p>
         
@@ -52,7 +52,7 @@
 
     <!-- Sign Up Form -->
     <div class="form-container sign-up">
-      <form action="emp_complete_job_profile.php" method="POST">
+      <form action="emp_c.php" method="POST">
         <h1 style="padding: 20px 0;">Create Account</h1>
         <input type="email" placeholder="Email" />
         <input type="password" placeholder="Password" />
@@ -60,10 +60,10 @@
         <button type="submit">Sign Up</button>
         <span>or use your email for registration</span>
         <div class="social-icons">
-          <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
-          <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
-          <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
-          <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="../google_login.php" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+          <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a> <!-- Existing Facebook icon -->
+          <a href="" class="icon"><i class="fa-solid fa-phone"></i></a> <!-- Added phone number icon -->
+          <a href="https://github.com/login/oauth/authorize?client_id=Ov23liTtetwXNvGYQ8yx&redirect_uri=http://localhost/github-callback.php&scope=user:email" class="icon"><i class="fa-brands fa-github"></i></a>
         </div>
         <p>Already have an account? <a href="#" id="loginBtnSignUp" class="highlight">Sign In here</a></p>
       </form>
