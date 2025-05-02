@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 24, 2025 at 08:11 AM
+-- Generation Time: May 02, 2025 at 06:56 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -183,6 +183,25 @@ INSERT INTO `tbl_emp_careerhistory` (`id`, `user_id`, `job_title`, `company_name
 (12, 16, 'miso', 'miso', '2025-02-04', '2025-02-05', 0, 'qqqqqqqqq'),
 (13, 17, 'CEO', 'Shan inc.', '2016-01-04', '0000-00-00', 1, 'do itss'),
 (14, 18, 'OJT', 'MIS', '2025-03-02', '2025-03-28', 1, '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_emp_category_preferences`
+--
+
+CREATE TABLE `tbl_emp_category_preferences` (
+  `id` int(11) NOT NULL,
+  `emp_id` int(11) NOT NULL,
+  `category_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_emp_category_preferences`
+--
+
+INSERT INTO `tbl_emp_category_preferences` (`id`, `emp_id`, `category_id`) VALUES
+(5, 17, 6);
 
 -- --------------------------------------------------------
 
@@ -459,7 +478,20 @@ INSERT INTO `tbl_job_category` (`category_id`, `category_name`) VALUES
 (1, 'category test'),
 (2, 'Accounting'),
 (3, 'Construction'),
-(4, 'Engineering');
+(4, 'Engineering'),
+(5, 'Healthcare'),
+(6, 'Information Technology');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_job_coordinates`
+--
+
+CREATE TABLE `tbl_job_coordinates` (
+  `id` int(11) NOT NULL,
+  `coordinates` point NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -476,6 +508,7 @@ CREATE TABLE `tbl_job_listing` (
   `requirements` text NOT NULL,
   `employment_type` varchar(255) NOT NULL,
   `location` varchar(255) NOT NULL,
+  `coordinate_id` int(11) DEFAULT NULL,
   `salary_min` decimal(11,2) NOT NULL,
   `salary_max` decimal(11,2) NOT NULL,
   `currency` varchar(10) DEFAULT NULL,
@@ -489,22 +522,24 @@ CREATE TABLE `tbl_job_listing` (
 -- Dumping data for table `tbl_job_listing`
 --
 
-INSERT INTO `tbl_job_listing` (`job_id`, `employer_id`, `job_cover_img`, `title`, `description`, `requirements`, `employment_type`, `location`, `salary_min`, `salary_max`, `currency`, `category_id`, `posted_date`, `expiry_date`, `status`) VALUES
-(3, 6, NULL, 'jab', 'qqqqqq', 'tyuqwerty', 'Contract', '32323', 310.00, 360.00, 'dollar', 2, '2025-02-18 16:00:00', '2025-02-27 16:00:00', 'active'),
-(4, 6, NULL, 'job 4', 'geng geng', 'madami frfr', 'Internship', '4', 4.00, 4.00, '4', 3, '2025-02-18 16:00:00', '2025-02-16 16:00:00', 'inactive'),
-(5, 6, NULL, 'poso negro', '5 cent', '5tyrrrrrrrrrrr', 'Contract', 'dito', 5.00, 5.00, '$', 4, '2025-02-18 16:00:00', '2025-02-17 16:00:00', 'inactive'),
-(7, 6, NULL, 'IT professional', 'magaling it', 'it maalam', 'Full time', 'san pablo', 12.00, 120.00, 'php', 4, '2025-02-18 16:00:00', '2025-02-25 16:00:00', 'inactive'),
-(12, 9, NULL, 'mikco it', 'it', 'it', 'Part-Time', '3', 19.00, 80.00, 'p', 1, '2025-03-17 16:00:00', '2025-03-25 16:00:00', 'inactive'),
-(13, 6, NULL, 'ass', 'a', 'b', 'Part-Time', 'san pablo cityyy', 1.00, 2.00, 'php', 2, '2025-03-26 16:00:00', '2025-03-28 16:00:00', 'active'),
-(14, 6, NULL, 'Software Engineer (Full Stack)', 'Develop and maintain scalable web applications using React.js, Node.js, and PostgreSQL.', '3+ years experience, JavaScript/TypeScript, Git, API development.', 'Full-Time', 'San Pablo City', 80.00, 110.00, 'php', 2, '2025-03-27 16:00:00', '2025-03-22 16:00:00', 'active'),
-(15, 6, NULL, 'house', 'aa', 'ff', 'Full-time', 'san pablo cityyy', 1.00, 2.00, 'php', 1, '2025-03-27 16:00:00', '2025-03-27 16:00:00', 'active'),
-(16, 6, NULL, 'Web Developer', 'Must know how to debug using python, pycharm and html.', 'Resume\r\n5 years experienced\r\n', 'Internship', 'San Pablo City', 15000.00, 50000.00, 'php', 4, '2025-04-01 16:00:00', '2025-04-01 16:00:00', 'inactive'),
-(17, 11, NULL, 'Digital Marketing Specialist', 'Plan and execute digital marketing campaigns, including SEO, PPC, and social media ads.', 'Google Ads, Facebook Ads, SEO, content writing.', 'Contract', 'San Pablo City', 30.00, 40.00, 'php', 4, '2025-04-01 16:00:00', '2025-04-24 16:00:00', 'active'),
-(18, 12, NULL, 'Customer Service Representative', 'Provide customer support via chat, email, and phone. Maintain customer satisfaction.', 'Provide customer support via chat, email, and phone. Maintain customer satisfaction.', 'Full-Time', 'San Pablo City', 18.00, 22.00, 'php', 2, '2025-04-01 16:00:00', '2025-04-29 16:00:00', 'active'),
-(19, 6, NULL, 'Registered Nurse (RN)', 'Provide patient care, monitor vital signs, and coordinate with doctors.', 'Valid RN license, BLS/CPR certification, 1+ year experience.', 'Part-Time', 'San Pablo City', 20000.00, 500000.00, 'PHP', 2, '2025-04-02 16:00:00', '2025-04-29 16:00:00', 'paused'),
-(20, 6, '5f93b1c5da49ce65_1744684439.png', 'Capitolyo', 'yeasss', 'wwwww', 'Full-Time', 'san pablo cityyy', 1.00, 2.00, 'php', 2, '2025-04-14 16:00:00', '2025-04-29 16:00:00', 'paused'),
-(30, 6, 'f77dd11bbfe40706_1744701773.png', 'Capitolyo12', 'yeasss', 'wwwww', 'Part-Time', 'san pablo cityyy', 1.00, 2.00, 'php', 2, '2025-04-14 16:00:00', '2025-04-08 16:00:00', 'active'),
-(31, 6, 'dc5b51784e9d5d4b_1745218193.png', 'Job Test na Naman', 'fill', 'out', 'Full-Time', 'Quezon', 1.00, 2.00, 'php', 2, '2025-04-20 16:00:00', '2025-04-23 16:00:00', 'active');
+INSERT INTO `tbl_job_listing` (`job_id`, `employer_id`, `job_cover_img`, `title`, `description`, `requirements`, `employment_type`, `location`, `coordinate_id`, `salary_min`, `salary_max`, `currency`, `category_id`, `posted_date`, `expiry_date`, `status`) VALUES
+(3, 6, NULL, 'jab', 'qqqqqq', 'tyuqwerty', 'Contract', '32323', NULL, 310.00, 360.00, 'dollar', 2, '2025-02-18 16:00:00', '2025-02-27 16:00:00', 'paused'),
+(4, 6, NULL, 'job 4', 'geng geng', 'madami frfr', 'Internship', '4', NULL, 4.00, 4.00, '4', 3, '2025-02-18 16:00:00', '2025-02-16 16:00:00', 'inactive'),
+(5, 6, NULL, 'poso negro', '5 cent', '5tyrrrrrrrrrrr', 'Contract', 'dito', NULL, 5.00, 5.00, '$', 4, '2025-02-18 16:00:00', '2025-02-17 16:00:00', 'inactive'),
+(7, 6, NULL, 'IT professional', 'magaling it', 'it maalam', 'Full time', 'san pablo', NULL, 12.00, 120.00, 'php', 4, '2025-02-18 16:00:00', '2025-02-25 16:00:00', 'inactive'),
+(12, 9, NULL, 'mikco it', 'it', 'it', 'Part-Time', '3', NULL, 19.00, 80.00, 'p', 1, '2025-03-17 16:00:00', '2025-03-25 16:00:00', 'inactive'),
+(13, 6, NULL, 'ass', 'a', 'b', 'Part-Time', 'san pablo cityyy', NULL, 1.00, 2.00, 'php', 2, '2025-03-26 16:00:00', '2025-03-28 16:00:00', 'paused'),
+(14, 6, NULL, 'Software Engineer (Full Stack)', 'Develop and maintain scalable web applications using React.js, Node.js, and PostgreSQL.', '3+ years experience, JavaScript/TypeScript, Git, API development.', 'Full-Time', 'San Pablo City', NULL, 80.00, 110.00, 'php', 6, '2025-03-27 16:00:00', '2025-03-21 16:00:00', 'active'),
+(15, 6, NULL, 'house', 'aa', 'ff', 'Full-time', 'san pablo cityyy', NULL, 1.00, 2.00, 'php', 1, '2025-03-27 16:00:00', '2025-03-27 16:00:00', 'paused'),
+(16, 6, NULL, 'Web Developer', 'Must know how to debug using python, pycharm and html.', 'Resume\r\n5 years experienced\r\n', 'Internship', 'San Pablo City', NULL, 15000.00, 50000.00, 'php', 6, '2025-04-01 16:00:00', '2025-03-31 16:00:00', 'active'),
+(17, 11, NULL, 'Digital Marketing Specialist', 'Plan and execute digital marketing campaigns, including SEO, PPC, and social media ads.', 'Google Ads, Facebook Ads, SEO, content writing.', 'Contract', 'San Pablo City', NULL, 30.00, 40.00, 'php', 4, '2025-04-01 16:00:00', '2025-04-24 16:00:00', 'active'),
+(18, 12, NULL, 'Customer Service Representative', 'Provide customer support via chat, email, and phone. Maintain customer satisfaction.', 'Provide customer support via chat, email, and phone. Maintain customer satisfaction.', 'Full-Time', 'San Pablo City', NULL, 18.00, 22.00, 'php', 2, '2025-04-01 16:00:00', '2025-04-29 16:00:00', 'active'),
+(19, 6, NULL, 'Registered Nurse (RN)', 'Provide patient care, monitor vital signs, and coordinate with doctors.', 'Valid RN license, BLS/CPR certification, 1+ year experience.', 'Part-Time', 'San Pablo City', NULL, 20000.00, 500000.00, 'PHP', 5, '2025-04-02 16:00:00', '2025-04-28 16:00:00', 'active'),
+(20, 6, '5f93b1c5da49ce65_1744684439.png', 'Capitolyo', 'yeasss', 'wwwww', 'Full-Time', 'san pablo cityyy', NULL, 1.00, 2.00, 'php', 2, '2025-04-14 16:00:00', '2025-04-29 16:00:00', 'paused'),
+(30, 6, 'f77dd11bbfe40706_1744701773.png', 'Capitolyo12', 'yeasss', 'wwwww', 'Part-Time', 'san pablo cityyy', NULL, 1.00, 2.00, 'php', 2, '2025-04-14 16:00:00', '2025-04-07 16:00:00', 'active'),
+(31, 6, 'dc5b51784e9d5d4b_1745218193.png', 'Job Test na Naman', 'fill', 'out', 'Full-Time', 'Quezon', NULL, 1.00, 2.00, 'php', 2, '2025-04-20 16:00:00', '2025-04-23 16:00:00', 'paused'),
+(32, 6, '0c2beb6d93de2f8f_1745995998.jpg', 'Accountant', 'accounting', '2 year experience', 'Full-Time', 'San Pablo City', NULL, 1.00, 2.00, 'php', 2, '2025-04-23 16:00:00', '2025-04-09 16:00:00', 'active'),
+(33, 6, '84278cd2c84afb2c_1745982931.png', 'house keeping attendant', 'house keeper', '1 year exp', 'Part-Time', 'San Pablo City', NULL, 150.00, 300.00, 'php', 1, '2025-04-29 16:00:00', '2025-05-10 16:00:00', 'active');
 
 --
 -- Indexes for dumped tables
@@ -549,6 +584,14 @@ ALTER TABLE `tbl_comp_verification`
 ALTER TABLE `tbl_emp_careerhistory`
   ADD PRIMARY KEY (`id`),
   ADD KEY `empcareerfk` (`user_id`);
+
+--
+-- Indexes for table `tbl_emp_category_preferences`
+--
+ALTER TABLE `tbl_emp_category_preferences`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `empcattoemp` (`emp_id`),
+  ADD KEY `catpreftocat` (`category_id`);
 
 --
 -- Indexes for table `tbl_emp_certification`
@@ -635,12 +678,20 @@ ALTER TABLE `tbl_job_category`
   ADD PRIMARY KEY (`category_id`);
 
 --
+-- Indexes for table `tbl_job_coordinates`
+--
+ALTER TABLE `tbl_job_coordinates`
+  ADD PRIMARY KEY (`id`),
+  ADD SPATIAL KEY `coordinates` (`coordinates`);
+
+--
 -- Indexes for table `tbl_job_listing`
 --
 ALTER TABLE `tbl_job_listing`
   ADD PRIMARY KEY (`job_id`),
   ADD KEY `catfk` (`category_id`),
-  ADD KEY `compfk` (`employer_id`);
+  ADD KEY `compfk` (`employer_id`),
+  ADD KEY `coordinate_id` (`coordinate_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -681,6 +732,12 @@ ALTER TABLE `tbl_comp_verification`
 --
 ALTER TABLE `tbl_emp_careerhistory`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `tbl_emp_category_preferences`
+--
+ALTER TABLE `tbl_emp_category_preferences`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tbl_emp_certification`
@@ -752,13 +809,19 @@ ALTER TABLE `tbl_job_application_files`
 -- AUTO_INCREMENT for table `tbl_job_category`
 --
 ALTER TABLE `tbl_job_category`
-  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `tbl_job_coordinates`
+--
+ALTER TABLE `tbl_job_coordinates`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_job_listing`
 --
 ALTER TABLE `tbl_job_listing`
-  MODIFY `job_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `job_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- Constraints for dumped tables
@@ -787,6 +850,13 @@ ALTER TABLE `tbl_comp_verification`
 --
 ALTER TABLE `tbl_emp_careerhistory`
   ADD CONSTRAINT `empcareerfk` FOREIGN KEY (`user_id`) REFERENCES `tbl_emp_info` (`user_id`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `tbl_emp_category_preferences`
+--
+ALTER TABLE `tbl_emp_category_preferences`
+  ADD CONSTRAINT `catpreftocat` FOREIGN KEY (`category_id`) REFERENCES `tbl_job_category` (`category_id`),
+  ADD CONSTRAINT `empcattoemp` FOREIGN KEY (`emp_id`) REFERENCES `tbl_emp_info` (`user_id`);
 
 --
 -- Constraints for table `tbl_emp_certification`
@@ -855,7 +925,8 @@ ALTER TABLE `tbl_job_application_files`
 --
 ALTER TABLE `tbl_job_listing`
   ADD CONSTRAINT `catfk` FOREIGN KEY (`category_id`) REFERENCES `tbl_job_category` (`category_id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `compfk` FOREIGN KEY (`employer_id`) REFERENCES `tbl_comp_info` (`company_id`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `compfk` FOREIGN KEY (`employer_id`) REFERENCES `tbl_comp_info` (`company_id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `tbl_job_listing_ibfk_1` FOREIGN KEY (`coordinate_id`) REFERENCES `tbl_job_coordinates` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

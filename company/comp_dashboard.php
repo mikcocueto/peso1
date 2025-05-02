@@ -615,7 +615,10 @@ $stmt->close();
                                 <div class="col-md-6">
                                     <div class="form-group mb-4">
                                         <label for="location" class="form-label">Location</label>
-                                        <input type="text" class="form-control form-control-lg" id="location" name="location" required>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control form-control-lg" id="location" name="location" required>
+                                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#locationModal">Select</button>
+                                        </div>
                                     </div>
                                     <div class="form-group mb-4">
                                         <label for="rateDetails" class="form-label">Rate Details</label>
@@ -657,6 +660,24 @@ $stmt->close();
         </div>
     </div>
 </section>
+
+<!-- Location Modal -->
+<div class="modal fade" id="locationModal" tabindex="-1" aria-labelledby="locationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="locationModalLabel">Select Location</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Location selection features will be added here.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Verification Modal -->
 <div class="modal fade" id="verificationModal" tabindex="-1" aria-labelledby="verificationModalLabel" aria-hidden="true">
