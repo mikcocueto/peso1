@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 02, 2025 at 06:56 AM
+-- Generation Time: May 02, 2025 at 10:27 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -493,6 +493,13 @@ CREATE TABLE `tbl_job_coordinates` (
   `coordinates` point NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `tbl_job_coordinates`
+--
+
+INSERT INTO `tbl_job_coordinates` (`id`, `coordinates`) VALUES
+(1, 0x00000000010100000002ab1b08383f5e409758616c78332d40);
+
 -- --------------------------------------------------------
 
 --
@@ -539,7 +546,8 @@ INSERT INTO `tbl_job_listing` (`job_id`, `employer_id`, `job_cover_img`, `title`
 (30, 6, 'f77dd11bbfe40706_1744701773.png', 'Capitolyo12', 'yeasss', 'wwwww', 'Part-Time', 'san pablo cityyy', NULL, 1.00, 2.00, 'php', 2, '2025-04-14 16:00:00', '2025-04-07 16:00:00', 'active'),
 (31, 6, 'dc5b51784e9d5d4b_1745218193.png', 'Job Test na Naman', 'fill', 'out', 'Full-Time', 'Quezon', NULL, 1.00, 2.00, 'php', 2, '2025-04-20 16:00:00', '2025-04-23 16:00:00', 'paused'),
 (32, 6, '0c2beb6d93de2f8f_1745995998.jpg', 'Accountant', 'accounting', '2 year experience', 'Full-Time', 'San Pablo City', NULL, 1.00, 2.00, 'php', 2, '2025-04-23 16:00:00', '2025-04-09 16:00:00', 'active'),
-(33, 6, '84278cd2c84afb2c_1745982931.png', 'house keeping attendant', 'house keeper', '1 year exp', 'Part-Time', 'San Pablo City', NULL, 150.00, 300.00, 'php', 1, '2025-04-29 16:00:00', '2025-05-10 16:00:00', 'active');
+(33, 6, '84278cd2c84afb2c_1745982931.png', 'house keeping attendant', 'house keeper', '1 year exp', 'Part-Time', 'San Pablo City', NULL, 150.00, 300.00, 'php', 1, '2025-04-29 16:00:00', '2025-05-10 16:00:00', 'active'),
+(34, 6, '3791244bde5cbe64_1746174257.jpg', 'Aircon Specialist', 'none', 'aircon', 'Contract', '609, Bilibid Viejo Street, 391, Quiapo, Third District, Manila, Capital District, Metro Manila, 1001, Philippines', 1, 1.00, 2.00, 'php', 6, '2025-05-01 16:00:00', '2025-05-27 16:00:00', 'active');
 
 --
 -- Indexes for dumped tables
@@ -815,13 +823,13 @@ ALTER TABLE `tbl_job_category`
 -- AUTO_INCREMENT for table `tbl_job_coordinates`
 --
 ALTER TABLE `tbl_job_coordinates`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_job_listing`
 --
 ALTER TABLE `tbl_job_listing`
-  MODIFY `job_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `job_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- Constraints for dumped tables
