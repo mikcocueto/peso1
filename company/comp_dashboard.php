@@ -663,21 +663,75 @@ $stmt->close();
 
 <!-- Location Modal -->
 <div class="modal fade" id="locationModal" tabindex="-1" aria-labelledby="locationModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="locationModalLabel">Select Location</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>Location selection features will be added here.</p>
+                <div class="mb-3">
+                    <label for="selectedLocation" class="form-label">Selected Location</label>
+                    <input type="text" class="form-control" id="selectedLocation" readonly>
+                </div>
+                <div id="map" style="height: 400px;"></div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="saveLocation()">Save Location</button>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    let map, marker;
+
+    function initMap() {
+        map = L.map('map').setView([14.5995, 120.9842], 13); // Default to Manila, Philippines
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        marker = L.marker([14.5995, 120.9842], { draggable: true }).addTo(map);
+
+        marker.on('dragend', function (e) {
+            const latlng = marker.getLatLng();
+            fetchLocationName(latlng.lat, latlng.lng);
+        });
+    }
+
+    function fetchLocationName(lat, lng) {
+        const geocodeUrl = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`;
+        fetch(geocodeUrl)
+            .then(response => response.json())
+            .then(data => {
+                const locationName = data.display_name || 'Unknown Location';
+                document.getElementById('selectedLocation').value = locationName;
+            })
+            .catch(error => {
+                console.error('Error fetching location name:', error);
+                document.getElementById('selectedLocation').value = 'Error fetching location';
+            });
+    }
+
+    function saveLocation() {
+        const locationInput = document.getElementById('location');
+        const selectedLocation = document.getElementById('selectedLocation').value;
+        locationInput.value = selectedLocation;
+        const modal = bootstrap.Modal.getInstance(document.getElementById('locationModal'));
+        modal.hide();
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const locationModal = document.getElementById('locationModal');
+        locationModal.addEventListener('shown.bs.modal', initMap);
+    });
+</script>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <!-- Verification Modal -->
 <div class="modal fade" id="verificationModal" tabindex="-1" aria-labelledby="verificationModalLabel" aria-hidden="true">
