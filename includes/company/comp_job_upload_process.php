@@ -21,6 +21,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $expiry_date = $_POST['expiry_date'];
     $posted_date = date('Y-m-d');
     $job_cover_img = null;
+    $latitude = $_POST['latitude'];
+    $longitude = $_POST['longitude'];
 
     // Handle file upload
     if (isset($_FILES['job_photo']) && $_FILES['job_photo']['error'] == UPLOAD_ERR_OK) {
@@ -55,14 +57,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
+    // Insert coordinates into tbl_job_coordinates
+    $coordinate_id = null;
+    if (!empty($latitude) && !empty($longitude)) {
+        $coordinates_query = "INSERT INTO tbl_job_coordinates (coordinates) VALUES (ST_GeomFromText(?))";
+        $stmt = $conn->prepare($coordinates_query);
+        $point = "POINT($longitude $latitude)";
+        $stmt->bind_param("s", $point);
+        if ($stmt->execute()) {
+            $coordinate_id = $stmt->insert_id;
+        }
+        $stmt->close();
+    }
+
     // Insert job listing
     $query = "INSERT INTO tbl_job_listing (employer_id, title, description, requirements, employment_type, 
-              location, salary_min, salary_max, currency, category_id, posted_date, expiry_date, job_cover_img, status) 
-              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'active')";
+              location, coordinate_id, salary_min, salary_max, currency, category_id, posted_date, expiry_date, job_cover_img, status) 
+              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'active')";
     
     $stmt = $conn->prepare($query);
-    $stmt->bind_param("isssssddsssss", $company_id, $title, $description, $requirements, $employment_type, 
-                      $location, $salary_min, $salary_max, $currency, $category_id, $posted_date, $expiry_date, $job_cover_img);
+    $stmt->bind_param("isssssiddsssss", $company_id, $title, $description, $requirements, $employment_type, 
+                      $location, $coordinate_id, $salary_min, $salary_max, $currency, $category_id, $posted_date, $expiry_date, $job_cover_img);
     
     if ($stmt->execute()) {
         $_SESSION['success'] = "Job posted successfully!";

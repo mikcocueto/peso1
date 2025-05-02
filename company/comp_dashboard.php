@@ -564,6 +564,8 @@ $stmt->close();
                                 </div>
                             </div>
                             <input type="hidden" id="jobCoverPath" name="job_cover_img">
+                            <input type="hidden" id="latitude" name="latitude">
+                            <input type="hidden" id="longitude" name="longitude">
 
                             <!-- Job Details -->
                             <div class="row g-4">
