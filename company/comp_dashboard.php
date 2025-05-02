@@ -85,6 +85,8 @@ $stmt->close();
     <link rel="stylesheet" href="../css/Dashboard.css"> <!-- Link to the new CSS file -->
     <link rel="canonical" href="https://demo-basic.adminkit.io/charts-chartjs.html" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
     <?php include 'comp_navbar&tab.php'; ?>
@@ -677,6 +679,8 @@ $stmt->close();
                 <div id="map" style="height: 400px;"></div>
             </div>
             <div class="modal-footer">
+                <input type="text" id="latitude" name="latitude">
+                <input type="text" id="longitude" name="longitude">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" onclick="saveLocation()">Save Location</button>
             </div>
@@ -688,6 +692,10 @@ $stmt->close();
     let map, marker;
 
     function initMap() {
+        if (map) {
+            map.remove(); // Remove the existing map instance to avoid reinitialization errors
+        }
+
         map = L.map('map').setView([14.5995, 120.9842], 13); // Default to Manila, Philippines
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -699,6 +707,8 @@ $stmt->close();
         marker.on('dragend', function (e) {
             const latlng = marker.getLatLng();
             fetchLocationName(latlng.lat, latlng.lng);
+            document.getElementById('latitude').value = latlng.lat;
+            document.getElementById('longitude').value = latlng.lng;
         });
     }
 
@@ -724,7 +734,7 @@ $stmt->close();
         const modal = bootstrap.Modal.getInstance(document.getElementById('locationModal'));
         modal.hide();
 
-        // to mk sure modal fully closed aftr saving
+        // Ensure modal is fully closed after saving
         const backdrop = document.querySelector('.modal-backdrop');
         if (backdrop) {
             backdrop.remove();
@@ -738,9 +748,6 @@ $stmt->close();
         locationModal.addEventListener('shown.bs.modal', initMap);
     });
 </script>
-
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <!-- Verification Modal -->
 <div class="modal fade" id="verificationModal" tabindex="-1" aria-labelledby="verificationModalLabel" aria-hidden="true">
