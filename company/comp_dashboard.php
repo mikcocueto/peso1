@@ -720,8 +720,17 @@ $stmt->close();
         const locationInput = document.getElementById('location');
         const selectedLocation = document.getElementById('selectedLocation').value;
         locationInput.value = selectedLocation;
+
         const modal = bootstrap.Modal.getInstance(document.getElementById('locationModal'));
         modal.hide();
+
+        // to mk sure modal fully closed aftr saving
+        const backdrop = document.querySelector('.modal-backdrop');
+        if (backdrop) {
+            backdrop.remove();
+        }
+        document.body.classList.remove('modal-open');
+        document.body.style.overflow = '';
     }
 
     document.addEventListener('DOMContentLoaded', function () {
