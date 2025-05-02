@@ -733,22 +733,26 @@ $stmt->close();
         const selectedLocation = document.getElementById('selectedLocation').value;
         locationInput.value = selectedLocation;
 
-        const modal = bootstrap.Modal.getInstance(document.getElementById('locationModal'));
+        const modalElement = document.getElementById('locationModal');
+        const modal = bootstrap.Modal.getInstance(modalElement);
         modal.hide();
-
-        // Ensure modal is fully closed after saving
-        const backdrop = document.querySelector('.modal-backdrop');
-        if (backdrop) {
-            backdrop.remove();
-        }
-        document.body.classList.remove('modal-open');
-        document.body.style.overflow = '';
-    }
-
+}
     document.addEventListener('DOMContentLoaded', function () {
         const locationModal = document.getElementById('locationModal');
         locationModal.addEventListener('shown.bs.modal', initMap);
+
+        // Safe cleanup after modal fully closes
+        locationModal.addEventListener('hidden.bs.modal', function () {
+            document.body.classList.remove('modal-open');
+            document.body.style.overflow = '';
+            
+            const backdrop = document.querySelector('.modal-backdrop');
+            if (backdrop) {
+                backdrop.remove();
+            }
+        });
     });
+
 </script>
 
 <!-- Verification Modal -->
