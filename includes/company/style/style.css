@@ -22,13 +22,13 @@ body {
 
 /* c_dash_navbar */
 .c_dash_navbar {
-    background: #6c63ff;
+    background: url('../fortest/images/navbar_background.jpg') no-repeat center center;
+    background-size: cover; /* Adjusted to cover proportionally */
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px 20px;
     color: white;
-
 }
 
 .c_dash_navbar-brand {

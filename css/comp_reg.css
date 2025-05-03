@@ -54,7 +54,7 @@ body {
     }
 }
 .card {
-    background-color: #f9f9f9 !important; /* Force background color */
+    background-color: #fff !important; /* Force background color */
     color: black !important; /* Force text color */
     border-radius: 15px;
     padding: 2rem;

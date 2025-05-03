@@ -25,7 +25,7 @@ $company_id = $_SESSION['company_id'];
 </head>
 <body>
     <!-- Company Dashboard Navbar -->
-    <nav class="c_dash_navbar">
+    <nav class="c_dash_navbar" style="background: url('../assets/images/bg_nav.png') no-repeat ; background-size: cover;">
         <div class="c_dash_navbar-brand">
             <img src="../fortest/images/peso_icons.png" alt="PESO Logo">
             <div>
@@ -127,6 +127,7 @@ $company_id = $_SESSION['company_id'];
                 <i class="bx bx-user" onclick="toggleDropdown()"></i>
                 <div class="dropdown-menu">
                     <a href="comp_profile.php">Profile</a>
+                    <a href="comp_change_password.php">Settings</a>
                     <a href="../includes/company/comp_logout.php">Logout</a>
                 </div>
             </div>

@@ -170,8 +170,10 @@ $conn->close();
                 <div class="alert alert-danger"><?php echo $signin_error; ?></div>
             <?php endif; ?>
             <button type="submit" name="signin" class="btn btn-signin">Sign In</button>
-            <div class="mb-3">
-                <hr class="text-grey">
+            <div class="mb-3 d-flex align-items-center">
+                <hr class="flex-grow-1 text-grey">
+                <span class="mx-2 text-muted">or</span>
+                <hr class="flex-grow-1 text-grey">
             </div>
             <div class="mt-2" style="display: flex; justify-content: center; gap: 10px;">
                 <a href="../google_login.php" class="btn btn-light  justify-content-center" style="border: 1px solid #ddd; width: 40px; height: 40px; border-radius: 50%;">

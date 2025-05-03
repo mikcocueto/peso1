@@ -98,241 +98,58 @@ $stmt->close();
         }
     </script>
 <section id="dashboard" class="content active">
-<h1 class="h3 mb-3"><strong>Dashboard Overview</strong></h1>
-    <div class="container-fluid p-0">
-        <!-- Company Overview and Recent Movement Row -->
-        <div class="row mb-4">
-            <!-- Company Details Column -->
-            <div class="col-xl-6">
-                <div class="card border-0 bg-transparent">
-                    <div class="card-body position-relative">
-                        <div class="d-flex justify-content-center align-items-center">
-                            <div class="d-flex align-items-center gap-5">
-                                <div class="text-center" style="width: 200px;">
-                                    <img src="../assets/images/fds.jpg" class="img-fluid" alt="Company Logo" style="max-height: 200px; object-fit: contain;">
-                                </div>
-                                <div class="company-info">
-                                    <h3 class="mb-4 px-3 py-2" style="background-color: #f8f9fa; border-radius: 8px;">Company Information</h3>
-                                    <table style="width: 100%; border-collapse: collapse; text-align: left;">
-                                        <tr>
-                                            <td style="padding: 4px 8px;"><strong>Company Name:</strong></td>
-                                            <td style="padding: 4px 8px;">FDS Asya Philippines</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="padding: 4px 8px;"><strong>Country:</strong></td>
-                                            <td style="padding: 4px 8px;">Philippines</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="padding: 4px 8px;"><strong>Company Address:</strong></td>
-                                            <td style="padding: 4px 8px;">San Pablo City</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="padding: 4px 8px;"><strong>Company Hotline:</strong></td>
-                                            <td style="padding: 4px 8px;">4444 444</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="padding: 4px 8px;"><strong>Company Number:</strong></td>
-                                            <td style="padding: 4px 8px;">0912-345-6789</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="padding: 4px 8px;"><strong>Human Resource:</strong></td>
-                                            <td style="padding: 4px 8px;">ggg shan khyle</td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>  
+<h1 class="h2  mb-4"><strong>Dashboard Overview</strong></h1>
+<div class="container-fluid p-0">
+    <!-- Two-Column Grid -->
+    <div class="row mb-4">
+        <!-- Left Column: Company Information -->
+        <div class="col-xl-6">
+            <div class="card border-1 shadow-sm rounded-xl h-100"> <!-- Added h-100 to match height -->
+                <div class="card-body d-flex justify-content-around align-items-center">
+                    <div class="company-info">
+                        <h3 class="mb-3">Company Information</h3>
+                        <table class="table table-borderless">
+                            <tr>
+                                <td><i class="bx bx-building"></i> <strong>Company Name:</strong></td>
+                                <td>FDS Asya Philippines</td>
+                            </tr>
+                            <tr>
+                                <td><i class="bx bx-map"></i> <strong>Address:</strong></td>
+                                <td>San Pablo City, Philippines</td>
+                            </tr>
+                            <tr>
+                                <td><i class="bx bx-phone"></i> <strong>Hotline:</strong></td>
+                                <td>4444 444</td>
+                            </tr>
+                            <tr>
+                                <td><i class="bx bx-mobile"></i> <strong>Contact:</strong></td>
+                                <td>0912-345-6789</td>
+                            </tr>
+                            <tr>
+                                <td><i class="bx bx-user"></i> <strong>HR:</strong></td>
+                                <td>ggg shan khyle</td>
+                            </tr>
+                        </table>
                     </div>
-                </div>
-            </div>
-
-            <!-- Recent Movement Column -->
-            <div class="col-xl-6">
-                <div class="card flex-fill w-100">
-                    <div class="card-header">
-                        <h5 class="card-title mb-0">Recent Movement</h5>
-                    </div>
-                    <div class="card-body py-3">
-                        <div class="chart chart-sm">
-                            <canvas id="lineChart"></canvas>
-                        </div>
+                    <div class="text-center" style="width: 250px; padding-right: 10px;"> <!-- Increased width -->
+                        <img src="../assets/images/fds.jpg" class="img-fluid" alt="Company Logo" style="max-height: 350px; object-fit: contain;"> <!-- Increased max-height -->
                     </div>
                 </div>
             </div>
         </div>
-    <!-- Analytics Dashboard Row -->
-    <div class="row mt-4">
-            <div class="col-12 mb-3">
-                <h3 class="px-3 py-2" style="background-color: #f8f9fa; border-radius: 8px; display: inline-block;">Dashboard Analytics</h3>
-            </div>
-            <div class="col-xl-3">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col mt-0">
-                                <h5 class="card-title">Applicants</h5>
-                            </div>
-                            <div class="col-auto">
-                                <div class="stat text-primary">
-                                    <i class="align-middle" data-feather="truck"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <h1 class="mt-1 mb-3" style="font-size: 2.5rem; font-weight: 700;">2.382</h1>
-                        <div class="mb-0">
-                            <span class="text-danger">❌ -3.65%</span>
-                            <span class="text-muted">Since last week</span>
-                        </div>
-                    </div>
+
+        <!-- Right Column: Recent Movement Chart -->
+        <div class="col-xl-6">
+            <div class="card border-1 shadow-sm rounded-xl h-100"> <!-- Added h-100 to ensure consistent height -->
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Recent Movement</h5>
                 </div>
-            </div>
-            <div class="col-xl-3">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col mt-0">
-                                <h5 class="card-title">Posted Jobs</h5>
-                            </div>
-                            <div class="col-auto">
-                                <div class="stat text-primary">
-                                    <i class="align-middle" data-feather="dollar-sign"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <h1 class="mt-1 mb-3" style="font-size: 2.5rem; font-weight: 700;">21.300</h1>
-                        <div class="mb-0">
-                            <span class="text-success">✅ 6.65%</span>
-                            <span class="text-muted">Since last week</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col mt-0">
-                                <h5 class="card-title">Visitors</h5>
-                            </div>
-                            <div class="col-auto">
-                                <div class="stat text-primary">
-                                    <i class="align-middle" data-feather="users"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <h1 class="mt-1 mb-3" style="font-size: 2.5rem; font-weight: 700;">14.212</h1>
-                        <div class="mb-0">
-                            <span class="text-success">✅ 5.25%</span>
-                            <span class="text-muted">Since last week</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col mt-0">
-                                <h5 class="card-title">Hired Applicants</h5>
-                            </div>
-                            <div class="col-auto">
-                                <div class="stat text-primary">
-                                    <i class="align-middle" data-feather="shopping-cart"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <h1 class="mt-1 mb-3" style="font-size: 2.5rem; font-weight: 700;">64</h1>
-                        <div class="mb-0">
-                            <span class="text-danger">❌ -2.25%</span>
-                            <span class="text-muted">Since last week</span>
-                        </div>
-                    </div>
+                <div class="card-body">
+                    <canvas id="lineChart"></canvas>
                 </div>
             </div>
         </div>
     </div>
-    <div class="mt-5">
-  <h5 class="mb-4">Applicant Demographics</h5>
-  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-
-    <!-- Gender Distribution -->
-    <div class="col">
-      <div class="card h-70">
-        <div class="card-body">
-          <h6 class="card-title">Gender Distribution</h6>
-          <canvas id="genderChart"></canvas>
-        </div>
-      </div>
-    </div>
-
-    <!-- Age Range -->
-    <div class="col">
-      <div class="card h-100">
-        <div class="card-body">
-          <h6 class="card-title">Age Range</h6>
-          <canvas id="ageChart"></canvas>
-        </div>
-      </div>
-    </div>
-
-    <!-- Location Distribution -->
-    <div class="col">
-      <div class="card h-70">
-        <div class="card-body">
-          <h6 class="card-title">Location</h6>
-          <canvas id="locationChart"></canvas>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</div>
-<!-- Chart.js Internal Script -->
-<script>
-  // Minimal Chart.js setup (internal)
-  (function () {
-    const script = document.createElement('script');
-    script.src = "https://cdn.jsdelivr.net/npm/chart.js";
-    script.onload = () => {
-      const genderChart = new Chart(document.getElementById('genderChart'), {
-        type: 'doughnut',
-        data: {
-          labels: ['Male', 'Female', 'Other'],
-          datasets: [{
-            data: [55, 40, 5],
-            backgroundColor: ['#4e73df', '#e83e8c', '#36b9cc']
-          }]
-        }
-      });
-
-      const ageChart = new Chart(document.getElementById('ageChart'), {
-        type: 'bar',
-        data: {
-          labels: ['18-24', '25-34', '35-44', '45-54', '55+'],
-          datasets: [{
-            label: 'Applicants',
-            data: [30, 45, 15, 7, 3],
-            backgroundColor: '#1cc88a'
-          }]
-        }
-      });
-
-      const locationChart = new Chart(document.getElementById('locationChart'), {
-        type: 'pie',
-        data: {
-          labels: ['San Pablo', 'Calamba', 'Los Baños', 'Others'],
-          datasets: [{
-            data: [40, 30, 20, 10],
-            backgroundColor: ['#f6c23e', '#36b9cc', '#4e73df', '#858796']
-          }]
-        }
-      });
-    };
-    document.head.appendChild(script);
-  })();
-</script>     
-</section>
-
 <!-- Chart Script -->
 <script>
     const ctx = document.getElementById('lineChart').getContext('2d');
@@ -368,12 +185,188 @@ $stmt->close();
     });
 </script>
 
+    <!-- Analytics Cards Row -->
+    <div class="row g-4">
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-1 shadow-sm rounded-xl">
+                <div class="card-body text-center">
+                    <i class="bx bx-user-circle text-primary" style="font-size: 2rem;"></i>
+                    <h5 class="card-title mt-3">Applicants</h5>
+                    <h1 class="mt-2 mb-3" style="font-size: 2.5rem; font-weight: 700;">2,382</h1>
+                    <span class="badge bg-danger">-3.65%</span>
+                    <span class="text-muted">Since last week</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-1 shadow-sm rounded-xl">
+                <div class="card-body text-center">
+                    <i class="bx bx-briefcase text-primary" style="font-size: 2rem;"></i>
+                    <h5 class="card-title mt-3">Posted Jobs</h5>
+                    <h1 class="mt-2 mb-3" style="font-size: 2.5rem; font-weight: 700;">21,300</h1>
+                    <span class="badge bg-success">+6.65%</span>
+                    <span class="text-muted">Since last week</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-1 shadow-sm rounded-xl">
+                <div class="card-body text-center">
+                    <i class="bx bx-group text-primary" style="font-size: 2rem;"></i>
+                    <h5 class="card-title mt-3">Visitors</h5>
+                    <h1 class="mt-2 mb-3" style="font-size: 2.5rem; font-weight: 700;">14,212</h1>
+                    <span class="badge bg-success">+5.25%</span>
+                    <span class="text-muted">Since last week</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-1 shadow-sm rounded-xl">
+                <div class="card-body text-center">
+                    <i class="bx bx-check-circle text-primary" style="font-size: 2rem;"></i>
+                    <h5 class="card-title mt-3">Hired Applicants</h5>
+                    <h1 class="mt-2 mb-3" style="font-size: 2.5rem; font-weight: 700;">64</h1>
+                    <span class="badge bg-danger">-2.25%</span>
+                    <span class="text-muted">Since last week</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+    <div class="mt-5">
+  <h5 class="mb-4">Applicant Demographics</h5>
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-6"> <!-- Increased gap for better spacing -->
+
+    <!-- Gender Distribution -->
+    <div class="col">
+      <div class="card shadow-md hover:shadow-lg rounded-2xl h-100"> <!-- Added shadow and rounded corners -->
+        <div class="card-body">
+          <h6 class="card-title font-semibold text-lg">Gender Distribution</h6>
+          <p class="text-gray-700">Based on current applicant data</p> <!-- Added subtitle -->
+          <canvas id="genderChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Age Range -->
+    <div class="col">
+      <div class="card shadow-md hover:shadow-lg rounded-2xl h-100"> <!-- Added shadow and rounded corners -->
+        <div class="card-body">
+          <h6 class="card-title font-semibold text-lg">Age Range</h6>
+          <p class="text-gray-700">Based on current applicant data</p> <!-- Added subtitle -->
+          <canvas id="ageChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Location Distribution -->
+    <div class="col">
+      <div class="card shadow-md hover:shadow-lg rounded-2xl h-100"> <!-- Added shadow and rounded corners -->
+        <div class="card-body">
+          <h6 class="card-title font-semibold text-lg">Location</h6>
+          <p class="text-gray-700">Based on current applicant data</p> <!-- Added subtitle -->
+ 2         <canvas id="locationChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- Chart.js Internal Script -->
+<script>
+  // Minimal Chart.js setup with branding colors and custom tooltips
+  (function () {
+    const script = document.createElement('script');
+    script.src = "https://cdn.jsdelivr.net/npm/chart.js";
+    script.onload = () => {
+      const genderChart = new Chart(document.getElementById('genderChart'), {
+        type: 'doughnut',
+        data: {
+          labels: ['👨‍🦱 Male', '👩 Female', '🌎 Other'], // Added icons
+          datasets: [{
+            data: [55, 40, 5],
+            backgroundColor: ['#4e73df', '#e83e8c', '#36b9cc'] // Use brand colors
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            tooltip: {
+              callbacks: {
+                label: function (context) {
+                  const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                  const value = context.raw;
+                  const percentage = ((value / total) * 100).toFixed(2);
+                  return `${context.label}: ${value} (${percentage}%)`; // Custom tooltip
+                }
+              }
+            }
+          }
+        }
+      });
+
+      const ageChart = new Chart(document.getElementById('ageChart'), {
+        type: 'bar',
+        data: {
+          labels: ['18-24', '25-34', '35-44', '45-54', '55+'],
+          datasets: [{
+            label: 'Applicants',
+            data: [30, 45, 15, 7, 3],
+            backgroundColor: '#1cc88a' // Use brand color
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            tooltip: {
+              callbacks: {
+                label: function (context) {
+                  return `${context.label}: ${context.raw} applicants`; // Custom tooltip
+                }
+              }
+            }
+          }
+        }
+      });
+
+      const locationChart = new Chart(document.getElementById('locationChart'), {
+        type: 'pie',
+        data: {
+          labels: ['San Pablo', 'Calamba', 'Los Baños', 'Others'],
+          datasets: [{
+            data: [40, 30, 20, 10],
+            backgroundColor: ['#f6c23e', '#36b9cc', '#4e73df', '#858796'] // Use brand colors
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            tooltip: {
+              callbacks: {
+                label: function (context) {
+                  const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                  const value = context.raw;
+                  const percentage = ((value / total) * 100).toFixed(2);
+                  return `${context.label}: ${value} (${percentage}%)`; // Custom tooltip
+                }
+              }
+            }
+          }
+        }
+      });
+    };
+    document.head.appendChild(script);
+  })();
+</script>     
+</section>
+
     <!-- Job posted list Tab -->
     <section id="jobs" class="content active">
         <!-- Filters -->
     <section class="filters">
     <div class="container">
-        <div class="row mb-3 align-items-center">
+        <div class="row mb-3 d-flex justify-content-between align-items-center">
              <!-- Filter Buttons -->
             <div class="row mb-3">
                 <div class="col-md-6 d-flex">
