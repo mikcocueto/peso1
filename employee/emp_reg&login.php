@@ -1,3 +1,45 @@
+<?php
+session_start();
+require "../includes/db_connect.php"; // Database connection
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
+    $email = trim($_POST['email']);
+    $password = trim($_POST['password']);
+
+    // Validate input
+    if (empty($email) || empty($password)) {
+        $error_message = "All fields are required.";
+    } else {
+        // Retrieve user credentials from database
+        $stmt = $conn->prepare("SELECT user_id, password, salt FROM tbl_emp_login WHERE emailAddress = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $stmt->store_result();
+
+        if ($stmt->num_rows > 0) {
+            $stmt->bind_result($user_id, $hashedPassword, $salt);
+            $stmt->fetch();
+
+            // Hash the entered password with the retrieved salt
+            if (password_verify($password . $salt, $hashedPassword)) {
+                // Successful login
+                $_SESSION['user_id'] = $user_id;
+                $_SESSION['email'] = $email;
+
+                header("Location: ../index.php"); // Redirect to index page
+                exit();
+            } else {
+                $error_message = "Invalid password.";
+            }
+        } else {
+            $error_message = "No account found with that email.";
+        }
+        $stmt->close();
+    }
+}
+// Close the connection
+$conn->close();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,12 +74,17 @@
   <div class="container" id="container">
     <!-- Log In Form --> 
     <div class="form-container sign-in">
-      <form>
+      <form method="POST" action="">
         <h1 style="padding: 20px 0;">Log In</h1>
-        <input type="email" placeholder="Email" />
-        <input type="password" placeholder="Password" />
+        <input type="email" name="email" placeholder="Email" required />
+        <input type="password" name="password" placeholder="Password" required />
+        <?php if (isset($error_message)): ?>
+          <div class="alert alert-danger" role="alert">
+            <?php echo $error_message; ?>
+          </div>
+        <?php endif; ?>
         <a href="#">Forget Your Password?</a>
-        <button>Sign In</button>
+        <button type="submit" name="login">Sign In</button>
         <span>or use your email password</span>
         <div class="social-icons">
           <a href="../google_login.php" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
@@ -52,7 +99,7 @@
 
     <!-- Sign Up Form -->
     <div class="form-container sign-up">
-      <form action="emp_c.php" method="POST">
+      <form action="emp_reg_complete.php" method="POST">
         <h1 style="padding: 20px 0;">Create Account</h1>
         <input type="email" placeholder="Email" />
         <input type="password" placeholder="Password" />

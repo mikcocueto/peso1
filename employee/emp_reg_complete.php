@@ -48,7 +48,7 @@
 
       <!-- Email Preview -->
       <div class="col-12">
-        <label for="email" class="form-label">Email</label>
+        <label for="email" class="form-label">Registering Email:</label>
         <h4 id="emailPreview"><?php echo htmlspecialchars($email ?? ''); ?></h4>
       </div>
 
