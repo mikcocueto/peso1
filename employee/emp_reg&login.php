@@ -37,6 +37,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
         $stmt->close();
     }
 }
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
+    $email = trim($_POST['email']);
+    $password = trim($_POST['password']);
+    $confirm_password = trim($_POST['confirm_password']);
+
+    // Validate input
+    if (empty($email) || empty($password) || empty($confirm_password)) {
+        $registration_error = "All fields are required.";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $registration_error = "Invalid email format.";
+    } elseif ($password !== $confirm_password) {
+        $registration_error = "Passwords do not match.";
+    } else {
+        // Check if email already exists
+        $stmt = $conn->prepare("SELECT id FROM tbl_emp_login WHERE emailAddress = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $stmt->store_result();
+
+        if ($stmt->num_rows > 0) {
+            $registration_error = "Email is already registered.";
+        } else {
+            // Temporarily store email and password in session
+            $_SESSION['temp_email'] = $email;
+            $_SESSION['temp_password'] = $password;
+
+            // Redirect to the complete registration page
+            header("Location: emp_reg_complete.php");
+            exit();
+        }
+        $stmt->close();
+    }
+}
+
 // Close the connection
 $conn->close();
 ?>
@@ -99,12 +134,17 @@ $conn->close();
 
     <!-- Sign Up Form -->
     <div class="form-container sign-up">
-      <form action="emp_reg_complete.php" method="POST">
+      <form method="POST" action="">
         <h1 style="padding: 20px 0;">Create Account</h1>
-        <input type="email" placeholder="Email" />
-        <input type="password" placeholder="Password" />
-        <input type="password" placeholder="Confirm Password" />
-        <button type="submit">Sign Up</button>
+        <input type="email" name="email" placeholder="Email" required />
+        <input type="password" name="password" placeholder="Password" required />
+        <input type="password" name="confirm_password" placeholder="Confirm Password" required />
+        <?php if (isset($registration_error)): ?>
+          <div class="alert alert-danger" role="alert">
+            <?php echo $registration_error; ?>
+          </div>
+        <?php endif; ?>
+        <button type="submit" name="register">Sign Up</button>
         <span>or use your email for registration</span>
         <div class="social-icons">
           <a href="../google_login.php" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>

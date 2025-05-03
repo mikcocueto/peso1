@@ -1,3 +1,7 @@
+<?php
+session_start();
+$email = $_SESSION['temp_email'] ?? '';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -43,13 +47,13 @@
 
 <div class="form-container">
   <h2 class="text-center mb-4">Complete Your Account Profile</h2>
-  <form action="submit_profile.php" method="POST" enctype="multipart/form-data" id="profileForm">
+  <form action="../includes/employee/emp_reg_process.php" method="POST" enctype="multipart/form-data" id="profileForm">
     <div class="row g-4">
 
       <!-- Email Preview -->
       <div class="col-12">
         <label for="email" class="form-label">Registering Email:</label>
-        <h4 id="emailPreview"><?php echo htmlspecialchars($email ?? ''); ?></h4>
+        <h4 id="emailPreview"><?php echo htmlspecialchars($email); ?></h4>
       </div>
 
       <div class="col-md-6">
@@ -71,58 +75,31 @@
         </select>
       </div>
       <div class="col-md-6">
-        <label for="dob" class="form-label">Date of Birth</label>
-        <input type="date" class="form-control" id="dob" name="dob" required>
+        <label for="dob" class="form-label">Date of Birth-tba</label>
+        <input type="date" class="form-control" id="dob" name="dob">
       </div>
       <div class="col-md-6">
-        <label for="age" class="form-label">Age</label>
+        <label for="age" class="form-label">Age-tba</label>
         <input type="text" class="form-control" id="age" name="age" readonly>
       </div>
       <div class="col-md-6">
         <label for="phone" class="form-label">Phone Number</label>
-        <input type="tel" class="form-control" id="phone" name="phone" required pattern="^09\d{9}$" placeholder="e.g. 09XXXXXXXXX">
+        <input type="tel" class="form-control" id="phone" name="mobile_number" required pattern="^09\d{9}$" placeholder="e.g. 09XXXXXXXXX">
       </div>
 
       <div class="col-12">
-        <label for="address" class="form-label">Auto-filled Address (editable)</label>
+        <label for="address" class="form-label">Address</label>
         <div class="d-flex align-items-center">
-          <textarea class="form-control me-2" id="address" name="address" rows="2" placeholder="Auto-filled address when you pin location..."></textarea>
+          <textarea class="form-control me-2" id="address" name="address" rows="2" placeholder="Enter your full address..." required></textarea>
           <button type="button" class="btn btn-outline-primary border-0" data-bs-toggle="modal" data-bs-target="#locationModal">
-            <i class="fas fa-map-marker-alt" style="color: red; font-size: 1.5rem;"></i> <!-- Increased font size -->
+            <i class="fas fa-map-marker-alt" style="color: red; font-size: 1.5rem;"></i>
           </button>
         </div>
-        <input type="hidden" id="latitude" name="latitude">
-        <input type="hidden" id="longitude" name="longitude">
-      </div>
-
-      <div class="col-md-4">
-        <label for="street" class="form-label">Street</label>
-        <input type="text" class="form-control" id="street" name="street" required>
-      </div>
-      <div class="col-md-4">
-        <label for="barangay" class="form-label">Barangay</label>
-        <input type="text" class="form-control" id="barangay" name="barangay" required>
-      </div>
-      <div class="col-md-4">
-        <label for="city" class="form-label">City / Municipality</label>
-        <input type="text" class="form-control" id="city" name="city" required>
-      </div>
-      <div class="col-md-4">
-        <label for="province" class="form-label">Province</label>
-        <input type="text" class="form-control" id="province" name="province" required>
-      </div>
-      <div class="col-md-4">
-        <label for="zip" class="form-label">Zip Code</label>
-        <input type="text" class="form-control" id="zip" name="zip" required>
-      </div>
-      <div class="col-md-4">
-        <label for="country" class="form-label">Country</label>
-        <input type="text" class="form-control" id="country" name="country" required>
       </div>
 
       <div class="col-md-6">
-        <label for="jobCategory" class="form-label">Preferred Job Category</label>
-        <select class="form-select" name="job_category" id="jobCategory" required>
+        <label for="jobCategory" class="form-label">Preferred Job Category-tba</label>
+        <select class="form-select" name="job_category" id="jobCategory">
           <option selected disabled>Select a category</option>
           <option>IT & Software</option>
           <option>Marketing</option>
@@ -135,13 +112,13 @@
       </div>
 
       <div class="col-md-6">
-        <label for="experience" class="form-label">Years of Experience</label>
-        <input type="number" class="form-control" id="experience" name="experience" min="0" required>
+        <label for="experience" class="form-label">Years of Experience-tba</label>
+        <input type="number" class="form-control" id="experience" name="experience" min="0">
       </div>
 
       <div class="col-md-6">
-        <label for="education" class="form-label">Highest Education Level</label>
-        <select class="form-select" name="education" id="education" required>
+        <label for="education" class="form-label">Highest Education Level-tba</label>
+        <select class="form-select" name="education" id="education">
           <option selected disabled>Select education level</option>
           <option>High School</option>
           <option>Diploma</option>
@@ -152,7 +129,7 @@
       </div>
 
       <div class="col-md-6">
-        <label for="resume" class="form-label">Upload Resume (PDF)</label>
+        <label for="resume" class="form-label">Upload Resume (PDF)-tba</label>
         <input type="file" class="form-control" id="resume" name="resume" accept=".pdf">
       </div>
 
