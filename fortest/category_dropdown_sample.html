@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Searchable Multi-Select Dropdown</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    .dropdown {
+      position: relative;
+      width: 300px;
+    }
+    .dropdown input {
+      width: 100%;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+    .dropdown-list {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      max-height: 200px;
+      border: 1px solid #ccc;
+      background: white;
+      overflow-y: auto;
+      display: none;
+      z-index: 1000;
+    }
+    .dropdown-list div {
+      padding: 10px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .dropdown-list div:hover {
+      background-color: #f0f0f0;
+    }
+    .checkmark {
+      display: none;
+      color: green;
+      font-weight: bold;
+    }
+    .selected .checkmark {
+      display: inline;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Select Categories</h2>
+<div class="dropdown">
+  <input type="text" id="dropdownInput" placeholder="Search categories..." onfocus="showDropdown()" oninput="filterOptions()">
+  <div class="dropdown-list" id="dropdownList">
+    <div onclick="toggleSelect(this)">Technology <span class="checkmark">✔</span></div>
+    <div onclick="toggleSelect(this)">Health <span class="checkmark">✔</span></div>
+    <div onclick="toggleSelect(this)">Finance <span class="checkmark">✔</span></div>
+    <div onclick="toggleSelect(this)">Education <span class="checkmark">✔</span></div>
+    <div onclick="toggleSelect(this)">Sports <span class="checkmark">✔</span></div>
+    <div onclick="toggleSelect(this)">Entertainment <span class="checkmark">✔</span></div>
+  </div>
+</div>
+
+<script>
+  function showDropdown() {
+    document.getElementById('dropdownList').style.display = 'block';
+  }
+
+  // Hide dropdown if clicking outside
+  document.addEventListener('click', function(event) {
+    let dropdown = document.querySelector('.dropdown');
+    if (!dropdown.contains(event.target)) {
+      document.getElementById('dropdownList').style.display = 'none';
+    }
+  });
+
+  function toggleSelect(optionDiv) {
+    optionDiv.classList.toggle('selected');
+  }
+
+  function filterOptions() {
+    let input = document.getElementById('dropdownInput').value.toLowerCase();
+    let options = document.querySelectorAll('#dropdownList div');
+    options.forEach(option => {
+      let text = option.textContent.toLowerCase();
+      if (text.includes(input)) {
+        option.style.display = '';
+      } else {
+        option.style.display = 'none';
+      }
+    });
+  }
+</script>
+
+</body>
+</html>

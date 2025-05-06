@@ -1,6 +1,15 @@
 <?php
 session_start();
 $email = $_SESSION['temp_email'] ?? '';
+require "../includes/db_connect.php"; // Ensure database connection is included
+$categories = [];
+$query = "SELECT category_name FROM tbl_job_category"; // Replace with your actual table and column names
+$result = $conn->query($query);
+if ($result && $result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $categories[] = $row['category_name'];
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,6 +49,48 @@ $email = $_SESSION['temp_email'] ?? '';
       .form-container {
         padding: 1.5rem;
       }
+    }
+    .dropdown {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+
+    .dropdown-list {
+      display: none;
+      position: absolute;
+      background-color: white;
+      border: 1px solid #ccc;
+      z-index: 1000;
+      width: 100%;
+      max-height: 200px;
+      overflow-y: auto;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .dropdown-list div {
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+    }
+
+    .dropdown-list div:hover {
+      background-color: #f1f1f1;
+    }
+
+    .selected {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .checkmark {
+      display: none;
+      margin-left: 0.5rem;
+      color: white;
+    }
+
+    .selected .checkmark {
+      display: inline;
     }
   </style>
 </head>
@@ -98,17 +149,19 @@ $email = $_SESSION['temp_email'] ?? '';
       </div>
 
       <div class="col-md-6">
-        <label for="jobCategory" class="form-label">Preferred Job Category-tba</label>
-        <select class="form-select" name="job_category" id="jobCategory">
-          <option selected disabled>Select a category</option>
-          <option>IT & Software</option>
-          <option>Marketing</option>
-          <option>Customer Service</option>
-          <option>Healthcare</option>
-          <option>Education</option>
-          <option>Engineering</option>
-          <option>Others</option>
-        </select>
+        <label for="jobCategory" class="form-label">Preferred Job Categories</label>
+        <div class="dropdown">
+          <input type="text" class="form-control" id="jobCategoryInput" placeholder="Search categories..." onfocus="showDropdown()" oninput="filterOptions()">
+          <div class="dropdown-menu w-100" id="jobCategoryList">
+            <?php foreach ($categories as $category): ?>
+              <div class="dropdown-item d-flex justify-content-between align-items-center" onclick="toggleSelect(this)">
+                <?php echo htmlspecialchars($category); ?>
+                <span class="checkmark">✔</span>
+              </div>
+            <?php endforeach; ?>
+          </div>
+        </div>
+        <input type="hidden" name="job_category" id="jobCategoryHidden">
       </div>
 
       <div class="col-md-6">
@@ -267,6 +320,37 @@ $email = $_SESSION['temp_email'] ?? '';
     }
     document.getElementById('age').value = isNaN(age) ? '' : age;
   });
+
+  function showDropdown() {
+    document.getElementById('jobCategoryList').style.display = 'block';
+  }
+
+  document.addEventListener('click', function(event) {
+    let dropdown = document.querySelector('.dropdown');
+    if (!dropdown.contains(event.target)) {
+      document.getElementById('jobCategoryList').style.display = 'none';
+    }
+  });
+
+  function toggleSelect(optionElement) {
+    optionElement.classList.toggle('selected');
+    updateHiddenInput();
+  }
+
+  function filterOptions() {
+    let input = document.getElementById('jobCategoryInput').value.toLowerCase();
+    let options = document.querySelectorAll('#jobCategoryList .dropdown-item');
+    options.forEach(option => {
+      let text = option.textContent.toLowerCase();
+      option.style.display = text.includes(input) ? '' : 'none';
+    });
+  }
+
+  function updateHiddenInput() {
+    let selectedOptions = document.querySelectorAll('#jobCategoryList .selected');
+    let selectedValues = Array.from(selectedOptions).map(option => option.textContent.trim());
+    document.getElementById('jobCategoryHidden').value = selectedValues.join(', ');
+  }
 </script>
 
 </body>
