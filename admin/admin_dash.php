@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PESO Admin</title>
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Bootstrap Icons -->
@@ -11,80 +13,72 @@
   <link href="../dark_mode.css" rel="stylesheet">
   <style>
     body {
+      font-family: 'Inter', sans-serif;
       background-color: #f8f9fa;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     .sidebar {
       height: 100vh;
-      background-color: #343a40;
+      background-color: #2c3e50;
       color: white;
     }
     .sidebar a {
       color: white;
       text-decoration: none;
+      padding: 0.75rem 1rem;
+      display: block;
+      border-radius: 0.5rem;
     }
-    .sidebar a:hover {
-      background-color: #495057;
-      border-radius: 5px;
+    .sidebar a:hover, .sidebar a.active {
+      background-color: #34495e;
     }
-    .card {
-      border: none;
+    .card, .table, .btn {
+      border-radius: 0.75rem;
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+    }
+    .badge {
       border-radius: 1rem;
-      box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
     }
-    .card h5 {
-      font-weight: 600;
+    .navbar {
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
     }
-    table {
-      background-color: white;
+    .content {
+      margin-top: 6rem; /* Increased space for the fixed top navbar */
+    }
+    @media (max-width: 768px) {
+      .content {
+        margin-top: 6rem; /* Ensure consistent spacing on smaller screens */
+      }
+    }
+    .table-responsive {
+      overflow-x: auto;
+    }
+    .table-hover tbody tr:hover {
+      background-color: #f1f1f1;
+    }
+    .fade-in {
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
   </style>
 </head>
 <body>
 <div class="container-fluid">
   <div class="row">
-    
-    <!-- Sidebar -->
-    <nav class="col-md-2 d-none d-md-block sidebar py-4 px-3">
-      <h4 class="text-center mb-4">Admin Panel</h4>
-      <ul class="nav flex-column">
-        <li class="nav-item mb-2"><a class="nav-link" href="../admin/admin_dash.php"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
-        <li class="nav-item mb-2"><a class="nav-link" href="../admin/admin_jobs.php"><i class="bi bi-briefcase"></i> Jobs</a></li>
-        <li class="nav-item mb-2"><a class="nav-link" href="../admin/admin_users.php"><i class="bi bi-people"></i> Users</a></li>
-        <li class="nav-item mb-2"><a class="nav-link" href="../admin/admin_companies.php"><i class="bi bi-buildings"></i> Companies</a></li>
-        <li class="nav-item mb-2"><a class="nav-link" href="../admin/admin_analytics.php"><i class="bi bi-bar-chart"></i> Analytics</a></li>
-        <li class="nav-item mb-2"><a class="nav-link" href="../admin/admin_settings.php"><i class="bi bi-gear"></i> Settings</a></li>
-      </ul>
-    </nav>
+    <!-- Include Sidebar -->
+    <div class="col-md-2 sidebar p-0">
+      <?php include '../admin/side&nav.php'; ?>
+    </div>
 
-    <!-- Main content -->
-    <main class="col-md-10 ms-sm-auto px-md-4 py-4">
-        <!-- Top Navbar with Search and User Dropdown -->
-      <nav class="navbar navbar-expand-lg navbar-light bg-light rounded shadow-sm mb-4">
-        <div class="container-fluid">
-          <form class="d-flex me-auto" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search jobs, users..." aria-label="Search">
-            <button class="btn btn-outline-primary" type="submit"><i class="bi bi-search"></i></button>
-          </form>
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-person-circle fs-4 me-2"></i>
-                <span>Admin</span>
-              </a>
-              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Settings</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </nav>
-      <h2 class="mb-4">Dashboard Overview</h2>
+    <!-- Main Content -->
+    <main class="col-md-10 ms-auto px-md-4 py-4 content">
+      <!-- Dashboard Overview -->
+      <h2 class="fs-3 mb-4">Dashboard Overview</h2>
       <div class="row g-4 mb-4">
         <div class="col-md-3">
-          <div class="card text-white bg-primary">
+          <div class="card text-white bg-primary fade-in">
             <div class="card-body">
               <h5 class="card-title">Total Jobs</h5>
               <p class="card-text fs-4">150</p>
@@ -92,7 +86,7 @@
           </div>
         </div>
         <div class="col-md-3">
-          <div class="card text-white bg-success">
+          <div class="card text-white bg-success fade-in">
             <div class="card-body">
               <h5 class="card-title">Active Users</h5>
               <p class="card-text fs-4">3,200</p>
@@ -101,7 +95,7 @@
         </div>
         <div class="col-md-3">
           <a href="../admin/admin_companies.php" class="text-white text-decoration-none">
-            <div class="card text-white bg-info">
+            <div class="card text-white bg-info fade-in">
               <div class="card-body">
                 <h5 class="card-title">Companies</h5>
                 <p class="card-text fs-4">420</p>
@@ -110,7 +104,7 @@
           </a>
         </div>
         <div class="col-md-3">
-          <div class="card text-white bg-warning">
+          <div class="card text-white bg-warning fade-in">
             <div class="card-body">
               <h5 class="card-title">Applications</h5>
               <p class="card-text fs-4">8,500</p>
@@ -120,16 +114,16 @@
       </div>
 
       <!-- Recent Job Postings Table -->
-      <div class="card mb-4">
+      <div class="card mb-4 fade-in">
         <div class="card-header bg-white d-flex justify-content-between align-items-center">
           <h5 class="mb-0">Recent Job Postings</h5>
           <a href="../admin/admin_jobs.php"><button class="btn btn-sm btn-outline-primary">View All</button></a>
         </div>
-        <div class="card-body">
-          <table class="table table-striped">
+        <div class="card-body table-responsive">
+          <table class="table table-striped table-hover">
             <thead>
               <tr>
-                <th>#</th>
+                <th>No.</th>
                 <th>Job Title</th>
                 <th>Company</th>
                 <th>Status</th>
@@ -145,8 +139,8 @@
                 <td><span class="badge bg-success">Approved</span></td>
                 <td>2 days ago</td>
                 <td>
-                  <button class="btn btn-sm btn-outline-secondary">Edit</button>
-                  <button class="btn btn-sm btn-outline-danger">Delete</button>
+                  <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i> Edit</button>
+                  <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i> Delete</button>
                 </td>
               </tr>
               <tr>
@@ -156,8 +150,8 @@
                 <td><span class="badge bg-warning text-dark">Pending</span></td>
                 <td>1 day ago</td>
                 <td>
-                  <button class="btn btn-sm btn-outline-success">Approve</button>
-                  <button class="btn btn-sm btn-outline-danger">Reject</button>
+                  <button class="btn btn-sm btn-outline-success"><i class="bi bi-check"></i> Approve</button>
+                  <button class="btn btn-sm btn-outline-danger"><i class="bi bi-x"></i> Reject</button>
                 </td>
               </tr>
               <tr>
@@ -167,7 +161,7 @@
                 <td><span class="badge bg-danger">Rejected</span></td>
                 <td>4 hours ago</td>
                 <td>
-                  <button class="btn btn-sm btn-outline-primary">Review</button>
+                  <button class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i> Review</button>
                 </td>
               </tr>
             </tbody>
@@ -176,16 +170,16 @@
       </div>
 
       <!-- Recent Users Table -->
-      <div class="card mb-4">
+      <div class="card mb-4 fade-in">
         <div class="card-header bg-white d-flex justify-content-between align-items-center">
           <h5 class="mb-0">Recent User Signups</h5>
           <a href="../admin/admin_users.php"><button class="btn btn-sm btn-outline-primary">Manage Users</button></a>
         </div>
-        <div class="card-body">
+        <div class="card-body table-responsive">
           <table class="table table-hover">
             <thead>
               <tr>
-                <th>#</th>
+                <th>No.</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Role</th>
@@ -201,8 +195,8 @@
                 <td>Job Seeker</td>
                 <td>Today</td>
                 <td>
-                  <button class="btn btn-sm btn-outline-secondary">Edit</button>
-                  <button class="btn btn-sm btn-outline-danger">Ban</button>
+                  <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i> Edit</button>
+                  <button class="btn btn-sm btn-outline-danger"><i class="bi bi-person-x"></i> Ban</button>
                 </td>
               </tr>
               <tr>
@@ -212,8 +206,8 @@
                 <td>Employer</td>
                 <td>Yesterday</td>
                 <td>
-                  <button class="btn btn-sm btn-outline-secondary">Edit</button>
-                  <button class="btn btn-sm btn-outline-danger">Ban</button>
+                  <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i> Edit</button>
+                  <button class="btn btn-sm btn-outline-danger"><i class="bi bi-person-x"></i> Ban</button>
                 </td>
               </tr>
               <tr>
@@ -223,8 +217,8 @@
                 <td>Job Seeker</td>
                 <td>3 days ago</td>
                 <td>
-                  <button class="btn btn-sm btn-outline-secondary">Edit</button>
-                  <button class="btn btn-sm btn-outline-danger">Ban</button>
+                  <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i> Edit</button>
+                  <button class="btn btn-sm btn-outline-danger"><i class="bi bi-person-x"></i> Ban</button>
                 </td>
               </tr>
             </tbody>

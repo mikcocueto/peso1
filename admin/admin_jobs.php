@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard - Job Finder</title>
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Bootstrap Icons -->
@@ -11,32 +13,40 @@
   <link href="../dark_mode.css" rel="stylesheet">
   <style>
     body {
+      font-family: 'Inter', sans-serif;
       background-color: #f8f9fa;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     .sidebar {
       height: 100vh;
-      background-color: #343a40;
+      background-color: #2c3e50;
       color: white;
     }
     .sidebar a {
       color: white;
       text-decoration: none;
+      padding: 0.75rem 1rem;
+      display: block;
+      border-radius: 0.5rem;
     }
-    .sidebar a:hover {
-      background-color: #495057;
-      border-radius: 5px;
+    .sidebar a:hover, .sidebar a.active {
+      background-color: #34495e;
     }
-    .card {
-      border: none;
-      border-radius: 1rem;
-      box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    .card, .btn {
+      border-radius: 0.75rem;
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
     }
     .card h5 {
       font-weight: 600;
     }
-    table {
-      background-color: white;
+    .navbar {
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+    }
+    .fade-in {
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
   </style>
 </head>
@@ -44,22 +54,15 @@
 <div class="container-fluid">
   <div class="row">
     <!-- Sidebar -->
-    <nav class="col-md-2 d-none d-md-block sidebar py-4 px-3">
-      <h4 class="text-center mb-4">Admin Panel</h4>
-      <ul class="nav flex-column">
-        <li class="nav-item mb-2"><a class="nav-link" href="../admin/admin_dash.php"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
-        <li class="nav-item mb-2"><a class="nav-link" href="../admin/admin_jobs.php"><i class="bi bi-briefcase"></i> Jobs</a></li>
-        <li class="nav-item mb-2"><a class="nav-link" href="../admin/admin_users.php"><i class="bi bi-people"></i> Users</a></li>
-        <li class="nav-item mb-2"><a class="nav-link" href="../admin/admin_companies.php"><i class="bi bi-buildings"></i> Companies</a></li>
-        <li class="nav-item mb-2"><a class="nav-link" href="../admin/admin_analytics.php"><i class="bi bi-bar-chart"></i> Analytics</a></li>
-        <li class="nav-item mb-2"><a class="nav-link" href="../admin/admin_settings.php"><i class="bi bi-gear"></i> Settings</a></li>
-      </ul>
-    </nav>
+    <!-- Include Sidebar -->
+    <div class="col-md-2 sidebar p-0">
+      <?php include '../admin/side&nav.php'; ?>
+    </div>
 
     <!-- Main content -->
-    <main class="col-md-10 ms-sm-auto px-md-4 py-4">
-      <h2 class="mb-4">Jobs Management</h2>
-      <div class="card mb-4">
+    <main class="col-md-10 ms-sm-auto px-md-4 py-4 content">
+      <h2 class="fs-3 mb-4">Jobs Management</h2>
+      <div class="card mb-4 fade-in">
         <div class="card-header bg-white d-flex justify-content-between align-items-center">
           <h5 class="mb-0">All Job Listings</h5>
           <button class="btn btn-sm btn-primary"><i class="bi bi-plus-circle"></i> Add New Job</button>
@@ -88,8 +91,8 @@
                 <td><span class="badge bg-success">Active</span></td>
                 <td>May 3, 2025</td>
                 <td>
-                  <button class="btn btn-sm btn-outline-primary">Edit</button>
-                  <button class="btn btn-sm btn-outline-danger">Delete</button>
+                  <button class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i> Edit</button>
+                  <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i> Delete</button>
                 </td>
               </tr>
               <tr>
@@ -101,8 +104,8 @@
                 <td><span class="badge bg-warning text-dark">Pending</span></td>
                 <td>May 2, 2025</td>
                 <td>
-                  <button class="btn btn-sm btn-outline-success">Approve</button>
-                  <button class="btn btn-sm btn-outline-danger">Reject</button>
+                  <button class="btn btn-sm btn-outline-success"><i class="bi bi-check"></i> Approve</button>
+                  <button class="btn btn-sm btn-outline-danger"><i class="bi bi-x"></i> Reject</button>
                 </td>
               </tr>
               <tr>
@@ -114,7 +117,7 @@
                 <td><span class="badge bg-danger">Rejected</span></td>
                 <td>May 1, 2025</td>
                 <td>
-                  <button class="btn btn-sm btn-outline-secondary">Review</button>
+                  <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-eye"></i> Review</button>
                 </td>
               </tr>
             </tbody>

@@ -266,7 +266,7 @@ $stmt->close();
         <div class="card-body">
           <h6 class="card-title font-semibold text-lg">Location</h6>
           <p class="text-gray-700">Based on current applicant data</p> <!-- Added subtitle -->
- 2         <canvas id="locationChart"></canvas>
+         <canvas id="locationChart"></canvas>
         </div>
       </div>
     </div>

@@ -3,7 +3,7 @@ require "../includes/db_connect.php";
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: emp_login.php");
+    header("Location: emp_reg&login.php");
     die();
 }
 
