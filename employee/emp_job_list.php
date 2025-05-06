@@ -628,22 +628,29 @@ $jobs = $conn->query($query);
                         <h2>Job Listings</h2>
                         <div class="job-list-container">
                             <div class="job-list">
-                                <?php while ($job = $jobs->fetch_assoc()): ?>
-                                    <div id="job-<?= $job['job_id'] ?>" class="job-box" onclick="showJobDetails(<?= $job['job_id'] ?>)">
-                                        <div class="job-image-container">
-                                            <img src="<?= htmlspecialchars($job['comp_logo_dir']) ?>" 
-                                                 alt="<?= htmlspecialchars($job['companyName']) ?> Logo" 
-                                                 class="company-logo">
-                                            <div class="job-type-badge"><?= htmlspecialchars($job['employment_type']) ?></div>
-                                        </div>
-                                        <div class="job-content">
-                                            <h5 class="job-title"><?= htmlspecialchars($job['title']) ?></h5>
-                                            <div class="job-details">
-                                                <p><i class="icon-building"></i> <?= htmlspecialchars($job['companyName']) ?></p>
+                                <?php if ($jobs->num_rows > 0): ?>
+                                    <?php while ($job = $jobs->fetch_assoc()): ?>
+                                        <div id="job-<?= $job['job_id'] ?>" class="job-box" onclick="showJobDetails(<?= $job['job_id'] ?>)">
+                                            <div class="job-image-container">
+                                                <img src="<?= htmlspecialchars($job['comp_logo_dir']) ?>" 
+                                                     alt="<?= htmlspecialchars($job['companyName']) ?> Logo" 
+                                                     class="company-logo">
+                                                <div class="job-type-badge"><?= htmlspecialchars($job['employment_type']) ?></div>
+                                            </div>
+                                            <div class="job-content">
+                                                <h5 class="job-title"><?= htmlspecialchars($job['title']) ?></h5>
+                                                <div class="job-details">
+                                                    <p><i class="icon-building"></i> <?= htmlspecialchars($job['companyName']) ?></p>
+                                                </div>
                                             </div>
                                         </div>
+                                    <?php endwhile; ?>
+                                <?php else: ?>
+                                    <div class="text-center text-muted">
+                                        <i class="icon-info-circle" style="font-size: 48px;"></i>
+                                        <p class="mt-3">No jobs available at the moment. Please check back later.</p>
                                     </div>
-                                <?php endwhile; ?>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>

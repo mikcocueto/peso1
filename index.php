@@ -502,6 +502,13 @@ $conn->close();
         fetch("includes/employee/fetch_recent_jobs.php")
             .then(response => response.json())
             .then(jobs => {
+                if (jobs.length === 0) {
+                    container.innerHTML = `
+                    <div class="d-flex justify-content-center align-items-center" style="height: 200px;">
+                        <p class="text-center text-muted" style="font-size: 1.5rem; font-weight: bold;">Looks like there's nothing to display.</p>
+                    </div>`;
+                    return;
+                }
                 jobs.forEach(job => {
                     const jobCard = document.createElement("div");
                     jobCard.className = "col-md-6 mb-4";
@@ -532,7 +539,10 @@ $conn->close();
                     container.appendChild(jobCard);
                 });
             })
-            .catch(error => console.error("Error fetching recent jobs:", error));
+            .catch(error => {
+                console.error("Error fetching recent jobs:", error);
+                container.innerHTML = `<p class="text-center text-danger">Failed to load recent jobs.</p>`;
+            });
     });
 </script>
 <script>

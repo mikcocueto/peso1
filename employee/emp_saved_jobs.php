@@ -112,12 +112,13 @@ $conn->close();
         <div class="container">
             <h2 class="text-center mb-4">Saved Jobs</h2>
             <div class="row" style="max-height: 400px; overflow-y: auto;">
-                <?php while ($job = $saved_jobs->fetch_assoc()): ?>
-                    <div class="col-md-6">
-                        <div class="job-box">
-                            <div class="job-title">
-                                <img src="<?= $job['comp_logo_dir'] ? htmlspecialchars($job['comp_logo_dir']) : '../path/to/placeholder.png'; ?>" alt="Company Logo">
-                                <?= htmlspecialchars($job['title']) ?>
+                <?php if ($saved_jobs->num_rows > 0): ?>
+                    <?php while ($job = $saved_jobs->fetch_assoc()): ?>
+                        <div class="col-md-6">
+                            <div class="job-box">
+                                <div class="job-title">
+                                    <img src="<?= $job['comp_logo_dir'] ? htmlspecialchars($job['comp_logo_dir']) : '../path/to/placeholder.png'; ?>" alt="Company Logo">
+                                    <?= htmlspecialchars($job['title']) ?>
                             </div>
                             <div class="job-details">
                                 <p><strong>Company:</strong> <?= htmlspecialchars($job['companyName']) ?></p>
@@ -136,9 +137,14 @@ $conn->close();
                         </div>
                     </div>
                 <?php endwhile; ?>
-            </div>
+            <?php else: ?>
+                <div class="col-12 text-center">
+                    <p>You haven’t saved anything yet.</p>
+                </div>
+            <?php endif; ?>
         </div>
-    </section>
+    </div>
+</section>
 </div>
 
 <script src="../fortest/js/jquery.min.js"></script>
