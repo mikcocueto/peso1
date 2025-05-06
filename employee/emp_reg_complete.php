@@ -112,13 +112,13 @@ $email = $_SESSION['temp_email'] ?? '';
       </div>
 
       <div class="col-md-6">
-        <label for="experience" class="form-label">Years of Experience-tba</label>
-        <input type="number" class="form-control" id="experience" name="experience" min="0">
+        <label for="experience" class="form-label">Years of Experience</label>
+        <input type="number" class="form-control" id="experience" name="experience" min="0" required>
       </div>
 
       <div class="col-md-6">
-        <label for="education" class="form-label">Highest Education Level-tba</label>
-        <select class="form-select" name="education" id="education">
+        <label for="education" class="form-label">Highest Education Level</label>
+        <select class="form-select" name="education" id="education" required>
           <option selected disabled>Select education level</option>
           <option>High School</option>
           <option>Diploma</option>

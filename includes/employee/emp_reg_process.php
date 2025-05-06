@@ -12,8 +12,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $address = trim($_POST['address']);
     $birthDate = trim($_POST['dob']);
     $age = trim($_POST['age']);
+    $highestEdu = trim($_POST['education']);
+    $yearsOfExperience = trim($_POST['experience']);
 
-    if (empty($email) || empty($password) || empty($firstName) || empty($lastName) || empty($gender) || empty($mobileNumber) || empty($address) || empty($birthDate) || empty($age)) {
+    if (empty($email) || empty($password) || empty($firstName) || empty($lastName) || empty($gender) || empty($mobileNumber) || empty($address) || empty($birthDate) || empty($age) || empty($highestEdu) || empty($yearsOfExperience)) {
         die("All fields are required.");
     }
 
@@ -22,8 +24,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $hashedPassword = password_hash($password . $salt, PASSWORD_BCRYPT);
 
     // Insert into tbl_emp_info
-    $stmt1 = $conn->prepare("INSERT INTO tbl_emp_info (firstName, lastName, emailAddress, gender, mobileNumber, address, birth_date, age) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt1->bind_param("sssssssi", $firstName, $lastName, $email, $gender, $mobileNumber, $address, $birthDate, $age);
+    $stmt1 = $conn->prepare("INSERT INTO tbl_emp_info (firstName, lastName, emailAddress, gender, mobileNumber, address, birth_date, age, highest_edu, years_of_experience) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt1->bind_param("sssssssisi", $firstName, $lastName, $email, $gender, $mobileNumber, $address, $birthDate, $age, $highestEdu, $yearsOfExperience);
 
     if ($stmt1->execute()) {
         $user_id = $conn->insert_id;
