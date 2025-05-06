@@ -3,11 +3,11 @@ session_start();
 $email = $_SESSION['temp_email'] ?? '';
 require "../includes/db_connect.php"; // Ensure database connection is included
 $categories = [];
-$query = "SELECT category_name FROM tbl_job_category"; // Replace with your actual table and column names
+$query = "SELECT category_id, category_name FROM tbl_job_category"; // Replace with your actual table and column names
 $result = $conn->query($query);
 if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $categories[] = $row['category_name'];
+        $categories[] = $row;
     }
 }
 ?>
@@ -154,8 +154,8 @@ if ($result && $result->num_rows > 0) {
           <input type="text" class="form-control" id="jobCategoryInput" placeholder="Search categories..." onfocus="showDropdown()" oninput="filterOptions()">
           <div class="dropdown-menu w-100" id="jobCategoryList">
             <?php foreach ($categories as $category): ?>
-              <div class="dropdown-item d-flex justify-content-between align-items-center" onclick="toggleSelect(this)">
-                <?php echo htmlspecialchars($category); ?>
+              <div class="dropdown-item d-flex justify-content-between align-items-center" onclick="toggleSelect(this)" data-id="<?php echo htmlspecialchars($category['category_id']); ?>">
+                <?php echo htmlspecialchars($category['category_name']); ?>
                 <span class="checkmark">✔</span>
               </div>
             <?php endforeach; ?>
@@ -337,6 +337,12 @@ if ($result && $result->num_rows > 0) {
     updateHiddenInput();
   }
 
+  function updateHiddenInput() {
+    let selectedOptions = document.querySelectorAll('#jobCategoryList .selected');
+    let selectedValues = Array.from(selectedOptions).map(option => option.getAttribute('data-id'));
+    document.getElementById('jobCategoryHidden').value = selectedValues.join(', ');
+  }
+
   function filterOptions() {
     let input = document.getElementById('jobCategoryInput').value.toLowerCase();
     let options = document.querySelectorAll('#jobCategoryList .dropdown-item');
@@ -344,12 +350,6 @@ if ($result && $result->num_rows > 0) {
       let text = option.textContent.toLowerCase();
       option.style.display = text.includes(input) ? '' : 'none';
     });
-  }
-
-  function updateHiddenInput() {
-    let selectedOptions = document.querySelectorAll('#jobCategoryList .selected');
-    let selectedValues = Array.from(selectedOptions).map(option => option.textContent.trim());
-    document.getElementById('jobCategoryHidden').value = selectedValues.join(', ');
   }
 </script>
 
