@@ -1,6 +1,6 @@
 <?php
 session_start();
-require "db_connect.php"; // Database connection
+require "../db_connect.php"; // Database connection
 
 if (isset($_SESSION['user_id']) && isset($_POST['job_id']) && isset($_POST['action'])) {
     $user_id = $_SESSION['user_id'];

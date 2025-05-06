@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 02, 2025 at 10:27 AM
+-- Generation Time: May 06, 2025 at 07:28 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -201,7 +201,11 @@ CREATE TABLE `tbl_emp_category_preferences` (
 --
 
 INSERT INTO `tbl_emp_category_preferences` (`id`, `emp_id`, `category_id`) VALUES
-(5, 17, 6);
+(5, 17, 6),
+(6, 25, 1),
+(7, 25, 2),
+(8, 26, 5),
+(9, 26, 6);
 
 -- --------------------------------------------------------
 
@@ -291,23 +295,35 @@ CREATE TABLE `tbl_emp_info` (
   `gender` varchar(255) NOT NULL,
   `mobileNumber` varchar(20) NOT NULL,
   `create_timestamp` timestamp NOT NULL DEFAULT current_timestamp(),
-  `pfp_dir` varchar(255) NOT NULL
+  `pfp_dir` varchar(255) NOT NULL,
+  `age` int(3) NOT NULL,
+  `birth_date` date DEFAULT NULL,
+  `highest_edu` varchar(32) NOT NULL,
+  `years_of_experience` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tbl_emp_info`
 --
 
-INSERT INTO `tbl_emp_info` (`user_id`, `firstName`, `lastName`, `address`, `emailAddress`, `gender`, `mobileNumber`, `create_timestamp`, `pfp_dir`) VALUES
-(10, 'eric', 'eric', '', 'eric@gmail.com', '', '', '2025-02-12 04:38:54', ''),
-(11, 'Mikco', 'Cueto', '', 'cuetomikco08@gmail.com', '', '', '2025-02-12 04:39:53', ''),
-(12, 'justine', 'justine', 'aa', 'justine@gmail.com', 'dd', '111', '2025-02-12 05:33:23', ''),
-(13, 'Mikco', 'Cueto', 'aaaa', 'cueto@gmail.com', 'a', '', '2025-02-13 04:43:07', ''),
-(14, 'Mikco', 'Cueto', 'Sta. Maria SPC', 'c@gmail.com', 'Female', '099999999999', '2025-02-14 03:58:48', ''),
-(15, 'q', 'q', '', 'q@gmail.com', '', '', '2025-02-17 05:23:39', ''),
-(16, 'new', 'user', '', 'new@gmail.com', '', '', '2025-02-24 06:25:21', ''),
-(17, 'shan', 'test', 'cavite', 'shan@gmail.com', 'male', '911', '2025-03-07 03:25:23', ''),
-(18, 'MIKCO', 'Mikco', 'Purok 7 Brgy Sta Maria', '0321-2980@lspu.edu.ph', 'You Decide', '9076532552', '2025-03-18 04:05:12', '');
+INSERT INTO `tbl_emp_info` (`user_id`, `firstName`, `lastName`, `address`, `emailAddress`, `gender`, `mobileNumber`, `create_timestamp`, `pfp_dir`, `age`, `birth_date`, `highest_edu`, `years_of_experience`) VALUES
+(10, 'eric', 'eric', '', 'eric@gmail.com', '', '', '2025-02-12 04:38:54', '', 0, NULL, '', NULL),
+(11, 'Mikco', 'Cueto', '', 'cuetomikco08@gmail.com', '', '', '2025-02-12 04:39:53', '', 0, NULL, '', NULL),
+(12, 'justine', 'justine', 'aa', 'justine@gmail.com', 'dd', '111', '2025-02-12 05:33:23', '', 0, NULL, '', NULL),
+(13, 'Mikco', 'Cueto', 'aaaa', 'cueto@gmail.com', 'a', '', '2025-02-13 04:43:07', '', 0, NULL, '', NULL),
+(14, 'Mikco', 'Cueto', 'Sta. Maria SPC', 'c@gmail.com', 'Female', '099999999999', '2025-02-14 03:58:48', '', 0, NULL, '', NULL),
+(15, 'q', 'q', '', 'q@gmail.com', '', '', '2025-02-17 05:23:39', '', 0, NULL, '', NULL),
+(16, 'new', 'user', '', 'new@gmail.com', '', '', '2025-02-24 06:25:21', '', 0, NULL, '', NULL),
+(17, 'shan', 'test', 'cavite', 'shan@gmail.com', 'male', '911', '2025-03-07 03:25:23', '', 0, NULL, '', NULL),
+(18, 'MIKCO', 'Mikco', 'Purok 7 Brgy Sta Maria', '0321-2980@lspu.edu.ph', 'You Decide', '9076532552', '2025-03-18 04:05:12', '', 0, NULL, '', NULL),
+(19, 'q', 'w', 'University of Santo Tomas, España Boulevard, Barangay 470, Sampaloc, Fourth District, Manila, Capital District, Metro Manila, 1008, Philippines', 'shan01@gmail.com', 'male', '09123456789', '2025-05-06 04:14:20', '', 24, '2000-11-02', '', NULL),
+(20, 'q', 'w', 'Vape Play And Chill, 1733 C, F. Varona Street, Jade Garden Manila, Barangay 111, Tondo, First District, Manila, Capital District, Metro Manila, 1013, Philippines', 'shan02@gmail.com', 'male', '09123456789', '2025-05-06 04:17:51', '', 16, '2008-05-07', '', NULL),
+(21, 'q', 'w', 'Park Hill Street, Damayang Lagi, New Manila, 4th District, Quezon City, Eastern Manila District, Metro Manila, 1112, Philippines', 'shan03@gmail.com', 'prefer_not_to_say', '09123456789', '2025-05-06 04:24:08', '', 21, '2003-05-07', 'Doctorate', 10),
+(22, 'q', 'w', 'España Boulevard, Sampaloc, Fourth District, Manila, Capital District, Metro Manila, 1015, Philippines', 'shan04@gmail.com', 'male', '09123456789', '2025-05-06 05:00:26', '', 5, '2020-05-02', 'Diploma', 10),
+(23, 'q', 'w', 'Bambang Market/Masangkay, Masangkay Street, 257, Tondo, Second District, Manila, Capital District, Metro Manila, 1003, Philippines', 'shan05@gmail.com', 'female', '09123456789', '2025-05-06 05:03:22', '', 2, '2023-05-01', 'Doctorate', 44),
+(24, 'q', 'w', 'Maria Cristina Street, Barangay 494, Sampaloc, Fourth District, Manila, Capital District, Metro Manila, 1015, Philippines', 'shan06@gmail.com', 'female', '09123456789', '2025-05-06 05:05:53', '', 5, '2020-05-06', 'Bachelor\'s Degree', 10),
+(25, 'q', 'q', 'Jose R. Reyes Memorial Medical Center, Rizal Avenue, Santa Cruz, Third District, Manila, Capital District, Metro Manila, 1003, Philippines', 'shan07@gmail.com', 'male', '09123456789', '2025-05-06 05:10:46', '', 1, '2023-05-11', 'Bachelor\'s Degree', 10),
+(26, 'q', 'w', 'Quiricada Street, 257, Tondo, Second District, Manila, Capital District, Metro Manila, 1003, Philippines', 'shan08@gmail.com', 'prefer_not_to_say', '09123456789', '2025-05-06 05:13:14', '', 2, '2023-05-03', 'Master\'s Degree', 11);
 
 -- --------------------------------------------------------
 
@@ -367,7 +383,15 @@ INSERT INTO `tbl_emp_login` (`id`, `user_id`, `emailAddress`, `password`, `salt`
 (14, 15, 'q@gmail.com', '$2y$10$bjfjhWI0opTVQy7FnWki8.TS15bneUmQFWnnARkSspDC3BpgaFl2W', '6f6429bb85ba085f101e84969eb8ef6d'),
 (15, 16, 'new@gmail.com', '$2y$10$aUnIVI9vPQdaeVcH5XFCSe93uu8PFE4U43tM0d8DGYRCk7vis.eWC', 'a5562417cf7f5a2a0bafad3075671d15'),
 (16, 17, 'shan@gmail.com', '$2y$10$Lif.hyGIzgj1m/3JuNnKAue7fMZwXCNFShE50dPIrHZj2JE7D2lN2', '88f1714cbeab414b76dced3a7d3a9f7d'),
-(17, 18, 'mikco@gmail.com', '$2y$10$IZtDy.Uv/8GkR57lgrlYEeoZNHAMEMPFfXwPU2LEox0giNwwHjo3e', 'f6f6e65887253d2b56440b9d76394d42');
+(17, 18, 'mikco@gmail.com', '$2y$10$IZtDy.Uv/8GkR57lgrlYEeoZNHAMEMPFfXwPU2LEox0giNwwHjo3e', 'f6f6e65887253d2b56440b9d76394d42'),
+(18, 19, 'shan01@gmail.com', '$2y$10$xmdYl7iqOSeNIO7s2oeyF.dOhAcGhQ4ge1kGj5iMwAB0j3Eq8xK7K', '515d9abe9f076dddb2e78ede937c69ee'),
+(19, 20, 'shan02@gmail.com', '$2y$10$U5b.OeMKcWVow/I5xsVfz.rxfPZLfYGptBDXa/fHq/LZewqQCZUrS', '5a042acb8a74dec03486eacf37fb132d'),
+(20, 21, 'shan03@gmail.com', '$2y$10$9DZuTLuQM32/L3jY19BiA.M/BV13K2.IP4/kCxa6EJVL1gLOCNj3W', '336d6a2ea4c4fff72c5ef401708ce539'),
+(21, 22, 'shan04@gmail.com', '$2y$10$wpfS4Sn1prTEEuMK7YpbAeDUfVS8uqgezhFbSB3UlG0Fo4ovzRVfq', 'd91b7d27d20e456449b3b55f6b00829c'),
+(22, 23, 'shan05@gmail.com', '$2y$10$r..jYFkUwFyKMhgIhnQvuO7hQjQt..oaHvOJo/6VkgJBJrn4q0P8q', '6dc915d6f0bd4c6bde8d742dffb05597'),
+(23, 24, 'shan06@gmail.com', '$2y$10$TvzQAGENNQJ98kxdDhrTc.ZthqzWETPrqkh.25iYraIgKjuVHj5Em', '3633a5995802d8242054162abc9f8cbf'),
+(24, 25, 'shan07@gmail.com', '$2y$10$5eWR91nnmrFHxPHLEWzrruXqfJcME73Gkzqlta37vVpu65j2TmdvK', 'b7bfa3e67a0d58150b764ab3d1d5601b'),
+(25, 26, 'shan08@gmail.com', '$2y$10$KfbDOSK4K0cTqMpUsiYSdeVtek.bdOjusSPE55jjNfB7ExjCwqOKq', '69f33f16aed44bd25e3b3acb31b95309');
 
 -- --------------------------------------------------------
 
@@ -745,7 +769,7 @@ ALTER TABLE `tbl_emp_careerhistory`
 -- AUTO_INCREMENT for table `tbl_emp_category_preferences`
 --
 ALTER TABLE `tbl_emp_category_preferences`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tbl_emp_certification`
@@ -769,7 +793,7 @@ ALTER TABLE `tbl_emp_educback`
 -- AUTO_INCREMENT for table `tbl_emp_info`
 --
 ALTER TABLE `tbl_emp_info`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `tbl_emp_language`
@@ -781,7 +805,7 @@ ALTER TABLE `tbl_emp_language`
 -- AUTO_INCREMENT for table `tbl_emp_login`
 --
 ALTER TABLE `tbl_emp_login`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `tbl_emp_resume`

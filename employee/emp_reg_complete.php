@@ -3,7 +3,7 @@ session_start();
 $email = $_SESSION['temp_email'] ?? '';
 require "../includes/db_connect.php"; // Ensure database connection is included
 $categories = [];
-$query = "SELECT category_id, category_name FROM tbl_job_category"; // Replace with your actual table and column names
+$query = "SELECT category_id, category_name FROM tbl_job_category"; 
 $result = $conn->query($query);
 if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
