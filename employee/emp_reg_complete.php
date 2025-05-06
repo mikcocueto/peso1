@@ -75,12 +75,12 @@ $email = $_SESSION['temp_email'] ?? '';
         </select>
       </div>
       <div class="col-md-6">
-        <label for="dob" class="form-label">Date of Birth-tba</label>
-        <input type="date" class="form-control" id="dob" name="dob">
+        <label for="dob" class="form-label">Date of Birth</label>
+        <input type="date" class="form-control" id="dob" name="dob" required>
       </div>
       <div class="col-md-6">
-        <label for="age" class="form-label">Age-tba</label>
-        <input type="text" class="form-control" id="age" name="age" readonly>
+        <label for="age" class="form-label">Age</label>
+        <input type="text" class="form-control" id="age" name="age" readonly required>
       </div>
       <div class="col-md-6">
         <label for="phone" class="form-label">Phone Number</label>

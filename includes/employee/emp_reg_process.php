@@ -10,8 +10,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $gender = trim($_POST['gender']);
     $mobileNumber = trim($_POST['mobile_number']);
     $address = trim($_POST['address']);
+    $birthDate = trim($_POST['dob']);
+    $age = trim($_POST['age']);
 
-    if (empty($email) || empty($password) || empty($firstName) || empty($lastName) || empty($gender) || empty($mobileNumber) || empty($address)) {
+    if (empty($email) || empty($password) || empty($firstName) || empty($lastName) || empty($gender) || empty($mobileNumber) || empty($address) || empty($birthDate) || empty($age)) {
         die("All fields are required.");
     }
 
@@ -20,8 +22,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $hashedPassword = password_hash($password . $salt, PASSWORD_BCRYPT);
 
     // Insert into tbl_emp_info
-    $stmt1 = $conn->prepare("INSERT INTO tbl_emp_info (firstName, lastName, emailAddress, gender, mobileNumber, address) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt1->bind_param("ssssss", $firstName, $lastName, $email, $gender, $mobileNumber, $address);
+    $stmt1 = $conn->prepare("INSERT INTO tbl_emp_info (firstName, lastName, emailAddress, gender, mobileNumber, address, birth_date, age) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt1->bind_param("sssssssi", $firstName, $lastName, $email, $gender, $mobileNumber, $address, $birthDate, $age);
 
     if ($stmt1->execute()) {
         $user_id = $conn->insert_id;
@@ -32,7 +34,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($stmt2->execute()) {
             unset($_SESSION['temp_email'], $_SESSION['temp_password']);
-            header("Location: ../../employee/emp_reg&login.php");
+            echo "<script>
+                    alert('Registration successful! Redirecting to login page...');
+                    setTimeout(() => {
+                        window.location.href = '../../employee/emp_reg&login.php';
+                    }, 2000);
+                  </script>";
             exit();
         } else {
             die("Error inserting into tbl_emp_login: " . $stmt2->error);
