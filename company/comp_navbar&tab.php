@@ -11,6 +11,16 @@ if (!isset($_SESSION['company_id'])) {
 }
 
 $company_id = $_SESSION['company_id'];
+
+// Fetch unread notifications for the company
+$notification_query = "SELECT notification_id, message, created_at FROM tbl_job_notifications WHERE company_id = ? AND is_read = 0 ORDER BY created_at DESC";
+$notification_stmt = $conn->prepare($notification_query);
+$notification_stmt->bind_param("i", $company_id);
+$notification_stmt->execute();
+$notification_result = $notification_stmt->get_result();
+$notifications = $notification_result->fetch_all(MYSQLI_ASSOC);
+$notification_count = count($notifications);
+$notification_stmt->close();
 ?>
 
 <!DOCTYPE html>
@@ -38,40 +48,30 @@ $company_id = $_SESSION['company_id'];
             <span id="currentTime" class="current-time" style="color: white; margin-right: 20px;"></span>
             <div class="notification-dropdown">
                 <i class="bx bx-bell" onclick="toggleNotification()"></i>
-                <span class="notification-badge">3</span>
+                <span class="notification-badge"><?= $notification_count ?></span>
                 <div class="notification-content" id="notificationContent">
                     <div class="notification-header">
                         <h5>Notifications</h5>
-                        <button class="mark-all-read">Mark all as read</button>
+                        <button class="mark-all-read" onclick="markAllNotificationsRead()">Mark all as read</button>
                     </div>
                     <div class="notification-list">
-                        <div class="notification-item unread">
-                            <div class="notification-icon">
-                                <i class="bx bx-user-plus"></i>
+                        <?php if ($notification_count > 0): ?>
+                            <?php foreach ($notifications as $notification): ?>
+                                <div class="notification-item unread">
+                                    <div class="notification-icon">
+                                        <i class="bx bx-info-circle"></i>
+                                    </div>
+                                    <div class="notification-details">
+                                        <p><?= htmlspecialchars($notification['message']) ?></p>
+                                        <span class="notification-time"><?= htmlspecialchars(date('F j, Y, g:i a', strtotime($notification['created_at']))) ?></span>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <div class="text-center text-muted">
+                                <p>No new notifications</p>
                             </div>
-                            <div class="notification-details">
-                                <p>New application received for Software Engineer position</p>
-                                <span class="notification-time">2 minutes ago</span>
-                            </div>
-                        </div>
-                        <div class="notification-item unread">
-                            <div class="notification-icon">
-                                <i class="bx bx-check-circle"></i>
-                            </div>
-                            <div class="notification-details">
-                                <p>Your job posting has been approved</p>
-                                <span class="notification-time">1 hour ago</span>
-                            </div>
-                        </div>
-                        <div class="notification-item">
-                            <div class="notification-icon">
-                                <i class="bx bx-info-circle"></i>
-                            </div>
-                            <div class="notification-details">
-                                <p>Your company profile has been updated</p>
-                                <span class="notification-time">2 hours ago</span>
-                            </div>
-                        </div>
+                        <?php endif; ?>
                     </div>
                     <div class="notification-footer">
                         <a href="#" class="view-all">View all notifications</a>
@@ -474,6 +474,27 @@ $company_id = $_SESSION['company_id'];
                 if (tab.dataset.tab === tabName) {
                     tab.classList.add('active');
                 }
+            });
+        }
+
+        function markAllNotificationsRead() {
+            fetch('../includes/company/mark_notifications_read.php', {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.querySelectorAll('.notification-item.unread').forEach(item => {
+                        item.classList.remove('unread');
+                    });
+                    document.querySelector('.notification-badge').textContent = '0';
+                    document.querySelector('.notification-badge').style.display = 'none';
+                } else {
+                    alert('Failed to mark notifications as read.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
             });
         }
     </script>
