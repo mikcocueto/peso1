@@ -25,6 +25,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($stmt->execute()) {
         $application_id = $stmt->insert_id;
 
+        // Insert notification for the company
+        $notification_query = "INSERT INTO tbl_job_notifications (company_id, job_id, message, is_read, created_at) 
+                               VALUES (?, ?, ?, 0, NOW())";
+        $notification_stmt = $conn->prepare($notification_query);
+        $message = "A new application has been submitted for your job listing.";
+        $notification_stmt->bind_param("iis", $job_id, $job_id, $message);
+        $notification_stmt->execute();
+        $notification_stmt->close();
+
         // Copy selected files and insert their paths into tbl_job_application_files
         $destination_dir = "../../db/pdf/application_files/";
         $file_insert_errors = [];
