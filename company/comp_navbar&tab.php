@@ -13,7 +13,7 @@ if (!isset($_SESSION['company_id'])) {
 $company_id = $_SESSION['company_id'];
 
 // Fetch unread notifications for the company
-$notification_query = "SELECT notification_id, message, created_at FROM tbl_job_notifications WHERE company_id = ? AND is_read = 0 ORDER BY created_at DESC";
+$notification_query = "SELECT notification_id, job_id, message, created_at FROM tbl_job_notifications WHERE company_id = ? AND is_read = 0 ORDER BY created_at DESC";
 $notification_stmt = $conn->prepare($notification_query);
 $notification_stmt->bind_param("i", $company_id);
 $notification_stmt->execute();
@@ -57,7 +57,7 @@ $notification_stmt->close();
                     <div class="notification-list">
                         <?php if ($notification_count > 0): ?>
                             <?php foreach ($notifications as $notification): ?>
-                                <div class="notification-item unread">
+                                <div class="notification-item unread" onclick="redirectToCandidatesTab(<?= json_encode($notification['job_id']) ?>)">
                                     <div class="notification-icon">
                                         <i class="bx bx-info-circle"></i>
                                     </div>
@@ -496,6 +496,17 @@ $notification_stmt->close();
             .catch(error => {
                 console.error('Error:', error);
             });
+        }
+
+        function redirectToCandidatesTab(jobId) {
+            if (!jobId) {
+                alert('Invalid job ID.');
+                return;
+            }
+            const url = new URL(window.location.href);
+            url.searchParams.set('tab', 'candidates');
+            url.searchParams.set('job_id', jobId);
+            window.location.href = url.toString();
         }
     </script>
 </body>

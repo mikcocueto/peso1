@@ -15,6 +15,10 @@ if (isset($_GET['job_id'])) {
     $candidates = $result->fetch_all(MYSQLI_ASSOC);
     $stmt->close();
 
+    header('Content-Type: application/json');
     echo json_encode($candidates);
+} else {
+    http_response_code(400);
+    echo json_encode(['error' => 'Invalid job ID']);
 }
 ?>

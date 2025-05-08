@@ -1211,3 +1211,68 @@ $stmt->close();
         document.body.style.overflow = ''; // Reset the overflow style
     });
 </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const tab = urlParams.get('tab');
+        const jobId = urlParams.get('job_id');
+
+        if (tab === 'candidates' && jobId) {
+            // Switch to the "Candidates" tab
+            switchTab('candidates');
+
+            // Preselect the job in the dropdown
+            const jobDropdown = document.getElementById('jobDropdown');
+            jobDropdown.value = jobId;
+
+            // Fetch candidates for the selected job
+            fetchCandidates(jobId);
+        }
+    });
+
+    function fetchCandidates(jobId) {
+        if (!jobId) {
+            document.getElementById('candidatesTableBody').innerHTML = `
+                <tr>
+                    <td colspan="4" class="text-center">Select a job to view candidates.</td>
+                </tr>`;
+            return;
+        }
+
+        fetch(`../includes/company/comp_get_candidates.php?job_id=${jobId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch candidates');
+                }
+                return response.json();
+            })
+            .then(candidates => {
+                const tableBody = document.getElementById('candidatesTableBody');
+                tableBody.innerHTML = '';
+
+                if (candidates.length === 0) {
+                    tableBody.innerHTML = `
+                        <tr>
+                            <td colspan="4" class="text-center">No candidates found for this job.</td>
+                        </tr>`;
+                    return;
+                }
+
+                candidates.forEach(candidate => {
+                    const row = `
+                        <tr>
+                            <td>${candidate.firstName} ${candidate.lastName}</td>
+                            <td>${candidate.emailAddress}</td>
+                            <td>${new Date(candidate.application_time).toLocaleString()}</td>
+                            <td>${candidate.status}</td>
+                        </tr>`;
+                    tableBody.insertAdjacentHTML('beforeend', row);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching candidates:', error);
+                alert('Failed to load candidates. Please try again later.');
+            });
+    }
+</script>
