@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 06, 2025 at 07:28 AM
+-- Generation Time: May 08, 2025 at 03:25 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -182,7 +182,8 @@ INSERT INTO `tbl_emp_careerhistory` (`id`, `user_id`, `job_title`, `company_name
 (11, 14, 'naqqqqqqqqqqqq', 'reeeeeeee', '2024-02-01', '2024-02-03', 0, 'werrr'),
 (12, 16, 'miso', 'miso', '2025-02-04', '2025-02-05', 0, 'qqqqqqqqq'),
 (13, 17, 'CEO', 'Shan inc.', '2016-01-04', '0000-00-00', 1, 'do itss'),
-(14, 18, 'OJT', 'MIS', '2025-03-02', '2025-03-28', 1, '');
+(14, 18, 'OJT', 'MIS', '2025-03-02', '2025-03-28', 1, ''),
+(15, 19, 'miso', 'miso', '2025-05-01', '2025-05-02', 0, 'aa');
 
 -- --------------------------------------------------------
 
@@ -254,7 +255,8 @@ CREATE TABLE `tbl_emp_cv` (
 --
 
 INSERT INTO `tbl_emp_cv` (`id`, `emp_id`, `cv_file_name`, `cv_name`, `cv_dir`, `upload_timestamp`) VALUES
-(15, 17, 'R1Fu6T4r_KATHERINE CUETO-RESUME (1).pdf', '1', '../../db/pdf/emp_cv/', '2025-04-08 07:13:19');
+(15, 17, 'R1Fu6T4r_KATHERINE CUETO-RESUME (1).pdf', '1', '../../db/pdf/emp_cv/', '2025-04-08 07:13:19'),
+(16, 19, 'zsQd74Jl_IMRAD_Development of a Machine Learning Model Integrated in a Mobile App to.pdf', 'cv1', '../../db/pdf/emp_cv/', '2025-05-08 00:54:48');
 
 -- --------------------------------------------------------
 
@@ -462,7 +464,18 @@ CREATE TABLE `tbl_job_application` (
 --
 
 INSERT INTO `tbl_job_application` (`id`, `emp_id`, `job_id`, `application_time`, `status`) VALUES
-(20, 17, 14, '2025-04-11 01:06:08', 'pending');
+(20, 17, 14, '2025-04-11 01:06:08', 'pending'),
+(21, 19, 14, '2025-05-08 00:55:05', 'pending'),
+(22, 17, 34, '2025-05-08 01:07:07', 'pending'),
+(23, 17, 34, '2025-05-08 01:07:20', 'pending'),
+(24, 17, 33, '2025-05-08 01:07:32', 'pending'),
+(25, 17, 16, '2025-05-08 01:07:41', 'pending'),
+(26, 17, 32, '2025-05-08 01:09:08', 'pending'),
+(27, 19, 34, '2025-05-08 01:09:43', 'pending'),
+(32, 19, 33, '2025-05-08 01:18:40', 'pending'),
+(33, 19, 32, '2025-05-08 01:18:47', 'pending'),
+(34, 19, 16, '2025-05-08 01:19:25', 'pending'),
+(35, 17, 19, '2025-05-08 01:24:42', 'pending');
 
 -- --------------------------------------------------------
 
@@ -481,7 +494,12 @@ CREATE TABLE `tbl_job_application_files` (
 --
 
 INSERT INTO `tbl_job_application_files` (`id`, `application_id`, `file_inserted_dir`) VALUES
-(7, 20, '../../db/pdf/application_files/R1Fu6T4r_KATHERINE CUETO-RESUME (1).pdf');
+(7, 20, '../../db/pdf/application_files/R1Fu6T4r_KATHERINE CUETO-RESUME (1).pdf'),
+(8, 21, '../../db/pdf/application_files/zsQd74Jl_IMRAD_Development of a Machine Learning Model Integrated in a Mobile App to.pdf'),
+(9, 32, '../../db/pdf/application_files/zsQd74Jl_IMRAD_Development of a Machine Learning Model Integrated in a Mobile App to.pdf'),
+(10, 33, '../../db/pdf/application_files/zsQd74Jl_IMRAD_Development of a Machine Learning Model Integrated in a Mobile App to.pdf'),
+(11, 34, '../../db/pdf/application_files/zsQd74Jl_IMRAD_Development of a Machine Learning Model Integrated in a Mobile App to.pdf'),
+(12, 35, '../../db/pdf/application_files/R1Fu6T4r_KATHERINE CUETO-RESUME (1).pdf');
 
 -- --------------------------------------------------------
 
@@ -572,6 +590,32 @@ INSERT INTO `tbl_job_listing` (`job_id`, `employer_id`, `job_cover_img`, `title`
 (32, 6, '0c2beb6d93de2f8f_1745995998.jpg', 'Accountant', 'accounting', '2 year experience', 'Full-Time', 'San Pablo City', NULL, 1.00, 2.00, 'php', 2, '2025-04-23 16:00:00', '2025-04-09 16:00:00', 'active'),
 (33, 6, '84278cd2c84afb2c_1745982931.png', 'house keeping attendant', 'house keeper', '1 year exp', 'Part-Time', 'San Pablo City', NULL, 150.00, 300.00, 'php', 1, '2025-04-29 16:00:00', '2025-05-10 16:00:00', 'active'),
 (34, 6, '3791244bde5cbe64_1746174257.jpg', 'Aircon Specialist', 'none', 'aircon', 'Contract', '609, Bilibid Viejo Street, 391, Quiapo, Third District, Manila, Capital District, Metro Manila, 1001, Philippines', 1, 1.00, 2.00, 'php', 6, '2025-05-01 16:00:00', '2025-05-27 16:00:00', 'active');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_job_notifications`
+--
+
+CREATE TABLE `tbl_job_notifications` (
+  `notification_id` int(11) NOT NULL,
+  `company_id` int(11) NOT NULL,
+  `job_id` int(11) NOT NULL,
+  `message` text NOT NULL,
+  `is_read` tinyint(1) DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_job_notifications`
+--
+
+INSERT INTO `tbl_job_notifications` (`notification_id`, `company_id`, `job_id`, `message`, `is_read`, `created_at`) VALUES
+(1, 14, 14, 'A new application has been submitted for your job listing.', 0, '2025-05-08 00:55:05'),
+(12, 6, 33, 'A new application has been submitted for your job listing.', 1, '2025-05-08 01:18:40'),
+(13, 6, 32, 'A new application has been submitted for your job listing.', 1, '2025-05-08 01:18:48'),
+(14, 6, 16, 'A new application has been submitted for your job listing.', 1, '2025-05-08 01:19:25'),
+(15, 6, 19, 'A new application has been submitted for your job listing: Registered Nurse (RN).', 0, '2025-05-08 01:24:42');
 
 --
 -- Indexes for dumped tables
@@ -726,6 +770,14 @@ ALTER TABLE `tbl_job_listing`
   ADD KEY `coordinate_id` (`coordinate_id`);
 
 --
+-- Indexes for table `tbl_job_notifications`
+--
+ALTER TABLE `tbl_job_notifications`
+  ADD PRIMARY KEY (`notification_id`),
+  ADD KEY `company_id` (`company_id`),
+  ADD KEY `job_id` (`job_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -763,7 +815,7 @@ ALTER TABLE `tbl_comp_verification`
 -- AUTO_INCREMENT for table `tbl_emp_careerhistory`
 --
 ALTER TABLE `tbl_emp_careerhistory`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `tbl_emp_category_preferences`
@@ -781,7 +833,7 @@ ALTER TABLE `tbl_emp_certification`
 -- AUTO_INCREMENT for table `tbl_emp_cv`
 --
 ALTER TABLE `tbl_emp_cv`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `tbl_emp_educback`
@@ -829,13 +881,13 @@ ALTER TABLE `tbl_emp_skills`
 -- AUTO_INCREMENT for table `tbl_job_application`
 --
 ALTER TABLE `tbl_job_application`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `tbl_job_application_files`
 --
 ALTER TABLE `tbl_job_application_files`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `tbl_job_category`
@@ -854,6 +906,12 @@ ALTER TABLE `tbl_job_coordinates`
 --
 ALTER TABLE `tbl_job_listing`
   MODIFY `job_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+
+--
+-- AUTO_INCREMENT for table `tbl_job_notifications`
+--
+ALTER TABLE `tbl_job_notifications`
+  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Constraints for dumped tables
@@ -959,6 +1017,13 @@ ALTER TABLE `tbl_job_listing`
   ADD CONSTRAINT `catfk` FOREIGN KEY (`category_id`) REFERENCES `tbl_job_category` (`category_id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `compfk` FOREIGN KEY (`employer_id`) REFERENCES `tbl_comp_info` (`company_id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `tbl_job_listing_ibfk_1` FOREIGN KEY (`coordinate_id`) REFERENCES `tbl_job_coordinates` (`id`);
+
+--
+-- Constraints for table `tbl_job_notifications`
+--
+ALTER TABLE `tbl_job_notifications`
+  ADD CONSTRAINT `tbl_job_notifications_ibfk_1` FOREIGN KEY (`company_id`) REFERENCES `tbl_comp_info` (`company_id`),
+  ADD CONSTRAINT `tbl_job_notifications_ibfk_2` FOREIGN KEY (`job_id`) REFERENCES `tbl_job_listing` (`job_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
