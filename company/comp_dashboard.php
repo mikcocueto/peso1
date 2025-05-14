@@ -498,11 +498,12 @@ $stmt->close();
                     <th>Email</th>
                     <th>Application Time</th>
                     <th>Status</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody id="candidatesTableBody">
                 <tr>
-                    <td colspan="4" class="text-center">Select a job to view candidates.</td>
+                    <td colspan="5" class="text-center">Select a job to view candidates.</td>
                 </tr>
             </tbody>
         </table>
@@ -992,7 +993,7 @@ $stmt->close();
             function fetchJobs(sortBy, sortOrder, searchQuery) {
                 fetch(`../includes/company/comp_dashboard_fetch_jobs.php?sort_by=${sortBy}&sort_order=${sortOrder}&search=${searchQuery}`)
                     .then(response => response.json()) // Expect JSON response
-                    .then(data => {
+                    .then((data) => { // <-- FIXED: Added parentheses around 'data'
                         const jobResults = document.getElementById('jobResults');
                         jobResults.innerHTML = ''; // Clear existing rows
 
@@ -1235,7 +1236,7 @@ $stmt->close();
         if (!jobId) {
             document.getElementById('candidatesTableBody').innerHTML = `
                 <tr>
-                    <td colspan="4" class="text-center">Select a job to view candidates.</td>
+                    <td colspan="5" class="text-center">Select a job to view candidates.</td>
                 </tr>`;
             return;
         }
@@ -1254,7 +1255,7 @@ $stmt->close();
                 if (candidates.length === 0) {
                     tableBody.innerHTML = `
                         <tr>
-                            <td colspan="4" class="text-center">No candidates found for this job.</td>
+                            <td colspan="5" class="text-center">No candidates found for this job.</td>
                         </tr>`;
                     return;
                 }
@@ -1266,6 +1267,9 @@ $stmt->close();
                             <td>${candidate.emailAddress}</td>
                             <td>${new Date(candidate.application_time).toLocaleString()}</td>
                             <td>${candidate.status}</td>
+                            <td>
+                                <button class="btn btn-info btn-sm" onclick="showCandidateInfoModal(${candidate.application_id})">Actions</button>
+                            </td>
                         </tr>`;
                     tableBody.insertAdjacentHTML('beforeend', row);
                 });
@@ -1275,4 +1279,66 @@ $stmt->close();
                 alert('Failed to load candidates. Please try again later.');
             });
     }
+
+    // Modal logic for candidate info (without CVs)
+    function showCandidateInfoModal(applicationId) {
+        document.getElementById('candidateInfoModalBody').innerHTML = '<div class="text-center p-3">Loading...</div>';
+        const modal = new bootstrap.Modal(document.getElementById('candidateInfoModal'));
+        modal.show();
+
+        fetch(`../includes/company/comp_get_application_info.php?application_id=${applicationId}`)
+            .then(response => response.text())
+            .then(text => {
+                // Debug: Show raw response if JSON parsing fails
+                let data;
+                try {
+                    data = JSON.parse(text);
+                } catch (e) {
+                    document.getElementById('candidateInfoModalBody').innerHTML =
+                        `<div class="text-danger">Failed to load candidate info.<br>
+                        <b>Raw response:</b><br>
+                        <pre style="white-space:pre-wrap;max-height:200px;overflow:auto;">${text.replace(/</g, '&lt;')}</pre>
+                        <b>Parse error:</b> ${e}</div>`;
+                    return;
+                }
+                if (data.error) {
+                    document.getElementById('candidateInfoModalBody').innerHTML = `<div class="text-danger">${data.error}</div>`;
+                    return;
+                }
+                const info = data.info;
+                let html = `
+                    <h5>Candidate Information</h5>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item"><strong>Name:</strong> ${info.firstName} ${info.lastName}</li>
+                        <li class="list-group-item"><strong>Email:</strong> ${info.emailAddress}</li>
+                        <li class="list-group-item"><strong>Contact:</strong> ${info.contactNumber || ''}</li>
+                        <li class="list-group-item"><strong>Address:</strong> ${info.address || ''}</li>
+                        <li class="list-group-item"><strong>Application Time:</strong> ${new Date(info.application_time).toLocaleString()}</li>
+                        <li class="list-group-item"><strong>Status:</strong> ${info.status}</li>
+                    </ul>
+                    <h6>Submitted CV(s):</h6>
+                    <div class="alert alert-info mb-0">CV viewing will be available soon.</div>
+                `;
+                document.getElementById('candidateInfoModalBody').innerHTML = html;
+            })
+            .catch(error => {
+                document.getElementById('candidateInfoModalBody').innerHTML =
+                    `<div class="text-danger">Failed to load candidate info. ${error}</div>`;
+            });
+    }
 </script>
+
+<!-- Candidate Info Modal -->
+<div class="modal fade" id="candidateInfoModal" tabindex="-1" aria-labelledby="candidateInfoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="candidateInfoModalLabel">Candidate Information</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="candidateInfoModalBody">
+                <!-- Content loaded by JS -->
+            </div>
+        </div>
+    </div>
+</div>
