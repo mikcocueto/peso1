@@ -34,22 +34,9 @@ $path_prefix = (strpos($_SERVER['PHP_SELF'], "/includes/") !== false || strpos($
             </div>
             <nav class="mx-auto site-navigation">
                 <ul class="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
-                    <li><a href="<?php echo $path_prefix; ?>index.php" class="nav-link <?php echo (strpos($_SERVER['PHP_SELF'], 'index.php') !== false) ? 'active' : ''; ?>">Home</a></li>
+                    <li><a href="<?php echo $path_prefix; ?>index.php#home" class="nav-link <?php echo (strpos($_SERVER['PHP_SELF'], 'index.php') !== false) ? 'active' : ''; ?>">Home</a></li>
                     <li><a href="<?php echo $path_prefix; ?>index.php#about">About</a></li>
-                    <li><a href="<?php echo $path_prefix; ?>employee/emp_job_list.php" class="nav-link <?php echo (strpos($_SERVER['PHP_SELF'], 'emp_job_list.php') !== false) ? 'active' : ''; ?>">Job Listings</a></li>
-                    <li class="has-children">
-                        <a href="<?php echo $path_prefix; ?>services.html">Pages</a>
-                        <ul class="dropdown">
-                            <li><a href="<?php echo $path_prefix; ?>services.html">Services</a></li>
-                            <li><a href="<?php echo $path_prefix; ?>service-single.html">Service Single</a></li>
-                            <li><a href="<?php echo $path_prefix; ?>blog-single.html">Blog Single</a></li>
-                            <li><a href="<?php echo $path_prefix; ?>portfolio.html">Portfolio</a></li>
-                            <li><a href="<?php echo $path_prefix; ?>portfolio-single.html">Portfolio Single</a></li>
-                            <li><a href="<?php echo $path_prefix; ?>testimonials.html">Testimonials</a></li>
-                            <li><a href="<?php echo $path_prefix; ?>faq.html">FAQ</a></li>
-                            <li><a href="<?php echo $path_prefix; ?>gallery.html">Gallery</a></li>
-                        </ul>
-                    </li>
+                    <li><a href="<?php echo $path_prefix; ?>employee/emp_job_list.php" class="nav-link <?php echo (strpos($_SERVER['PHP_SELF'], 'employee/emp_job_list.php') !== false) ? 'active' : ''; ?>">Job Listings</a></li>
                     <li><a href="<?php echo $path_prefix; ?>index.php#contacts">Contact</a></li>
                     <?php if (isset($_SESSION['user_id'])): ?>
                         <li class="d-lg-none has-children">

@@ -224,7 +224,7 @@ $conn->close();
     
   
     <!-- HOME -->
-    <section class="home-section section-hero overlay bg-image" style="background-image: url('fortest/images/HOMEBG.jpg');" id="home-section">
+    <section id="home" class="home-section section-hero overlay bg-image" style="background-image: url('fortest/images/HOMEBG.jpg');" id="home-section">
 
       <div class="container">
         <div class="row align-items-center justify-content-center">
