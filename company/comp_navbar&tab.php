@@ -74,7 +74,7 @@ $notification_stmt->close();
                         <?php endif; ?>
                     </div>
                     <div class="notification-footer">
-                        <a href="../company/comp_notif_inbox.php" class="view-all">View all notifications</a>
+                        <a href="#" class="view-all">View all notifications</a>
                     </div>
                 </div>
             </div>
