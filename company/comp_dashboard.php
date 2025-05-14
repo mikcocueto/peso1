@@ -1289,7 +1289,6 @@ $stmt->close();
         fetch(`../includes/company/comp_get_application_info.php?application_id=${applicationId}`)
             .then(response => response.text())
             .then(text => {
-                // Debug: Show raw response if JSON parsing fails
                 let data;
                 try {
                     data = JSON.parse(text);
@@ -1306,6 +1305,7 @@ $stmt->close();
                     return;
                 }
                 const info = data.info;
+                const files = data.files || [];
                 let html = `
                     <h5>Candidate Information</h5>
                     <ul class="list-group mb-3">
@@ -1317,14 +1317,46 @@ $stmt->close();
                         <li class="list-group-item"><strong>Status:</strong> ${info.status}</li>
                     </ul>
                     <h6>Submitted CV(s):</h6>
-                    <div class="alert alert-info mb-0">CV viewing will be available soon.</div>
+                    <div class="table-responsive">
+                    <table class="table table-bordered table-striped align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>CV Name</th>
+                                <th style="width:120px;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>`;
+            if (files.length > 0) {
+                files.forEach(file => {
+                    html += `
+                        <tr>
+                            <td>${file}</td>
+                            <td>
+                                <a href="../db/pdf/application_files/${encodeURIComponent(file)}" target="_blank" class="btn btn-sm btn-info">
+                                    <i class="bx bx-show"></i> Preview
+                                </a>
+                            </td>
+                        </tr>
+                    `;
+                });
+            } else {
+                html += `
+                    <tr>
+                        <td colspan="2" class="text-muted text-center">No CVs submitted.</td>
+                    </tr>
                 `;
-                document.getElementById('candidateInfoModalBody').innerHTML = html;
-            })
-            .catch(error => {
-                document.getElementById('candidateInfoModalBody').innerHTML =
-                    `<div class="text-danger">Failed to load candidate info. ${error}</div>`;
-            });
+            }
+            html += `
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            document.getElementById('candidateInfoModalBody').innerHTML = html;
+        })
+        .catch(error => {
+            document.getElementById('candidateInfoModalBody').innerHTML =
+                `<div class="text-danger">Failed to load candidate info. ${error}</div>`;
+        });
     }
 </script>
 

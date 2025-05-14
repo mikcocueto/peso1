@@ -4,7 +4,6 @@ require "../db_connect.php";
 if (isset($_GET['application_id'])) {
     $application_id = intval($_GET['application_id']);
 
-    // Fix: Remove 'ei.contactNumber' if it does not exist in tbl_emp_info
     $query = "SELECT ja.id AS application_id, ei.firstName, ei.lastName, ei.emailAddress, ei.address, ja.application_time, ja.status
               FROM tbl_job_application ja
               INNER JOIN tbl_emp_info ei ON ja.emp_id = ei.user_id
@@ -16,11 +15,22 @@ if (isset($_GET['application_id'])) {
     $info = $result->fetch_assoc();
     $stmt->close();
 
-    // No CV processing for now
+    // Fetch CV file names for this application
+    $files_query = "SELECT file_inserted FROM tbl_job_application_files WHERE application_id = ?";
+    $files_stmt = $conn->prepare($files_query);
+    $files_stmt->bind_param("i", $application_id);
+    $files_stmt->execute();
+    $files_result = $files_stmt->get_result();
+    $files = [];
+    while ($row = $files_result->fetch_assoc()) {
+        $files[] = $row['file_inserted'];
+    }
+    $files_stmt->close();
 
     header('Content-Type: application/json');
     echo json_encode([
-        'info' => $info
+        'info' => $info,
+        'files' => $files
     ]);
 } else {
     http_response_code(400);
