@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 08, 2025 at 03:25 AM
+-- Generation Time: May 14, 2025 at 08:32 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -256,7 +256,9 @@ CREATE TABLE `tbl_emp_cv` (
 
 INSERT INTO `tbl_emp_cv` (`id`, `emp_id`, `cv_file_name`, `cv_name`, `cv_dir`, `upload_timestamp`) VALUES
 (15, 17, 'R1Fu6T4r_KATHERINE CUETO-RESUME (1).pdf', '1', '../../db/pdf/emp_cv/', '2025-04-08 07:13:19'),
-(16, 19, 'zsQd74Jl_IMRAD_Development of a Machine Learning Model Integrated in a Mobile App to.pdf', 'cv1', '../../db/pdf/emp_cv/', '2025-05-08 00:54:48');
+(16, 19, 'zsQd74Jl_IMRAD_Development of a Machine Learning Model Integrated in a Mobile App to.pdf', 'cv1', '../../db/pdf/emp_cv/', '2025-05-08 00:54:48'),
+(17, 20, 'eDDobnVb_JMCY 3IN1.pdf', '11', '../../db/pdf/emp_cv/', '2025-05-08 04:10:17'),
+(18, 21, 'phec1T6q_FOR LOST11 FILLING.pdf', 'cv1', '../../db/pdf/emp_cv/', '2025-05-14 06:26:39');
 
 -- --------------------------------------------------------
 
@@ -320,7 +322,7 @@ INSERT INTO `tbl_emp_info` (`user_id`, `firstName`, `lastName`, `address`, `emai
 (18, 'MIKCO', 'Mikco', 'Purok 7 Brgy Sta Maria', '0321-2980@lspu.edu.ph', 'You Decide', '9076532552', '2025-03-18 04:05:12', '', 0, NULL, '', NULL),
 (19, 'q', 'w', 'University of Santo Tomas, España Boulevard, Barangay 470, Sampaloc, Fourth District, Manila, Capital District, Metro Manila, 1008, Philippines', 'shan01@gmail.com', 'male', '09123456789', '2025-05-06 04:14:20', '', 24, '2000-11-02', '', NULL),
 (20, 'q', 'w', 'Vape Play And Chill, 1733 C, F. Varona Street, Jade Garden Manila, Barangay 111, Tondo, First District, Manila, Capital District, Metro Manila, 1013, Philippines', 'shan02@gmail.com', 'male', '09123456789', '2025-05-06 04:17:51', '', 16, '2008-05-07', '', NULL),
-(21, 'q', 'w', 'Park Hill Street, Damayang Lagi, New Manila, 4th District, Quezon City, Eastern Manila District, Metro Manila, 1112, Philippines', 'shan03@gmail.com', 'prefer_not_to_say', '09123456789', '2025-05-06 04:24:08', '', 21, '2003-05-07', 'Doctorate', 10),
+(21, 'shan', '03', 'Park Hill Street, Damayang Lagi, New Manila, 4th District, Quezon City, Eastern Manila District, Metro Manila, 1112, Philippines', 'shan03@gmail.com', 'prefer_not_to_say', '09123456789', '2025-05-06 04:24:08', '', 21, '2003-05-07', 'Doctorate', 10),
 (22, 'q', 'w', 'España Boulevard, Sampaloc, Fourth District, Manila, Capital District, Metro Manila, 1015, Philippines', 'shan04@gmail.com', 'male', '09123456789', '2025-05-06 05:00:26', '', 5, '2020-05-02', 'Diploma', 10),
 (23, 'q', 'w', 'Bambang Market/Masangkay, Masangkay Street, 257, Tondo, Second District, Manila, Capital District, Metro Manila, 1003, Philippines', 'shan05@gmail.com', 'female', '09123456789', '2025-05-06 05:03:22', '', 2, '2023-05-01', 'Doctorate', 44),
 (24, 'q', 'w', 'Maria Cristina Street, Barangay 494, Sampaloc, Fourth District, Manila, Capital District, Metro Manila, 1015, Philippines', 'shan06@gmail.com', 'female', '09123456789', '2025-05-06 05:05:53', '', 5, '2020-05-06', 'Bachelor\'s Degree', 10),
@@ -475,7 +477,9 @@ INSERT INTO `tbl_job_application` (`id`, `emp_id`, `job_id`, `application_time`,
 (32, 19, 33, '2025-05-08 01:18:40', 'pending'),
 (33, 19, 32, '2025-05-08 01:18:47', 'pending'),
 (34, 19, 16, '2025-05-08 01:19:25', 'pending'),
-(35, 17, 19, '2025-05-08 01:24:42', 'pending');
+(35, 17, 19, '2025-05-08 01:24:42', 'pending'),
+(36, 20, 34, '2025-05-08 04:10:28', 'pending'),
+(37, 21, 32, '2025-05-14 06:27:00', 'pending');
 
 -- --------------------------------------------------------
 
@@ -486,20 +490,22 @@ INSERT INTO `tbl_job_application` (`id`, `emp_id`, `job_id`, `application_time`,
 CREATE TABLE `tbl_job_application_files` (
   `id` int(11) NOT NULL,
   `application_id` int(11) DEFAULT NULL,
-  `file_inserted_dir` varchar(255) DEFAULT NULL
+  `file_inserted` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tbl_job_application_files`
 --
 
-INSERT INTO `tbl_job_application_files` (`id`, `application_id`, `file_inserted_dir`) VALUES
-(7, 20, '../../db/pdf/application_files/R1Fu6T4r_KATHERINE CUETO-RESUME (1).pdf'),
-(8, 21, '../../db/pdf/application_files/zsQd74Jl_IMRAD_Development of a Machine Learning Model Integrated in a Mobile App to.pdf'),
-(9, 32, '../../db/pdf/application_files/zsQd74Jl_IMRAD_Development of a Machine Learning Model Integrated in a Mobile App to.pdf'),
-(10, 33, '../../db/pdf/application_files/zsQd74Jl_IMRAD_Development of a Machine Learning Model Integrated in a Mobile App to.pdf'),
-(11, 34, '../../db/pdf/application_files/zsQd74Jl_IMRAD_Development of a Machine Learning Model Integrated in a Mobile App to.pdf'),
-(12, 35, '../../db/pdf/application_files/R1Fu6T4r_KATHERINE CUETO-RESUME (1).pdf');
+INSERT INTO `tbl_job_application_files` (`id`, `application_id`, `file_inserted`) VALUES
+(7, 20, 'R1Fu6T4r_KATHERINE CUETO-RESUME (1).pdf'),
+(8, 21, 'zsQd74Jl_IMRAD_Development of a Machine Learning Model Integrated in a Mobile App to.pdf'),
+(9, 32, 'zsQd74Jl_IMRAD_Development of a Machine Learning Model Integrated in a Mobile App to.pdf'),
+(10, 33, 'zsQd74Jl_IMRAD_Development of a Machine Learning Model Integrated in a Mobile App to.pdf'),
+(11, 34, 'zsQd74Jl_IMRAD_Development of a Machine Learning Model Integrated in a Mobile App to.pdf'),
+(12, 35, 'R1Fu6T4r_KATHERINE CUETO-RESUME (1).pdf'),
+(13, 36, 'eDDobnVb_JMCY 3IN1.pdf'),
+(14, 37, 'phec1T6q_FOR LOST11 FILLING.pdf');
 
 -- --------------------------------------------------------
 
@@ -615,7 +621,9 @@ INSERT INTO `tbl_job_notifications` (`notification_id`, `company_id`, `job_id`, 
 (12, 6, 33, 'A new application has been submitted for your job listing.', 1, '2025-05-08 01:18:40'),
 (13, 6, 32, 'A new application has been submitted for your job listing.', 1, '2025-05-08 01:18:48'),
 (14, 6, 16, 'A new application has been submitted for your job listing.', 1, '2025-05-08 01:19:25'),
-(15, 6, 19, 'A new application has been submitted for your job listing: Registered Nurse (RN).', 0, '2025-05-08 01:24:42');
+(15, 6, 19, 'A new application has been submitted for your job listing: Registered Nurse (RN).', 0, '2025-05-08 01:24:42'),
+(16, 6, 34, 'A new application has been submitted for your job listing: Aircon Specialist.', 0, '2025-05-08 04:10:28'),
+(17, 6, 32, 'A new application has been submitted for your job listing: Accountant.', 0, '2025-05-14 06:27:00');
 
 --
 -- Indexes for dumped tables
@@ -833,7 +841,7 @@ ALTER TABLE `tbl_emp_certification`
 -- AUTO_INCREMENT for table `tbl_emp_cv`
 --
 ALTER TABLE `tbl_emp_cv`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `tbl_emp_educback`
@@ -881,13 +889,13 @@ ALTER TABLE `tbl_emp_skills`
 -- AUTO_INCREMENT for table `tbl_job_application`
 --
 ALTER TABLE `tbl_job_application`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `tbl_job_application_files`
 --
 ALTER TABLE `tbl_job_application_files`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `tbl_job_category`
@@ -911,7 +919,7 @@ ALTER TABLE `tbl_job_listing`
 -- AUTO_INCREMENT for table `tbl_job_notifications`
 --
 ALTER TABLE `tbl_job_notifications`
-  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- Constraints for dumped tables

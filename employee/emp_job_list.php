@@ -465,14 +465,25 @@ $jobs = $conn->query($query);
                     const modalBody = document.getElementById('cv-modal-body');
                     modalBody.innerHTML = '';
 
-                    data.forEach(cv => {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td><input type="checkbox" name="cv_files" value='${JSON.stringify(cv)}' onchange="limitSelection(this)"></td>
-                            <td>${cv.cv_name}</td>
+                    if (data.length === 0) {
+                        modalBody.innerHTML = `
+                            <tr>
+                                <td colspan="2" class="text-center text-muted">
+                                    You have no uploaded CVs.
+                                    <a href="emp_dashboard.php" class="text-primary" style="text-decoration:underline;">Please upload a CV before applying.</a>
+                                </td>
+                            </tr>
                         `;
-                        modalBody.appendChild(row);
-                    });
+                    } else {
+                        data.forEach(cv => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td><input type="checkbox" name="cv_files" value='${JSON.stringify(cv)}' onchange="limitSelection(this)"></td>
+                                <td>${cv.cv_name}</td>
+                            `;
+                            modalBody.appendChild(row);
+                        });
+                    }
 
                     const sendButton = document.getElementById('send-application-btn');
                     sendButton.onclick = function () {

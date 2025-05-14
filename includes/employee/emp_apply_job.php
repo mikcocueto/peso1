@@ -62,11 +62,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             if (file_exists($source_path)) {
                 if (copy($source_path, $destination_path)) {
-                    $insert_file_query = "INSERT INTO tbl_job_application_files (application_id, file_inserted_dir) VALUES (?, ?)";
+                    // Only insert the file name, not the full path
+                    $insert_file_query = "INSERT INTO tbl_job_application_files (application_id, file_inserted) VALUES (?, ?)";
                     $file_stmt = $conn->prepare($insert_file_query);
-                    $file_stmt->bind_param("is", $application_id, $destination_path);
+                    $file_name_only = $file['cv_file_name'];
+                    $file_stmt->bind_param("is", $application_id, $file_name_only);
                     if (!$file_stmt->execute()) {
-                        $file_insert_errors[] = "Failed to insert file path into database: $destination_path";
+                        $file_insert_errors[] = "Failed to insert file name into database: $file_name_only";
                     }
                     $file_stmt->close();
                 } else {
