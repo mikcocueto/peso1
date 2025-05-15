@@ -1,5 +1,6 @@
 <?php
 require "../includes/db_connect.php";
+
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
@@ -58,6 +59,7 @@ $jobs = $conn->query($query);
     <link rel="stylesheet" href="../fortest/style2/owl.carousel.min.css">
     <link rel="stylesheet" href="../fortest/style2/animate.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <style>
         body {
             background-image: url('../fortest/images/7lakes.png');
@@ -391,164 +393,15 @@ $jobs = $conn->query($query);
             background: #5a6268;
             border-color: #5a6268;
         }
+
+        #job-location-map {
+            width: 100%;
+            height: 300px;
+            margin-top: 15px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
     </style>
-    <script>
-        // Initialize dropdowns
-        $(document).ready(function() {
-            // Initialize Bootstrap dropdowns
-            $('.dropdown-toggle').on('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                $(this).next('.dropdown-menu').toggleClass('show');
-            });
-
-            // Close dropdown when clicking outside
-            $(document).on('click', function(e) {
-                if (!$(e.target).closest('.dropdown').length) {
-                    $('.dropdown-menu').removeClass('show');
-                }
-            });
-
-            // Initialize mobile menu toggle
-            $('.js-menu-toggle').click(function(e) {
-                e.preventDefault();
-                $('.site-menu').toggleClass('active');
-            });
-
-            // Initialize Bootstrap Select
-            $('.selectpicker').selectpicker();
-        });
-
-        function showJobDetails(jobId) {
-            const jobDetails = document.getElementById('job-details');
-            const jobBoxes = document.querySelectorAll('.job-box');
-            jobBoxes.forEach(box => box.classList.remove('selected-job'));
-            document.getElementById('job-' + jobId).classList.add('selected-job');
-
-            fetch('../includes/employee/emp_get_job_details.php?job_id=' + jobId)
-                .then(response => response.text())
-                .then(data => {
-                    jobDetails.innerHTML = `
-                    
-                        
-                    ` + data;
-
-                    fetch('../includes/employee/emp_check_application.php?job_id=' + jobId)
-                        .then(response => response.json())
-                        .then(data => {
-                            const applyButton = document.createElement('button');
-                            if (data.applied) {
-                                applyButton.textContent = 'Already Applied';
-                                applyButton.classList.add('btn', 'btn-secondary');
-                                applyButton.disabled = true;
-                            } else {
-                                applyButton.textContent = 'Apply';
-                                applyButton.classList.add('btn', 'btn-primary');
-                                applyButton.onclick = function() {
-                                    showCVSelectionModal(jobId);
-                                };
-                            }
-                            jobDetails.appendChild(applyButton);
-                        });
-                });
-        }
-
-        function showCVSelectionModal(jobId) {
-            fetch('../includes/employee/emp_get_uploaded_cvs.php')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    const modalBody = document.getElementById('cv-modal-body');
-                    modalBody.innerHTML = '';
-
-                    if (data.length === 0) {
-                        modalBody.innerHTML = `
-                            <tr>
-                                <td colspan="2" class="text-center text-muted">
-                                    You have no uploaded CVs.
-                                    <a href="emp_dashboard.php" class="text-primary" style="text-decoration:underline;">Please upload a CV before applying.</a>
-                                </td>
-                            </tr>
-                        `;
-                    } else {
-                        data.forEach(cv => {
-                            const row = document.createElement('tr');
-                            row.innerHTML = `
-                                <td><input type="checkbox" name="cv_files" value='${JSON.stringify(cv)}' onchange="limitSelection(this)"></td>
-                                <td>${cv.cv_name}</td>
-                            `;
-                            modalBody.appendChild(row);
-                        });
-                    }
-
-                    const sendButton = document.getElementById('send-application-btn');
-                    sendButton.onclick = function () {
-                        const selectedFiles = Array.from(document.querySelectorAll('input[name="cv_files"]:checked')).map(input => JSON.parse(input.value));
-                        if (selectedFiles.length > 0) {
-                            applyForJobWithCVs(jobId, selectedFiles);
-                        } else {
-                            alert('Please select at least one CV.');
-                        }
-                    };
-
-                    const cvModal = new bootstrap.Modal(document.getElementById('cvModal'));
-                    cvModal.show();
-                })
-                .catch(error => {
-                    console.error('Error fetching CVs:', error);
-                    alert('Failed to load CVs. Please try again later.');
-                });
-        }
-
-        function limitSelection(checkbox) {
-            const selected = document.querySelectorAll('input[name="cv_files"]:checked');
-            if (selected.length > 5) {
-                checkbox.checked = false;
-                alert('You can select a maximum of 5 CVs.');
-            }
-        }
-
-        function applyForJobWithCVs(jobId, selectedFiles) {
-            fetch('../includes/employee/emp_apply_job.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ job_id: jobId, selected_files: selectedFiles })
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Network response was not ok: ${response.statusText}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.success) {
-                    alert('Application submitted successfully');
-                    const cvModal = document.getElementById('cvModal');
-                    const modalInstance = bootstrap.Modal.getOrCreateInstance(cvModal); // Use getOrCreateInstance for compatibility
-                    modalInstance.hide();
-
-                    // Reselect the job listing after modal closes
-                    modalInstance._element.addEventListener('hidden.bs.modal', () => {
-                        showJobDetails(jobId);
-                    }, { once: true });
-                } else {
-                    console.error('Server error:', data.error, data.details || '');
-                    alert(`${data.error}\nDetails:\n${(data.details || []).join('\n')}`);
-                }
-            })
-            .catch(error => {
-                console.error('Error submitting application:', error);
-                alert('Failed to submit application. Please try again later.');
-            });
-        }
-    </script>
-
     <!-- CV Selection Modal -->
     <div class="modal fade" id="cvModal" tabindex="-1" aria-labelledby="cvModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -683,19 +536,18 @@ $jobs = $conn->query($query);
     </div>
     
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../fortest/js/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../fortest/js/isotope.pkgd.min.js"></script>
     <script src="../fortest/js/stickyfill.min.js"></script>
     <script src="../fortest/js/jquery.fancybox.min.js"></script>
     <script src="../fortest/js/jquery.easing.1.3.js"></script>
-
     <script src="../fortest/js/jquery.waypoints.min.js"></script>
     <script src="../fortest/js/jquery.animateNumber.min.js"></script>
     <script src="../fortest/js/owl.carousel.min.js"></script>
-
     <script src="../fortest/js/bootstrap-select.min.js"></script>
-
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="../includes/employee/js/emp_job_list.js"></script> <!-- Correctly include the external JS file -->
     <script src="../fortest/js/custom.js"></script>
 </body>
 </html>
