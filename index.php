@@ -76,6 +76,8 @@ $conn->close();
 <html lang="en">
   <head>
     <title>Public Employment Service Office</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="fortest/style2/custom-bs.css">
     <link rel="stylesheet" href="fortest/style2/jquery.fancybox.min.css">
     <link rel="stylesheet" href="fortest/style2/bootstrap-select.min.css">

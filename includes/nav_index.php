@@ -22,7 +22,7 @@ $path_prefix = (strpos($_SERVER['PHP_SELF'], "/includes/") !== false || strpos($
 <!-- NAVBAR -->
 <header class="site-navbar mt-3">
     <div class="container-fluid">
-        <div class="row align-items-center">
+        <div class="row align-items-center mt-0">
             <div class="site-logo col-6 d-flex align-items-center">
                 <a href="<?php echo $path_prefix; ?>index.php" class="d-flex align-items-center text-decoration-none">
                     <img src="<?php echo $path_prefix; ?>fortest/images/peso_icons.png" alt="PESO Logo" style="width: 120px; height: auto; margin-right: 10px;">
