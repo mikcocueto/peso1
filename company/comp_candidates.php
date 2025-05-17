@@ -29,6 +29,69 @@ $stmt->execute();
 $jobs_result = $stmt->get_result();
 $job_listings = $jobs_result->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
+
+// Function to fetch candidates for a specific job and status
+function fetchCandidates($conn, $job_id, $status) {
+    $query = "SELECT ja.id as application_id, ja.application_time, ja.status,
+                     ei.firstName, ei.lastName, ei.emailAddress, ei.contactNumber,
+                     (SELECT COUNT(*) FROM tbl_job_application_files jaf WHERE jaf.application_id = ja.id) as file_count
+              FROM tbl_job_application ja
+              JOIN tbl_emp_info ei ON ja.emp_id = ei.emp_id
+              WHERE ja.job_id = ? AND ja.status = ?
+              ORDER BY ja.application_time DESC";
+    
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("is", $job_id, $status);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $candidates = $result->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
+    
+    return $candidates;
+}
+
+// Function to generate candidate card HTML
+function generateCandidateCard($candidate) {
+    $statusColors = [
+        'active' => 'success',
+        'awaiting' => 'primary',
+        'reviewed' => 'secondary',
+        'contacted' => 'info',
+        'hired' => 'warning',
+        'rejected' => 'danger'
+    ];
+    
+    $statusColor = $statusColors[$candidate['status']] ?? 'secondary';
+    
+    return '
+    <div class="col-md-6 col-lg-4">
+        <div class="card candidate-card">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="candidate-avatar me-3">
+                        <i class="fas fa-user-circle" style="font-size: 2.5rem; color: #6c757d;"></i>
+                    </div>
+                    <div>
+                        <h5 class="card-title mb-0">' . htmlspecialchars($candidate['firstName'] . ' ' . $candidate['lastName']) . '</h5>
+                        <p class="text-muted mb-0">' . htmlspecialchars($candidate['emailAddress']) . '</p>
+                        <small class="text-muted">Applied: ' . date('M d, Y', strtotime($candidate['application_time'])) . '</small>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="badge bg-' . $statusColor . ' status-badge">' . ucfirst($candidate['status']) . '</span>
+                    <div>
+                        <span class="badge bg-light text-dark me-2">
+                            <i class="fas fa-file-alt me-1"></i>' . $candidate['file_count'] . ' Files
+                        </span>
+                        <button class="btn btn-sm btn-outline-primary" onclick="viewCandidateProfile(' . $candidate['application_id'] . ')">
+                            View Profile
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>';
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -200,7 +263,12 @@ $stmt->close();
         <!-- Tabs Navigation -->
         <ul class="nav nav-tabs mb-4" id="candidateTabs" role="tablist">
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="active-tab" data-bs-toggle="tab" data-bs-target="#active" type="button" role="tab">
+                <button class="nav-link active" id="all-tab" data-bs-toggle="tab" data-bs-target="#all" type="button" role="tab">
+                    <i class="fas fa-list me-2"></i>All
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="active-tab" data-bs-toggle="tab" data-bs-target="#active" type="button" role="tab">
                     <i class="fas fa-user-check me-2"></i>Active
                 </button>
             </li>
@@ -228,8 +296,36 @@ $stmt->close();
 
         <!-- Tab Content -->
         <div class="tab-content" id="candidateTabsContent">
+            <!-- All Candidates Tab -->
+            <div class="tab-pane fade show active" id="all" role="tabpanel">
+                <div id="allList">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Job Title</th>
+                                    <th>Candidate Name</th>
+                                    <th>Application Date</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="allCandidatesTable">
+                                <tr>
+                                    <td colspan="5" class="text-center py-5">
+                                        <i class="fas fa-briefcase mb-3" style="font-size: 3rem; color: #6c757d;"></i>
+                                        <h4 class="text-muted">Select a job posting to view candidates</h4>
+                                        <p class="text-muted">Choose a job from the dropdown above to see the list of candidates</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
             <!-- Active Candidates Tab -->
-            <div class="tab-pane fade show active" id="active" role="tabpanel">
+            <div class="tab-pane fade" id="active" role="tabpanel">
                 <div id="candidateList" class="row">
                     <div class="col-12 text-center py-5">
                         <i class="fas fa-briefcase mb-3" style="font-size: 3rem; color: #6c757d;"></i>
@@ -275,20 +371,171 @@ $stmt->close();
     <script>
     function handleJobSelection(jobId) {
         if (!jobId) {
-            // Reset the candidate list to show the initial message
-            document.getElementById('candidateList').innerHTML = `
+            resetCandidateList();
+            return;
+        }
+
+        // Fetch all candidates first
+        fetchAllCandidates(jobId);
+
+        // Then fetch candidates for each status
+        const statuses = ['active', 'awaiting', 'reviewed', 'contacted', 'hired'];
+        statuses.forEach(status => {
+            fetchCandidatesForStatus(jobId, status);
+        });
+    }
+
+    function resetCandidateList() {
+        // Reset all tab
+        document.getElementById('allCandidatesTable').innerHTML = `
+            <tr>
+                <td colspan="5" class="text-center py-5">
+                    <i class="fas fa-briefcase mb-3" style="font-size: 3rem; color: #6c757d;"></i>
+                    <h4 class="text-muted">Select a job posting to view candidates</h4>
+                    <p class="text-muted">Choose a job from the dropdown above to see the list of candidates</p>
+                </td>
+            </tr>
+        `;
+
+        // Reset other tabs
+        const statuses = ['active', 'awaiting', 'reviewed', 'contacted', 'hired'];
+        statuses.forEach(status => {
+            const tabId = status === 'active' ? 'active' : status;
+            document.getElementById(`${tabId}List`).innerHTML = `
                 <div class="col-12 text-center py-5">
                     <i class="fas fa-briefcase mb-3" style="font-size: 3rem; color: #6c757d;"></i>
                     <h4 class="text-muted">Select a job posting to view candidates</h4>
                     <p class="text-muted">Choose a job from the dropdown above to see the list of candidates</p>
                 </div>
             `;
-            return;
-        }
+        });
+    }
 
-        // Here you can add the AJAX call to fetch candidates for the selected job
-        // This will be implemented when you add the backend functionality
-        console.log('Selected job ID:', jobId);
+    function fetchAllCandidates(jobId) {
+        fetch(`../includes/company/comp_get_candidates.php?job_id=${jobId}&status=all`)
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.getElementById('allCandidatesTable');
+                
+                if (data.length === 0) {
+                    tableBody.innerHTML = `
+                        <tr>
+                            <td colspan="5" class="text-center py-5">
+                                <i class="fas fa-users mb-3" style="font-size: 3rem; color: #6c757d;"></i>
+                                <h4 class="text-muted">No candidates found</h4>
+                                <p class="text-muted">There are no candidates for this job posting</p>
+                            </td>
+                        </tr>
+                    `;
+                } else {
+                    tableBody.innerHTML = data.map(candidate => `
+                        <tr>
+                            <td>${candidate.job_title}</td>
+                            <td>${candidate.firstName} ${candidate.lastName}</td>
+                            <td>${new Date(candidate.application_time).toLocaleString()}</td>
+                            <td><span class="badge bg-${getStatusColor(candidate.status)}">${capitalizeFirst(candidate.status)}</span></td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-primary" onclick="viewCandidateProfile(${candidate.application_id})">
+                                    View Profile
+                                </button>
+                            </td>
+                        </tr>
+                    `).join('');
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching all candidates:', error);
+                document.getElementById('allCandidatesTable').innerHTML = `
+                    <tr>
+                        <td colspan="5" class="text-center py-5">
+                            <i class="fas fa-exclamation-circle mb-3" style="font-size: 3rem; color: #dc3545;"></i>
+                            <h4 class="text-danger">Error loading candidates</h4>
+                            <p class="text-muted">Please try again later</p>
+                        </td>
+                    </tr>
+                `;
+            });
+    }
+
+    function fetchCandidatesForStatus(jobId, status) {
+        fetch(`../includes/company/comp_get_candidates.php?job_id=${jobId}&status=${status}`)
+            .then(response => response.json())
+            .then(data => {
+                const tabId = status === 'active' ? 'active' : status;
+                const candidateList = document.getElementById(`${tabId}List`);
+                
+                if (data.length === 0) {
+                    candidateList.innerHTML = `
+                        <div class="col-12 text-center py-5">
+                            <i class="fas fa-users mb-3" style="font-size: 3rem; color: #6c757d;"></i>
+                            <h4 class="text-muted">No ${status} candidates</h4>
+                            <p class="text-muted">There are no candidates in this status</p>
+                        </div>
+                    `;
+                } else {
+                    candidateList.innerHTML = data.map(candidate => `
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card candidate-card">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="candidate-avatar me-3">
+                                            <i class="fas fa-user-circle" style="font-size: 2.5rem; color: #6c757d;"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="card-title mb-0">${candidate.firstName} ${candidate.lastName}</h5>
+                                            <p class="text-muted mb-0">${candidate.emailAddress}</p>
+                                            <small class="text-muted">Applied: ${new Date(candidate.application_time).toLocaleDateString()}</small>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="badge bg-${getStatusColor(candidate.status)} status-badge">${capitalizeFirst(candidate.status)}</span>
+                                        <div>
+                                            <span class="badge bg-light text-dark me-2">
+                                                <i class="fas fa-file-alt me-1"></i>${candidate.file_count} Files
+                                            </span>
+                                            <button class="btn btn-sm btn-outline-primary" onclick="viewCandidateProfile(${candidate.application_id})">
+                                                View Profile
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching candidates:', error);
+                const tabId = status === 'active' ? 'active' : status;
+                document.getElementById(`${tabId}List`).innerHTML = `
+                    <div class="col-12 text-center py-5">
+                        <i class="fas fa-exclamation-circle mb-3" style="font-size: 3rem; color: #dc3545;"></i>
+                        <h4 class="text-danger">Error loading candidates</h4>
+                        <p class="text-muted">Please try again later</p>
+                    </div>
+                `;
+            });
+    }
+
+    function getStatusColor(status) {
+        const colors = {
+            'active': 'success',
+            'awaiting': 'primary',
+            'reviewed': 'secondary',
+            'contacted': 'info',
+            'hired': 'warning',
+            'rejected': 'danger'
+        };
+        return colors[status] || 'secondary';
+    }
+
+    function capitalizeFirst(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+    function viewCandidateProfile(applicationId) {
+        // This will be implemented when you add the candidate profile modal
+        console.log('Viewing profile for application:', applicationId);
     }
 
     function toggleProfileDropdown() {
