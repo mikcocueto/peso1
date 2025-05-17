@@ -465,7 +465,7 @@ $stmt->close();
             <span class="status-link badge bg-warning text-dark rounded-pill px-2 py-1">0 Hired</span>
             <span class="status-link badge bg-danger text-white rounded-pill px-2 py-1">22 Rejected</span>
         </div>
-        <button class="btn btn-primary" href="comp_candidates.php">Go to Candidates Page</button> <hr>
+        <a href="comp_candidates.php" class="btn btn-primary">Go to Candidates Page</a> <hr>
         <!-- Dynamic Job Dropdown -->
         <select id="jobDropdown" class="job-position" onchange="fetchCandidates(this.value)">
             <option value="">-- Select a Job --</option>
