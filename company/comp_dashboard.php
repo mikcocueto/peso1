@@ -1302,8 +1302,8 @@ $stmt->close();
             })
             .catch(error => console.error('Error fetching counts:', error));
 
-        // Then fetch the candidates list
-        fetch(`../includes/company/comp_get_candidates.php?job_id=${jobId}`)
+        // Then fetch the candidates list using the new endpoint
+        fetch(`../includes/company/comp_dashboard_fetch_candidates.php?job_id=${jobId}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Failed to fetch candidates');
@@ -1338,7 +1338,12 @@ $stmt->close();
             })
             .catch(error => {
                 console.error('Error fetching candidates:', error);
-                alert('Failed to load candidates. Please try again later.');
+                document.getElementById('candidatesTableBody').innerHTML = `
+                    <tr>
+                        <td colspan="5" class="text-center text-danger">
+                            <i class="fas fa-exclamation-circle"></i> Error loading candidates. Please try again.
+                        </td>
+                    </tr>`;
             });
     }
 
