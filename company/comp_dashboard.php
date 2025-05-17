@@ -1358,9 +1358,88 @@ $stmt->close();
         };
         return colors[status] || 'secondary';
     }
+
+    //  showCandidateInfoModal function
+    function showCandidateInfoModal(applicationId) {
+        document.getElementById('candidateInfoModalBody').innerHTML = '<div class="text-center p-3">Loading...</div>';
+        const modal = new bootstrap.Modal(document.getElementById('candidateInfoModal'));
+        modal.show();
+
+        fetch(`../includes/company/comp_get_application_info.php?application_id=${applicationId}`)
+            .then(response => response.text())
+            .then(text => {
+                let data;
+                try {
+                    data = JSON.parse(text);
+                } catch (e) {
+                    document.getElementById('candidateInfoModalBody').innerHTML =
+                        `<div class="text-danger">Failed to load candidate info.<br>
+                        <b>Raw response:</b><br>
+                        <pre style="white-space:pre-wrap;max-height:200px;overflow:auto;">${text.replace(/</g, '&lt;')}</pre>
+                        <b>Parse error:</b> ${e}</div>`;
+                    return;
+                }
+                if (data.error) {
+                    document.getElementById('candidateInfoModalBody').innerHTML = `<div class="text-danger">${data.error}</div>`;
+                    return;
+                }
+                const info = data.info;
+                const files = data.files || [];
+                let html = `
+                    <h5>Candidate Information</h5>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item"><strong>Name:</strong> ${info.firstName} ${info.lastName}</li>
+                        <li class="list-group-item"><strong>Email:</strong> ${info.emailAddress}</li>
+                        <li class="list-group-item"><strong>Contact:</strong> ${info.contactNumber || ''}</li>
+                        <li class="list-group-item"><strong>Address:</strong> ${info.address || ''}</li>
+                        <li class="list-group-item"><strong>Application Time:</strong> ${new Date(info.application_time).toLocaleString()}</li>
+                        <li class="list-group-item"><strong>Status:</strong> <span class="badge bg-${getStatusColor(info.status)}">${info.status}</span></li>
+                    </ul>
+                    <h6>Submitted CV(s):</h6>
+                    <div class="table-responsive">
+                    <table class="table table-bordered table-striped align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>CV Name</th>
+                                <th style="width:120px;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>`;
+                if (files.length > 0) {
+                    files.forEach(file => {
+                        html += `
+                            <tr>
+                                <td>${file}</td>
+                                <td>
+                                    <a href="../db/pdf/application_files/${encodeURIComponent(file)}" target="_blank" class="btn btn-sm btn-info">
+                                        <i class="bx bx-show"></i> Preview
+                                    </a>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                } else {
+                    html += `
+                        <tr>
+                            <td colspan="2" class="text-muted text-center">No CVs submitted.</td>
+                        </tr>
+                    `;
+                }
+                html += `
+                        </tbody>
+                    </table>
+                </div>
+                `;
+                document.getElementById('candidateInfoModalBody').innerHTML = html;
+            })
+            .catch(error => {
+                document.getElementById('candidateInfoModalBody').innerHTML =
+                    `<div class="text-danger">Failed to load candidate info. ${error}</div>`;
+            });
+    }
 </script>
 
-<!-- Candidate Info Modal -->
+<!-- Add back the Candidate Info Modal -->
 <div class="modal fade" id="candidateInfoModal" tabindex="-1" aria-labelledby="candidateInfoModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
