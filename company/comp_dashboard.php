@@ -72,6 +72,25 @@ $stmt->execute();
 $jobs_dropdown_result = $stmt->get_result();
 $jobs_dropdown = $jobs_dropdown_result->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
+
+// Fetch candidate counts for all statuses
+$candidate_counts_query = "SELECT 
+    SUM(CASE WHEN ja.status = 'active' THEN 1 ELSE 0 END) as active_count,
+    SUM(CASE WHEN ja.status = 'awaiting' THEN 1 ELSE 0 END) as awaiting_count,
+    SUM(CASE WHEN ja.status = 'reviewed' THEN 1 ELSE 0 END) as reviewed_count,
+    SUM(CASE WHEN ja.status = 'contacted' THEN 1 ELSE 0 END) as contacted_count,
+    SUM(CASE WHEN ja.status = 'hired' THEN 1 ELSE 0 END) as hired_count,
+    SUM(CASE WHEN ja.status = 'rejected' THEN 1 ELSE 0 END) as rejected_count
+FROM tbl_job_application ja
+JOIN tbl_job_listing jl ON ja.job_id = jl.job_id
+WHERE jl.employer_id = ?";
+
+$stmt = $conn->prepare($candidate_counts_query);
+$stmt->bind_param("i", $company_id);
+$stmt->execute();
+$counts_result = $stmt->get_result();
+$candidate_counts = $counts_result->fetch_assoc();
+$stmt->close();
 ?>
 <!DOCTYPE html>
 
@@ -458,12 +477,24 @@ $stmt->close();
 
         <!-- Candidates Table -->
         <div class="status-filters d-flex justify-content-start flex-wrap gap-2 mb-3">
-            <span class="status-link badge bg-success text-white rounded-pill px-2 py-1">17 Active</span>
-            <span class="status-link badge bg-primary text-white rounded-pill px-2 py-1">12 Awaiting review</span>
-            <span class="status-link badge bg-secondary text-white rounded-pill px-2 py-1">2 Reviewed</span>
-            <span class="status-link badge bg-info text-dark rounded-pill px-2 py-1">2 Contacted</span>
-            <span class="status-link badge bg-warning text-dark rounded-pill px-2 py-1">0 Hired</span>
-            <span class="status-link badge bg-danger text-white rounded-pill px-2 py-1">22 Rejected</span>
+            <span class="status-link badge bg-success text-white rounded-pill px-2 py-1">
+                <?php echo $candidate_counts['active_count'] ?? 0; ?> Active
+            </span>
+            <span class="status-link badge bg-primary text-white rounded-pill px-2 py-1">
+                <?php echo $candidate_counts['awaiting_count'] ?? 0; ?> Awaiting review
+            </span>
+            <span class="status-link badge bg-secondary text-white rounded-pill px-2 py-1">
+                <?php echo $candidate_counts['reviewed_count'] ?? 0; ?> Reviewed
+            </span>
+            <span class="status-link badge bg-info text-dark rounded-pill px-2 py-1">
+                <?php echo $candidate_counts['contacted_count'] ?? 0; ?> Contacted
+            </span>
+            <span class="status-link badge bg-warning text-dark rounded-pill px-2 py-1">
+                <?php echo $candidate_counts['hired_count'] ?? 0; ?> Hired
+            </span>
+            <span class="status-link badge bg-danger text-white rounded-pill px-2 py-1">
+                <?php echo $candidate_counts['rejected_count'] ?? 0; ?> Rejected
+            </span>
         </div>
         <a href="comp_candidates.php" class="btn btn-primary">Go to Candidates Page</a> <hr>
         <!-- Dynamic Job Dropdown -->
@@ -734,7 +765,7 @@ $stmt->close();
         const modalElement = document.getElementById('locationModal');
         const modal = bootstrap.Modal.getInstance(modalElement);
         modal.hide();
-}
+    }
     document.addEventListener('DOMContentLoaded', function () {
         const locationModal = document.getElementById('locationModal');
         locationModal.addEventListener('shown.bs.modal', initMap);
@@ -1243,6 +1274,35 @@ $stmt->close();
             return;
         }
 
+        // First fetch the candidate counts for the selected job
+        fetch(`../includes/company/comp_get_candidate_counts.php?job_id=${jobId}`)
+            .then(response => response.json())
+            .then(counts => {
+                // Update the status badges with new counts
+                document.querySelector('.status-filters').innerHTML = `
+                    <span class="status-link badge bg-success text-white rounded-pill px-2 py-1">
+                        ${counts.active_count} Active
+                    </span>
+                    <span class="status-link badge bg-primary text-white rounded-pill px-2 py-1">
+                        ${counts.awaiting_count} Awaiting review
+                    </span>
+                    <span class="status-link badge bg-secondary text-white rounded-pill px-2 py-1">
+                        ${counts.reviewed_count} Reviewed
+                    </span>
+                    <span class="status-link badge bg-info text-dark rounded-pill px-2 py-1">
+                        ${counts.contacted_count} Contacted
+                    </span>
+                    <span class="status-link badge bg-warning text-dark rounded-pill px-2 py-1">
+                        ${counts.hired_count} Hired
+                    </span>
+                    <span class="status-link badge bg-danger text-white rounded-pill px-2 py-1">
+                        ${counts.rejected_count} Rejected
+                    </span>
+                `;
+            })
+            .catch(error => console.error('Error fetching counts:', error));
+
+        // Then fetch the candidates list
         fetch(`../includes/company/comp_get_candidates.php?job_id=${jobId}`)
             .then(response => {
                 if (!response.ok) {
@@ -1268,7 +1328,7 @@ $stmt->close();
                             <td>${candidate.firstName} ${candidate.lastName}</td>
                             <td>${candidate.emailAddress}</td>
                             <td>${new Date(candidate.application_time).toLocaleString()}</td>
-                            <td>${candidate.status}</td>
+                            <td><span class="badge bg-${getStatusColor(candidate.status)}">${candidate.status}</span></td>
                             <td>
                                 <button class="btn btn-info btn-sm" onclick="showCandidateInfoModal(${candidate.application_id})">Actions</button>
                             </td>
@@ -1282,83 +1342,16 @@ $stmt->close();
             });
     }
 
-    // Modal logic for candidate info (without CVs)
-    function showCandidateInfoModal(applicationId) {
-        document.getElementById('candidateInfoModalBody').innerHTML = '<div class="text-center p-3">Loading...</div>';
-        const modal = new bootstrap.Modal(document.getElementById('candidateInfoModal'));
-        modal.show();
-
-        fetch(`../includes/company/comp_get_application_info.php?application_id=${applicationId}`)
-            .then(response => response.text())
-            .then(text => {
-                let data;
-                try {
-                    data = JSON.parse(text);
-                } catch (e) {
-                    document.getElementById('candidateInfoModalBody').innerHTML =
-                        `<div class="text-danger">Failed to load candidate info.<br>
-                        <b>Raw response:</b><br>
-                        <pre style="white-space:pre-wrap;max-height:200px;overflow:auto;">${text.replace(/</g, '&lt;')}</pre>
-                        <b>Parse error:</b> ${e}</div>`;
-                    return;
-                }
-                if (data.error) {
-                    document.getElementById('candidateInfoModalBody').innerHTML = `<div class="text-danger">${data.error}</div>`;
-                    return;
-                }
-                const info = data.info;
-                const files = data.files || [];
-                let html = `
-                    <h5>Candidate Information</h5>
-                    <ul class="list-group mb-3">
-                        <li class="list-group-item"><strong>Name:</strong> ${info.firstName} ${info.lastName}</li>
-                        <li class="list-group-item"><strong>Email:</strong> ${info.emailAddress}</li>
-                        <li class="list-group-item"><strong>Contact:</strong> ${info.contactNumber || ''}</li>
-                        <li class="list-group-item"><strong>Address:</strong> ${info.address || ''}</li>
-                        <li class="list-group-item"><strong>Application Time:</strong> ${new Date(info.application_time).toLocaleString()}</li>
-                        <li class="list-group-item"><strong>Status:</strong> ${info.status}</li>
-                    </ul>
-                    <h6>Submitted CV(s):</h6>
-                    <div class="table-responsive">
-                    <table class="table table-bordered table-striped align-middle mb-0">
-                        <thead class="table-light">
-                            <tr>
-                                <th>CV Name</th>
-                                <th style="width:120px;">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>`;
-            if (files.length > 0) {
-                files.forEach(file => {
-                    html += `
-                        <tr>
-                            <td>${file}</td>
-                            <td>
-                                <a href="../db/pdf/application_files/${encodeURIComponent(file)}" target="_blank" class="btn btn-sm btn-info">
-                                    <i class="bx bx-show"></i> Preview
-                                </a>
-                            </td>
-                        </tr>
-                    `;
-                });
-            } else {
-                html += `
-                    <tr>
-                        <td colspan="2" class="text-muted text-center">No CVs submitted.</td>
-                    </tr>
-                `;
-            }
-            html += `
-                        </tbody>
-                    </table>
-                </div>
-            `;
-            document.getElementById('candidateInfoModalBody').innerHTML = html;
-        })
-        .catch(error => {
-            document.getElementById('candidateInfoModalBody').innerHTML =
-                `<div class="text-danger">Failed to load candidate info. ${error}</div>`;
-        });
+    function getStatusColor(status) {
+        const colors = {
+            'active': 'success',
+            'awaiting': 'primary',
+            'reviewed': 'secondary',
+            'contacted': 'info',
+            'hired': 'warning',
+            'rejected': 'danger'
+        };
+        return colors[status] || 'secondary';
     }
 </script>
 

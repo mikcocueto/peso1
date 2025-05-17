@@ -326,7 +326,7 @@ function generateCandidateCard($candidate) {
 
             <!-- Active Candidates Tab -->
             <div class="tab-pane fade" id="active" role="tabpanel">
-                <div id="candidateList" class="row">
+                <div id="activeList" class="row">
                     <div class="col-12 text-center py-5">
                         <i class="fas fa-briefcase mb-3" style="font-size: 3rem; color: #6c757d;"></i>
                         <h4 class="text-muted">Select a job posting to view candidates</h4>
@@ -337,29 +337,45 @@ function generateCandidateCard($candidate) {
 
             <!-- Awaiting Review Tab -->
             <div class="tab-pane fade" id="awaiting" role="tabpanel">
-                <div class="row">
-                    <!-- Sample content for awaiting review -->
+                <div id="awaitingList" class="row">
+                    <div class="col-12 text-center py-5">
+                        <i class="fas fa-briefcase mb-3" style="font-size: 3rem; color: #6c757d;"></i>
+                        <h4 class="text-muted">Select a job posting to view candidates</h4>
+                        <p class="text-muted">Choose a job from the dropdown above to see the list of candidates</p>
+                    </div>
                 </div>
             </div>
 
             <!-- Reviewed Tab -->
             <div class="tab-pane fade" id="reviewed" role="tabpanel">
-                <div class="row">
-                    <!-- Sample content for reviewed -->
+                <div id="reviewedList" class="row">
+                    <div class="col-12 text-center py-5">
+                        <i class="fas fa-briefcase mb-3" style="font-size: 3rem; color: #6c757d;"></i>
+                        <h4 class="text-muted">Select a job posting to view candidates</h4>
+                        <p class="text-muted">Choose a job from the dropdown above to see the list of candidates</p>
+                    </div>
                 </div>
             </div>
 
             <!-- Contacted Tab -->
             <div class="tab-pane fade" id="contacted" role="tabpanel">
-                <div class="row">
-                    <!-- Sample content for contacted -->
+                <div id="contactedList" class="row">
+                    <div class="col-12 text-center py-5">
+                        <i class="fas fa-briefcase mb-3" style="font-size: 3rem; color: #6c757d;"></i>
+                        <h4 class="text-muted">Select a job posting to view candidates</h4>
+                        <p class="text-muted">Choose a job from the dropdown above to see the list of candidates</p>
+                    </div>
                 </div>
             </div>
 
             <!-- Hired Tab -->
             <div class="tab-pane fade" id="hired" role="tabpanel">
-                <div class="row">
-                    <!-- Sample content for hired -->
+                <div id="hiredList" class="row">
+                    <div class="col-12 text-center py-5">
+                        <i class="fas fa-briefcase mb-3" style="font-size: 3rem; color: #6c757d;"></i>
+                        <h4 class="text-muted">Select a job posting to view candidates</h4>
+                        <p class="text-muted">Choose a job from the dropdown above to see the list of candidates</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -400,8 +416,7 @@ function generateCandidateCard($candidate) {
         // Reset other tabs
         const statuses = ['active', 'awaiting', 'reviewed', 'contacted', 'hired'];
         statuses.forEach(status => {
-            const tabId = status === 'active' ? 'active' : status;
-            document.getElementById(`${tabId}List`).innerHTML = `
+            document.getElementById(`${status}List`).innerHTML = `
                 <div class="col-12 text-center py-5">
                     <i class="fas fa-briefcase mb-3" style="font-size: 3rem; color: #6c757d;"></i>
                     <h4 class="text-muted">Select a job posting to view candidates</h4>
@@ -461,8 +476,7 @@ function generateCandidateCard($candidate) {
         fetch(`../includes/company/comp_get_candidates.php?job_id=${jobId}&status=${status}`)
             .then(response => response.json())
             .then(data => {
-                const tabId = status === 'active' ? 'active' : status;
-                const candidateList = document.getElementById(`${tabId}List`);
+                const candidateList = document.getElementById(`${status}List`);
                 
                 if (data.length === 0) {
                     candidateList.innerHTML = `
@@ -506,8 +520,7 @@ function generateCandidateCard($candidate) {
             })
             .catch(error => {
                 console.error('Error fetching candidates:', error);
-                const tabId = status === 'active' ? 'active' : status;
-                document.getElementById(`${tabId}List`).innerHTML = `
+                document.getElementById(`${status}List`).innerHTML = `
                     <div class="col-12 text-center py-5">
                         <i class="fas fa-exclamation-circle mb-3" style="font-size: 3rem; color: #dc3545;"></i>
                         <h4 class="text-danger">Error loading candidates</h4>
