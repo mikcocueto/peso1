@@ -200,6 +200,10 @@ $conn->close();
       .btn-save-job i {
         font-size: 1.1em;
       }
+
+      html {
+        scroll-behavior: smooth;
+      }
     </style>
   </head>
   <body id="top">
@@ -224,7 +228,7 @@ $conn->close();
     
   
     <!-- HOME -->
-    <section id="home" class="home-section section-hero overlay bg-image" style="background-image: url('fortest/images/HOMEBG.jpg');" id="home-section">
+    <section id="home" class="home-section section-hero overlay bg-image" style="background-image: url('fortest/images/HOMEBG.jpg');">
 
       <div class="container">
         <div class="row align-items-center justify-content-center">
@@ -567,6 +571,24 @@ $conn->close();
     });
   });
 </script>
-  </body>
-    </html>
+<script>
+// Smooth scrolling for navigation tabs/links (with jQuery fallback)
+document.addEventListener("DOMContentLoaded", function() {
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener("click", function(e) {
+      const targetId = this.getAttribute("href");
+      if (targetId.length > 1 && document.querySelector(targetId)) {
+        e.preventDefault();
+        // Use scrollIntoView for smooth scroll
+        document.querySelector(targetId).scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      }
+    });
+  });
+});
+</script>
+</body>
+</html>
 
