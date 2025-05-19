@@ -1,3 +1,27 @@
+<?php
+// Database connection
+include '../includes/db_connect.php'; // Make sure this file contains the database connection logic
+
+// Fetch Total Jobs
+$totalJobsQuery = "SELECT COUNT(*) AS total_jobs FROM tbl_job_listing";
+$totalJobsResult = $conn->query($totalJobsQuery);
+$totalJobs = $totalJobsResult->fetch_assoc()['total_jobs'];
+
+// Fetch Active Users
+$activeUsersQuery = "SELECT COUNT(*) AS active_users FROM tbl_emp_info";
+$activeUsersResult = $conn->query($activeUsersQuery);
+$activeUsers = $activeUsersResult->fetch_assoc()['active_users'];
+
+// Fetch Companies
+$totalCompaniesQuery = "SELECT COUNT(*) AS total_companies FROM tbl_comp_info";
+$totalCompaniesResult = $conn->query($totalCompaniesQuery);
+$totalCompanies = $totalCompaniesResult->fetch_assoc()['total_companies'];
+
+// Fetch Applications
+$totalApplicationsQuery = "SELECT COUNT(*) AS total_applications FROM tbl_job_application";
+$totalApplicationsResult = $conn->query($totalApplicationsQuery);
+$totalApplications = $totalApplicationsResult->fetch_assoc()['total_applications'];
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,6 +58,7 @@
     .card, .table, .btn {
       border-radius: 0.75rem;
       box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+      z-index: -1;
     }
     .badge {
       border-radius: 1rem;
@@ -42,11 +67,11 @@
       box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
     }
     .content {
-      margin-top: 6rem; /* Increased space for the fixed top navbar */
+      margin-top: 6rem;
     }
     @media (max-width: 768px) {
       .content {
-        margin-top: 6rem; /* Ensure consistent spacing on smaller screens */
+        margin-top: 6rem;
       }
     }
     .table-responsive {
@@ -81,7 +106,7 @@
           <div class="card text-white bg-primary fade-in">
             <div class="card-body">
               <h5 class="card-title">Total Jobs</h5>
-              <p class="card-text fs-4">150</p>
+              <p class="card-text fs-4"><?php echo $totalJobs; ?></p>
             </div>
           </div>
         </div>
@@ -89,7 +114,7 @@
           <div class="card text-white bg-success fade-in">
             <div class="card-body">
               <h5 class="card-title">Active Users</h5>
-              <p class="card-text fs-4">3,200</p>
+              <p class="card-text fs-4"><?php echo $activeUsers; ?></p>
             </div>
           </div>
         </div>
@@ -98,7 +123,7 @@
             <div class="card text-white bg-info fade-in">
               <div class="card-body">
                 <h5 class="card-title">Companies</h5>
-                <p class="card-text fs-4">420</p>
+                <p class="card-text fs-4"><?php echo $totalCompanies; ?></p>
               </div>
             </div>
           </a>
@@ -107,7 +132,7 @@
           <div class="card text-white bg-warning fade-in">
             <div class="card-body">
               <h5 class="card-title">Applications</h5>
-              <p class="card-text fs-4">8,500</p>
+              <p class="card-text fs-4"><?php echo $totalApplications; ?></p>
             </div>
           </div>
         </div>

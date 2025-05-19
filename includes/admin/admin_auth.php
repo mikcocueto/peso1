@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Debugging: Password verified
             error_log("Password verified successfully");
             $_SESSION["admin_id"] = $admin_id;
-            header("Location: ../../admin/admin_dashboard.php");
+            header("Location: ../../admin/admin_dash.php");
             exit();
         } else {
             // Debugging: Invalid password
