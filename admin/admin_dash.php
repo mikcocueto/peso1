@@ -28,6 +28,21 @@ $recentJobsQuery = "SELECT job_id, title, (SELECT companyName FROM tbl_comp_info
                     ORDER BY posted_date DESC 
                     LIMIT 10";
 $recentJobsResult = $conn->query($recentJobsQuery);
+
+// Fetch 5 Most Recent Employee Registrations
+$recentUsersQuery = "SELECT firstName, lastName, emailAddress, create_timestamp 
+                     FROM tbl_emp_info 
+                     ORDER BY create_timestamp DESC 
+                     LIMIT 5";
+$recentUsersResult = $conn->query($recentUsersQuery);
+
+// Fetch 5 Most Recent Employer Registrations with Email
+$recentEmployersQuery = "SELECT ci.companyName, cl.emailAddress, ci.create_time 
+                         FROM tbl_comp_info ci
+                         JOIN tbl_comp_login cl ON ci.company_id = cl.company_id
+                         ORDER BY ci.create_time DESC 
+                         LIMIT 5";
+$recentEmployersResult = $conn->query($recentEmployersQuery);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -207,45 +222,72 @@ $recentJobsResult = $conn->query($recentJobsQuery);
                 <th>No.</th>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Role</th>
                 <th>Joined</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
+              <?php if ($recentUsersResult->num_rows > 0): ?>
+                <?php $counter = 1; ?>
+                <?php while ($row = $recentUsersResult->fetch_assoc()): ?>
+                  <tr>
+                    <td><?php echo $counter++; ?></td>
+                    <td><?php echo htmlspecialchars($row['firstName'] . ' ' . $row['lastName']); ?></td>
+                    <td><?php echo htmlspecialchars($row['emailAddress']); ?></td>
+                    <td><?php echo htmlspecialchars(date('Y-m-d H:i:s', strtotime($row['create_timestamp']))); ?></td>
+                    <td>
+                      <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i> Edit</button>
+                      <button class="btn btn-sm btn-outline-danger"><i class="bi bi-person-x"></i> Ban</button>
+                    </td>
+                  </tr>
+                <?php endwhile; ?>
+              <?php else: ?>
+                <tr>
+                  <td colspan="5" class="text-center">No recent user signups found.</td>
+                </tr>
+              <?php endif; ?>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Recent Employer Signups Table -->
+      <div class="card mb-4 fade-in">
+        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+          <h5 class="mb-0">Recent Employer Signups</h5>
+          <a href="../admin/admin_companies.php"><button class="btn btn-sm btn-outline-primary">Manage Employers</button></a>
+        </div>
+        <div class="card-body table-responsive">
+          <table class="table table-hover">
+            <thead>
               <tr>
-                <td>1</td>
-                <td>Alice Johnson</td>
-                <td>alice@example.com</td>
-                <td>Job Seeker</td>
-                <td>Today</td>
-                <td>
-                  <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i> Edit</button>
-                  <button class="btn btn-sm btn-outline-danger"><i class="bi bi-person-x"></i> Ban</button>
-                </td>
+                <th>No.</th>
+                <th>Company Name</th>
+                <th>Email</th>
+                <th>Joined</th>
+                <th>Actions</th>
               </tr>
-              <tr>
-                <td>2</td>
-                <td>Michael Lee</td>
-                <td>michael@example.com</td>
-                <td>Employer</td>
-                <td>Yesterday</td>
-                <td>
-                  <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i> Edit</button>
-                  <button class="btn btn-sm btn-outline-danger"><i class="bi bi-person-x"></i> Ban</button>
-                </td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>Sara Kim</td>
-                <td>sara@example.com</td>
-                <td>Job Seeker</td>
-                <td>3 days ago</td>
-                <td>
-                  <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i> Edit</button>
-                  <button class="btn btn-sm btn-outline-danger"><i class="bi bi-person-x"></i> Ban</button>
-                </td>
-              </tr>
+            </thead>
+            <tbody>
+              <?php if ($recentEmployersResult->num_rows > 0): ?>
+                <?php $counter = 1; ?>
+                <?php while ($row = $recentEmployersResult->fetch_assoc()): ?>
+                  <tr>
+                    <td><?php echo $counter++; ?></td>
+                    <td><?php echo htmlspecialchars($row['companyName']); ?></td>
+                    <td><?php echo htmlspecialchars($row['emailAddress']); ?></td>
+                    <td><?php echo htmlspecialchars(date('Y-m-d H:i:s', strtotime($row['create_time']))); ?></td>
+                    <td>
+                      <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i> Edit</button>
+                      <button class="btn btn-sm btn-outline-danger"><i class="bi bi-person-x"></i> Ban</button>
+                    </td>
+                  </tr>
+                <?php endwhile; ?>
+              <?php else: ?>
+                <tr>
+                  <td colspan="5" class="text-center">No recent employer signups found.</td>
+                </tr>
+              <?php endif; ?>
             </tbody>
           </table>
         </div>
