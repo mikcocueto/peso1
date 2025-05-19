@@ -114,7 +114,18 @@
       <h4>Admin Panel</h4>
       <ul class="nav flex-column">
         <li class="nav-item mb-2"><a class="nav-link" href="../admin/admin_dash.php"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
-        <li class="nav-item mb-2"><a class="nav-link" href="../admin/admin_jobs.php"><i class="bi bi-briefcase"></i> Jobs</a></li>
+        <li class="nav-item mb-2">
+          <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#jobsCollapse" role="button" aria-expanded="false" aria-controls="jobsCollapse">
+            <i class="bi bi-briefcase"></i> Jobs
+          </a>
+          <div class="collapse" id="jobsCollapse">
+            <ul class="nav flex-column ms-3">
+              <li class="nav-item mb-2"><a class="nav-link" href="../admin/admin_jobs.php"><i class="bi bi-list"></i> Job Listing</a></li>
+              <li class="nav-item mb-2"><a class="nav-link" href="../admin/admin_job_category.php"><i class="bi bi-list"></i> Job Category</a></li>
+              <li class="nav-item mb-2"><a class="nav-link" href="../admin/admin_job_applications.php"><i class="bi bi-file-earmark-text"></i> Job Applications</a></li>
+            </ul>
+          </div>
+        </li>
         <li class="nav-item mb-2"><a class="nav-link" href="../admin/admin_users.php"><i class="bi bi-people"></i> Users</a></li>
         <li class="nav-item mb-2"><a class="nav-link" href="../admin/admin_companies.php"><i class="bi bi-buildings"></i> Companies</a></li>
         <li class="nav-item mb-2"><a class="nav-link" href="../admin/admin_analytics.php"><i class="bi bi-bar-chart"></i> Analytics</a></li>
@@ -151,21 +162,18 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../dark_mode.js"></script>
 <script>
-  // Toggle dropdowns
-  function toggleDropdown() {
-    document.querySelector('.dropdown-menu').classList.toggle('show');
-  }
-  // Close dropdowns when clicking outside
-  window.onclick = function(event) {
-    if (!event.target.matches('.bx-user')) {
-      const dropdowns = document.getElementsByClassName('dropdown-menu');
-      for (let dropdown of dropdowns) {
-        if (dropdown.classList.contains('show')) {
-          dropdown.classList.remove('show');
+  // Ensure Bootstrap's collapse functionality works
+  document.addEventListener('DOMContentLoaded', () => {
+    const collapses = document.querySelectorAll('[data-bs-toggle="collapse"]');
+    collapses.forEach(collapse => {
+      collapse.addEventListener('click', () => {
+        const target = document.querySelector(collapse.getAttribute('data-bs-target'));
+        if (target) {
+          target.classList.toggle('show');
         }
-      }
-    }
-  };
+      });
+    });
+  });
 </script>
 </body>
 </html>
