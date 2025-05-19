@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $currency = $_POST['currency'];
     $category_id = $_POST['category_id'];
     $expiry_date = $_POST['expiry_date'];
-    $posted_date = date('Y-m-d');
+    $posted_date = date('Y-m-d H:i:s'); // Include hour, minutes, and seconds
     $job_cover_img = null;
     $latitude = $_POST['latitude'];
     $longitude = $_POST['longitude'];

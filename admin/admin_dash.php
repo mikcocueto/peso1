@@ -21,6 +21,13 @@ $totalCompanies = $totalCompaniesResult->fetch_assoc()['total_companies'];
 $totalApplicationsQuery = "SELECT COUNT(*) AS total_applications FROM tbl_job_application";
 $totalApplicationsResult = $conn->query($totalApplicationsQuery);
 $totalApplications = $totalApplicationsResult->fetch_assoc()['total_applications'];
+
+// Fetch 10 Most Recent Job Postings
+$recentJobsQuery = "SELECT job_id, title, (SELECT companyName FROM tbl_comp_info WHERE company_id = employer_id) AS company_name, status, posted_date 
+                    FROM tbl_job_listing 
+                    ORDER BY posted_date DESC 
+                    LIMIT 10";
+$recentJobsResult = $conn->query($recentJobsQuery);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -157,38 +164,31 @@ $totalApplications = $totalApplicationsResult->fetch_assoc()['total_applications
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>Frontend Developer</td>
-                <td>TechZone</td>
-                <td><span class="badge bg-success">Approved</span></td>
-                <td>2 days ago</td>
-                <td>
-                  <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i> Edit</button>
-                  <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i> Delete</button>
-                </td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>Marketing Specialist</td>
-                <td>BizCorp</td>
-                <td><span class="badge bg-warning text-dark">Pending</span></td>
-                <td>1 day ago</td>
-                <td>
-                  <button class="btn btn-sm btn-outline-success"><i class="bi bi-check"></i> Approve</button>
-                  <button class="btn btn-sm btn-outline-danger"><i class="bi bi-x"></i> Reject</button>
-                </td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>Data Analyst</td>
-                <td>AnalyzeIt</td>
-                <td><span class="badge bg-danger">Rejected</span></td>
-                <td>4 hours ago</td>
-                <td>
-                  <button class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i> Review</button>
-                </td>
-              </tr>
+              <?php if ($recentJobsResult->num_rows > 0): ?>
+                <?php $counter = 1; ?>
+                <?php while ($row = $recentJobsResult->fetch_assoc()): ?>
+                  <tr>
+                    <td><?php echo $counter++; ?></td>
+                    <td><?php echo htmlspecialchars($row['title']); ?></td>
+                    <td><?php echo htmlspecialchars($row['company_name']); ?></td>
+                    <td>
+                      <?php 
+                        $statusClass = $row['status'] === 'Approved' ? 'bg-success' : ($row['status'] === 'Pending' ? 'bg-warning text-dark' : 'bg-danger');
+                      ?>
+                      <span class="badge <?php echo $statusClass; ?>"><?php echo htmlspecialchars($row['status']); ?></span>
+                    </td>
+                    <td><?php echo htmlspecialchars($row['posted_date']); ?></td>
+                    <td>
+                      <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i> Edit</button>
+                      <button class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i> Review</button>
+                    </td>
+                  </tr>
+                <?php endwhile; ?>
+              <?php else: ?>
+                <tr>
+                  <td colspan="6" class="text-center">No recent job postings found.</td>
+                </tr>
+              <?php endif; ?>
             </tbody>
           </table>
         </div>
