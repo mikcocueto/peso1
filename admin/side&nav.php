@@ -104,6 +104,30 @@
         margin-left: 0;
       }
     }
+    .sidebar .dropdown-menu {
+      position: static !important;
+      transform: none !important;
+      width: 100%;
+      margin-top: 0;
+      border: none;
+      border-radius: 0;
+      background-color: #34495e;
+      display: none;
+    }
+    .sidebar .dropdown-menu.show {
+      display: block;
+    }
+    .sidebar .dropdown-item {
+      color: white !important;
+      padding: 0.5rem 1rem;
+    }
+    .sidebar .dropdown-item:hover {
+      background-color: #2c3e50;
+    }
+    .sidebar .dropdown-toggle::after {
+      float: right;
+      margin-top: 8px;
+    }
   </style>
 </head>
 <body>
@@ -115,16 +139,15 @@
       <ul class="nav flex-column">
         <li class="nav-item mb-2"><a class="nav-link" href="../admin/admin_dash.php"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
         <li class="nav-item mb-2">
-          <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#jobsCollapse" role="button" aria-expanded="false" aria-controls="jobsCollapse">
+          <a class="nav-link" href="#" onclick="toggleJobsMenu(event)">
             <i class="bi bi-briefcase"></i> Jobs
+            <i class="bi bi-chevron-down float-end"></i>
           </a>
-          <div class="collapse" id="jobsCollapse">
-            <ul class="nav flex-column ms-3">
-              <li class="nav-item mb-2"><a class="nav-link" href="../admin/admin_jobs.php"><i class="bi bi-list"></i> Job Listing</a></li>
-              <li class="nav-item mb-2"><a class="nav-link" href="../admin/admin_job_category.php"><i class="bi bi-list"></i> Job Category</a></li>
-              <li class="nav-item mb-2"><a class="nav-link" href="../admin/admin_job_applications.php"><i class="bi bi-file-earmark-text"></i> Job Applications</a></li>
-            </ul>
-          </div>
+          <ul class="dropdown-menu" id="jobsMenu">
+            <li><a class="dropdown-item" href="../admin/admin_jobs.php"><i class="bi bi-list"></i> Job Listing</a></li>
+            <li><a class="dropdown-item" href="../admin/admin_job_category.php"><i class="bi bi-list"></i> Job Category</a></li>
+            <li><a class="dropdown-item" href="../admin/admin_job_applications.php"><i class="bi bi-file-earmark-text"></i> Job Applications</a></li>
+          </ul>
         </li>
         <li class="nav-item mb-2"><a class="nav-link" href="../admin/admin_users.php"><i class="bi bi-people"></i> Users</a></li>
         <li class="nav-item mb-2"><a class="nav-link" href="../admin/admin_companies.php"><i class="bi bi-buildings"></i> Companies</a></li>
@@ -172,6 +195,52 @@
           target.classList.toggle('show');
         }
       });
+    });
+  });
+
+  document.addEventListener('DOMContentLoaded', function() {
+    // Initialize all dropdowns
+    var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
+    var dropdownList = dropdownElementList.map(function(dropdownToggleEl) {
+      return new bootstrap.Dropdown(dropdownToggleEl);
+    });
+
+    // Add click event listener to dropdown items
+    document.querySelectorAll('.dropdown-item').forEach(item => {
+      item.addEventListener('click', function() {
+        // Close the dropdown when an item is clicked
+        var dropdown = bootstrap.Dropdown.getInstance(this.closest('.dropdown').querySelector('.dropdown-toggle'));
+        if (dropdown) {
+          dropdown.hide();
+        }
+      });
+    });
+  });
+
+  function toggleJobsMenu(event) {
+    event.preventDefault();
+    const menu = document.getElementById('jobsMenu');
+    menu.classList.toggle('show');
+  }
+
+  // Close dropdown when clicking outside
+  document.addEventListener('click', function(event) {
+    const menu = document.getElementById('jobsMenu');
+    const jobsLink = event.target.closest('.nav-link');
+    
+    if (!jobsLink && menu.classList.contains('show')) {
+      menu.classList.remove('show');
+    }
+  });
+
+  // Prevent reload when clicking dropdown items
+  document.querySelectorAll('#jobsMenu .dropdown-item').forEach(item => {
+    item.addEventListener('click', function(event) {
+      event.preventDefault();
+      const href = this.getAttribute('href');
+      if (href) {
+        window.location.href = href;
+      }
     });
   });
 </script>

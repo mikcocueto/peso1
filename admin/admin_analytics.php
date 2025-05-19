@@ -5,48 +5,120 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard - Job Finder</title>
   <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Bootstrap Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
   <link href="../dark_mode.css" rel="stylesheet">
   <style>
+    :root {
+      --primary-gradient: linear-gradient(135deg, #4e73df 0%, #224abe 100%);
+      --success-gradient: linear-gradient(135deg, #1cc88a 0%, #13855c 100%);
+      --info-gradient: linear-gradient(135deg, #36b9cc 0%, #258391 100%);
+    }
+
     body {
       font-family: 'Inter', sans-serif;
       background-color: #f8f9fa;
     }
+
     .sidebar {
       height: 100vh;
-      background-color: #2c3e50;
+      background: linear-gradient(180deg, #2c3e50 0%, #1a252f 100%);
       color: white;
+      box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
     }
+
     .sidebar a {
-      color: white;
+      color: rgba(255, 255, 255, 0.8);
       text-decoration: none;
-      padding: 0.75rem 1rem;
+      padding: 0.75rem 1.25rem;
       display: block;
       border-radius: 0.5rem;
+      margin: 0.25rem 0.75rem;
+      transition: all 0.3s ease;
     }
+
     .sidebar a:hover, .sidebar a.active {
-      background-color: #34495e;
+      background-color: rgba(255, 255, 255, 0.1);
+      color: white;
+      transform: translateX(5px);
     }
-    .card, .btn {
-      border-radius: 0.75rem;
-      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+
+    .card {
+      border: none;
+      border-radius: 1rem;
+      box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    .card h5 {
-      font-weight: 600;
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0.75rem 2rem rgba(0, 0, 0, 0.12);
     }
+
+    .card.bg-primary {
+      background: var(--primary-gradient) !important;
+    }
+
+    .card.bg-success {
+      background: var(--success-gradient) !important;
+    }
+
+    .card.bg-info {
+      background: var(--info-gradient) !important;
+    }
+
+    .card-body {
+      padding: 1.5rem;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+      opacity: 0.9;
+    }
+
+    .display-6 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0;
+    }
+
     .navbar {
-      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+      box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.08);
+      background: white;
     }
+
+    .content {
+      padding: 2rem;
+    }
+
     .fade-in {
       animation: fadeIn 0.5s ease-in-out;
     }
+
     @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    canvas {
+      max-height: 300px;
+    }
+
+    .card-header {
+      background: white;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      padding: 1.25rem 1.5rem;
+    }
+
+    .card-header h5 {
+      font-weight: 600;
+      color: #2c3e50;
+      margin: 0;
     }
   </style>
 </head>
@@ -62,7 +134,7 @@
     <!-- Main content -->
     <main class="col-md-10 ms-sm-auto px-md-4 py-4 content">
       <h2 class="fs-3 mb-4">Analytics Overview</h2>
-      <div class="row g-4">
+      <div class="row g-4 mb-5">
         <div class="col-md-4">
           <div class="card text-white bg-primary fade-in">
             <div class="card-body text-center">

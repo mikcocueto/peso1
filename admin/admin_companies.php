@@ -1,3 +1,47 @@
+<?php
+require_once '../includes/db_connect.php';
+session_start();
+
+// Create companies table if it doesn't exist
+$create_table_sql = "CREATE TABLE IF NOT EXISTS companies (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    company_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    location VARCHAR(255) NOT NULL,
+    status ENUM('pending', 'active', 'rejected') DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)";
+
+if ($conn->query($create_table_sql) === FALSE) {
+    die("Error creating table: " . $conn->error);
+}
+
+// Handle company status updates
+if (isset($_POST['action']) && isset($_POST['company_id'])) {
+    $company_id = $_POST['company_id'];
+    $action = $_POST['action'];
+    
+    if ($action === 'approve') {
+        $sql = "UPDATE tbl_comp_info SET company_verified = 1 WHERE company_id = ?";
+    } elseif ($action === 'reject') {
+        $sql = "UPDATE tbl_comp_info SET company_verified = 0 WHERE company_id = ?";
+    } elseif ($action === 'delete') {
+        $sql = "DELETE FROM tbl_comp_info WHERE company_id = ?";
+    }
+    
+    if (isset($sql)) {
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $company_id);
+        $stmt->execute();
+        header("Location: admin_companies.php");
+        exit();
+    }
+}
+
+// Fetch all companies
+$sql = "SELECT * FROM tbl_comp_info ORDER BY create_time DESC";
+$result = $conn->query($sql);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -65,7 +109,7 @@
       <div class="card mb-4 fade-in">
         <div class="card-header bg-white d-flex justify-content-between align-items-center">
           <h5 class="mb-0">Registered Companies</h5>
-          <button class="btn btn-sm btn-primary"><i class="bi bi-building-add"></i> Add Company</button>
+          <button class="btn btn-sm btn-primary" hidden><i class="bi bi-building-add"></i> Add Company</button>
         </div>
         <div class="card-body">
           <table class="table table-bordered table-hover">
@@ -81,30 +125,49 @@
               </tr>
             </thead>
             <tbody>
+              <?php
+              if ($result->num_rows > 0) {
+                  $counter = 1;
+                  while($row = $result->fetch_assoc()) {
+                      $status_class = '';
+                      $status_text = $row['company_verified'] ? 'Verified' : 'Pending';
+                      $status_class = $row['company_verified'] ? 'bg-success' : 'bg-warning text-dark';
+              ?>
               <tr>
-                <td>1</td>
-                <td>Innovatech</td>
-                <td>contact@innovatech.com</td>
-                <td>San Jose, CA</td>
-                <td><span class="badge bg-success">Active</span></td>
-                <td>April 20, 2025</td>
+                <td><?php echo $counter++; ?></td>
+                <td><?php echo htmlspecialchars($row['companyName']); ?></td>
+                <td><?php echo htmlspecialchars($row['firstName'] . ' ' . $row['lastName']); ?></td>
+                <td><?php echo htmlspecialchars($row['country']); ?></td>
+                <td><span class="badge <?php echo $status_class; ?>"><?php echo $status_text; ?></span></td>
+                <td><?php echo date('F d, Y', strtotime($row['create_time'])); ?></td>
                 <td>
-                  <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i> Edit</button>
-                  <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i> Remove</button>
+                  <?php if (!$row['company_verified']): ?>
+                    <form method="POST" style="display: inline;">
+                      <input type="hidden" name="company_id" value="<?php echo $row['company_id']; ?>">
+                      <input type="hidden" name="action" value="approve">
+                      <button type="submit" class="btn btn-sm btn-outline-success"><i class="bi bi-check"></i> Approve</button>
+                    </form>
+                    <form method="POST" style="display: inline;">
+                      <input type="hidden" name="company_id" value="<?php echo $row['company_id']; ?>">
+                      <input type="hidden" name="action" value="reject">
+                      <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-x"></i> Reject</button>
+                    </form>
+                  <?php else: ?>
+                    <button class="btn btn-sm btn-outline-secondary" onclick="editCompany(<?php echo $row['company_id']; ?>)"><i class="bi bi-pencil"></i> Edit</button>
+                    <form method="POST" style="display: inline;">
+                      <input type="hidden" name="company_id" value="<?php echo $row['company_id']; ?>">
+                      <input type="hidden" name="action" value="delete">
+                      <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to delete this company?')"><i class="bi bi-trash"></i> Remove</button>
+                    </form>
+                  <?php endif; ?>
                 </td>
               </tr>
-              <tr>
-                <td>2</td>
-                <td>GreenFields Ltd.</td>
-                <td>hr@greenfields.com</td>
-                <td>Seattle, WA</td>
-                <td><span class="badge bg-warning text-dark">Pending</span></td>
-                <td>April 18, 2025</td>
-                <td>
-                  <button class="btn btn-sm btn-outline-success"><i class="bi bi-check"></i> Approve</button>
-                  <button class="btn btn-sm btn-outline-danger"><i class="bi bi-x"></i> Reject</button>
-                </td>
-              </tr>
+              <?php
+                  }
+              } else {
+                  echo "<tr><td colspan='7' class='text-center'>No companies found</td></tr>";
+              }
+              ?>
             </tbody>
           </table>
         </div>
@@ -116,5 +179,11 @@
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../dark_mode.js"></script>
+<script>
+function editCompany(id) {
+    // TODO: Implement edit functionality
+    alert('Edit functionality will be implemented soon');
+}
+</script>
 </body>
 </html>
