@@ -265,7 +265,7 @@ if ($result->num_rows > 0) {
                 <li class="d-flex justify-content-between align-items-center">
                   <div>
                     <span class="fw-medium"><?php echo htmlspecialchars($category); ?></span>
-                    <small class="text-muted d-block mt-1">Category ID: <?php echo md5($category); ?></small>
+                    
                   </div>
                   <div class="btn-group">
                     <button class="btn btn-sm btn-outline-primary" onclick="editCategory('<?php echo htmlspecialchars($category); ?>')" title="Edit Category">
