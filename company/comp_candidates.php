@@ -268,8 +268,8 @@ function generateCandidateCard($candidate) {
                 </button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="active-tab" data-bs-toggle="tab" data-bs-target="#active" type="button" role="tab">
-                    <i class="fas fa-user-check me-2"></i>Active
+                <button class="nav-link" id="applied-tab" data-bs-toggle="tab" data-bs-target="#applied" type="button" role="tab">
+                    <i class="fas fa-user-check me-2"></i>Applied
                 </button>
             </li>
             <li class="nav-item" role="presentation">
@@ -324,9 +324,9 @@ function generateCandidateCard($candidate) {
                 </div>
             </div>
 
-            <!-- Active Candidates Tab -->
-            <div class="tab-pane fade" id="active" role="tabpanel">
-                <div id="activeList" class="row">
+            <!-- Applied Candidates Tab -->
+            <div class="tab-pane fade" id="applied" role="tabpanel">
+                <div id="appliedList" class="row">
                     <div class="col-12 text-center py-5">
                         <i class="fas fa-briefcase mb-3" style="font-size: 3rem; color: #6c757d;"></i>
                         <h4 class="text-muted">Select a job posting to view candidates</h4>
@@ -395,7 +395,7 @@ function generateCandidateCard($candidate) {
         fetchAllCandidates(jobId);
 
         // Then fetch candidates for each status
-        const statuses = ['active', 'awaiting', 'reviewed', 'contacted', 'hired'];
+        const statuses = ['applied', 'awaiting', 'reviewed', 'contacted', 'hired'];
         statuses.forEach(status => {
             fetchCandidatesForStatus(jobId, status);
         });
@@ -414,7 +414,7 @@ function generateCandidateCard($candidate) {
         `;
 
         // Reset other tabs
-        const statuses = ['active', 'awaiting', 'reviewed', 'contacted', 'hired'];
+        const statuses = ['applied', 'awaiting', 'reviewed', 'contacted', 'hired'];
         statuses.forEach(status => {
             document.getElementById(`${status}List`).innerHTML = `
                 <div class="col-12 text-center py-5">

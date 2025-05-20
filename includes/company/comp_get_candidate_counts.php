@@ -35,7 +35,7 @@ $stmt->close();
 
 // Get counts for each status
 $counts_query = "SELECT 
-    SUM(CASE WHEN ja.status = 'active' THEN 1 ELSE 0 END) as active_count,
+    SUM(CASE WHEN ja.status = 'applied' THEN 1 ELSE 0 END) as applied_count,
     SUM(CASE WHEN ja.status = 'awaiting' THEN 1 ELSE 0 END) as awaiting_count,
     SUM(CASE WHEN ja.status = 'reviewed' THEN 1 ELSE 0 END) as reviewed_count,
     SUM(CASE WHEN ja.status = 'contacted' THEN 1 ELSE 0 END) as contacted_count,

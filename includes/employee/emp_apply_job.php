@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $company_stmt->close();
 
         // Insert job application
-        $query = "INSERT INTO tbl_job_application (emp_id, job_id, application_time, status) VALUES (?, ?, NOW(), 'pending')";
+        $query = "INSERT INTO tbl_job_application (emp_id, job_id, application_time, status) VALUES (?, ?, NOW(), 'applied')";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("ii", $user_id, $job_id);
         if (!$stmt->execute()) {

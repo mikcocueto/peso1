@@ -75,7 +75,7 @@ $stmt->close();
 
 // Fetch candidate counts for all statuses
 $candidate_counts_query = "SELECT 
-    SUM(CASE WHEN ja.status = 'active' THEN 1 ELSE 0 END) as active_count,
+    SUM(CASE WHEN ja.status = 'applied' THEN 1 ELSE 0 END) as applied_count,
     SUM(CASE WHEN ja.status = 'awaiting' THEN 1 ELSE 0 END) as awaiting_count,
     SUM(CASE WHEN ja.status = 'reviewed' THEN 1 ELSE 0 END) as reviewed_count,
     SUM(CASE WHEN ja.status = 'contacted' THEN 1 ELSE 0 END) as contacted_count,
@@ -478,7 +478,7 @@ $stmt->close();
         <!-- Candidates Table -->
         <div class="status-filters d-flex justify-content-start flex-wrap gap-2 mb-3">
             <span class="status-link badge bg-success text-white rounded-pill px-2 py-1">
-                <?php echo $candidate_counts['active_count'] ?? 0; ?> Active
+                <?php echo $candidate_counts['applied_count'] ?? 0; ?> Applied
             </span>
             <span class="status-link badge bg-primary text-white rounded-pill px-2 py-1">
                 <?php echo $candidate_counts['awaiting_count'] ?? 0; ?> Awaiting review
@@ -1281,7 +1281,7 @@ $stmt->close();
                 // Update the status badges with new counts
                 document.querySelector('.status-filters').innerHTML = `
                     <span class="status-link badge bg-success text-white rounded-pill px-2 py-1">
-                        ${counts.active_count} Active
+                        ${counts.applied_count} Applied
                     </span>
                     <span class="status-link badge bg-primary text-white rounded-pill px-2 py-1">
                         ${counts.awaiting_count} Awaiting review
@@ -1349,7 +1349,7 @@ $stmt->close();
 
     function getStatusColor(status) {
         const colors = {
-            'active': 'success',
+            'applied': 'success',
             'awaiting': 'primary',
             'reviewed': 'secondary',
             'contacted': 'info',
