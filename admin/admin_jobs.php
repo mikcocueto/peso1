@@ -96,10 +96,10 @@ try {
   <link href="../dark_mode.css" rel="stylesheet">
   <style>
     :root {
-      --primary-color: #2563eb;
-      --primary-hover: #1d4ed8;
-      --secondary-color: #475569;
-      --success-color: #22c55e;
+      --primary-color: #4f46e5;
+      --primary-hover: #4338ca;
+      --secondary-color: #64748b;
+      --success-color: #10b981;
       --danger-color: #ef4444;
       --warning-color: #f59e0b;
       --background-color: #f8fafc;
@@ -107,6 +107,10 @@ try {
       --text-primary: #1e293b;
       --text-secondary: #64748b;
       --border-color: #e2e8f0;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
     }
 
     body {
@@ -117,12 +121,12 @@ try {
 
     .sidebar {
       height: 100vh;
-      background-color: #1e293b;
+      background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
       color: white;
       position: fixed;
       width: 250px;
       z-index: 1000;
-      box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+      box-shadow: var(--shadow-lg);
     }
 
     .sidebar a {
@@ -136,7 +140,7 @@ try {
     }
 
     .sidebar a:hover, .sidebar a.active {
-      background-color: #334155;
+      background-color: rgba(255, 255, 255, 0.1);
       color: white;
       transform: translateX(5px);
     }
@@ -145,7 +149,7 @@ try {
       margin-left: 250px;
       padding: 2rem;
       min-height: 100vh;
-      background-color: #f8fafc;
+      background-color: var(--background-color);
       margin-top: 5rem;
       position: relative;
       z-index: 1;
@@ -158,14 +162,15 @@ try {
       padding: 2rem;
       background: white;
       border-radius: 1rem;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      box-shadow: var(--shadow);
       margin-top: 1.5rem;
+      border: 1px solid var(--border-color);
     }
 
     .page-title {
       font-size: 1.75rem;
       font-weight: 700;
-      color: #1e293b;
+      color: var(--text-primary);
       margin-bottom: 0.5rem;
       display: flex;
       align-items: center;
@@ -173,7 +178,7 @@ try {
     }
 
     .page-title i {
-      color: #2563eb;
+      color: var(--primary-color);
       font-size: 1.5rem;
     }
 
@@ -186,7 +191,7 @@ try {
     .stats-container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 2rem;
+      gap: 1.5rem;
       margin-bottom: 2.5rem;
       padding: 0 0.5rem;
     }
@@ -194,18 +199,19 @@ try {
     .stat-card {
       background: white;
       border-radius: 1rem;
-      padding: 2rem;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+      border: 1px solid var(--border-color);
     }
 
     .stat-card:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      box-shadow: var(--shadow-md);
     }
 
     .stat-title {
-      color: #64748b;
+      color: var(--text-secondary);
       font-size: 0.875rem;
       font-weight: 500;
       margin-bottom: 0.5rem;
@@ -215,9 +221,9 @@ try {
     }
 
     .stat-value {
-      font-size: 1.5rem;
+      font-size: 1.75rem;
       font-weight: 700;
-      color: #1e293b;
+      color: var(--text-primary);
       margin-bottom: 0.25rem;
     }
 
@@ -240,15 +246,16 @@ try {
       background: white;
       border: none;
       border-radius: 1rem;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      box-shadow: var(--shadow);
       margin-bottom: 2rem;
       margin-top: 1rem;
+      border: 1px solid var(--border-color);
     }
 
     .card-header {
       background: white;
-      border-bottom: 1px solid #e2e8f0;
-      padding: 1.75rem;
+      border-bottom: 1px solid var(--border-color);
+      padding: 1.5rem;
       border-radius: 1rem 1rem 0 0 !important;
       display: flex;
       justify-content: space-between;
@@ -271,12 +278,13 @@ try {
 
     .table {
       margin-bottom: 0;
+      padding: 0 1.5rem;
     }
 
     .table th {
       font-weight: 600;
-      color: #64748b;
-      border-bottom: 2px solid #e2e8f0;
+      color: var(--text-secondary);
+      border-bottom: 2px solid var(--border-color);
       padding: 1.25rem 1rem;
       font-size: 0.75rem;
       text-transform: uppercase;
@@ -287,58 +295,73 @@ try {
     .table td {
       padding: 1.25rem 1rem;
       vertical-align: middle;
-      color: #1e293b;
-      border-bottom: 1px solid #e2e8f0;
+      color: var(--text-primary);
+      border-bottom: 1px solid var(--border-color);
       font-size: 0.875rem;
+    }
+
+    .table tbody tr:nth-child(odd) td {
+      background-color: #f8fafc;
+    }
+
+    .table tbody tr:nth-child(even) td {
+      background-color: #ffffff;
+    }
+
+    .table tbody tr:hover td {
+      background-color: #f1f5f9 !important;
     }
 
     .table tbody tr {
       transition: background-color 0.2s ease;
     }
 
-    .table tbody tr:hover {
-      background-color: #f8fafc;
+    .table-responsive {
+      padding: 0 1.5rem;
     }
 
-    .status-badge {
-      padding: 0.375rem 0.75rem;
-      border-radius: 2rem;
-      font-weight: 500;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+    /* Status Badge Styles */
+    .table td .status-badge {
       display: inline-flex;
       align-items: center;
-      gap: 0.375rem;
+      padding: 0.5rem 1rem;
+      border-radius: 2rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      box-shadow: var(--shadow-sm);
     }
 
-    .status-badge i {
+    .table td .status-badge i {
       font-size: 0.625rem;
+      margin-right: 0.375rem;
     }
 
-    .status-active {
-      background-color: #dcfce7;
-      color: #166534;
+    .table td .status-badge.status-active {
+      background-color: #16a34a !important;
+      color: #16a34a !important;
     }
 
-    .status-pending {
-      background-color: #fef3c7;
-      color: #92400e;
+    .table td .status-badge.status-pending {
+      background-color: #ca8a04 !important;
+      color: #ca8a04 !important;
     }
 
-    .status-rejected {
-      background-color: #fee2e2;
-      color: #991b1b;
+    .table td .status-badge.status-rejected {
+      background-color: #dc2626 !important;
+      color: #dc2626 !important;
     }
 
     .btn {
-      padding: 0.5rem 1rem;
+      padding: 0.625rem 1.25rem;
       font-weight: 500;
       border-radius: 0.5rem;
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
       transition: all 0.2s ease;
+      box-shadow: var(--shadow-sm);
     }
 
     .btn-sm {
@@ -347,52 +370,56 @@ try {
     }
 
     .btn-primary {
-      background-color: #2563eb;
-      border-color: #2563eb;
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
     }
 
     .btn-primary:hover {
-      background-color: #1d4ed8;
-      border-color: #1d4ed8;
+      background-color: var(--primary-hover);
+      border-color: var(--primary-hover);
       transform: translateY(-1px);
+      box-shadow: var(--shadow);
     }
 
     .btn-outline-primary {
-      color: #2563eb;
-      border-color: #2563eb;
+      color: var(--primary-color);
+      border-color: var(--primary-color);
     }
 
     .btn-outline-primary:hover {
-      background-color: #2563eb;
+      background-color: var(--primary-color);
       color: white;
       transform: translateY(-1px);
+      box-shadow: var(--shadow);
     }
 
     .btn-outline-danger {
-      color: #ef4444;
-      border-color: #ef4444;
+      color: var(--danger-color);
+      border-color: var(--danger-color);
     }
 
     .btn-outline-danger:hover {
-      background-color: #ef4444;
+      background-color: var(--danger-color);
       color: white;
       transform: translateY(-1px);
+      box-shadow: var(--shadow);
     }
 
     .btn-outline-success {
-      color: #22c55e;
-      border-color: #22c55e;
+      color: var(--success-color);
+      border-color: var(--success-color);
     }
 
     .btn-outline-success:hover {
-      background-color: #22c55e;
+      background-color: var(--success-color);
       color: white;
       transform: translateY(-1px);
+      box-shadow: var(--shadow);
     }
 
     .action-buttons {
       display: flex;
-      gap: 0.75rem;
+      gap: 0.5rem;
     }
 
     .empty-state {
@@ -600,7 +627,7 @@ try {
       position: relative;
       z-index: 1;
       background: white;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      box-shadow: var(--shadow-md);
       border-radius: 0.5rem;
       padding: 0.75rem;
       margin: -0.75rem;

@@ -23,7 +23,10 @@ $totalApplicationsResult = $conn->query($totalApplicationsQuery);
 $totalApplications = $totalApplicationsResult->fetch_assoc()['total_applications'];
 
 // Fetch 10 Most Recent Job Postings
-$recentJobsQuery = "SELECT job_id, title, (SELECT companyName FROM tbl_comp_info WHERE company_id = employer_id) AS company_name, status, posted_date 
+$recentJobsQuery = "SELECT job_id, title, 
+                    (SELECT companyName FROM tbl_comp_info WHERE company_id = employer_id) AS company_name,
+                    (SELECT company_verified FROM tbl_comp_info WHERE company_id = employer_id) AS company_verified,
+                    status, posted_date 
                     FROM tbl_job_listing 
                     ORDER BY posted_date DESC 
                     LIMIT 10";
@@ -55,7 +58,7 @@ $recentEmployersResult = $conn->query($recentEmployersQuery);
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Bootstrap Icons -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link href="../dark_mode.css" rel="stylesheet">
   <style>
     body {
@@ -185,10 +188,28 @@ $recentEmployersResult = $conn->query($recentEmployersQuery);
                   <tr>
                     <td><?php echo $counter++; ?></td>
                     <td><?php echo htmlspecialchars($row['title']); ?></td>
-                    <td><?php echo htmlspecialchars($row['company_name']); ?></td>
+                    <td>
+                        <?php echo htmlspecialchars($row['company_name']); ?>
+                        <?php if ($row['company_verified'] == 1): ?>
+                            <i class="bi bi-patch-check-fill ms-1" style="color: #0d6efd; font-size: 1.1em;" title="Verified Company"></i>
+                        <?php endif; ?>
+                    </td>
                     <td>
                       <?php 
-                        $statusClass = $row['status'] === 'Approved' ? 'bg-success' : ($row['status'] === 'Pending' ? 'bg-warning text-dark' : 'bg-danger');
+                        $statusClass = '';
+                        switch(strtolower($row['status'])) {
+                            case 'active':
+                                $statusClass = 'bg-success';
+                                break;
+                            case 'paused':
+                                $statusClass = 'bg-warning text-dark';
+                                break;
+                            case 'inactive':
+                                $statusClass = 'bg-danger';
+                                break;
+                            default:
+                                $statusClass = 'bg-info';
+                        }
                       ?>
                       <span class="badge <?php echo $statusClass; ?>"><?php echo htmlspecialchars($row['status']); ?></span>
                     </td>
