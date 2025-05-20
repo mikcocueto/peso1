@@ -135,11 +135,29 @@
     <main class="col-md-10 ms-sm-auto px-md-4 py-4 content">
       <h2 class="fs-3 mb-4">Analytics Overview</h2>
       <div class="row g-4 mb-5">
+        <?php
+        include '../includes/db_connect.php'; // Include database connection
+
+        // Fetch total jobs
+        $totalJobsQuery = "SELECT COUNT(*) AS totalJobs FROM tbl_job_listing";
+        $totalJobsResult = mysqli_query($conn, $totalJobsQuery);
+        $totalJobs = $totalJobsResult ? mysqli_fetch_assoc($totalJobsResult)['totalJobs'] : 0;
+
+        // Fetch active users
+        $activeUsersQuery = "SELECT COUNT(*) AS activeUsers FROM tbl_emp_info";
+        $activeUsersResult = mysqli_query($conn, $activeUsersQuery);
+        $activeUsers = $activeUsersResult ? mysqli_fetch_assoc($activeUsersResult)['activeUsers'] : 0;
+
+        // Fetch registered companies
+        $registeredCompaniesQuery = "SELECT COUNT(*) AS registeredCompanies FROM tbl_comp_info";
+        $registeredCompaniesResult = mysqli_query($conn, $registeredCompaniesQuery);
+        $registeredCompanies = $registeredCompaniesResult ? mysqli_fetch_assoc($registeredCompaniesResult)['registeredCompanies'] : 0;
+        ?>
         <div class="col-md-4">
           <div class="card text-white bg-primary fade-in">
             <div class="card-body text-center">
               <h5 class="card-title">Total Jobs</h5>
-              <p class="display-6">1,250</p>
+              <p class="display-6"><?php echo $totalJobs; ?></p>
             </div>
           </div>
         </div>
@@ -147,7 +165,7 @@
           <div class="card text-white bg-success fade-in">
             <div class="card-body text-center">
               <h5 class="card-title">Active Users</h5>
-              <p class="display-6">3,472</p>
+              <p class="display-6"><?php echo $activeUsers; ?></p>
             </div>
           </div>
         </div>
@@ -155,7 +173,7 @@
           <div class="card text-white bg-info fade-in">
             <div class="card-body text-center">
               <h5 class="card-title">Registered Companies</h5>
-              <p class="display-6">540</p>
+              <p class="display-6"><?php echo $registeredCompanies; ?></p>
             </div>
           </div>
         </div>

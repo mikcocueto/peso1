@@ -26,6 +26,7 @@
       background-color: #2c3e50;
       color: white;
       overflow-y: auto;
+      z-index: 2; /* Added z-index */
     }
     .sidebar a {
       color: white;
@@ -48,7 +49,7 @@
       top: 0;
       left: 16.6667%; /* Align with the content area */
       width: 83.3333%; /* Matches the content width */
-      z-index: 1030;
+      z-index: 2; /* Updated z-index */
       box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
     }
     .content {

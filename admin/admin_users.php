@@ -75,36 +75,35 @@
                 <th>Name</th>
                 <th>Email</th>
                 <th>Role</th>
-                <th>Status</th>
                 <th>Joined</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>Jane Smith</td>
-                <td>jane@example.com</td>
-                <td>Job Seeker</td>
-                <td><span class="badge bg-success">Active</span></td>
-                <td>April 30, 2025</td>
-                <td>
-                  <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i> Edit</button>
-                  <button class="btn btn-sm btn-outline-danger"><i class="bi bi-person-x"></i> Ban</button>
-                </td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>Tom Hanks</td>
-                <td>tom@example.com</td>
-                <td>Employer</td>
-                <td><span class="badge bg-warning text-dark">Pending</span></td>
-                <td>April 28, 2025</td>
-                <td>
-                  <button class="btn btn-sm btn-outline-success"><i class="bi bi-check"></i> Approve</button>
-                  <button class="btn btn-sm btn-outline-danger"><i class="bi bi-x"></i> Reject</button>
-                </td>
-              </tr>
+              <?php
+              include '../includes/db_connect.php'; // Include database connection
+              $query = "SELECT user_id, CONCAT(firstName, ' ', lastName) AS fullName, emailAddress, 'Job Seeker' AS role, create_timestamp FROM tbl_emp_info";
+              $result = mysqli_query($conn, $query);
+              if ($result && mysqli_num_rows($result) > 0) {
+                  $counter = 1;
+                  while ($row = mysqli_fetch_assoc($result)) {
+                      echo "<tr>";
+                      echo "<td>{$counter}</td>";
+                      echo "<td>{$row['fullName']}</td>";
+                      echo "<td>{$row['emailAddress']}</td>";
+                      echo "<td>{$row['role']}</td>";
+                      echo "<td>" . date('F d, Y', strtotime($row['create_timestamp'])) . "</td>";
+                      echo "<td>
+                              <button class='btn btn-sm btn-outline-secondary'><i class='bi bi-pencil'></i> Edit</button>
+                              <button class='btn btn-sm btn-outline-danger'><i class='bi bi-person-x'></i> Ban</button>
+                            </td>";
+                      echo "</tr>";
+                      $counter++;
+                  }
+              } else {
+                  echo "<tr><td colspan='6' class='text-center'>No users found</td></tr>";
+              }
+              ?>
             </tbody>
           </table>
         </div>
