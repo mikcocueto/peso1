@@ -187,6 +187,28 @@
           <canvas id="jobChart" height="100"></canvas>
         </div>
       </div>
+      <?php
+      // Fetch monthly job postings data
+      $monthlyJobPostingsQuery = "
+        SELECT 
+          MONTHNAME(posted_date) AS month, 
+          COUNT(*) AS job_count 
+        FROM tbl_job_listing 
+        WHERE YEAR(posted_date) = YEAR(CURDATE()) 
+        GROUP BY MONTH(posted_date) 
+        ORDER BY MONTH(posted_date)";
+      $monthlyJobPostingsResult = mysqli_query($conn, $monthlyJobPostingsQuery);
+
+      $months = [];
+      $jobCounts = [];
+
+      if ($monthlyJobPostingsResult && mysqli_num_rows($monthlyJobPostingsResult) > 0) {
+          while ($row = mysqli_fetch_assoc($monthlyJobPostingsResult)) {
+              $months[] = $row['month'];
+              $jobCounts[] = $row['job_count'];
+          }
+      }
+      ?>
 
       <div class="card mb-4 fade-in">
         <div class="card-header bg-white">
@@ -196,6 +218,28 @@
           <canvas id="userChart" height="100"></canvas>
         </div>
       </div>
+      <?php
+      // Fetch user growth data
+      $userGrowthQuery = "
+        SELECT 
+          MONTHNAME(create_timestamp) AS month, 
+          COUNT(*) AS user_count 
+        FROM tbl_emp_info 
+        WHERE YEAR(create_timestamp) = YEAR(CURDATE()) 
+        GROUP BY MONTH(create_timestamp) 
+        ORDER BY MONTH(create_timestamp)";
+      $userGrowthResult = mysqli_query($conn, $userGrowthQuery);
+
+      $userMonths = [];
+      $userCounts = [];
+
+      if ($userGrowthResult && mysqli_num_rows($userGrowthResult) > 0) {
+          while ($row = mysqli_fetch_assoc($userGrowthResult)) {
+              $userMonths[] = $row['month'];
+              $userCounts[] = $row['user_count'];
+          }
+      }
+      ?>
     </main>
   </div>
 </div>
@@ -208,26 +252,75 @@
   const jobChart = new Chart(document.getElementById('jobChart'), {
     type: 'bar',
     data: {
-      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+      labels: <?php echo json_encode($months); ?>, // Dynamic months from PHP
       datasets: [{
         label: 'Jobs Posted',
-        data: [200, 300, 250, 400, 350],
+        data: <?php echo json_encode($jobCounts); ?>, // Dynamic job counts from PHP
         backgroundColor: '#0d6efd'
       }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          display: true,
+          position: 'top'
+        }
+      },
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: 'Month'
+          }
+        },
+        y: {
+          title: {
+            display: true,
+            text: 'Number of Jobs'
+          },
+          beginAtZero: true
+        }
+      }
     }
   });
 
   const userChart = new Chart(document.getElementById('userChart'), {
     type: 'line',
     data: {
-      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+      labels: <?php echo json_encode($userMonths); ?>, // Dynamic months from PHP
       datasets: [{
         label: 'New Users',
-        data: [500, 700, 650, 800, 900],
+        data: <?php echo json_encode($userCounts); ?>, // Dynamic user counts from PHP
         borderColor: '#198754',
-        fill: false,
+        backgroundColor: 'rgba(25, 135, 84, 0.2)',
+        fill: true,
         tension: 0.4
       }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          display: true,
+          position: 'top'
+        }
+      },
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: 'Month'
+          }
+        },
+        y: {
+          title: {
+            display: true,
+            text: 'Number of Users'
+          },
+          beginAtZero: true
+        }
+      }
     }
   });
 </script>
