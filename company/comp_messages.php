@@ -85,8 +85,11 @@ if (!isset($_SESSION['company_id'])) {
                     <!-- Empty state for job listings -->
                     <div class="text-center p-4 d-none" id="noJobListings">
                         <i class="fas fa-briefcase fa-3x text-muted mb-3"></i>
-                        <h6 class="text-muted">No Job Listings</h6>
-                        <p class="text-muted small">You haven't posted any job listings yet.</p>
+                        <h6 class="text-muted">No Job Listings Found</h6>
+                        <p class="text-muted small">You haven't posted any job listings yet. Start by creating a new job posting to begin receiving applications and messages.</p>
+                        <a href="comp_post_job.php" class="btn btn-primary btn-sm mt-2">
+                            <i class="fas fa-plus me-1"></i>Post a New Job
+                        </a>
                     </div>
                     <!-- Job listings will be loaded here -->
                 </div>
@@ -101,8 +104,8 @@ if (!isset($_SESSION['company_id'])) {
                     <!-- Empty state for messages -->
                     <div class="text-center p-5 d-none" id="noMessages">
                         <i class="fas fa-envelope fa-3x text-muted mb-3"></i>
-                        <h6 class="text-muted">No Messages</h6>
-                        <p class="text-muted small">There are no messages for this job listing.</p>
+                        <h6 class="text-muted">No Messages Yet</h6>
+                        <p class="text-muted small">There are no messages for this job listing. Messages will appear here when you communicate with applicants.</p>
                     </div>
                     <!-- Messages will be loaded here -->
                 </div>
@@ -161,10 +164,24 @@ if (!isset($_SESSION['company_id'])) {
                 .then(data => {
                     const jobListingsContainer = document.getElementById('jobListingsContainer');
                     const noJobListings = document.getElementById('noJobListings');
+                    const currentJobTitle = document.getElementById('currentJobTitle');
                     
                     if (data.error) {
                         console.error(data.error);
                         return;
+                    }
+
+                    // Reset the message view
+                    if (currentJobTitle) {
+                        currentJobTitle.textContent = 'Select a job listing to view messages';
+                    }
+                    const messagesContainer = document.getElementById('messagesContainer');
+                    if (messagesContainer) {
+                        messagesContainer.innerHTML = '';
+                    }
+                    const noMessages = document.getElementById('noMessages');
+                    if (noMessages) {
+                        noMessages.classList.add('d-none');
                     }
 
                     if (!jobListingsContainer || !noJobListings) {
@@ -174,6 +191,7 @@ if (!isset($_SESSION['company_id'])) {
 
                     if (data.job_listings.length === 0) {
                         noJobListings.classList.remove('d-none');
+                        jobListingsContainer.innerHTML = ''; // Clear any existing listings
                         return;
                     }
 
@@ -222,23 +240,24 @@ if (!isset($_SESSION['company_id'])) {
                         }
                     }
 
-                    // Clear existing messages
+                    // Clear existing messages and reset states
                     if (messagesContainer) {
                         messagesContainer.innerHTML = '';
                     }
-
-                    // Show/hide no messages state
                     if (noMessages) {
-                        if (data.messages.length === 0) {
+                        noMessages.classList.add('d-none');
+                    }
+
+                    // Show no messages state if there are no messages
+                    if (data.messages.length === 0) {
+                        if (noMessages) {
                             noMessages.classList.remove('d-none');
-                            return;
-                        } else {
-                            noMessages.classList.add('d-none');
                         }
+                        return;
                     }
 
                     // Add new messages
-                    if (messagesContainer && data.messages.length > 0) {
+                    if (messagesContainer) {
                         messagesContainer.innerHTML = data.messages.map(message => `
                             <div class="message-item" data-bs-toggle="modal" data-bs-target="#messageModal"
                                  data-subject="${message.subject}"

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 14, 2025 at 08:32 AM
+-- Generation Time: May 22, 2025 at 01:27 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -87,7 +87,7 @@ CREATE TABLE `tbl_comp_info` (
 INSERT INTO `tbl_comp_info` (`company_id`, `firstName`, `lastName`, `companyName`, `country`, `companyNumber`, `create_time`, `comp_logo_dir`, `company_verified`) VALUES
 (4, '', '', 'adeson', '', 0, '2025-03-11 01:42:08', '', 0),
 (5, 'ade', 'son', '', 'Philippines', 0, '2025-03-11 01:42:08', '', 0),
-(6, 'ggg shan', 'khyle', 'FDS Asya', 'USA', 1111111111, '2025-04-02 01:21:33', '../db/images/company/logo/fds.png', 1),
+(6, 'ggg shan', 'khyle', 'PESO TEST', 'USA', 1111111111, '2025-05-22 09:53:10', '../db/images/company/logo/fds.png', 1),
 (7, 'q', 'q', 'q', 'q', 1, '2025-03-11 01:42:08', '../db/images/company/logo/abstract-logo-design-for-any-corporate-brand-business-company-vector.jpg', 0),
 (8, 'Joshua', 'Lita', 'lita corp', 'Ph', 1, '2025-03-12 04:48:14', '', 1),
 (9, 'Mikco', 'Cueto', 'cueto', 'Philippines', 1, '2025-03-18 06:42:13', '../db/images/company/logo/spc.png', 0),
@@ -206,7 +206,18 @@ INSERT INTO `tbl_emp_category_preferences` (`id`, `emp_id`, `category_id`) VALUE
 (6, 25, 1),
 (7, 25, 2),
 (8, 26, 5),
-(9, 26, 6);
+(9, 26, 6),
+(10, 27, 2),
+(11, 28, 2),
+(12, 29, 2),
+(13, 30, 2),
+(14, 30, 3),
+(15, 31, 1),
+(16, 31, 2),
+(17, 31, 3),
+(18, 31, 4),
+(19, 31, 5),
+(20, 31, 6);
 
 -- --------------------------------------------------------
 
@@ -258,7 +269,12 @@ INSERT INTO `tbl_emp_cv` (`id`, `emp_id`, `cv_file_name`, `cv_name`, `cv_dir`, `
 (15, 17, 'R1Fu6T4r_KATHERINE CUETO-RESUME (1).pdf', '1', '../../db/pdf/emp_cv/', '2025-04-08 07:13:19'),
 (16, 19, 'zsQd74Jl_IMRAD_Development of a Machine Learning Model Integrated in a Mobile App to.pdf', 'cv1', '../../db/pdf/emp_cv/', '2025-05-08 00:54:48'),
 (17, 20, 'eDDobnVb_JMCY 3IN1.pdf', '11', '../../db/pdf/emp_cv/', '2025-05-08 04:10:17'),
-(18, 21, 'phec1T6q_FOR LOST11 FILLING.pdf', 'cv1', '../../db/pdf/emp_cv/', '2025-05-14 06:26:39');
+(18, 21, 'phec1T6q_FOR LOST11 FILLING.pdf', 'cv1', '../../db/pdf/emp_cv/', '2025-05-14 06:26:39'),
+(19, 27, 'f2733ca46f26a312_ADE-LABEL.pdf', 'Resume', '../../db/pdf/emp_cv/', '2025-05-22 06:27:45'),
+(20, 28, 'a88357a7a1e9dcf2_cole1.pdf', 'Resume', '../../db/pdf/emp_cv/', '2025-05-22 06:33:01'),
+(21, 29, 'aa78e6e6992612a2_cole1.pdf', 'Resume', '../../db/pdf/emp_cv/', '2025-05-22 06:54:17'),
+(22, 30, '85459b9b806c727d_cole1.pdf', 'Resume', '../../db/pdf/emp_cv/', '2025-05-22 06:57:20'),
+(23, 31, 'fe51d8a3ea7870cd_cole1.pdf', 'Resume', '../../db/pdf/emp_cv/', '2025-05-22 07:00:28');
 
 -- --------------------------------------------------------
 
@@ -327,7 +343,12 @@ INSERT INTO `tbl_emp_info` (`user_id`, `firstName`, `lastName`, `address`, `emai
 (23, 'q', 'w', 'Bambang Market/Masangkay, Masangkay Street, 257, Tondo, Second District, Manila, Capital District, Metro Manila, 1003, Philippines', 'shan05@gmail.com', 'female', '09123456789', '2025-05-06 05:03:22', '', 2, '2023-05-01', 'Doctorate', 44),
 (24, 'q', 'w', 'Maria Cristina Street, Barangay 494, Sampaloc, Fourth District, Manila, Capital District, Metro Manila, 1015, Philippines', 'shan06@gmail.com', 'female', '09123456789', '2025-05-06 05:05:53', '', 5, '2020-05-06', 'Bachelor\'s Degree', 10),
 (25, 'q', 'q', 'Jose R. Reyes Memorial Medical Center, Rizal Avenue, Santa Cruz, Third District, Manila, Capital District, Metro Manila, 1003, Philippines', 'shan07@gmail.com', 'male', '09123456789', '2025-05-06 05:10:46', '', 1, '2023-05-11', 'Bachelor\'s Degree', 10),
-(26, 'q', 'w', 'Quiricada Street, 257, Tondo, Second District, Manila, Capital District, Metro Manila, 1003, Philippines', 'shan08@gmail.com', 'prefer_not_to_say', '09123456789', '2025-05-06 05:13:14', '', 2, '2023-05-03', 'Master\'s Degree', 11);
+(26, 'q', 'w', 'Quiricada Street, 257, Tondo, Second District, Manila, Capital District, Metro Manila, 1003, Philippines', 'shan08@gmail.com', 'prefer_not_to_say', '09123456789', '2025-05-06 05:13:14', '', 2, '2023-05-03', 'Master\'s Degree', 11),
+(27, 'Shan', '11', 'Don Pepe Street, Santo Domingo, Santa Mesa Heights, 1st District, Quezon City, Eastern Manila District, Metro Manila, 1114, Philippines', 'shan11@gmail.com', 'male', '09586475914', '2025-05-22 06:27:45', '', -2, '2027-01-22', 'Master\'s Degree', 12),
+(28, 'Shan', '12', 'Purok 1 Street, TLR Town Homes, Moonwalk, Parañaque District 2, Parañaque, Southern Manila District, Metro Manila, 1711, Philippines', 'shan12@gmail.com', 'prefer_not_to_say', '09456842647', '2025-05-22 06:33:01', '', 26, '1999-01-23', 'Bachelor\'s Degree', 15),
+(29, 'shan', '13', 'Pier 12, Mel Lopez Boulevard, Barangay 111, Tondo, First District, Manila, Capital District, Metro Manila, 1012, Philippines', 'shan13@gmail.com', 'male', '09147258369', '2025-05-22 06:54:17', '', 23, '2002-05-22', 'Doctorate', 15),
+(30, 'shan', '14', 'A. Rivera Street, Divisoria, Tondo, Second District, Manila, Capital District, Metro Manila, 1006, Philippines', 'shan14@gmail.com', 'male', '09147852369', '2025-05-22 06:57:20', '', 28, '1997-01-23', 'Doctorate', 15),
+(31, 'shan', '15', '7-Eleven, Ilaya Street, San Sebastian, Tondo, First District, Manila, Capital District, Metro Manila, 1012, Philippines', 'shan15@gmail.com', 'male', '09147852369', '2025-05-22 07:00:28', '', 30, '1995-05-18', 'Doctorate', 15);
 
 -- --------------------------------------------------------
 
@@ -395,7 +416,12 @@ INSERT INTO `tbl_emp_login` (`id`, `user_id`, `emailAddress`, `password`, `salt`
 (22, 23, 'shan05@gmail.com', '$2y$10$r..jYFkUwFyKMhgIhnQvuO7hQjQt..oaHvOJo/6VkgJBJrn4q0P8q', '6dc915d6f0bd4c6bde8d742dffb05597'),
 (23, 24, 'shan06@gmail.com', '$2y$10$TvzQAGENNQJ98kxdDhrTc.ZthqzWETPrqkh.25iYraIgKjuVHj5Em', '3633a5995802d8242054162abc9f8cbf'),
 (24, 25, 'shan07@gmail.com', '$2y$10$5eWR91nnmrFHxPHLEWzrruXqfJcME73Gkzqlta37vVpu65j2TmdvK', 'b7bfa3e67a0d58150b764ab3d1d5601b'),
-(25, 26, 'shan08@gmail.com', '$2y$10$KfbDOSK4K0cTqMpUsiYSdeVtek.bdOjusSPE55jjNfB7ExjCwqOKq', '69f33f16aed44bd25e3b3acb31b95309');
+(25, 26, 'shan08@gmail.com', '$2y$10$KfbDOSK4K0cTqMpUsiYSdeVtek.bdOjusSPE55jjNfB7ExjCwqOKq', '69f33f16aed44bd25e3b3acb31b95309'),
+(26, 27, 'shan11@gmail.com', '$2y$10$k5SStDs3fzz1C7sXEHMbZ.nFUFl.Z0V.e7PBC.jc2Ry1IxSu8iJPq', 'c7c25da1fb5480c0335ef17d75e542df'),
+(27, 28, 'shan12@gmail.com', '$2y$10$WOj7woWBWTdlpJsOgxFUvusfaq0zRLvDm60vERZn0rfHLnSt/03pa', 'a7a68842341f9e3fecd335f2a62fc948'),
+(28, 29, 'shan13@gmail.com', '$2y$10$eNSHldyX.CBN5A63icxgieTZyJMhJqG3We0hoEF0p/L5lr1Com5Ju', '7577e7028920149d6bc5a936e63549b4'),
+(29, 30, 'shan14@gmail.com', '$2y$10$7i3QlViFjceChNtGRtgVlewuvqH1KwXicX/9EBFFqyAYkXl12PGa2', '262901aaa0ce862cc223b5b77ecc47f7'),
+(30, 31, 'shan15@gmail.com', '$2y$10$arrJFVXO7YxipnYJvbL1/Og4Ha8j03CzI/17EHzGn6RI6erK79SXa', 'fe2af086c07edf1ef632e6e341c107b6');
 
 -- --------------------------------------------------------
 
@@ -472,14 +498,16 @@ INSERT INTO `tbl_job_application` (`id`, `emp_id`, `job_id`, `application_time`,
 (23, 17, 34, '2025-05-08 01:07:20', 'pending'),
 (24, 17, 33, '2025-05-08 01:07:32', 'pending'),
 (25, 17, 16, '2025-05-08 01:07:41', 'pending'),
-(26, 17, 32, '2025-05-08 01:09:08', 'pending'),
+(26, 17, 32, '2025-05-22 10:54:38', 'applied'),
 (27, 19, 34, '2025-05-08 01:09:43', 'pending'),
 (32, 19, 33, '2025-05-08 01:18:40', 'pending'),
-(33, 19, 32, '2025-05-08 01:18:47', 'pending'),
+(33, 19, 32, '2025-05-22 10:29:43', 'reviewed'),
 (34, 19, 16, '2025-05-08 01:19:25', 'pending'),
 (35, 17, 19, '2025-05-08 01:24:42', 'pending'),
 (36, 20, 34, '2025-05-08 04:10:28', 'pending'),
-(37, 21, 32, '2025-05-14 06:27:00', 'pending');
+(37, 21, 32, '2025-05-22 10:29:26', 'awaiting'),
+(38, 27, 32, '2025-05-22 07:04:12', 'contacted'),
+(39, 29, 32, '2025-05-22 07:04:18', 'hired');
 
 -- --------------------------------------------------------
 
@@ -505,7 +533,9 @@ INSERT INTO `tbl_job_application_files` (`id`, `application_id`, `file_inserted`
 (11, 34, 'zsQd74Jl_IMRAD_Development of a Machine Learning Model Integrated in a Mobile App to.pdf'),
 (12, 35, 'R1Fu6T4r_KATHERINE CUETO-RESUME (1).pdf'),
 (13, 36, 'eDDobnVb_JMCY 3IN1.pdf'),
-(14, 37, 'phec1T6q_FOR LOST11 FILLING.pdf');
+(14, 37, 'phec1T6q_FOR LOST11 FILLING.pdf'),
+(15, 38, 'f2733ca46f26a312_ADE-LABEL.pdf'),
+(16, 39, 'aa78e6e6992612a2_cole1.pdf');
 
 -- --------------------------------------------------------
 
@@ -600,6 +630,32 @@ INSERT INTO `tbl_job_listing` (`job_id`, `employer_id`, `job_cover_img`, `title`
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_job_message`
+--
+
+CREATE TABLE `tbl_job_message` (
+  `id` int(11) NOT NULL,
+  `emp_id` int(11) NOT NULL,
+  `comp_id` int(11) NOT NULL,
+  `application_id` int(11) NOT NULL,
+  `subject` varchar(64) NOT NULL,
+  `message` text NOT NULL,
+  `is_seen` tinyint(1) NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_job_message`
+--
+
+INSERT INTO `tbl_job_message` (`id`, `emp_id`, `comp_id`, `application_id`, `subject`, `message`, `is_seen`, `timestamp`) VALUES
+(1, 17, 6, 26, 'Interview', 'Contact us at g@gmail.com', 0, '2025-05-22 10:35:46'),
+(2, 17, 6, 26, 'Interview', 'message me', 0, '2025-05-22 10:40:52'),
+(3, 20, 6, 36, 'test', 'hehe', 0, '2025-05-22 11:19:49');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_job_notifications`
 --
 
@@ -623,7 +679,9 @@ INSERT INTO `tbl_job_notifications` (`notification_id`, `company_id`, `job_id`, 
 (14, 6, 16, 'A new application has been submitted for your job listing.', 1, '2025-05-08 01:19:25'),
 (15, 6, 19, 'A new application has been submitted for your job listing: Registered Nurse (RN).', 0, '2025-05-08 01:24:42'),
 (16, 6, 34, 'A new application has been submitted for your job listing: Aircon Specialist.', 0, '2025-05-08 04:10:28'),
-(17, 6, 32, 'A new application has been submitted for your job listing: Accountant.', 0, '2025-05-14 06:27:00');
+(17, 6, 32, 'A new application has been submitted for your job listing: Accountant.', 0, '2025-05-14 06:27:00'),
+(18, 6, 32, 'A new application has been submitted for your job listing: Accountant.', 0, '2025-05-22 06:28:45'),
+(19, 6, 32, 'A new application has been submitted for your job listing: Accountant.', 0, '2025-05-22 07:02:24');
 
 --
 -- Indexes for dumped tables
@@ -778,6 +836,15 @@ ALTER TABLE `tbl_job_listing`
   ADD KEY `coordinate_id` (`coordinate_id`);
 
 --
+-- Indexes for table `tbl_job_message`
+--
+ALTER TABLE `tbl_job_message`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `application_id` (`application_id`),
+  ADD KEY `comp_id` (`comp_id`),
+  ADD KEY `emp_id` (`emp_id`);
+
+--
 -- Indexes for table `tbl_job_notifications`
 --
 ALTER TABLE `tbl_job_notifications`
@@ -829,7 +896,7 @@ ALTER TABLE `tbl_emp_careerhistory`
 -- AUTO_INCREMENT for table `tbl_emp_category_preferences`
 --
 ALTER TABLE `tbl_emp_category_preferences`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `tbl_emp_certification`
@@ -841,7 +908,7 @@ ALTER TABLE `tbl_emp_certification`
 -- AUTO_INCREMENT for table `tbl_emp_cv`
 --
 ALTER TABLE `tbl_emp_cv`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `tbl_emp_educback`
@@ -853,7 +920,7 @@ ALTER TABLE `tbl_emp_educback`
 -- AUTO_INCREMENT for table `tbl_emp_info`
 --
 ALTER TABLE `tbl_emp_info`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `tbl_emp_language`
@@ -865,7 +932,7 @@ ALTER TABLE `tbl_emp_language`
 -- AUTO_INCREMENT for table `tbl_emp_login`
 --
 ALTER TABLE `tbl_emp_login`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `tbl_emp_resume`
@@ -889,13 +956,13 @@ ALTER TABLE `tbl_emp_skills`
 -- AUTO_INCREMENT for table `tbl_job_application`
 --
 ALTER TABLE `tbl_job_application`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `tbl_job_application_files`
 --
 ALTER TABLE `tbl_job_application_files`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `tbl_job_category`
@@ -916,10 +983,16 @@ ALTER TABLE `tbl_job_listing`
   MODIFY `job_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
+-- AUTO_INCREMENT for table `tbl_job_message`
+--
+ALTER TABLE `tbl_job_message`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `tbl_job_notifications`
 --
 ALTER TABLE `tbl_job_notifications`
-  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- Constraints for dumped tables
@@ -1025,6 +1098,14 @@ ALTER TABLE `tbl_job_listing`
   ADD CONSTRAINT `catfk` FOREIGN KEY (`category_id`) REFERENCES `tbl_job_category` (`category_id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `compfk` FOREIGN KEY (`employer_id`) REFERENCES `tbl_comp_info` (`company_id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `tbl_job_listing_ibfk_1` FOREIGN KEY (`coordinate_id`) REFERENCES `tbl_job_coordinates` (`id`);
+
+--
+-- Constraints for table `tbl_job_message`
+--
+ALTER TABLE `tbl_job_message`
+  ADD CONSTRAINT `tbl_job_message_ibfk_1` FOREIGN KEY (`application_id`) REFERENCES `tbl_job_application` (`id`),
+  ADD CONSTRAINT `tbl_job_message_ibfk_2` FOREIGN KEY (`comp_id`) REFERENCES `tbl_comp_info` (`company_id`),
+  ADD CONSTRAINT `tbl_job_message_ibfk_3` FOREIGN KEY (`emp_id`) REFERENCES `tbl_emp_info` (`user_id`);
 
 --
 -- Constraints for table `tbl_job_notifications`
