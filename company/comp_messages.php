@@ -214,62 +214,70 @@ if (!isset($_SESSION['company_id'])) {
                         return;
                     }
 
-                    if (!messagesContainer || !noMessages || !currentJobTitle) {
-                        console.error('Required elements not found');
-                        return;
+                    // Update job title first
+                    if (currentJobTitle) {
+                        const selectedJob = data.job_listings.find(job => job.job_id == jobId);
+                        if (selectedJob) {
+                            currentJobTitle.textContent = `Messages - ${selectedJob.title}`;
+                        }
                     }
 
-                    // Update job title
-                    const selectedJob = data.job_listings.find(job => job.job_id == jobId);
-                    if (selectedJob) {
-                        currentJobTitle.textContent = `Messages - ${selectedJob.title}`;
-                    }
-
-                    if (data.messages.length === 0) {
-                        noMessages.classList.remove('d-none');
+                    // Clear existing messages
+                    if (messagesContainer) {
                         messagesContainer.innerHTML = '';
-                        return;
                     }
 
-                    noMessages.classList.add('d-none');
-                    messagesContainer.innerHTML = data.messages.map(message => `
-                        <div class="message-item" data-bs-toggle="modal" data-bs-target="#messageModal"
-                             data-subject="${message.subject}"
-                             data-recipient="${message.recipient}"
-                             data-date="${message.timestamp}"
-                             data-message="${message.message}">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <div>
-                                    <h6 class="mb-1">${message.subject}</h6>
-                                    <p class="mb-1 text-muted">To: ${message.recipient}</p>
+                    // Show/hide no messages state
+                    if (noMessages) {
+                        if (data.messages.length === 0) {
+                            noMessages.classList.remove('d-none');
+                            return;
+                        } else {
+                            noMessages.classList.add('d-none');
+                        }
+                    }
+
+                    // Add new messages
+                    if (messagesContainer && data.messages.length > 0) {
+                        messagesContainer.innerHTML = data.messages.map(message => `
+                            <div class="message-item" data-bs-toggle="modal" data-bs-target="#messageModal"
+                                 data-subject="${message.subject}"
+                                 data-recipient="${message.recipient}"
+                                 data-date="${message.timestamp}"
+                                 data-message="${message.message}">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <h6 class="mb-1">${message.subject}</h6>
+                                        <p class="mb-1 text-muted">To: ${message.recipient}</p>
+                                    </div>
+                                    <small class="text-muted">${formatDate(message.timestamp)}</small>
                                 </div>
-                                <small class="text-muted">${formatDate(message.timestamp)}</small>
                             </div>
-                        </div>
-                    `).join('');
+                        `).join('');
 
-                    // Add click event listeners to messages
-                    document.querySelectorAll('.message-item').forEach(item => {
-                        item.addEventListener('click', function() {
-                            const modal = document.getElementById('messageModal');
-                            if (!modal) {
-                                console.error('Message modal not found');
-                                return;
-                            }
+                        // Add click event listeners to messages
+                        document.querySelectorAll('.message-item').forEach(item => {
+                            item.addEventListener('click', function() {
+                                const modal = document.getElementById('messageModal');
+                                if (!modal) {
+                                    console.error('Message modal not found');
+                                    return;
+                                }
 
-                            const modalLabel = modal.querySelector('#messageModalLabel');
-                            const modalRecipient = modal.querySelector('#modalRecipient');
-                            const modalSubject = modal.querySelector('#modalSubject');
-                            const modalDate = modal.querySelector('#modalDate');
-                            const modalMessage = modal.querySelector('#modalMessage');
+                                const modalLabel = modal.querySelector('#messageModalLabel');
+                                const modalRecipient = modal.querySelector('#modalRecipient');
+                                const modalSubject = modal.querySelector('#modalSubject');
+                                const modalDate = modal.querySelector('#modalDate');
+                                const modalMessage = modal.querySelector('#modalMessage');
 
-                            if (modalLabel) modalLabel.textContent = this.dataset.subject;
-                            if (modalRecipient) modalRecipient.textContent = this.dataset.recipient;
-                            if (modalSubject) modalSubject.textContent = this.dataset.subject;
-                            if (modalDate) modalDate.textContent = formatDate(this.dataset.timestamp);
-                            if (modalMessage) modalMessage.innerHTML = this.dataset.message.replace(/\n/g, '<br>');
+                                if (modalLabel) modalLabel.textContent = this.dataset.subject;
+                                if (modalRecipient) modalRecipient.textContent = this.dataset.recipient;
+                                if (modalSubject) modalSubject.textContent = this.dataset.subject;
+                                if (modalDate) modalDate.textContent = formatDate(this.dataset.timestamp);
+                                if (modalMessage) modalMessage.innerHTML = this.dataset.message.replace(/\n/g, '<br>');
+                            });
                         });
-                    });
+                    }
                 })
                 .catch(error => console.error('Error:', error));
         }
