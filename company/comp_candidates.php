@@ -385,5 +385,137 @@ function generateCandidateCard($candidate) {
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
     <script src="../includes/company/js/comp_candidates_script.js"></script>
+
+    <!-- Candidate Profile Modal -->
+    <div class="modal fade" id="candidateProfileModal" tabindex="-1" aria-labelledby="candidateProfileModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="candidateProfileModalLabel">Candidate Profile</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Loading Spinner -->
+                    <div id="profileLoadingSpinner" class="text-center py-5">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-2">Loading candidate information...</p>
+                    </div>
+
+                    <!-- Profile Content -->
+                    <div id="profileContent" style="display: none;">
+                        <!-- Basic Information -->
+                        <div class="row mb-4">
+                            <div class="col-md-3 text-center">
+                                <div class="candidate-avatar mb-3">
+                                    <i class="fas fa-user-circle" style="font-size: 5rem; color: #6c757d;"></i>
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <h4 id="candidateName" class="mb-2"></h4>
+                                <p id="candidateEmail" class="text-muted mb-1"></p>
+                                <p id="candidatePhone" class="text-muted mb-1"></p>
+                                <p id="candidateAddress" class="text-muted mb-1"></p>
+                                <div class="mt-2">
+                                    <span id="candidateAge" class="badge bg-light text-dark me-2"></span>
+                                    <span id="candidateGender" class="badge bg-light text-dark me-2"></span>
+                                    <span id="candidateEducation" class="badge bg-light text-dark me-2"></span>
+                                    <span id="candidateExperience" class="badge bg-light text-dark"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Resume Section -->
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">Submitted Resumes</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="resumeList" class="list-group">
+                                    <!-- Resumes will be listed here -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Education Section -->
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">Education</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="educationList">
+                                    <!-- Education history will be listed here -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Work Experience Section -->
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">Work Experience</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="experienceList">
+                                    <!-- Work experience will be listed here -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Skills Section -->
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">Skills</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="skillsList">
+                                    <!-- Skills will be listed here -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Languages Section -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Languages</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="languagesList">
+                                    <!-- Languages will be listed here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Resume Preview Modal -->
+    <div class="modal fade" id="resumePreviewModal" tabindex="-1" aria-labelledby="resumePreviewModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="resumePreviewModalLabel">Resume Preview</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="resumePreviewLoading" class="text-center py-5">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-2">Loading resume preview...</p>
+                    </div>
+                    <iframe id="resumePreviewFrame" style="width: 100%; height: 80vh; border: none; display: none;"></iframe>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

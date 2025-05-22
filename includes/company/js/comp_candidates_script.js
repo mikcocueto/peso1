@@ -160,8 +160,113 @@ function capitalizeFirst(string) {
 }
 
 function viewCandidateProfile(applicationId) {
-    // This will be implemented when you add the candidate profile modal
-    console.log('Viewing profile for application:', applicationId);
+    // Show the modal
+    const modal = new bootstrap.Modal(document.getElementById('candidateProfileModal'));
+    modal.show();
+
+    // Show loading spinner and hide content
+    document.getElementById('profileLoadingSpinner').style.display = 'block';
+    document.getElementById('profileContent').style.display = 'none';
+
+    // Fetch candidate profile data
+    fetch(`../includes/company/comp_candidate_profile.php?application_id=${applicationId}`)
+        .then(response => response.json())
+        .then(data => {
+            // Hide loading spinner and show content
+            document.getElementById('profileLoadingSpinner').style.display = 'none';
+            document.getElementById('profileContent').style.display = 'block';
+
+            // Update basic information
+            document.getElementById('candidateName').textContent = data.basic_info.name;
+            document.getElementById('candidateEmail').textContent = data.basic_info.email;
+            document.getElementById('candidatePhone').textContent = data.basic_info.phone;
+            document.getElementById('candidateAddress').textContent = data.basic_info.address;
+            document.getElementById('candidateAge').textContent = `${data.basic_info.age} years old`;
+            document.getElementById('candidateGender').textContent = data.basic_info.gender;
+            document.getElementById('candidateEducation').textContent = data.basic_info.education;
+            document.getElementById('candidateExperience').textContent = data.basic_info.experience;
+
+            // Update resumes list
+            const resumeList = document.getElementById('resumeList');
+            resumeList.innerHTML = data.resumes.map(resume => `
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <i class="fas fa-file-pdf me-2 text-danger"></i>
+                        ${resume.name}
+                    </div>
+                    <button class="btn btn-sm btn-primary" onclick="previewResume('${resume.dir}')">
+                        <i class="fas fa-eye me-1"></i> Preview
+                    </button>
+                </div>
+            `).join('') || '<p class="text-muted mb-0">No resumes submitted</p>';
+
+            // Update education list
+            const educationList = document.getElementById('educationList');
+            educationList.innerHTML = data.education.map(edu => `
+                <div class="mb-3">
+                    <h6 class="mb-1">${edu.course}</h6>
+                    <p class="text-muted mb-1">${edu.institution}</p>
+                    <p class="text-muted mb-0">Ended: ${new Date(edu.ending_date).toLocaleDateString()}</p>
+                    ${edu.course_highlights ? `<p class="mt-1">${edu.course_highlights}</p>` : ''}
+                </div>
+            `).join('') || '<p class="text-muted mb-0">No education history available</p>';
+
+            // Update experience list
+            const experienceList = document.getElementById('experienceList');
+            experienceList.innerHTML = data.experience.map(exp => `
+                <div class="mb-3">
+                    <h6 class="mb-1">${exp.job_title}</h6>
+                    <p class="text-muted mb-1">${exp.company_name}</p>
+                    <p class="text-muted mb-0">
+                        ${new Date(exp.start_date).toLocaleDateString()} - 
+                        ${exp.still_in_role ? 'Present' : new Date(exp.end_date).toLocaleDateString()}
+                    </p>
+                    ${exp.description ? `<p class="mt-1">${exp.description}</p>` : ''}
+                </div>
+            `).join('') || '<p class="text-muted mb-0">No work experience available</p>';
+
+            // Update skills list
+            const skillsList = document.getElementById('skillsList');
+            skillsList.innerHTML = data.skills.map(skill => `
+                <span class="badge bg-light text-dark me-2 mb-2">${skill}</span>
+            `).join('') || '<p class="text-muted mb-0">No skills listed</p>';
+
+            // Update languages list
+            const languagesList = document.getElementById('languagesList');
+            languagesList.innerHTML = data.languages.map(language => `
+                <span class="badge bg-light text-dark me-2 mb-2">${language}</span>
+            `).join('') || '<p class="text-muted mb-0">No languages listed</p>';
+        })
+        .catch(error => {
+            console.error('Error fetching candidate profile:', error);
+            document.getElementById('profileLoadingSpinner').style.display = 'none';
+            document.getElementById('profileContent').innerHTML = `
+                <div class="text-center py-5">
+                    <i class="fas fa-exclamation-circle mb-3" style="font-size: 3rem; color: #dc3545;"></i>
+                    <h4 class="text-danger">Error loading profile</h4>
+                    <p class="text-muted">Please try again later</p>
+                </div>
+            `;
+        });
+}
+
+function previewResume(resumeDir) {
+    // Show the resume preview modal
+    const modal = new bootstrap.Modal(document.getElementById('resumePreviewModal'));
+    modal.show();
+
+    // Show loading spinner and hide iframe
+    document.getElementById('resumePreviewLoading').style.display = 'block';
+    document.getElementById('resumePreviewFrame').style.display = 'none';
+
+    // Set the iframe source with the correct path
+    const iframe = document.getElementById('resumePreviewFrame');
+    iframe.onload = function() {
+        document.getElementById('resumePreviewLoading').style.display = 'none';
+        iframe.style.display = 'block';
+    };
+    // Use the correct relative path from the script location
+    iframe.src = `../../db/pdf/application_files/${resumeDir}`;
 }
 
 function toggleProfileDropdown() {
