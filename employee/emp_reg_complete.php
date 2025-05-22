@@ -220,6 +220,64 @@ if ($result && $result->num_rows > 0) {
 <script>
   let map, marker, lat, lng;
 
+  // Add form validation
+  document.getElementById('profileForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const missingFields = [];
+    
+    // Check required fields
+    const requiredFields = {
+      'firstName': 'First Name',
+      'lastName': 'Last Name',
+      'gender': 'Gender',
+      'dob': 'Date of Birth',
+      'age': 'Age',
+      'phone': 'Phone Number',
+      'address': 'Address',
+      'jobCategoryInput': 'Job Category',
+      'experience': 'Years of Experience',
+      'resume': 'Resume'
+    };
+
+    // Check each required field
+    for (const [id, label] of Object.entries(requiredFields)) {
+      const element = document.getElementById(id);
+      if (!element.value.trim()) {
+        missingFields.push(label);
+      }
+    }
+
+    // Special check for age
+    const age = parseInt(document.getElementById('age').value);
+    if (isNaN(age) || age < 16) {
+      missingFields.push('Age (must be 16 or older)');
+    }
+
+    // Special check for education level
+    const educationSelect = document.getElementById('education');
+    const validEducationOptions = ['High School', 'Diploma', 'Bachelor\'s Degree', 'Master\'s Degree', 'Doctorate'];
+    const selectedEducation = educationSelect.options[educationSelect.selectedIndex].text;
+    if (educationSelect.selectedIndex === 0 || !validEducationOptions.includes(selectedEducation)) {
+      missingFields.push('Education Level');
+    }
+
+    // Special check for job categories
+    const selectedCategories = document.querySelectorAll('#jobCategoryList .selected');
+    if (selectedCategories.length === 0) {
+      missingFields.push('Job Category');
+    }
+
+    // If there are missing fields, show alert and prevent form submission
+    if (missingFields.length > 0) {
+      alert('Please fill in the following required fields:\n\n' + missingFields.join('\n'));
+      return false;
+    }
+
+    // If all validations pass, submit the form
+    this.submit();
+  });
+
   const initMap = () => {
     map = L.map('map').setView([14.5995, 120.9842], 13);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -318,6 +376,15 @@ if ($result && $result->num_rows > 0) {
     if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
       age--;
     }
+    
+    // Check if age is at least 16
+    if (age < 16) {
+      alert('You must be at least 16 years old to register.');
+      this.value = ''; // Clear the date input
+      document.getElementById('age').value = ''; // Clear the age input
+      return;
+    }
+    
     document.getElementById('age').value = isNaN(age) ? '' : age;
   });
 
@@ -335,11 +402,19 @@ if ($result && $result->num_rows > 0) {
   function toggleSelect(optionElement) {
     optionElement.classList.toggle('selected');
     updateHiddenInput();
+    
+    // Update the visible input field with selected categories
+    let selectedOptions = document.querySelectorAll('#jobCategoryList .selected');
+    let selectedTexts = Array.from(selectedOptions).map(option => {
+      // Remove the checkmark from the text
+      let text = option.textContent.trim();
+      return text.replace('✔', '').trim();
+    });
+    document.getElementById('jobCategoryInput').value = selectedTexts.join(', ');
   }
 
   function updateHiddenInput() {
-    let selectedOptions = document.querySelectorAll('#jobCategoryList .selected');
-    let selectedValues = Array.from(selectedOptions).map(option => option.getAttribute('data-id'));
+    let selectedValues = Array.from(document.querySelectorAll('#jobCategoryList .selected')).map(option => option.getAttribute('data-id'));
     document.getElementById('jobCategoryHidden').value = selectedValues.join(', ');
   }
 
