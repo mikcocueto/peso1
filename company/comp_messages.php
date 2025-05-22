@@ -14,129 +14,340 @@ if (!isset($_SESSION['company_id'])) {
     <title>Company Messages</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            --hover-gradient: linear-gradient(135deg, #818cf8 0%, #6366f1 100%);
+            --sidebar-bg: #f8fafc;
+            --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+
+        body {
+            overflow: hidden;
+            background-color: #f1f5f9;
+        }
+
+        .navbar {
+            background: var(--primary-gradient) !important;
+            box-shadow: var(--card-shadow);
+        }
+
+        .navbar-brand {
+            color: white !important;
+            font-weight: 600;
+        }
+
+        .navbar .btn-link {
+            color: white !important;
+        }
+
+        .message-container {
+            height: 100vh;
+            background-color: #f1f5f9;
+            overflow: hidden;
+        }
+
         .sidebar {
-            height: calc(100vh - 56px);
-            background-color: #f8f9fa;
-            border-right: 1px solid #dee2e6;
-            overflow-y: auto;
+            height: 100%;
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--card-shadow);
         }
-        .message-list {
-            height: calc(100vh - 56px);
+
+        .job-listings-container {
+            flex-grow: 1;
             overflow-y: auto;
+            height: calc(100vh - 56px - 57px);
+            background-color: white;
         }
+
         .job-listing-item {
             cursor: pointer;
-            padding: 10px;
-            border-bottom: 1px solid #dee2e6;
-            transition: background-color 0.2s;
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+            position: relative;
         }
+
         .job-listing-item:hover {
-            background-color: #e9ecef;
+            background-color: #f8fafc;
+            transform: translateX(4px);
         }
+
         .job-listing-item.active {
-            background-color: #e9ecef;
-            border-left: 4px solid #0d6efd;
+            background-color: #f8fafc;
+            border-left: 4px solid #4f46e5;
         }
-        .message-item {
-            cursor: pointer;
-            padding: 15px;
-            border-bottom: 1px solid #dee2e6;
-            transition: background-color 0.2s;
+
+        .job-listing-item .dropdown {
+            opacity: 0;
+            transition: opacity 0.2s ease;
         }
-        .message-item:hover {
-            background-color: #f8f9fa;
+
+        .job-listing-item:hover .dropdown {
+            opacity: 1;
         }
-        .profile-dropdown {
-            min-width: 200px;
+
+        .message-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            background-color: white;
+        }
+
+        .message-list {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+            padding-bottom: 80px;
+            height: calc(100vh - 56px - 57px - 80px);
+            position: relative;
+            background-color: #f8fafc;
+        }
+
+        .chat-bubble {
+            max-width: 80%;
+            margin-bottom: 1.5rem;
+        }
+
+        .chat-bubble.sent {
+            margin-left: auto;
+        }
+
+        .chat-bubble.received {
+            margin-right: auto;
+        }
+
+        .chat-bubble .card {
+            border: none;
+            border-radius: 1rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .chat-bubble.sent .card {
+            background: var(--primary-gradient);
+        }
+
+        .chat-bubble.received .card {
+            background: white;
+        }
+
+        .message-time {
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+
+        .message-input {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            width: 66.666667%;
+            background-color: white;
+            border-top: 1px solid #e2e8f0;
+            padding: 1rem;
+            box-shadow: 0 -4px 6px -1px rgb(0 0 0 / 0.1);
+            z-index: 1000;
+        }
+
+        .message-input .form-control {
+            border-radius: 1.5rem;
+            padding: 0.75rem 1.25rem;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+        }
+
+        .message-input .form-control:focus {
+            border-color: #818cf8;
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1);
+        }
+
+        .message-input .btn-primary {
+            border-radius: 1.5rem;
+            padding: 0.75rem 1.25rem;
+            background: var(--primary-gradient);
+            border: none;
+            transition: all 0.2s ease;
+        }
+
+        .message-input .btn-primary:hover {
+            background: var(--hover-gradient);
+            transform: translateY(-1px);
+        }
+
+        .btn-light {
+            background-color: white;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+        }
+
+        .btn-light:hover {
+            background-color: #f8fafc;
+            border-color: #cbd5e1;
+        }
+
+        .dropdown-menu {
+            border: none;
+            box-shadow: var(--card-shadow);
+            border-radius: 0.75rem;
+            padding: 0.5rem;
+        }
+
+        .dropdown-item {
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f8fafc;
+        }
+
+        .dropdown-item.text-danger:hover {
+            background-color: #fee2e2;
+        }
+
+        #noMessages {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            text-align: center;
+            color: #94a3b8;
+        }
+
+        #noMessages i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #cbd5e1;
+        }
+
+        @media (max-width: 767.98px) {
+            .message-input {
+                width: 100%;
+            }
+        }
+
+        #noMessageSelected {
+            height: ;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+        }
+
+        #noMessageSelected i {
+            font-size: 3rem;
+            color: #94a3b8;
+            margin-bottom: 1rem;
+        }
+
+        #noMessageSelected h5 {
+            color: #475569;
+            margin-bottom: 0.5rem;
+        }
+
+        #noMessageSelected p {
+            color: #94a3b8;
         }
     </style>
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Company Messages</a>
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-envelope-fill me-2"></i>PESO Company Messages
+            </a>
             <div class="ms-auto">
                 <div class="dropdown">
                     <button class="btn btn-link text-dark text-decoration-none dropdown-toggle" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-user-circle fa-lg"></i>
+                        <i class="bi bi-person-circle fs-5"></i>
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-end profile-dropdown" aria-labelledby="profileDropdown">
-                        <li><a class="dropdown-item" href="comp_dashboard.php"><i class="fas fa-tachometer-alt me-2"></i>Back to Dashboard</a></li>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                        <li><a class="dropdown-item" href="comp_dashboard.php"><i class="bi bi-speedometer2 me-2"></i>Back to Dashboard</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="comp_login.php"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                        <li><a class="dropdown-item" href="comp_login.php"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
                     </ul>
                 </div>
             </div>
         </div>
     </nav>
 
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Sidebar with Job Listings -->
-            <div class="col-md-3 col-lg-2 sidebar p-0">
-                <div class="p-3 border-bottom">
+    <div class="container-fluid message-container p-0">
+        <div class="row g-0">
+            <!-- Left Sidebar -->
+            <div class="col-md-4 p-0 sidebar">
+                <div class="p-3 border-bottom d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">Job Listings</h5>
+                    <div class="dropdown float-end">
+                                    <button class="btn btn-sm btn-light rounded-circle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-three-dots"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li><a class="dropdown-item" href="#"><i class="bi bi-pencil-square me-2"></i>Create New Message</a></li>
+                                        <li><a class="dropdown-item" href="#"><i class="bi bi-trash me-2"></i>Delete Job</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item" href="#"><i class="bi bi-archive me-2"></i>Archived Chats</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item" href="#"><i class="bi bi-question-circle me-2"></i>Help</a></li>
+                                    </ul>
+                                </div>
                 </div>
-                <div id="jobListingsContainer" class="job-listings">
-                    <!-- Empty state for job listings -->
-                    <div class="text-center p-4 d-none" id="noJobListings">
-                        <i class="fas fa-briefcase fa-3x text-muted mb-3"></i>
-                        <h6 class="text-muted">No Job Listings Found</h6>
-                        <p class="text-muted small">You haven't posted any job listings yet. Start by creating a new job posting to begin receiving applications and messages.</p>
-                        <a href="comp_post_job.php" class="btn btn-primary btn-sm mt-2">
-                            <i class="fas fa-plus me-1"></i>Post a New Job
-                        </a>
+                <div class="job-listings-container">
+                    <div id="jobListingsContainer">
+                        <!-- Empty state for job listings -->
+                        <div class="text-center p-4 d-none" id="noJobListings">
+                            <i class="bi bi-briefcase fs-1 text-muted mb-3"></i>
+                            <h6 class="text-muted">No Job Listings Found</h6>
+                            <p class="text-muted small">You haven't posted any job listings yet.</p>
+                            <a href="comp_post_job.php" class="btn btn-primary btn-sm mt-2">
+                                <i class="bi bi-plus me-1"></i>Post a New Job
+                            </a>
+                        </div>
                     </div>
-                    <!-- Job listings will be loaded here -->
                 </div>
             </div>
 
-            <!-- Message List -->
-            <div class="col-md-9 col-lg-10 message-list p-0">
-                <div class="p-3 border-bottom">
-                    <h5 class="mb-0" id="currentJobTitle">Select a job listing to view messages</h5>
+            <!-- Right Panel -->
+            <div class="col-md-8 p-0 message-content">
+                <!-- No Message Selected State -->
+                <div class="d-none" id="noMessageSelected">
+                    <div class="text-center">
+                        <i class="bi bi-envelope"></i>
+                        <h5>Select a Job Listing</h5>
+                        <p>Choose a job listing from the sidebar to view messages</p>
+                    </div>
                 </div>
-                <div id="messagesContainer" class="messages">
-                    <!-- Empty state for messages -->
-                    <div class="text-center p-5 d-none" id="noMessages">
-                        <i class="fas fa-envelope fa-3x text-muted mb-3"></i>
+
+                <!-- Message Content -->
+                <div id="messageContent" class="d-none">
+                    <div class="p-3 bg-white border-bottom">
+                        <h5 class="mb-0" id="currentJobTitle"></h5>
+                    </div>
+                    <div class="message-list" id="messagesContainer">
+                        <!-- Messages will be loaded here -->
+                    </div>
+                    <div class="text-center p-5" id="noMessages" style="display: none;">
+                        <i class="bi bi-chat-dots fs-1 text-muted mb-3"></i>
                         <h6 class="text-muted">No Messages Yet</h6>
-                        <p class="text-muted small">There are no messages for this job listing. Messages will appear here when you communicate with applicants.</p>
+                        <p class="text-muted small">Start the conversation by sending a message</p>
                     </div>
-                    <!-- Messages will be loaded here -->
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Message Modal -->
-    <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="messageModalLabel"></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <strong>To:</strong> <span id="modalRecipient"></span>
+                    <div class="message-input">
+                        <form id="messageForm" class="d-flex gap-2">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Type your message..." id="messageInput">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-send"></i>
+                                </button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="mb-3">
-                        <strong>Subject:</strong> <span id="modalSubject"></span>
-                    </div>
-                    <div class="mb-3">
-                        <strong>Date:</strong> <span id="modalDate"></span>
-                    </div>
-                    <hr>
-                    <div class="message-content" id="modalMessage">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -164,25 +375,17 @@ if (!isset($_SESSION['company_id'])) {
                 .then(data => {
                     const jobListingsContainer = document.getElementById('jobListingsContainer');
                     const noJobListings = document.getElementById('noJobListings');
-                    const currentJobTitle = document.getElementById('currentJobTitle');
+                    const noMessageSelected = document.getElementById('noMessageSelected');
+                    const messageContent = document.getElementById('messageContent');
                     
                     if (data.error) {
                         console.error(data.error);
                         return;
                     }
 
-                    // Reset the message view
-                    if (currentJobTitle) {
-                        currentJobTitle.textContent = 'Select a job listing to view messages';
-                    }
-                    const messagesContainer = document.getElementById('messagesContainer');
-                    if (messagesContainer) {
-                        messagesContainer.innerHTML = '';
-                    }
-                    const noMessages = document.getElementById('noMessages');
-                    if (noMessages) {
-                        noMessages.classList.add('d-none');
-                    }
+                    // Show no message selected state
+                    noMessageSelected.classList.remove('d-none');
+                    messageContent.classList.add('d-none');
 
                     if (!jobListingsContainer || !noJobListings) {
                         console.error('Required elements not found');
@@ -191,15 +394,37 @@ if (!isset($_SESSION['company_id'])) {
 
                     if (data.job_listings.length === 0) {
                         noJobListings.classList.remove('d-none');
-                        jobListingsContainer.innerHTML = ''; // Clear any existing listings
+                        jobListingsContainer.innerHTML = '';
                         return;
                     }
 
                     noJobListings.classList.add('d-none');
                     jobListingsContainer.innerHTML = data.job_listings.map(job => `
                         <div class="job-listing-item" data-job-id="${job.job_id}">
-                            <h6 class="mb-1">${job.title}</h6>
-                            <small class="text-muted">Posted: ${formatDate(job.posted_date)}</small>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-light rounded-circle p-2 me-3">
+                                        <i class="bi bi-briefcase text-primary"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-1 fw-bold">${job.title}</h6>
+                                        <small class="text-muted">
+                                            <i class="bi bi-clock me-1"></i>${formatDate(job.posted_date)}
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-light rounded-circle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-three-dots"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li><a class="dropdown-item" href="#"><i class="bi bi-pencil me-2"></i>Edit Job</a></li>
+                                        <li><a class="dropdown-item" href="#"><i class="bi bi-trash me-2"></i>Delete Job</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item" href="#"><i class="bi bi-archive me-2"></i>Archive</a></li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     `).join('');
 
@@ -212,6 +437,10 @@ if (!isset($_SESSION['company_id'])) {
                             // Update active state
                             document.querySelectorAll('.job-listing-item').forEach(i => i.classList.remove('active'));
                             this.classList.add('active');
+
+                            // Show message content
+                            noMessageSelected.classList.add('d-none');
+                            messageContent.classList.remove('d-none');
                         });
                     });
                 })
@@ -224,82 +453,72 @@ if (!isset($_SESSION['company_id'])) {
                 .then(response => response.json())
                 .then(data => {
                     const messagesContainer = document.getElementById('messagesContainer');
-                    const noMessages = document.getElementById('noMessages');
                     const currentJobTitle = document.getElementById('currentJobTitle');
+                    const noMessages = document.getElementById('noMessages');
                     
                     if (data.error) {
                         console.error(data.error);
                         return;
                     }
 
-                    // Update job title first
+                    // Update job title
                     if (currentJobTitle) {
                         const selectedJob = data.job_listings.find(job => job.job_id == jobId);
                         if (selectedJob) {
-                            currentJobTitle.textContent = `Messages - ${selectedJob.title}`;
+                            currentJobTitle.textContent = selectedJob.title;
                         }
-                    }
-
-                    // Clear existing messages and reset states
-                    if (messagesContainer) {
-                        messagesContainer.innerHTML = '';
-                    }
-                    if (noMessages) {
-                        noMessages.classList.add('d-none');
                     }
 
                     // Show no messages state if there are no messages
                     if (data.messages.length === 0) {
+                        if (messagesContainer) {
+                            messagesContainer.innerHTML = '';
+                        }
                         if (noMessages) {
-                            noMessages.classList.remove('d-none');
+                            noMessages.style.display = 'block';
                         }
                         return;
                     }
 
+                    // Hide no messages state and show messages
+                    if (noMessages) {
+                        noMessages.style.display = 'none';
+                    }
+
                     // Add new messages
-                    if (messagesContainer) {
+                    if (messagesContainer && data.messages.length > 0) {
                         messagesContainer.innerHTML = data.messages.map(message => `
-                            <div class="message-item" data-bs-toggle="modal" data-bs-target="#messageModal"
-                                 data-subject="${message.subject}"
-                                 data-recipient="${message.recipient}"
-                                 data-date="${message.timestamp}"
-                                 data-message="${message.message}">
-                                <div class="d-flex justify-content-between align-items-start">
-                                    <div>
-                                        <h6 class="mb-1">${message.subject}</h6>
-                                        <p class="mb-1 text-muted">To: ${message.recipient}</p>
+                            <div class="chat-bubble ${message.is_sent ? 'sent' : 'received'}">
+                                <div class="card ${message.is_sent ? 'bg-primary text-white' : 'bg-light'} shadow-sm">
+                                    <div class="card-body p-3">
+                                        <div class="d-flex justify-content-between align-items-start mb-2">
+                                            <div>
+                                                <strong>${message.is_sent ? 'You' : message.sender_name}</strong>
+                                                <small class="message-time d-block">${formatDate(message.timestamp)}</small>
+                                            </div>
+                                            
+                                        </div>
+                                        <p class="mb-0">${message.message}</p>
                                     </div>
-                                    <small class="text-muted">${formatDate(message.timestamp)}</small>
                                 </div>
                             </div>
                         `).join('');
-
-                        // Add click event listeners to messages
-                        document.querySelectorAll('.message-item').forEach(item => {
-                            item.addEventListener('click', function() {
-                                const modal = document.getElementById('messageModal');
-                                if (!modal) {
-                                    console.error('Message modal not found');
-                                    return;
-                                }
-
-                                const modalLabel = modal.querySelector('#messageModalLabel');
-                                const modalRecipient = modal.querySelector('#modalRecipient');
-                                const modalSubject = modal.querySelector('#modalSubject');
-                                const modalDate = modal.querySelector('#modalDate');
-                                const modalMessage = modal.querySelector('#modalMessage');
-
-                                if (modalLabel) modalLabel.textContent = this.dataset.subject;
-                                if (modalRecipient) modalRecipient.textContent = this.dataset.recipient;
-                                if (modalSubject) modalSubject.textContent = this.dataset.subject;
-                                if (modalDate) modalDate.textContent = formatDate(this.dataset.timestamp);
-                                if (modalMessage) modalMessage.innerHTML = this.dataset.message.replace(/\n/g, '<br>');
-                            });
-                        });
                     }
                 })
                 .catch(error => console.error('Error:', error));
         }
+
+        // Handle message form submission
+        document.getElementById('messageForm')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const messageInput = document.getElementById('messageInput');
+            const message = messageInput.value.trim();
+            
+            if (message) {
+                // TODO: Implement message sending functionality
+                messageInput.value = '';
+            }
+        });
 
         // Load job listings when the page loads
         document.addEventListener('DOMContentLoaded', loadJobListings);
