@@ -1,3 +1,11 @@
+<?php
+session_start();
+// Check if user is logged in as company
+if (!isset($_SESSION['company_id'])) {
+    header("Location: comp_login.php");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -73,69 +81,30 @@
                 <div class="p-3 border-bottom">
                     <h5 class="mb-0">Job Listings</h5>
                 </div>
-                <div class="job-listings">
+                <div id="jobListingsContainer" class="job-listings">
                     <!-- Empty state for job listings -->
                     <div class="text-center p-4 d-none" id="noJobListings">
                         <i class="fas fa-briefcase fa-3x text-muted mb-3"></i>
                         <h6 class="text-muted">No Job Listings</h6>
                         <p class="text-muted small">You haven't posted any job listings yet.</p>
                     </div>
-                    <!-- Mock Job Listings -->
-                    <div class="job-listing-item active">
-                        <h6 class="mb-1">Senior Software Developer</h6>
-                        <small class="text-muted">Posted: 2024-03-15</small>
-                    </div>
-                    <div class="job-listing-item">
-                        <h6 class="mb-1">UI/UX Designer</h6>
-                        <small class="text-muted">Posted: 2024-03-10</small>
-                    </div>
-                    <div class="job-listing-item">
-                        <h6 class="mb-1">Project Manager</h6>
-                        <small class="text-muted">Posted: 2024-03-05</small>
-                    </div>
+                    <!-- Job listings will be loaded here -->
                 </div>
             </div>
 
             <!-- Message List -->
             <div class="col-md-9 col-lg-10 message-list p-0">
                 <div class="p-3 border-bottom">
-                    <h5 class="mb-0">Messages - Senior Software Developer</h5>
+                    <h5 class="mb-0" id="currentJobTitle">Select a job listing to view messages</h5>
                 </div>
-                <div class="messages">
+                <div id="messagesContainer" class="messages">
                     <!-- Empty state for messages -->
                     <div class="text-center p-5 d-none" id="noMessages">
                         <i class="fas fa-envelope fa-3x text-muted mb-3"></i>
                         <h6 class="text-muted">No Messages</h6>
                         <p class="text-muted small">There are no messages for this job listing.</p>
                     </div>
-                    <!-- Mock Messages -->
-                    <div class="message-item" data-bs-toggle="modal" data-bs-target="#messageModal">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div>
-                                <h6 class="mb-1">Interview Invitation</h6>
-                                <p class="mb-1 text-muted">To: John Doe</p>
-                            </div>
-                            <small class="text-muted">2024-03-16 14:30</small>
-                        </div>
-                    </div>
-                    <div class="message-item" data-bs-toggle="modal" data-bs-target="#messageModal">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div>
-                                <h6 class="mb-1">Application Status Update</h6>
-                                <p class="mb-1 text-muted">To: Jane Smith</p>
-                            </div>
-                            <small class="text-muted">2024-03-15 10:15</small>
-                        </div>
-                    </div>
-                    <div class="message-item" data-bs-toggle="modal" data-bs-target="#messageModal">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div>
-                                <h6 class="mb-1">Technical Assessment Details</h6>
-                                <p class="mb-1 text-muted">To: Mike Johnson</p>
-                            </div>
-                            <small class="text-muted">2024-03-14 16:45</small>
-                        </div>
-                    </div>
+                    <!-- Messages will be loaded here -->
                 </div>
             </div>
         </div>
@@ -146,26 +115,21 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="messageModalLabel">Interview Invitation</h5>
+                    <h5 class="modal-title" id="messageModalLabel"></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <strong>To:</strong> John Doe
+                        <strong>To:</strong> <span id="modalRecipient"></span>
                     </div>
                     <div class="mb-3">
-                        <strong>Subject:</strong> Interview Invitation for Senior Software Developer Position
+                        <strong>Subject:</strong> <span id="modalSubject"></span>
                     </div>
                     <div class="mb-3">
-                        <strong>Date:</strong> March 16, 2024 14:30
+                        <strong>Date:</strong> <span id="modalDate"></span>
                     </div>
                     <hr>
-                    <div class="message-content">
-                        <p>Dear John,</p>
-                        <p>Thank you for your interest in the Senior Software Developer position at our company. We were impressed with your application and would like to invite you for an interview.</p>
-                        <p>The interview is scheduled for March 20, 2024, at 10:00 AM. It will be conducted via Zoom, and we will send you the meeting link one hour before the scheduled time.</p>
-                        <p>Please confirm your availability by replying to this message.</p>
-                        <p>Best regards,<br>HR Team</p>
+                    <div class="message-content" id="modalMessage">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -178,41 +142,140 @@
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Add click event listeners to job listings
-        document.querySelectorAll('.job-listing-item').forEach(item => {
-            item.addEventListener('click', function() {
-                // Remove active class from all items
-                document.querySelectorAll('.job-listing-item').forEach(i => i.classList.remove('active'));
-                // Add active class to clicked item
-                this.classList.add('active');
-                // Here you would typically load the messages for this job listing
-            });
-        });
-
-        // Function to show/hide empty states
-        function toggleEmptyStates() {
-            const jobListings = document.querySelectorAll('.job-listing-item');
-            const messages = document.querySelectorAll('.message-item');
-            const noJobListings = document.getElementById('noJobListings');
-            const noMessages = document.getElementById('noMessages');
-
-            // Toggle job listings empty state
-            if (jobListings.length === 0) {
-                noJobListings.classList.remove('d-none');
-            } else {
-                noJobListings.classList.add('d-none');
-            }
-
-            // Toggle messages empty state
-            if (messages.length === 0) {
-                noMessages.classList.remove('d-none');
-            } else {
-                noMessages.classList.add('d-none');
-            }
+        // Function to format date
+        function formatDate(dateString) {
+            const options = { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            return new Date(dateString).toLocaleDateString(undefined, options);
         }
 
-        // Call the function when the page loads
-        document.addEventListener('DOMContentLoaded', toggleEmptyStates);
+        // Function to load job listings
+        function loadJobListings() {
+            fetch('../includes/company/comp_messages_fetch.php')
+                .then(response => response.json())
+                .then(data => {
+                    const jobListingsContainer = document.getElementById('jobListingsContainer');
+                    const noJobListings = document.getElementById('noJobListings');
+                    
+                    if (data.error) {
+                        console.error(data.error);
+                        return;
+                    }
+
+                    if (!jobListingsContainer || !noJobListings) {
+                        console.error('Required elements not found');
+                        return;
+                    }
+
+                    if (data.job_listings.length === 0) {
+                        noJobListings.classList.remove('d-none');
+                        return;
+                    }
+
+                    noJobListings.classList.add('d-none');
+                    jobListingsContainer.innerHTML = data.job_listings.map(job => `
+                        <div class="job-listing-item" data-job-id="${job.job_id}">
+                            <h6 class="mb-1">${job.title}</h6>
+                            <small class="text-muted">Posted: ${formatDate(job.posted_date)}</small>
+                        </div>
+                    `).join('');
+
+                    // Add click event listeners to job listings
+                    document.querySelectorAll('.job-listing-item').forEach(item => {
+                        item.addEventListener('click', function() {
+                            const jobId = this.dataset.jobId;
+                            loadMessages(jobId);
+                            
+                            // Update active state
+                            document.querySelectorAll('.job-listing-item').forEach(i => i.classList.remove('active'));
+                            this.classList.add('active');
+                        });
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        // Function to load messages for a specific job
+        function loadMessages(jobId) {
+            fetch(`../includes/company/comp_messages_fetch.php?job_id=${jobId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const messagesContainer = document.getElementById('messagesContainer');
+                    const noMessages = document.getElementById('noMessages');
+                    const currentJobTitle = document.getElementById('currentJobTitle');
+                    
+                    if (data.error) {
+                        console.error(data.error);
+                        return;
+                    }
+
+                    if (!messagesContainer || !noMessages || !currentJobTitle) {
+                        console.error('Required elements not found');
+                        return;
+                    }
+
+                    // Update job title
+                    const selectedJob = data.job_listings.find(job => job.job_id == jobId);
+                    if (selectedJob) {
+                        currentJobTitle.textContent = `Messages - ${selectedJob.title}`;
+                    }
+
+                    if (data.messages.length === 0) {
+                        noMessages.classList.remove('d-none');
+                        messagesContainer.innerHTML = '';
+                        return;
+                    }
+
+                    noMessages.classList.add('d-none');
+                    messagesContainer.innerHTML = data.messages.map(message => `
+                        <div class="message-item" data-bs-toggle="modal" data-bs-target="#messageModal"
+                             data-subject="${message.subject}"
+                             data-recipient="${message.recipient}"
+                             data-date="${message.timestamp}"
+                             data-message="${message.message}">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <h6 class="mb-1">${message.subject}</h6>
+                                    <p class="mb-1 text-muted">To: ${message.recipient}</p>
+                                </div>
+                                <small class="text-muted">${formatDate(message.timestamp)}</small>
+                            </div>
+                        </div>
+                    `).join('');
+
+                    // Add click event listeners to messages
+                    document.querySelectorAll('.message-item').forEach(item => {
+                        item.addEventListener('click', function() {
+                            const modal = document.getElementById('messageModal');
+                            if (!modal) {
+                                console.error('Message modal not found');
+                                return;
+                            }
+
+                            const modalLabel = modal.querySelector('#messageModalLabel');
+                            const modalRecipient = modal.querySelector('#modalRecipient');
+                            const modalSubject = modal.querySelector('#modalSubject');
+                            const modalDate = modal.querySelector('#modalDate');
+                            const modalMessage = modal.querySelector('#modalMessage');
+
+                            if (modalLabel) modalLabel.textContent = this.dataset.subject;
+                            if (modalRecipient) modalRecipient.textContent = this.dataset.recipient;
+                            if (modalSubject) modalSubject.textContent = this.dataset.subject;
+                            if (modalDate) modalDate.textContent = formatDate(this.dataset.timestamp);
+                            if (modalMessage) modalMessage.innerHTML = this.dataset.message.replace(/\n/g, '<br>');
+                        });
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        // Load job listings when the page loads
+        document.addEventListener('DOMContentLoaded', loadJobListings);
     </script>
 </body>
 </html>

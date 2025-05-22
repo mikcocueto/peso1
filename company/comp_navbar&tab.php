@@ -119,7 +119,7 @@ $notification_stmt->close();
                         </div>
                     </div>
                     <div class="message-footer">
-                        <a href="comp_messagePage.php" class="view-all">View all messages</a>
+                        <a href="comp_messages.php" class="view-all">View all messages</a>
                     </div>
                 </div>
             </div>
