@@ -182,7 +182,7 @@ if ($result && $result->num_rows > 0) {
       </div>
 
       <div class="col-md-6">
-        <label for="resume" class="form-label">Upload Resume (PDF)-tba</label>
+        <label for="resume" class="form-label">Upload Resume (PDF)</label>
         <input type="file" class="form-control" id="resume" name="resume" accept=".pdf">
       </div>
 
