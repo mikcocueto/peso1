@@ -159,7 +159,10 @@ function capitalizeFirst(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+let currentApplicationId = null;
+
 function viewCandidateProfile(applicationId) {
+    currentApplicationId = applicationId;
     // Show the modal
     const modal = new bootstrap.Modal(document.getElementById('candidateProfileModal'));
     modal.show();
@@ -175,6 +178,10 @@ function viewCandidateProfile(applicationId) {
             // Hide loading spinner and show content
             document.getElementById('profileLoadingSpinner').style.display = 'none';
             document.getElementById('profileContent').style.display = 'block';
+
+            // Set current status
+            document.getElementById('applicationStatus').value = data.basic_info.status;
+            updateQuickActions(data.basic_info.status);
 
             // Update basic information
             document.getElementById('candidateName').textContent = data.basic_info.name;
@@ -284,4 +291,151 @@ window.onclick = function(event) {
             }
         }
     }
+}
+
+function updateQuickActions(currentStatus) {
+    const quickActions = document.getElementById('quickActions');
+    quickActions.innerHTML = '';
+
+    const statusTransitions = {
+        'applied': [
+            { to: 'awaiting', label: 'Mark for Review', class: 'btn-primary' },
+            { to: 'rejected', label: 'Reject', class: 'btn-danger' }
+        ],
+        'awaiting': [
+            { to: 'reviewed', label: 'Mark as Reviewed', class: 'btn-primary' },
+            { to: 'rejected', label: 'Reject', class: 'btn-danger' }
+        ],
+        'reviewed': [
+            { to: 'contacted', label: 'Mark as Contacted', class: 'btn-primary' },
+            { to: 'rejected', label: 'Reject', class: 'btn-danger' }
+        ],
+        'contacted': [
+            { to: 'hired', label: 'Mark as Hired', class: 'btn-success' },
+            { to: 'rejected', label: 'Reject', class: 'btn-danger' }
+        ]
+    };
+
+    if (statusTransitions[currentStatus]) {
+        statusTransitions[currentStatus].forEach(action => {
+            const button = document.createElement('button');
+            button.className = `btn btn-sm ${action.class}`;
+            button.textContent = action.label;
+            button.onclick = () => updateStatus(action.to);
+            quickActions.appendChild(button);
+        });
+    }
+}
+
+function updateStatus(newStatus) {
+    if (!currentApplicationId) return;
+
+    const formData = new FormData();
+    formData.append('application_id', currentApplicationId);
+    formData.append('status', newStatus);
+
+    fetch('../includes/company/comp_update_status.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Update the status dropdown
+            document.getElementById('applicationStatus').value = newStatus;
+            // Update quick actions
+            updateQuickActions(newStatus);
+            // Show success message
+            showToast('Status updated successfully', 'success');
+            // Refresh the candidate list
+            handleJobSelection(document.getElementById('jobSelector').value);
+        } else {
+            showToast('Failed to update status', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error updating status:', error);
+        showToast('Error updating status', 'error');
+    });
+}
+
+function updateApplicationStatus() {
+    const newStatus = document.getElementById('applicationStatus').value;
+    updateStatus(newStatus);
+}
+
+function showToast(message, type = 'success') {
+    // Create toast element
+    const toast = document.createElement('div');
+    toast.className = `toast align-items-center text-white bg-${type === 'success' ? 'success' : 'danger'} border-0 position-fixed bottom-0 end-0 m-3`;
+    toast.setAttribute('role', 'alert');
+    toast.setAttribute('aria-live', 'assertive');
+    toast.setAttribute('aria-atomic', 'true');
+    
+    toast.innerHTML = `
+        <div class="d-flex">
+            <div class="toast-body">
+                ${message}
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    `;
+    
+    document.body.appendChild(toast);
+    const bsToast = new bootstrap.Toast(toast);
+    bsToast.show();
+    
+    // Remove toast after it's hidden
+    toast.addEventListener('hidden.bs.toast', () => {
+        document.body.removeChild(toast);
+    });
+}
+
+function sendMessage(event) {
+    event.preventDefault();
+    
+    if (!currentApplicationId) return;
+
+    const subject = document.getElementById('messageSubject').value.trim();
+    const message = document.getElementById('messageContent').value.trim();
+
+    if (!subject || !message) {
+        showToast('Please fill in all fields', 'error');
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('application_id', currentApplicationId);
+    formData.append('subject', subject);
+    formData.append('message', message);
+
+    // Disable the form while sending
+    const submitButton = event.target.querySelector('button[type="submit"]');
+    const originalButtonText = submitButton.innerHTML;
+    submitButton.disabled = true;
+    submitButton.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Sending...';
+
+    fetch('../includes/company/comp_send_message.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Clear the form
+            document.getElementById('messageForm').reset();
+            showToast('Message sent successfully', 'success');
+        } else {
+            showToast(data.error || 'Failed to send message', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error sending message:', error);
+        showToast('Error sending message', 'error');
+    })
+    .finally(() => {
+        // Re-enable the form
+        submitButton.disabled = false;
+        submitButton.innerHTML = originalButtonText;
+    });
 }

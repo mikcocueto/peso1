@@ -405,6 +405,55 @@ function generateCandidateCard($candidate) {
 
                     <!-- Profile Content -->
                     <div id="profileContent" style="display: none;">
+                        <!-- Status Management Section -->
+                        <div class="card mb-4">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">Application Status</h5>
+                                <div class="d-flex gap-2">
+                                    <select class="form-select form-select-sm" id="applicationStatus" style="width: auto;">
+                                        <option value="applied">Applied</option>
+                                        <option value="awaiting">Awaiting Review</option>
+                                        <option value="reviewed">Reviewed</option>
+                                        <option value="contacted">Contacted</option>
+                                        <option value="hired">Hired</option>
+                                        <option value="rejected">Rejected</option>
+                                    </select>
+                                    <button class="btn btn-sm btn-primary" onclick="updateApplicationStatus()">
+                                        Update Status
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex gap-2 flex-wrap" id="quickActions">
+                                    <!-- Quick action buttons will be dynamically added here -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Message Section -->
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">Send Message to Candidate</h5>
+                            </div>
+                            <div class="card-body">
+                                <form id="messageForm" onsubmit="sendMessage(event)">
+                                    <div class="mb-3">
+                                        <label for="messageSubject" class="form-label">Subject</label>
+                                        <input type="text" class="form-control" id="messageSubject" maxlength="64" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="messageContent" class="form-label">Message</label>
+                                        <textarea class="form-control" id="messageContent" rows="4" required></textarea>
+                                    </div>
+                                    <div class="d-flex justify-content-end">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-paper-plane me-2"></i>Send Message
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
                         <!-- Basic Information -->
                         <div class="row mb-4">
                             <div class="col-md-3 text-center">
