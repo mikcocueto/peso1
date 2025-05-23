@@ -62,6 +62,7 @@ $path_prefix = (strpos($_SERVER['PHP_SELF'], "/includes/") !== false || strpos($
                         </a>
                         <div class="dropdown-menu" aria-labelledby="profileDropdown">
                             <a class="dropdown-item" href="<?php echo $path_prefix; ?>employee/emp_dashboard.php">Profile</a>
+                            <a class="dropdown-item" href="<?php echo $path_prefix; ?>employee/emp_messages.php">Messages</a>
                             <a class="dropdown-item" href="<?php echo $path_prefix; ?>employee/emp_saved_jobs.php">Saved</a>
                             <a class="dropdown-item" href="<?php echo $path_prefix; ?>includes/employee/emp_logout.php">Logout</a>
                         </div>
