@@ -303,6 +303,11 @@ $employee_id = $_SESSION['user_id'];
                 <div class="message-list d-none" id="messageList">
                     <!-- Messages will be dynamically populated here -->
                 </div>
+                <table class="table d-none" id="messageTable">
+                    <tbody id="messageTableBody">
+                        <!-- Messages will be dynamically populated here -->
+                    </tbody>
+                </table>
                 <!--
                 <div class="message-input d-none" id="messageInputContainer">
                     
@@ -315,6 +320,27 @@ $employee_id = $_SESSION['user_id'];
                     
                 </div>
                 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for viewing full message -->
+    <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="messageModalLabel">Message Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h6 id="modalSubject"></h6>
+                    <p id="modalTimestamp" class="text-muted"></p>
+                    <p id="modalMessage"></p>
+                    <p id="modalCompanyName" class="text-muted"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>
@@ -336,6 +362,11 @@ $employee_id = $_SESSION['user_id'];
                         jobItem.className = 'job-listing-item';
                         jobItem.textContent = application.job_title;
                         jobItem.addEventListener('click', () => loadMessages(application.application_id));
+                        const companyName = document.createElement('div');
+                        companyName.className = 'text-muted';
+                        companyName.style.fontSize = '0.85rem';
+                        companyName.textContent = application.company_name || 'N/A';
+                        jobItem.appendChild(companyName);
                         jobListings.appendChild(jobItem);
                     });
                 });
@@ -345,26 +376,32 @@ $employee_id = $_SESSION['user_id'];
         function loadMessages(applicationId) {
             fetch(`../includes/employee/emp_messages_fetch.php?application_id=${applicationId}`)
                 .then(response => response.json())
-                .then(data => {
-                    const messageList = document.getElementById('messageList');
+                .then((data) => {
+                    const messageTableBody = document.getElementById('messageTableBody');
                     const noMessageSelected = document.getElementById('noMessageSelected');
-                    //const messageInputContainer = document.getElementById('messageInputContainer');
+                    const messageTable = document.getElementById('messageTable');
 
                     noMessageSelected.classList.add('d-none');
-                    messageList.classList.remove('d-none');
-                    //messageInputContainer.classList.remove('d-none');
-
-                    messageList.innerHTML = '';
+                    messageTable.classList.remove('d-none'); // Ensure the table is visible
+                    messageTableBody.innerHTML = '';
+                    console.log(data); // Debugging: Log fetched data to console
                     data.forEach(message => {
-                        const chatBubble = document.createElement('div');
-                        chatBubble.className = `chat-bubble ${message.sender === 'employee' ? 'sent' : 'received'}`;
-
-                        const card = document.createElement('div');
-                        card.className = 'card p-3';
-                        card.textContent = message.message;
-
-                        chatBubble.appendChild(card);
-                        messageList.appendChild(chatBubble);
+                        const row = document.createElement('tr');
+                        row.classList.add('message-row');
+                        row.innerHTML = `
+                            <td>${message.subject}</td>
+                            <td>${message.company_name || 'N/A'}</td>
+                            <td>${new Date(message.timestamp).toLocaleString()}</td>
+                        `;
+                        row.addEventListener('click', () => {
+                            document.getElementById('modalSubject').textContent = message.subject;
+                            document.getElementById('modalTimestamp').textContent = new Date(message.timestamp).toLocaleString();
+                            document.getElementById('modalMessage').textContent = message.message;
+                            document.getElementById('modalCompanyName').textContent = message.company_name || 'N/A';
+                            const messageModal = new bootstrap.Modal(document.getElementById('messageModal'));
+                            messageModal.show();
+                        });
+                        messageTableBody.appendChild(row);
                     });
                 });
         }
