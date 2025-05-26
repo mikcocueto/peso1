@@ -16,96 +16,24 @@ $stmt->execute();
 $result = $stmt->get_result();
 $company = $result->fetch_assoc();
 $stmt->close();
+
+// Check for success or error messages
+$success_message = isset($_SESSION['success_message']) ? $_SESSION['success_message'] : '';
+$error_message = isset($_SESSION['error_message']) ? $_SESSION['error_message'] : '';
+unset($_SESSION['success_message'], $_SESSION['error_message']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Company Dashboard</title>
+    <link rel="stylesheet" href="../includes/company/style/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
 </head>
-<style>
-    /* Info Section Styling */
-#infoSection {
-  margin: 20px;
-}
 
-.info-card {
-  display: grid;
-  gap: 15px;
-  background-color: #ffffff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.info-row {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 10px;
-  font-size: 1rem;
-}
-
-.info-row span {
-  display: block;
-}
-
-.fw-semibold {
-  font-weight: 600;
-  color: #333;
-}
-
-/* Edit Form Styling */
-.edit-form {
-  display: grid;
-  gap: 20px;
-  margin-top: 20px;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.form-group label {
-  font-weight: 600;
-  color: #333;
-}
-
-.form-control {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 1rem;
-  width: 100%;
-}
-
-.form-control:focus {
-  border-color: #007bff;
-  outline: none;
-}
-
-.btn {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s;
-}
-
-.btn:hover {
-  background-color: #0056b3;
-}
-
-</style>
 <body class="bg-light">
 <?php include 'comp_navbar&tab.php'; ?>
-
-    <!-- Page Content -->
     <main class="p-4 w-100">
         <div class="row g-4 mt-4">
             <!-- Welcome Panel -->
@@ -116,7 +44,6 @@ $stmt->close();
                     <p class="text-center fw-bold">Welcome, <?php echo htmlspecialchars($company['firstName'] . ' ' . $company['lastName']); ?></p>
                 </div>
             </div>
-
             <!-- Info & Edit Panel -->
             <div class="col-md-9">
                 <div class="bg-white p-4 border rounded shadow">
@@ -126,14 +53,14 @@ $stmt->close();
                     </div>
 
                     <!-- Info Display -->
-                    <div id="infoSection" class="mb-4">
+                    <div id="comp_profile-infoSection" class="mb-4">
                         <table class="table">
                             <tbody>
-                                <tr><td class="fw-semibold">First Name:</td><td><?php echo htmlspecialchars($company['firstName']); ?></td></tr>
-                                <tr><td class="fw-semibold">Last Name:</td><td><?php echo htmlspecialchars($company['lastName']); ?></td></tr>
-                                <tr><td class="fw-semibold">Company Name:</td><td><?php echo htmlspecialchars($company['companyName']); ?></td></tr>
-                                <tr><td class="fw-semibold">Country:</td><td><?php echo htmlspecialchars($company['country']); ?></td></tr>
-                                <tr><td class="fw-semibold">Company Number:</td><td><?php echo htmlspecialchars($company['companyNumber']); ?></td></tr>
+                                <tr><td class="comp_profile-fw-semibold">First Name:</td><td><?php echo htmlspecialchars($company['firstName']); ?></td></tr>
+                                <tr><td class="comp_profile-fw-semibold">Last Name:</td><td><?php echo htmlspecialchars($company['lastName']); ?></td></tr>
+                                <tr><td class="comp_profile-fw-semibold">Company Name:</td><td><?php echo htmlspecialchars($company['companyName']); ?></td></tr>
+                                <tr><td class="comp_profile-fw-semibold">Country:</td><td><?php echo htmlspecialchars($company['country']); ?></td></tr>
+                                <tr><td class="comp_profile-fw-semibold">Company Number:</td><td><?php echo htmlspecialchars($company['companyNumber']); ?></td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -148,8 +75,9 @@ $stmt->close();
                             <h5 class="modal-title" id="editModalLabel">Edit Company Information</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <form id="editForm" method="POST" action="includes/company/update_company_info.php" enctype="multipart/form-data">
+                        <form id="editForm" method="POST" action="../includes/company/comp_update_profile.php" enctype="multipart/form-data">
                             <div class="modal-body">
+                                <input type="hidden" name="category" value="company">
                                 <table class="table">
                                     <tbody>
                                         <tr><td class="fw-semibold"><label for="firstName">First Name</label></td>
@@ -162,8 +90,8 @@ $stmt->close();
                                             <td><input type="text" id="country" name="country" value="<?php echo htmlspecialchars($company['country']); ?>" class="form-control"></td></tr>
                                         <tr><td class="fw-semibold"><label for="companyNumber">Company Number</label></td>
                                             <td><input type="text" id="companyNumber" name="companyNumber" value="<?php echo htmlspecialchars($company['companyNumber']); ?>" class="form-control"></td></tr>
-                                        <tr><td class="fw-semibold"><label for="companyLogo">Company Logo</label></td>
-                                            <td><input type="file" id="companyLogo" name="companyLogo" class="form-control"></td></tr>
+                                        <tr><td class="fw-semibold"><label for="comp_logo">Company Logo</label></td>
+                                            <td><input type="file" id="comp_logo" name="comp_logo" class="form-control"></td></tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -178,25 +106,51 @@ $stmt->close();
         </div>
     </main>
 
+    <!-- Modal for displaying messages -->
+    <div id="comp_profile-messageModal" class="modal">
+        <div class="comp_profile-modal-content">
+            <div class="comp_profile-modal-icon">
+                <i class="fas fa-check-circle success-icon"></i>
+            </div>
+            <span id="comp_profile-messageContent"></span>
+            <button class="comp_profile-close-button" onclick="closeMessageModal()">Close</button>
+        </div>
+    </div>
+
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/your-font-awesome-kit.js" crossorigin="anonymous"></script>
     <script>
         const editButton = document.getElementById('editButton');
-        const cancelButton = document.getElementById('cancelButton');
-        const infoSection = document.getElementById('infoSection');
+        const infoSection = document.getElementById('comp_profile-infoSection');
         const editForm = document.getElementById('editForm');
 
-        editButton.addEventListener('click', () => {
-            infoSection.classList.add('d-none');
-            editForm.classList.remove('d-none');
-            editButton.classList.add('d-none'); // Hide the edit button
-        });
+        // Function to close the message modal
+        function closeMessageModal() {
+            document.getElementById('comp_profile-messageModal').style.display = 'none';
+        }
 
-        cancelButton.addEventListener('click', () => {
-            editForm.classList.add('d-none');
-            infoSection.classList.remove('d-none');
-            editButton.classList.remove('d-none'); // Show the edit button
-        });
+        // Display success or error message if available
+        window.onload = function() {
+            var successMessage = "<?php echo $success_message; ?>";
+            var errorMessage = "<?php echo $error_message; ?>";
+            if (successMessage || errorMessage) {
+                const modal = document.getElementById('comp_profile-messageModal');
+                const modalContent = modal.querySelector('.comp_profile-modal-content');
+                const modalIcon = modal.querySelector('.comp_profile-modal-icon i');
+                
+                modal.style.display = 'flex';
+                document.getElementById('comp_profile-messageContent').innerText = successMessage || errorMessage;
+                
+                if (successMessage) {
+                    modalContent.classList.add('success');
+                    modalIcon.className = 'fas fa-check-circle';
+                } else {
+                    modalContent.classList.add('error');
+                    modalIcon.className = 'fas fa-exclamation-circle';
+                }
+            }
+        }
 
         // Prevent Enter key from submitting the form
         editForm.addEventListener('keypress', (e) => {
@@ -204,7 +158,7 @@ $stmt->close();
         });
 
         // Preview uploaded logo
-        document.getElementById('companyLogo').addEventListener('change', function (e) {
+        document.getElementById('comp_logo').addEventListener('change', function (e) {
             const reader = new FileReader();
             reader.onload = function () {
                 document.getElementById('logoPreview').src = reader.result;

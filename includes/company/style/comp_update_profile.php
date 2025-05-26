@@ -4,7 +4,7 @@ require "../db_connect.php"; // Database connection
 
 // Check if the company is logged in and category is set
 if (!isset($_SESSION['company_id']) || !isset($_POST['category'])) {
-    header("Location: ../../company/test_profile.php"); // Redirect to dashboard if not logged in
+    header("Location: ../../company/comp_dashboard.php"); // Redirect to dashboard if not logged in
     die(); // Terminate script execution
 }
 
@@ -41,12 +41,12 @@ if (!empty($_FILES['comp_logo']['name'])) {
             $update_values[] = "../" . $target_file; // Adjusted path
         } else {
             $_SESSION['error_message'] = "Failed to upload logo.";
-            header("Location: ../../company/test_profile.php");
+            header("Location: ../../company/comp_dashboard.php");
             die();
         }
     } else {
         $_SESSION['error_message'] = "File is not an image.";
-        header("Location: ../../company/test_profile.php");
+        header("Location: ../../company/comp_dashboard.php");
         die();
     }
 }
@@ -70,6 +70,6 @@ if ($stmt->execute()) {
 $stmt->close();
 $conn->close();
 
-header("Location: ../../company/test_profile.php"); // Redirect to dashboard
+header("Location: ../../company/comp_dashboard.php"); // Redirect to dashboard
 die(); // Ensure no further execution
 ?>
