@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 22, 2025 at 01:27 PM
+-- Generation Time: May 26, 2025 at 08:56 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -452,7 +452,8 @@ CREATE TABLE `tbl_emp_saved_jobs` (
 --
 
 INSERT INTO `tbl_emp_saved_jobs` (`id`, `user_id`, `job_id`) VALUES
-(14, 17, 14);
+(14, 17, 14),
+(18, 17, 34);
 
 -- --------------------------------------------------------
 
@@ -507,7 +508,8 @@ INSERT INTO `tbl_job_application` (`id`, `emp_id`, `job_id`, `application_time`,
 (36, 20, 34, '2025-05-08 04:10:28', 'pending'),
 (37, 21, 32, '2025-05-22 10:29:26', 'awaiting'),
 (38, 27, 32, '2025-05-22 07:04:12', 'contacted'),
-(39, 29, 32, '2025-05-22 07:04:18', 'hired');
+(39, 29, 32, '2025-05-22 07:04:18', 'hired'),
+(40, 17, 17, '2025-05-26 01:36:25', 'applied');
 
 -- --------------------------------------------------------
 
@@ -535,7 +537,8 @@ INSERT INTO `tbl_job_application_files` (`id`, `application_id`, `file_inserted`
 (13, 36, 'eDDobnVb_JMCY 3IN1.pdf'),
 (14, 37, 'phec1T6q_FOR LOST11 FILLING.pdf'),
 (15, 38, 'f2733ca46f26a312_ADE-LABEL.pdf'),
-(16, 39, 'aa78e6e6992612a2_cole1.pdf');
+(16, 39, 'aa78e6e6992612a2_cole1.pdf'),
+(17, 40, 'R1Fu6T4r_KATHERINE CUETO-RESUME (1).pdf');
 
 -- --------------------------------------------------------
 
@@ -681,7 +684,8 @@ INSERT INTO `tbl_job_notifications` (`notification_id`, `company_id`, `job_id`, 
 (16, 6, 34, 'A new application has been submitted for your job listing: Aircon Specialist.', 0, '2025-05-08 04:10:28'),
 (17, 6, 32, 'A new application has been submitted for your job listing: Accountant.', 0, '2025-05-14 06:27:00'),
 (18, 6, 32, 'A new application has been submitted for your job listing: Accountant.', 0, '2025-05-22 06:28:45'),
-(19, 6, 32, 'A new application has been submitted for your job listing: Accountant.', 0, '2025-05-22 07:02:24');
+(19, 6, 32, 'A new application has been submitted for your job listing: Accountant.', 0, '2025-05-22 07:02:24'),
+(20, 11, 17, 'A new application has been submitted for your job listing: Digital Marketing Specialist.', 0, '2025-05-26 01:36:25');
 
 --
 -- Indexes for dumped tables
@@ -926,7 +930,7 @@ ALTER TABLE `tbl_emp_info`
 -- AUTO_INCREMENT for table `tbl_emp_language`
 --
 ALTER TABLE `tbl_emp_language`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `tbl_emp_login`
@@ -944,7 +948,7 @@ ALTER TABLE `tbl_emp_resume`
 -- AUTO_INCREMENT for table `tbl_emp_saved_jobs`
 --
 ALTER TABLE `tbl_emp_saved_jobs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `tbl_emp_skills`
@@ -956,13 +960,13 @@ ALTER TABLE `tbl_emp_skills`
 -- AUTO_INCREMENT for table `tbl_job_application`
 --
 ALTER TABLE `tbl_job_application`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `tbl_job_application_files`
 --
 ALTER TABLE `tbl_job_application_files`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `tbl_job_category`
@@ -992,7 +996,7 @@ ALTER TABLE `tbl_job_message`
 -- AUTO_INCREMENT for table `tbl_job_notifications`
 --
 ALTER TABLE `tbl_job_notifications`
-  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- Constraints for dumped tables
