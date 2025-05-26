@@ -234,7 +234,7 @@ if (!isset($_SESSION['company_id'])) {
         }
 
         #noMessageSelected {
-            height: ;
+            height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;

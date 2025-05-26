@@ -79,7 +79,11 @@ $notification_stmt->close();
                 </div>
             </div>
             <div class="message-dropdown">
-                <i class="bx bx-chat" onclick="toggleMessage()"></i>
+            <!--
+            <i class="bx bx-chat" onclick="toggleMessage()"></i>
+            -->
+                <a href="comp_messages.php"><i class="bx bx-chat"></i></a>
+                <!--
                 <span class="message-badge">2</span>
                 <div class="message-content" id="messageContent">
                     <div class="message-header">
@@ -122,6 +126,7 @@ $notification_stmt->close();
                         <a href="comp_messages.php" class="view-all">View all messages</a>
                     </div>
                 </div>
+                        -->
             </div>
             <div class="dropdown">
                 <i class="bx bx-user" onclick="toggleDropdown()"></i>
@@ -432,10 +437,11 @@ $notification_stmt->close();
             document.getElementById('notificationContent').classList.toggle('show');
         }
 
+        /*
         function toggleMessage() {
             document.getElementById('messageContent').classList.toggle('show');
         }
-
+ */
         // Close dropdowns when clicking outside
         window.onclick = function(event) {
             if (!event.target.matches('.bx-user')) {
@@ -452,12 +458,14 @@ $notification_stmt->close();
                     notificationContent.classList.remove('show');
                 }
             }
+            /*
             if (!event.target.matches('.bx-chat')) {
                 const messageContent = document.getElementById('messageContent');
                 if (messageContent.classList.contains('show')) {
                     messageContent.classList.remove('show');
                 }
             }
+            */
         }
 
         // Toggle hamburger menu
