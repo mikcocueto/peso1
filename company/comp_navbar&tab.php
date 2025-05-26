@@ -132,7 +132,7 @@ $notification_stmt->close();
                 <i class="bx bx-user" onclick="toggleDropdown()"></i>
                 <div class="dropdown-menu">
                     <a href="comp_profile.php">Profile</a>
-                    <a href="comp_change_password.php">Settings</a>
+                    <a href="comp_setting.php">Settings</a>
                     <a href="../includes/company/comp_logout.php">Logout</a>
                 </div>
             </div>
@@ -476,38 +476,7 @@ $notification_stmt->close();
 
         // Switch tabs
         function switchTab(tabName) {
-            // Get the current page path
-            const currentPath = window.location.pathname;
-            
-            // If we're not on the dashboard page, redirect to it with the tab parameter
-            if (!currentPath.includes('comp_dashboard.php')) {
-                window.location.href = 'comp_dashboard.php?tab=' + tabName;
-                return;
-            }
-
-            // If we're already on the dashboard, just switch the active tab
-            const tabs = document.querySelectorAll('.tab');
-            tabs.forEach(tab => {
-                tab.classList.remove('active');
-                if (tab.dataset.tab === tabName) {
-                    tab.classList.add('active');
-                }
-            });
-        }
-
-        // Set active tab based on URL parameter when page loads
-        window.onload = function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const activeTab = urlParams.get('tab');
-            if (activeTab) {
-                const tabs = document.querySelectorAll('.tab');
-                tabs.forEach(tab => {
-                    tab.classList.remove('active');
-                    if (tab.dataset.tab === activeTab) {
-                        tab.classList.add('active');
-                    }
-                });
-            }
+            window.location.href = 'comp_dashboard.php?tab=' + tabName;
         }
 
         function markAllNotificationsRead() {
