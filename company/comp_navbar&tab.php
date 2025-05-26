@@ -476,6 +476,16 @@ $notification_stmt->close();
 
         // Switch tabs
         function switchTab(tabName) {
+            // Get the current page path
+            const currentPath = window.location.pathname;
+            
+            // If we're not on the dashboard page, redirect to it with the tab parameter
+            if (!currentPath.includes('comp_dashboard.php')) {
+                window.location.href = 'comp_dashboard.php?tab=' + tabName;
+                return;
+            }
+
+            // If we're already on the dashboard, just switch the active tab
             const tabs = document.querySelectorAll('.tab');
             tabs.forEach(tab => {
                 tab.classList.remove('active');
@@ -483,6 +493,21 @@ $notification_stmt->close();
                     tab.classList.add('active');
                 }
             });
+        }
+
+        // Set active tab based on URL parameter when page loads
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const activeTab = urlParams.get('tab');
+            if (activeTab) {
+                const tabs = document.querySelectorAll('.tab');
+                tabs.forEach(tab => {
+                    tab.classList.remove('active');
+                    if (tab.dataset.tab === activeTab) {
+                        tab.classList.add('active');
+                    }
+                });
+            }
         }
 
         function markAllNotificationsRead() {
