@@ -10,6 +10,45 @@ if (!isset($_SESSION['company_id'])) {
 
 $company_id = $_SESSION['company_id'];
 
+// Fetch monthly application data for the past 12 months
+$applications_query = "SELECT 
+    DATE_FORMAT(ja.application_time, '%Y-%m') as month,
+    COUNT(*) as application_count
+FROM tbl_job_application ja
+JOIN tbl_job_listing jl ON ja.job_id = jl.job_id
+WHERE jl.employer_id = ?
+AND ja.application_time >= DATE_SUB(CURDATE(), INTERVAL 12 MONTH)
+GROUP BY DATE_FORMAT(ja.application_time, '%Y-%m')
+ORDER BY month ASC";
+
+$stmt = $conn->prepare($applications_query);
+$stmt->bind_param("i", $company_id);
+$stmt->execute();
+$applications_result = $stmt->get_result();
+$monthly_applications = [];
+while ($row = $applications_result->fetch_assoc()) {
+    $monthly_applications[$row['month']] = $row['application_count'];
+}
+$stmt->close();
+
+// Generate labels and data for the last 12 months
+$labels = [];
+$data = [];
+for ($i = 11; $i >= 0; $i--) {
+    $month = date('Y-m', strtotime("-$i months"));
+    $labels[] = date('M Y', strtotime($month));
+    $data[] = $monthly_applications[$month] ?? 0;
+}
+
+// Fetch company information
+$company_query = "SELECT companyName, country, companyNumber, comp_logo_dir, firstName, lastName FROM tbl_comp_info WHERE company_id = ?";
+$stmt = $conn->prepare($company_query);
+$stmt->bind_param("i", $company_id);
+$stmt->execute();
+$company_result = $stmt->get_result();
+$company_info = $company_result->fetch_assoc();
+$stmt->close();
+
 // Fetch job categories from the database
 $categories_result = $conn->query("SELECT category_id, category_name FROM tbl_job_category");
 $categories = [];
@@ -130,38 +169,34 @@ $stmt->close();
                         <table class="table table-borderless">
                             <tr>
                                 <td><i class="bx bx-building"></i> <strong>Company Name:</strong></td>
-                                <td>FDS Asya Philippines</td>
+                                <td><?php echo htmlspecialchars($company_info['companyName']); ?></td>
                             </tr>
                             <tr>
                                 <td><i class="bx bx-map"></i> <strong>Address:</strong></td>
-                                <td>San Pablo City, Philippines</td>
+                                <td><?php echo htmlspecialchars($company_info['country']); ?></td>
                             </tr>
                             <tr>
                                 <td><i class="bx bx-phone"></i> <strong>Hotline:</strong></td>
-                                <td>4444 444</td>
-                            </tr>
-                            <tr>
-                                <td><i class="bx bx-mobile"></i> <strong>Contact:</strong></td>
-                                <td>0912-345-6789</td>
+                                <td><?php echo htmlspecialchars($company_info['companyNumber']); ?></td>
                             </tr>
                             <tr>
                                 <td><i class="bx bx-user"></i> <strong>HR:</strong></td>
-                                <td>ggg shan khyle</td>
+                                <td><?php echo htmlspecialchars($company_info['firstName'] . ' ' . $company_info['lastName']); ?></td>
                             </tr>
                         </table>
                     </div>
                     <div class="text-center" style="width: 250px; padding-right: 10px;"> <!-- Increased width -->
-                        <img src="../assets/images/fds.jpg" class="img-fluid" alt="Company Logo" style="max-height: 350px; object-fit: contain;"> <!-- Increased max-height -->
+                        <img src="<?php echo htmlspecialchars($company_info['comp_logo_dir']); ?>" class="img-fluid" alt="Company Logo" style="max-height: 350px; object-fit: contain;"> <!-- Increased max-height -->
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Right Column: Recent Movement Chart -->
+        
         <div class="col-xl-6">
             <div class="card border-1 shadow-sm rounded-xl h-100"> <!-- Added h-100 to ensure consistent height -->
                 <div class="card-header">
-                    <h5 class="card-title mb-0">Recent Movement</h5>
+                    <h5 class="card-title mb-0">Application Movement</h5>
                 </div>
                 <div class="card-body">
                     <canvas id="lineChart"></canvas>
@@ -175,28 +210,48 @@ $stmt->close();
     const lineChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            labels: <?php echo json_encode($labels); ?>,
             datasets: [{
-                label: 'Monthly Data',
-                data: [10, 20, 15, 25, 30, 35, 40, 38, 32, 28, 22, 18],
-                borderColor: 'blue',
+                label: 'Monthly Applications',
+                data: <?php echo json_encode($data); ?>,
+                borderColor: '#4e73df',
+                backgroundColor: 'rgba(78, 115, 223, 0.05)',
                 borderWidth: 2,
-                fill: false
+                fill: true,
+                tension: 0.4
             }]
         },
         options: {
             responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false
+                }
+            },
             scales: {
                 x: {
+                    grid: {
+                        display: false
+                    },
                     title: {
                         display: true,
-                        text: 'Months'
+                        text: 'Month'
                     }
                 },
                 y: {
+                    beginAtZero: true,
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.05)'
+                    },
                     title: {
                         display: true,
-                        text: 'Value'
+                        text: 'Number of Applications'
                     }
                 }
             }
@@ -213,7 +268,7 @@ $stmt->close();
                     <h5 class="card-title mt-3">Applicants</h5>
                     <h1 class="mt-2 mb-3" style="font-size: 2.5rem; font-weight: 700;">2,382</h1>
                     <span class="badge bg-danger">-3.65%</span>
-                    <span class="text-muted">Since last week</span>
+                    <span class="text-muted">Since last month</span>
                 </div>
             </div>
         </div>
@@ -224,7 +279,7 @@ $stmt->close();
                     <h5 class="card-title mt-3">Posted Jobs</h5>
                     <h1 class="mt-2 mb-3" style="font-size: 2.5rem; font-weight: 700;">21,300</h1>
                     <span class="badge bg-success">+6.65%</span>
-                    <span class="text-muted">Since last week</span>
+                    <span class="text-muted">Since last month</span>
                 </div>
             </div>
         </div>
@@ -235,7 +290,7 @@ $stmt->close();
                     <h5 class="card-title mt-3">Visitors</h5>
                     <h1 class="mt-2 mb-3" style="font-size: 2.5rem; font-weight: 700;">14,212</h1>
                     <span class="badge bg-success">+5.25%</span>
-                    <span class="text-muted">Since last week</span>
+                    <span class="text-muted">Since last month</span>
                 </div>
             </div>
         </div>
@@ -246,7 +301,7 @@ $stmt->close();
                     <h5 class="card-title mt-3">Hired Applicants</h5>
                     <h1 class="mt-2 mb-3" style="font-size: 2.5rem; font-weight: 700;">64</h1>
                     <span class="badge bg-danger">-2.25%</span>
-                    <span class="text-muted">Since last week</span>
+                    <span class="text-muted">Since last month</span>
                 </div>
             </div>
         </div>
