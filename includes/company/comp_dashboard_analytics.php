@@ -128,8 +128,10 @@ $current_month_query = "SELECT
 FROM tbl_job_listing jl
 LEFT JOIN tbl_job_application ja ON jl.job_id = ja.job_id
 WHERE jl.employer_id = ?
-AND MONTH(jl.posted_date) = MONTH(CURRENT_DATE())
-AND YEAR(jl.posted_date) = YEAR(CURRENT_DATE())";
+AND (
+    (MONTH(ja.application_time) = MONTH(CURRENT_DATE()) AND YEAR(ja.application_time) = YEAR(CURRENT_DATE()))
+    OR (ja.application_time IS NULL AND MONTH(jl.posted_date) = MONTH(CURRENT_DATE()) AND YEAR(jl.posted_date) = YEAR(CURRENT_DATE()))
+)";
 
 $stmt = $conn->prepare($current_month_query);
 $stmt->bind_param("i", $company_id);
@@ -146,8 +148,10 @@ $previous_month_query = "SELECT
 FROM tbl_job_listing jl
 LEFT JOIN tbl_job_application ja ON jl.job_id = ja.job_id
 WHERE jl.employer_id = ?
-AND MONTH(jl.posted_date) = MONTH(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH))
-AND YEAR(jl.posted_date) = YEAR(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH))";
+AND (
+    (MONTH(ja.application_time) = MONTH(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH)) AND YEAR(ja.application_time) = YEAR(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH)))
+    OR (ja.application_time IS NULL AND MONTH(jl.posted_date) = MONTH(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH)) AND YEAR(jl.posted_date) = YEAR(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH)))
+)";
 
 $stmt = $conn->prepare($previous_month_query);
 $stmt->bind_param("i", $company_id);
@@ -176,6 +180,42 @@ $hired_change = calculatePercentageChange(
     $current_month_data['total_hired'],
     $previous_month_data['total_hired']
 );
+
+// Fetch age distribution data
+$age_query = "SELECT 
+    CASE 
+        WHEN TIMESTAMPDIFF(YEAR, ei.birth_date, CURDATE()) BETWEEN 15 AND 17 THEN '15-17'
+        WHEN TIMESTAMPDIFF(YEAR, ei.birth_date, CURDATE()) BETWEEN 18 AND 24 THEN '18-24'
+        WHEN TIMESTAMPDIFF(YEAR, ei.birth_date, CURDATE()) BETWEEN 25 AND 34 THEN '25-34'
+        WHEN TIMESTAMPDIFF(YEAR, ei.birth_date, CURDATE()) BETWEEN 35 AND 44 THEN '35-44'
+        WHEN TIMESTAMPDIFF(YEAR, ei.birth_date, CURDATE()) BETWEEN 45 AND 54 THEN '45-54'
+        ELSE '55+'
+    END as age_range,
+    COUNT(DISTINCT ja.id) as count
+FROM tbl_job_application ja
+JOIN tbl_job_listing jl ON ja.job_id = jl.job_id
+JOIN tbl_emp_info ei ON ja.emp_id = ei.user_id
+WHERE jl.employer_id = ?
+GROUP BY age_range
+ORDER BY 
+    CASE age_range
+        WHEN '15-17' THEN 1
+        WHEN '18-24' THEN 2
+        WHEN '25-34' THEN 3
+        WHEN '35-44' THEN 4
+        WHEN '45-54' THEN 5
+        ELSE 6
+    END";
+
+$stmt = $conn->prepare($age_query);
+$stmt->bind_param("i", $company_id);
+$stmt->execute();
+$age_result = $stmt->get_result();
+$age_data = [];
+while ($row = $age_result->fetch_assoc()) {
+    $age_data[$row['age_range']] = $row['count'];
+}
+$stmt->close();
 
 // need separate table for tracking views
 // placeholder fr now

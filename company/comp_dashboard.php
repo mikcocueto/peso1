@@ -272,10 +272,17 @@ require "../includes/company/comp_dashboard_analytics.php";
       const ageChart = new Chart(document.getElementById('ageChart'), {
         type: 'bar',
         data: {
-          labels: ['18-24', '25-34', '35-44', '45-54', '55+'],
+          labels: ['15-17', '18-24', '25-34', '35-44', '45-54', '55+'],
           datasets: [{
             label: 'Applicants',
-            data: [30, 45, 15, 7, 3],
+            data: [
+              <?php echo $age_data['15-17'] ?? 0; ?>,
+              <?php echo $age_data['18-24'] ?? 0; ?>,
+              <?php echo $age_data['25-34'] ?? 0; ?>,
+              <?php echo $age_data['35-44'] ?? 0; ?>,
+              <?php echo $age_data['45-54'] ?? 0; ?>,
+              <?php echo $age_data['55+'] ?? 0; ?>
+            ],
             backgroundColor: '#1cc88a' // Use brand color
           }]
         },
@@ -285,8 +292,26 @@ require "../includes/company/comp_dashboard_analytics.php";
             tooltip: {
               callbacks: {
                 label: function (context) {
-                  return `${context.label}: ${context.raw} applicants`; // Custom tooltip
+                  const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                  const value = context.raw;
+                  const percentage = total > 0 ? ((value / total) * 100).toFixed(2) : 0;
+                  return `${context.label}: ${value} applicants (${percentage}%)`; // Custom tooltip with percentage
                 }
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'Number of Applicants'
+              }
+            },
+            x: {
+              title: {
+                display: true,
+                text: 'Age Range'
               }
             }
           }
@@ -1041,7 +1066,7 @@ require "../includes/company/comp_dashboard_analytics.php";
                 const notificationDropdown = document.querySelector('.notification-dropdown');
                 const notificationContent = document.getElementById('notificationContent');
                 
-                if (!notificationDropdown.contains(event.target) && notificationContent.classList.contains('show')) {
+                if (notificationDropdown && notificationContent && !notificationDropdown.contains(event.target) && notificationContent.classList.contains('show')) {
                     notificationContent.classList.remove('show');
                 }
             });
@@ -1072,7 +1097,7 @@ require "../includes/company/comp_dashboard_analytics.php";
                 const messageDropdown = document.querySelector('.message-dropdown');
                 const messageContent = document.getElementById('messageContent');
                 
-                if (!messageDropdown.contains(event.target) && messageContent.classList.contains('show')) {
+                if (messageDropdown && messageContent && !messageDropdown.contains(event.target) && messageContent.classList.contains('show')) {
                     messageContent.classList.remove('show');
                 }
             });
