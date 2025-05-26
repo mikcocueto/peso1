@@ -216,143 +216,209 @@ include '../includes/employee/emp_fetch_profile.php';
             <div class="site-nav">
                     <nav role="navigation">
                         <ul class="nav justify-content-center">
-                            <li class="nav-item"><a class="nav-link" href="https://twitter.com/" title="Twitter"><i class="fab fa-twitter"></i><span class="menu-title sr-only">Twitter</span></a></li>
-                            <li class="nav-item"><a class="nav-link" href="https://www.facebook.com/" title="Facebook"><i class="fab fa-facebook"></i><span class="menu-title sr-only">Facebook</span></a></li>
-                            <li class="nav-item"><a class="nav-link" href="https://www.instagram.com/" title="Instagram"><i class="fab fa-instagram"></i><span class="menu-title sr-only">Instagram</span></a></li>
-                            <li class="nav-item"><a class="nav-link" href="https://github.com/" title="Github"><i class="fab fa-github"></i><span class="menu-title sr-only">Github</span></a></li>
-                            <li class="nav-item"><a class="nav-link" href="../index.php" title="Github"><i class="fab fa-github"></i><span class="menu-title sr-only">Home</span></a></li>
+                            <!-- Make sure Font Awesome is included -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+<ul class="nav">
+  <li class="nav-item">
+    <a class="nav-link text-black" href="https://twitter.com/" title="Twitter">
+      <i class="fab fa-twitter"></i> Twitter
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link text-black" href="https://www.facebook.com/" title="Facebook">
+      <i class="fab fa-facebook"></i> Facebook
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link text-black" href="https://www.instagram.com/" title="Instagram">
+      <i class="fab fa-instagram"></i> Instagram
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link text-black" href="https://github.com/" title="Github">
+      <i class="fab fa-github"></i> Github
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link text-black" href="../index.php" title="Home">
+      <i class="fas fa-home"></i> Home
+    </a>
+  </li>
+</ul>
+
                         </ul>
                     </nav>
                 </div>
-                <div class="cover-bg p-3 p-lg-4 text-black">
-                    <div class="row">
-                        <div class="col-lg-4 col-md-5">
-                            <div class="avatar hover-effect bg-white shadow-sm p-1"><img src="../fortest/images/person_1.jpg" width="200" height="200"/></div>
-                        </div>
-                        <div class="col-lg-8 col-md-7 text-center text-md-start">
-                            <h2 class="h1 mt-2" data-aos="fade-left" data-aos-delay="0"><?php echo htmlspecialchars($employee['firstName'] . ' ' . $employee['lastName']); ?></h2>
-                            <p data-aos="fade-left" data-aos-delay="100">Philippines, Region IV-A</p>
-                            <div class="d-print-none" data-aos="fade-left" data-aos-delay="200"><a class="btn btn-light text-dark shadow-sm mt-1 me-1" href="../db/pdf/emp_cv/<?php echo htmlspecialchars($cvs[0]['cv_file_name']); ?>" target="_blank">Download CV</a><a class="btn btn-success shadow-sm mt-1" href="#contact">Contact</a></div>
-                        </div>
-                    </div>
-                </div>
+     <div class="cover-bg p-3 p-lg-4 bg-light text-black">
+     <div class="row align-items-center g-4">
+        <!-- Avatar -->
+        <div class="col-md-4 text-center text-md-start">
+            <div class="avatar bg-white shadow-sm p-2 rounded-circle d-inline-block">
+                <img src="../fortest/images/person_1.jpg" class="img-fluid rounded-circle" width="180" height="180" alt="Profile Photo">
+            </div>
+        </div>
+
+        <!-- Info -->
+        <div class="col-md-8 text-center text-md-start">
+<div data-aos="fade-left">
+  <h1 class="h3 mb-1"><?= htmlspecialchars($employee['firstName'] . ' ' . $employee['lastName']) ?></h1>
+  <p class="mb-2 text-muted" data-aos-delay="100">Philippines, Region IV-A</p>
+  <div class="mt-2 d-print-none" data-aos-delay="200">
+    <a href="../db/pdf/emp_cv/<?= htmlspecialchars($cvs[0]['cv_file_name']) ?>" target="_blank" class="btn btn-outline-dark btn-sm me-2">Download CV</a>
+    <a href="#contact" class="btn btn-success btn-sm">Contact</a>
+  </div>
+</div>
+
+        </div>
+    </div>
+</div>
+
                 <div class="about-section pt-4 px-3 px-lg-4 mt-1">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <h2 class="h3 mb-3">About Me 
-                                <button class="btn btn-primary" onclick="openModal('personal', {
-                                    firstName: '<?php echo htmlspecialchars($employee['firstName']); ?>',
-                                    lastName: '<?php echo htmlspecialchars($employee['lastName']); ?>',
-                                    address: '<?php echo htmlspecialchars($employee['address']); ?>',
-                                    emailAddress: '<?php echo htmlspecialchars($employee['emailAddress']); ?>',
-                                    gender: '<?php echo htmlspecialchars($employee['gender']); ?>',
-                                    mobileNumber: '<?php echo htmlspecialchars($employee['mobileNumber']); ?>'
-                                })">Edit</button>
-                            </h2>
-                            <p>Hello! I'm <?php echo htmlspecialchars($employee['firstName'] . ' ' . $employee['lastName']); ?>. I am passionate about my work and always strive to improve my skills.</p>
-                        </div>
-                        <div class="col-md-5 offset-md-1">
-                            <div class="row mt-2">
-                                <div class="col-sm-4">
-                                    <div class="pb-1">Email</div>
-                                </div>
-                                <div class="col-sm-8">
-                                    <div class="pb-1 text-secondary"><?php echo htmlspecialchars($employee['emailAddress']); ?></div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="pb-1">Phone</div>
-                                </div>
-                                <div class="col-sm-8">
-                                    <div class="pb-1 text-secondary"><?php echo htmlspecialchars($employee['mobileNumber']); ?></div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="pb-1">Address</div>
-                                </div>
-                                <div class="col-sm-8">
-                                    <div class="pb-1 text-secondary"><?php echo htmlspecialchars($employee['address']); ?></div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="pb-1">Gender</div>
-                                </div>
-                                <div class="col-sm-8">
-                                    <div class="pb-1 text-secondary"><?php echo htmlspecialchars($employee['gender']); ?></div>
-                                </div>
-                                <div class="col-sm-4">
-                                    
-                            </div>
-                        </div>
-                    </div>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="h5 mb-0">About Me</h2>
+        <button class="btn btn-sm btn-outline-primary"
+            onclick="openModal('personal', {
+                firstName: '<?php echo htmlspecialchars($employee['firstName']); ?>',
+                lastName: '<?php echo htmlspecialchars($employee['lastName']); ?>',
+                address: '<?php echo htmlspecialchars($employee['address']); ?>',
+                emailAddress: '<?php echo htmlspecialchars($employee['emailAddress']); ?>',
+                gender: '<?php echo htmlspecialchars($employee['gender']); ?>',
+                mobileNumber: '<?php echo htmlspecialchars($employee['mobileNumber']); ?>'
+            })">Edit</button>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-6">
+            <p class="mb-2">
+                Hello! I'm <strong><?php echo htmlspecialchars($employee['firstName'] . ' ' . $employee['lastName']); ?></strong>. I am passionate about my work and always strive to improve my chismis skills.
+            </p>
+        </div>
+        <div class="col-md-6">
+            <div class="border rounded-3 p-3 bg-light">
+                <div class="row mb-2">
+                    <div class="col-sm-4 fw-semibold">Email</div>
+                    <div class="col-sm-8 text-secondary"><?php echo htmlspecialchars($employee['emailAddress']); ?></div>
                 </div>
+                <div class="row mb-2">
+                    <div class="col-sm-4 fw-semibold">Phone</div>
+                    <div class="col-sm-8 text-secondary"><?php echo htmlspecialchars($employee['mobileNumber']); ?></div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-sm-4 fw-semibold">Address</div>
+                    <div class="col-sm-8 text-secondary"><?php echo htmlspecialchars($employee['address']); ?></div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 fw-semibold">Gender</div>
+                    <div class="col-sm-8 text-secondary"><?php echo htmlspecialchars($employee['gender']); ?></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
                 <hr class="d-print-none"/>
-                <div class="work-experience-section px-3 px-lg-4">
-                    <h2 class="h3 mb-4">Career History 
-                        <button class="btn btn-primary" onclick="openCareerHistoryListModal()">Edit</button>
-                    </h2>
-                    <div class="row">
-                        <?php foreach ($career_history as $job): ?>
-                        <div class="col-md-6">
-                            <div class="timeline-card timeline-card-primary card shadow-sm">
-                                <div class="card-body">
-                                    <div class="h5 mb-1"><?php echo htmlspecialchars($job['job_title']); ?> 
-                                        <span class="text-muted h6">at <?php echo htmlspecialchars($job['company_name']); ?></span>
-                                    </div>
-                                    <div class="text-muted text-small mb-2">
-                                        <?php if ($job['still_in_role']): ?>
-                                            <span style="color: red;">Still in role</span>
-                                        <?php else: ?>
-                                            <span style="color: transparent;">Still in role</span>
-                                        <?php endif; ?>
-                                    </div>
-                                    <div class="text-muted text-small mb-2">
-                                        from <?php echo htmlspecialchars($job['start_date'] === '0000-00-00' ? 'unspecified' : $job['start_date']); ?> 
-                                        to <?php echo htmlspecialchars($job['end_date'] === '0000-00-00' ? 'unspecified' : $job['end_date']); ?>
-                                    </div>
-                                    <div><?php echo htmlspecialchars($job['JDescription']); ?></div>
-                                </div>
-                            </div>
-                        </div>
-                        <?php endforeach; ?>
+<div class="work-experience-section px-2 px-lg-3 pb-2">
+    <div class="d-flex justify-content-between align-items-center mb-1">
+        <h2 class="h6 mb-0">Career History</h2>
+        <button type="button" class="btn btn-sm btn-outline-primary py-0 px-2" style="font-size: 0.8rem;" onclick="openCareerHistoryListModal()">Edit</button>
+    </div>
+    <div class="row g-1">
+        <?php foreach ($career_history as $job): ?>
+        <div class="col-md-6">
+            <div class="timeline-card timeline-card-primary card shadow-sm rounded-3 py-1 px-2" style="background-color: rgb(157, 200, 244);">
+                <div class="card-body p-1" style="font-size: 0.85rem; line-height: 1.1;">
+                    <div class="h6 mb-0" style="font-size: 0.9rem;">
+                        <?php echo htmlspecialchars($job['job_title']); ?>
+                        <small class="text-muted" style="font-size: 0.75rem;">at <?php echo htmlspecialchars($job['company_name']); ?></small>
+                    </div>
+                    <div class="text-muted small mb-1" style="font-size: 0.75rem;">
+                        <?php if ($job['still_in_role']): ?>
+                            <span style="color: red;">Still in role</span>
+                        <?php else: ?>
+                            <span style="color: transparent;">Still in role</span>
+                        <?php endif; ?>
+                    </div>
+                    <div class="text-muted small mb-1" style="font-size: 0.75rem;">
+                        from <?php echo htmlspecialchars($job['start_date'] === '0000-00-00' ? 'unspecified' : $job['start_date']); ?>
+                        to <?php echo htmlspecialchars($job['end_date'] === '0000-00-00' ? 'unspecified' : $job['end_date']); ?>
+                    </div>
+                    <div style="font-size: 0.75rem; line-height: 1.1;">
+                        <?php echo htmlspecialchars($job['JDescription']); ?>
                     </div>
                 </div>
+            </div>
+        </div>
+        <?php endforeach; ?>
+    </div>
+</div>
+
+
                 <hr class="d-print-none"/>
-                <div class="languages-section px-3 px-lg-4">
-                    <h2 class="h3 mb-4">Languages <button class="btn btn-primary" onclick="openLanguagesListModal()">Edit</button></h2>
-                    <div id="tag-container">
-                        <?php foreach ($languages as $lang): ?>
-                        <div class="tag">
-                            <?php echo htmlspecialchars($lang['language_name']); ?>
-                            <span class="close-btn" onclick="removeLanguage(<?php echo $lang['id']; ?>)">×</span>
-                        </div>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
+<div class="languages-section px-3 px-lg-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="h5 mb-0">Languages</h2>
+        <button class="btn btn-sm btn-outline-primary" onclick="openLanguagesListModal()">Edit</button>
+    </div>
+    <div id="tag-container" class="d-flex flex-wrap gap-2">
+        <?php foreach ($languages as $lang): ?>
+        <div class="position-relative d-inline-flex align-items-center rounded-pill px-3 py-1" style="background-color:rgb(157, 200, 244);">
+            <?php echo htmlspecialchars($lang['language_name']); ?>
+            <button type="button"
+                class="ms-2 p-0 bg-danger text-white border-0 rounded-circle d-flex align-items-center justify-content-center"
+                style="width: 14px; height: 14px; font-size: 10px; line-height: 1;"
+                aria-label="Remove"
+                onclick="removeLanguage(<?php echo $lang['id']; ?>)">×</button>
+        </div>
+        <?php endforeach; ?>
+    </div>
+</div>
+
+
+
+
                 <hr class="d-print-none"/>
-                <div class="skills-section px-3 px-lg-4">
-                    <h2 class="h3 mb-4">Skills <button class="btn btn-primary" onclick="openSkillsListModal()">Edit</button></h2>
-                    <div id="skills-container">
-                        <?php foreach ($skills as $skill): ?>
-                        <div class="tag">
-                            <?php echo htmlspecialchars($skill['skill_name']); ?>
-                            <span class="close-btn" onclick="removeSkill(<?php echo $skill['id']; ?>)">×</span>
-                        </div>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
+<div class="skills-section px-3 px-lg-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="h5 mb-0">Skills</h2>
+        <button class="btn btn-sm btn-outline-primary" onclick="openSkillsListModal()">Edit</button>
+    </div>
+    <div id="skills-container" class="d-flex flex-wrap gap-2">
+        <?php foreach ($skills as $skill): ?>
+        <div class="position-relative d-inline-flex align-items-center rounded-pill px-3 py-1" style="background-color:rgb(157, 200, 244);">
+            <?php echo htmlspecialchars($skill['skill_name']); ?>
+            <button type="button"
+                class="ms-2 p-0 bg-danger text-white border-0 rounded-circle d-flex align-items-center justify-content-center"
+                style="width: 14px; height: 14px; font-size: 10px; line-height: 1;"
+                aria-label="Remove"
+                onclick="removeSkill(<?php echo $skill['id']; ?>)">×</button>
+        </div>
+        <?php endforeach; ?>
+    </div>
+</div>
+
+
                 <hr class="d-print-none"/>
 
-                <div class="job-category-preference-section px-3 px-lg-4">
-                    <h2 class="h3 mb-4">Job Category Preference 
-                        <button class="btn btn-primary" onclick="openJobCategoryPreferenceModal()">Add</button>
-                    </h2>
-                    <div id="job-category-container">
-                        <?php foreach ($job_categories as $category): ?>
-                        <div class="tag">
-                            <?php echo htmlspecialchars($category['category_name']); ?>
-                            <span class="close-btn" onclick="removeJobCategory(<?php echo $category['id']; ?>)">×</span>
-                        </div>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
+<div class="job-category-preference-section px-3 px-lg-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="h5 mb-0">Job Category Preference</h2>
+        <button class="btn btn-sm btn-outline-primary" onclick="openJobCategoryPreferenceModal()">Add</button>
+    </div>
+    <div id="job-category-container" class="d-flex flex-wrap gap-2">
+        <?php foreach ($job_categories as $category): ?>
+        <div class="position-relative d-inline-flex align-items-center rounded-pill px-3 py-1" style="background-color:rgb(157, 200, 244);">
+            <?php echo htmlspecialchars($category['category_name']); ?>
+            <button type="button"
+                class="ms-2 p-0 bg-danger text-white border-0 rounded-circle d-flex align-items-center justify-content-center"
+                style="width: 14px; height: 14px; font-size: 10px; line-height: 1;"
+                aria-label="Remove"
+                onclick="removeJobCategory(<?php echo $category['id']; ?>)">×</button>
+        </div>
+        <?php endforeach; ?>
+    </div>
+</div>
+
 
                 <div id="jobCategoryPreferenceModal" class="modal">
                     <div class="modal-content">
@@ -375,43 +441,53 @@ include '../includes/employee/emp_fetch_profile.php';
                 </div>
                 <hr class="d-print-none"/>
 
-                <div class="education-section px-3 px-lg-4 pb-4">
-                    <h2 class="h3 mb-4">Educational Background 
-                        <button class="btn btn-primary" onclick="openEducationListModal()">Edit</button>
-                    </h2>
-                    <div class="row">
-                        <?php foreach ($education as $edu): ?>
-                        <div class="col-md-6">
-                            <div class="timeline-card timeline-card-success card shadow-sm">
-                                <div class="card-body">
-                                    <div class="h5 mb-1"><?php echo htmlspecialchars($edu['course']); ?> 
-                                        <span class="text-muted h6">from <?php echo htmlspecialchars($edu['institution']); ?></span>
-                                    </div>
-                                    <div class="text-muted text-small mb-2"><?php echo htmlspecialchars($edu['ending_date']); ?></div>
-                                    <div><?php echo htmlspecialchars($edu['course_highlights']); ?></div>
-                                </div>
-                            </div>
-                        </div>
-                        <?php endforeach; ?>
+<div class="education-section px-2 px-lg-3 pb-2">
+    <div class="d-flex justify-content-between align-items-center mb-1">
+        <h2 class="h6 mb-0">Educational Background</h2>
+        <button type="button" class="btn btn-sm btn-outline-primary py-0 px-2" style="font-size: 0.8rem;" onclick="openEducationListModal()">Edit</button>
+    </div>
+    <div class="row g-1">
+        <?php foreach ($education as $edu): ?>
+        <div class="col-md-6">
+            <div class="card shadow-sm rounded-3 py-1 px-2" style="background-color:rgb(157, 200, 244);">
+                <div class="card-body p-1">
+                    <div class="h6 mb-0" style="font-size: 0.9rem; line-height: 1.1;">
+                        <?php echo htmlspecialchars($edu['course']); ?>
+                        <small class="text-muted" style="font-size: 0.7rem;">from <?php echo htmlspecialchars($edu['institution']); ?></small>
                     </div>
+                    <div class="text-muted small mb-1" style="font-size: 0.75rem;"><?php echo htmlspecialchars($edu['ending_date']); ?></div>
+                    <div class="small" style="font-size: 0.75rem; line-height: 1.1;"><?php echo htmlspecialchars($edu['course_highlights']); ?></div>
                 </div>
+            </div>
+        </div>
+        <?php endforeach; ?>
+    </div>
+</div>
+
+
+
+
                 <hr class="d-print-none"/>
-                <div class="contact-section px-3 px-lg-4 pb-4" id="contact">
-                    <h2 class="h3 text">Certifications <button class="btn btn-primary" onclick="openCertificationsListModal()">Edit</button></h2>
-                    <div class="row">
-                        <?php foreach ($certifications as $cert): ?>
-                        <div class="col-md-6">
-                            <div class="timeline-card timeline-card-success card shadow-sm">
-                                <div class="card-body">
-                                    <div class="h5 mb-1"><?php echo htmlspecialchars($cert['licence_name']); ?></div>
-                                    <div class="text-muted text-small mb-2"><?php echo htmlspecialchars($cert['issuing_organization']); ?></div>
-                                    <div><?php echo htmlspecialchars($cert['description']); ?></div>
-                                </div>
-                            </div>
-                        </div>
-                        <?php endforeach; ?>
-                    </div>
+<div class="contact-section px-2 px-lg-3 pb-2" id="contact">
+    <div class="d-flex justify-content-between align-items-center mb-1">
+        <h2 class="h6 mb-0">Certifications</h2>
+        <button type="button" class="btn btn-sm btn-outline-primary py-0 px-2" style="font-size: 0.8rem;" onclick="openCertificationsListModal()">Edit</button>
+    </div>
+    <div class="row g-1">
+        <?php foreach ($certifications as $cert): ?>
+        <div class="col-md-6">
+            <div class="timeline-card timeline-card-success card shadow-sm rounded-3 py-1 px-2" style="background-color: rgb(157, 200, 244);">
+                <div class="card-body p-1" style="font-size: 0.85rem; line-height: 1.1;">
+                    <div class="h6 mb-0" style="font-size: 0.9rem;"><?php echo htmlspecialchars($cert['licence_name']); ?></div>
+                    <div class="text-muted small mb-1" style="font-size: 0.75rem;"><?php echo htmlspecialchars($cert['issuing_organization']); ?></div>
+                    <div style="font-size: 0.75rem; line-height: 1.1;"><?php echo htmlspecialchars($cert['description']); ?></div>
                 </div>
+            </div>
+        </div>
+        <?php endforeach; ?>
+    </div>
+</div>
+
                 <hr class="d-print-none"/>
                 <div class="cv-section px-3 px-lg-4 pb-4">
                     <h2 class="h3 mb-4">Curriculum Vitae 

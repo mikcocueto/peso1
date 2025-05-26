@@ -290,9 +290,6 @@ if (!isset($_SESSION['company_id'])) {
                                         <i class="bi bi-three-dots"></i>
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-end">
-                                        <li><a class="dropdown-item" href="#"><i class="bi bi-pencil-square me-2"></i>Create New Message</a></li>
-                                        <li><a class="dropdown-item" href="#"><i class="bi bi-trash me-2"></i>Delete Job</a></li>
-                                        <li><hr class="dropdown-divider"></li>
                                         <li><a class="dropdown-item" href="#"><i class="bi bi-archive me-2"></i>Archived Chats</a></li>
                                         <li><hr class="dropdown-divider"></li>
                                         <li><a class="dropdown-item" href="#"><i class="bi bi-question-circle me-2"></i>Help</a></li>
@@ -336,17 +333,6 @@ if (!isset($_SESSION['company_id'])) {
                     <div class="text-center p-5" id="noMessages" style="display: none;">
                         <i class="bi bi-chat-dots fs-1 text-muted mb-3"></i>
                         <h6 class="text-muted">No Messages Yet</h6>
-                        <p class="text-muted small">Start the conversation by sending a message</p>
-                    </div>
-                    <div class="message-input">
-                        <form id="messageForm" class="d-flex gap-2">
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Type your message..." id="messageInput">
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="bi bi-send"></i>
-                                </button>
-                            </div>
-                        </form>
                     </div>
                 </div>
             </div>
