@@ -254,9 +254,12 @@ include '../includes/employee/emp_fetch_profile.php';
      <div class="row align-items-center g-4">
         <!-- Avatar -->
         <div class="col-md-4 text-center text-md-start">
-            <div class="avatar bg-white shadow-sm p-2 rounded-circle d-inline-block">
-                <img src="../fortest/images/person_1.jpg" class="img-fluid rounded-circle" width="180" height="180" alt="Profile Photo">
-            </div>
+<div class="avatar bg-white shadow-sm rounded-circle d-inline-block" style="border: 3px solid blue;">
+
+  <img src="../fortest/images/person_1.jpg" class="img-fluid rounded-circle" width="180" height="180" alt="Profile Photo">
+</div>
+
+
         </div>
 
         <!-- Info -->
