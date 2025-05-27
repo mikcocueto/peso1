@@ -68,7 +68,7 @@ $jobs = $conn->query($query);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Job Listings</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="../fortest/style2/style.css" rel="stylesheet">
     <link rel="stylesheet" href="../fortest/style2/custom-bs.css">
     <link rel="stylesheet" href="../fortest/style2/jquery.fancybox.min.css">
@@ -77,7 +77,6 @@ $jobs = $conn->query($query);
     <link rel="stylesheet" href="../fortest/fonts/line-icons/style.css">
     <link rel="stylesheet" href="../fortest/style2/owl.carousel.min.css">
     <link rel="stylesheet" href="../fortest/style2/animate.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/css/bootstrap-select.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <style>
         body {
@@ -89,6 +88,26 @@ $jobs = $conn->query($query);
             min-height: 100vh;
             margin: 0;
             padding: 0;
+        }
+
+        /* Add styles for Bootstrap Select dropdown */
+        .bootstrap-select {
+            z-index: 2 !important;
+        }
+        .bootstrap-select .dropdown-menu {
+            z-index: 2 !important;
+        }
+        .bootstrap-select.show-tick .dropdown-menu {
+            z-index: 2 !important;
+        }
+        .bootstrap-select .dropdown-menu.inner {
+            z-index: 2 !important;
+        }
+        .bootstrap-select .dropdown-menu.open {
+            z-index: 2 !important;
+        }
+        .bootstrap-select .dropdown-menu.show {
+            z-index: 2 !important;
         }
 
         .site-navbar {
@@ -478,15 +497,14 @@ $jobs = $conn->query($query);
                                     <input type="text" class="form-control form-control-lg" name="search_title" placeholder="Job title, Company..." value="<?= htmlspecialchars($search_title) ?>">
                                 </div>
                                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                                    <select class="selectpicker form-control form-control-lg" name="search_category[]" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select Category" mu                                /option>
+                                    <select class="selectpicker form-control form-control-lg" name="search_category[]" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" data-live-search-placeholder="Search categories..." data-actions-box="true" title="Select Category" multiple>
                                         <?php foreach ($categories as $category): ?>
                                             <option value="<?php echo $category['category_id']; ?>" <?php echo in_array($category['category_id'], $search_category) ? 'selected' : ''; ?>><?php echo $category['category_name']; ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
                                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                                    <select class="selectpicker form-control form-control-lg" name="search_type" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select Job Type">
-                                        <option disabled>Select Job Type</option>
+                                    <select class="selectpicker form-control form-control-lg" name="search_type" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" data-live-search-placeholder="Search job types..." title="Select Job Type">
                                         <option value="" <?php echo $search_type == '' ? 'selected' : ''; ?>>All</option>
                                         <option value="Part-Time" <?php echo $search_type == 'Part-Time' ? 'selected' : ''; ?>>Part-Time</option>
                                         <option value="Full-Time" <?php echo $search_type == 'Full-Time' ? 'selected' : ''; ?>>Full-Time</option>
@@ -556,7 +574,8 @@ $jobs = $conn->query($query);
     
 
     <script src="../fortest/js/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
     <script src="../fortest/js/isotope.pkgd.min.js"></script>
     <script src="../fortest/js/stickyfill.min.js"></script>
     <script src="../fortest/js/jquery.fancybox.min.js"></script>
@@ -566,12 +585,24 @@ $jobs = $conn->query($query);
     <script src="../fortest/js/owl.carousel.min.js"></script>
     <script src="../fortest/js/bootstrap-select.min.js"></script>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script src="../includes/employee/js/emp_job_list.js"></script> <!-- Correctly include the external JS file -->
+    <script src="../includes/employee/js/emp_job_list.js"></script>
     <script src="../fortest/js/custom.js"></script>
 
     <script>
         // Add this new script to handle job selection from URL parameter
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Bootstrap Select with specific options
+            $('.selectpicker').selectpicker({
+                liveSearch: true,
+                liveSearchPlaceholder: 'Search...',
+                noneSelectedText: 'Nothing selected',
+                noneResultsText: 'No results found {0}',
+                countSelectedText: '{0} items selected',
+                selectAllText: 'Select All',
+                deselectAllText: 'Deselect All',
+                size: 5
+            });
+
             const urlParams = new URLSearchParams(window.location.search);
             const jobId = urlParams.get('job_id');
             
