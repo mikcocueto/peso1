@@ -305,7 +305,7 @@
 
       setTimeout(() => {
         // Simulate success
-        feedback.textContent = "Invitation sent successfully to " + name + "!");
+        feedback.textContent = "Invitation sent successfully to " + name + "!";
         feedback.classList.remove('alert-info', 'alert-danger');
         feedback.classList.add('alert-success');
         // Optionally reset form
@@ -317,49 +317,49 @@
         }, 1500);
       }, 1200);
     });
-  });
 
-  // Change Password logic
-  function handlePasswordChange(action) {
-    const currentPass = document.getElementById('currentPassword').value.trim();
-    const newPass = document.getElementById('newPassword').value.trim();
-    const confirmPass = document.getElementById('confirmPassword').value.trim();
+    // Change Password logic
+    function handlePasswordChange(action) {
+      const currentPass = document.getElementById('currentPassword').value.trim();
+      const newPass = document.getElementById('newPassword').value.trim();
+      const confirmPass = document.getElementById('confirmPassword').value.trim();
 
-    // Basic validation
-    if (!currentPass || !newPass || !confirmPass) {
-      alert('Please fill in all password fields.');
-      return;
-    }
-    if (newPass.length < 8) {
-      alert('Password must be at least 8 characters.');
-      return;
-    }
-    if (!/[A-Z]/.test(newPass) || !/[0-9]/.test(newPass) || !/[^A-Za-z0-9]/.test(newPass)) {
-      alert('Password must include a number, uppercase letter, and symbol.');
-      return;
-    }
-    if (newPass !== confirmPass) {
-      alert('New password and confirm password do not match.');
-      return;
-    }
-    if (currentPass === newPass) {
-      alert('New password must be different from current password.');
-      return;
-    }
+      // Basic validation
+      if (!currentPass || !newPass || !confirmPass) {
+        alert('Please fill in all password fields.');
+        return;
+      }
+      if (newPass.length < 8) {
+        alert('Password must be at least 8 characters.');
+        return;
+      }
+      if (!/[A-Z]/.test(newPass) || !/[0-9]/.test(newPass) || !/[^A-Za-z0-9]/.test(newPass)) {
+        alert('Password must include a number, uppercase letter, and symbol.');
+        return;
+      }
+      if (newPass !== confirmPass) {
+        alert('New password and confirm password do not match.');
+        return;
+      }
+      if (currentPass === newPass) {
+        alert('New password must be different from current password.');
+        return;
+      }
 
-    // Simulate password change success (replace with AJAX for real backend)
-    if (action === 'logout') {
-      alert('Password changed successfully. You will be logged out.');
-      window.location.href = '../includes/company/comp_logout.php';
-    } else {
-      alert('Password changed successfully. You will stay on this page.');
-      document.getElementById('currentPassword').value = '';
-      document.getElementById('newPassword').value = '';
-      document.getElementById('confirmPassword').value = '';
-      document.getElementById('strengthBar').style.width = '0%';
-      document.getElementById('strengthLabel').textContent = '';
+      // Simulate password change success (replace with AJAX for real backend)
+      if (action === 'logout') {
+        alert('Password changed successfully. You will be logged out.');
+        window.location.href = '../includes/company/comp_logout.php';
+      } else {
+        alert('Password changed successfully. You will stay on this page.');
+        document.getElementById('currentPassword').value = '';
+        document.getElementById('newPassword').value = '';
+        document.getElementById('confirmPassword').value = '';
+        document.getElementById('strengthBar').style.width = '0%';
+        document.getElementById('strengthLabel').textContent = '';
+      }
     }
-  }
+  }); // Added missing closing brace for document.addEventListener
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
