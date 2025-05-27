@@ -57,16 +57,3 @@ $conn->close();
 header("Location: ../../employee/emp_dashboard.php");
 exit();
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <!-- ...existing code... -->
-</head>
-<body>
-    <!-- ...existing code... -->
-    <?php if (!empty($updateMessage)): ?>
-        <p class="message"><?= htmlspecialchars($updateMessage) ?></p>
-    <?php endif; ?>
-    <!-- ...existing code... -->
-</body>
-</html>
