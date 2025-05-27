@@ -106,54 +106,41 @@
 
       <!-- Change Password -->
       <div class="tab-pane fade" id="password" role="tabpanel" aria-labelledby="password-tab">
-        <div class="g-3">
-          <div class="col-md-4">
-            <label class="form-label">Current Password</label>
-            <input type="password" class="form-control" id="currentPassword" placeholder="••••••••">
+        <form id="changePasswordForm">
+          <div class="g-3">
+            <div class="col-md-4">
+              <label class="form-label">Current Password</label>
+              <input type="password" class="form-control" id="currentPassword" name="current_password" placeholder="••••••••" required>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">New Password</label>
+              <input type="password" class="form-control" id="newPassword" name="new_password" placeholder="••••••••" required>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Confirm New Password</label>
+              <input type="password" class="form-control" id="confirmPassword" name="confirm_password" placeholder="••••••••" required>
+            </div>
           </div>
-          <div class="col-md-4">
-            <label class="form-label">New Password</label>
-            <input type="password" class="form-control" id="newPassword" placeholder="••••••••">
+          <div class="form-text text-muted">
+            Password must be at least 8 characters and include a number, uppercase, and symbol.
           </div>
-          <div class="col-md-4">
-            <label class="form-label">Confirm New Password</label>
-            <input type="password" class="form-control" id="confirmPassword" placeholder="••••••••">
+          <!-- Add password strength meter -->
+          <div id="password-strength" class="mt-2">
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" style="width: 0%" id="strengthBar"></div>
+            </div>
+            <small id="strengthLabel" class="form-text"></small>
           </div>
-        </div>
-        <div class="form-text text-muted">
-          Password must be at least 8 characters and include a number, uppercase, and symbol.
-        </div>
-        <!-- Add password strength meter -->
-        <div id="password-strength" class="mt-2">
-          <div class="progress">
-            <div class="progress-bar" role="progressbar" style="width: 0%" id="strengthBar"></div>
+          <div class="form-check mt-2">
+            <input class="form-check-input" type="checkbox" id="togglePassword">
+            <label class="form-check-label" for="togglePassword">Show Passwords</label>
           </div>
-          <small id="strengthLabel" class="form-text"></small>
-        </div>
-        <div class="form-check mt-2">
-          <input class="form-check-input" type="checkbox" id="togglePassword">
-          <label class="form-check-label" for="togglePassword">Show Passwords</label>
-        </div>
-        <div class="d-flex justify-content-end gap-2 mt-4">
-          <button class="btn btn-secondary save-btn" type="button" onclick="window.location.reload()">Cancel</button>
-          <div class="dropdown">
-            <button class="btn btn-primary save-btn dropdown-toggle" type="button" id="savePasswordDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-              Save Changes
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="savePasswordDropdown">
-              <li>
-                <a class="dropdown-item" href="#" onclick="handlePasswordChange('logout'); return false;">
-                  Save &amp; Log Out
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#" onclick="handlePasswordChange('stay'); return false;">
-                  Save &amp; Stay on Page
-                </a>
-              </li>
-            </ul>
+          <div id="passwordFeedback" class="alert d-none mt-3" role="alert"></div>
+          <div class="d-flex justify-content-end gap-2 mt-4">
+            <button class="btn btn-secondary save-btn" type="button" onclick="window.location.reload()">Cancel</button>
+            <button class="btn btn-primary save-btn" type="submit">Save Changes</button>
           </div>
-        </div>
+        </form>
       </div>
 
     </div>
@@ -280,6 +267,56 @@
       });
     }
 
+    // Handle password change form submission
+    const changePasswordForm = document.getElementById('changePasswordForm');
+    const passwordFeedback = document.getElementById('passwordFeedback');
+
+    if (changePasswordForm) {
+      changePasswordForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Reset feedback
+        passwordFeedback.classList.add('d-none');
+        passwordFeedback.classList.remove('alert-success', 'alert-danger');
+
+        // Get form data
+        const formData = new FormData(this);
+
+        // Send AJAX request
+        fetch('../includes/company/comp_setting_update_password.php', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          passwordFeedback.classList.remove('d-none');
+          
+          if (data.status === 'success') {
+            passwordFeedback.classList.add('alert-success');
+            passwordFeedback.textContent = data.message;
+            
+            // Clear form
+            changePasswordForm.reset();
+            strengthBar.style.width = '0%';
+            strengthLabel.textContent = '';
+            
+            // Redirect to login page after 2 seconds
+            setTimeout(() => {
+              window.location.href = '../includes/company/comp_logout.php';
+            }, 2000);
+          } else {
+            passwordFeedback.classList.add('alert-danger');
+            passwordFeedback.textContent = data.message;
+          }
+        })
+        .catch(error => {
+          passwordFeedback.classList.remove('d-none');
+          passwordFeedback.classList.add('alert-danger');
+          passwordFeedback.textContent = 'An error occurred. Please try again.';
+        });
+      });
+    }
+
     // Invite Team Member Modal - Interactive
     document.getElementById('inviteTeamForm').addEventListener('submit', function(e) {
       e.preventDefault();
@@ -317,49 +354,7 @@
         }, 1500);
       }, 1200);
     });
-
-    // Change Password logic
-    function handlePasswordChange(action) {
-      const currentPass = document.getElementById('currentPassword').value.trim();
-      const newPass = document.getElementById('newPassword').value.trim();
-      const confirmPass = document.getElementById('confirmPassword').value.trim();
-
-      // Basic validation
-      if (!currentPass || !newPass || !confirmPass) {
-        alert('Please fill in all password fields.');
-        return;
-      }
-      if (newPass.length < 8) {
-        alert('Password must be at least 8 characters.');
-        return;
-      }
-      if (!/[A-Z]/.test(newPass) || !/[0-9]/.test(newPass) || !/[^A-Za-z0-9]/.test(newPass)) {
-        alert('Password must include a number, uppercase letter, and symbol.');
-        return;
-      }
-      if (newPass !== confirmPass) {
-        alert('New password and confirm password do not match.');
-        return;
-      }
-      if (currentPass === newPass) {
-        alert('New password must be different from current password.');
-        return;
-      }
-
-      // Simulate password change success (replace with AJAX for real backend)
-      if (action === 'logout') {
-        alert('Password changed successfully. You will be logged out.');
-        window.location.href = '../includes/company/comp_logout.php';
-      } else {
-        alert('Password changed successfully. You will stay on this page.');
-        document.getElementById('currentPassword').value = '';
-        document.getElementById('newPassword').value = '';
-        document.getElementById('confirmPassword').value = '';
-        document.getElementById('strengthBar').style.width = '0%';
-        document.getElementById('strengthLabel').textContent = '';
-      }
-    }
-  }); // Added missing closing brace for document.addEventListener
+  });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
