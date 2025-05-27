@@ -118,33 +118,35 @@ $conn->close();
                             <div class="job-box">
                                 <div class="job-title">
                                     <img src="<?= $job['comp_logo_dir'] ? htmlspecialchars($job['comp_logo_dir']) : '../path/to/placeholder.png'; ?>" alt="Company Logo">
-                                    <?= htmlspecialchars($job['title']) ?>
+                                    <a href="emp_job_list.php?job_id=<?= $job['job_id'] ?>" style="color: inherit; text-decoration: none;">
+                                        <?= htmlspecialchars($job['title']) ?>
+                                    </a>
+                                </div>
+                                <div class="job-details">
+                                    <p><strong>Company:</strong> <?= htmlspecialchars($job['companyName']) ?></p>
+                                    <p><strong>Description:</strong> <?= htmlspecialchars($job['description']) ?></p>
+                                    <p><strong>Requirements:</strong> <?= htmlspecialchars($job['requirements']) ?></p>
+                                    <p><strong>Employment Type:</strong> <?= htmlspecialchars($job['employment_type']) ?></p>
+                                    <p><strong>Location:</strong> <?= htmlspecialchars($job['location']) ?></p>
+                                    <p><strong>Salary:</strong> <?= htmlspecialchars($job['salary_min']) ?> - <?= htmlspecialchars($job['salary_max']) ?> <?= htmlspecialchars($job['currency']) ?></p>
+                                    <p><strong>Category:</strong> <?= htmlspecialchars($job['category_name']) ?></p>
+                                    <p><strong>Expiry Date:</strong> <?= htmlspecialchars($job['expiry_date']) ?></p>
+                                </div>
+                                <form method="post" action="../includes/employee/save_job_process.php" class="unsave-job-btn">
+                                    <input type="hidden" name="job_id" value="<?= $job['job_id'] ?>">
+                                    <button type="submit" name="action" value="unsave" class="btn btn-outline-danger">Unsave</button>
+                                </form>
                             </div>
-                            <div class="job-details">
-                                <p><strong>Company:</strong> <?= htmlspecialchars($job['companyName']) ?></p>
-                                <p><strong>Description:</strong> <?= htmlspecialchars($job['description']) ?></p>
-                                <p><strong>Requirements:</strong> <?= htmlspecialchars($job['requirements']) ?></p>
-                                <p><strong>Employment Type:</strong> <?= htmlspecialchars($job['employment_type']) ?></p>
-                                <p><strong>Location:</strong> <?= htmlspecialchars($job['location']) ?></p>
-                                <p><strong>Salary:</strong> <?= htmlspecialchars($job['salary_min']) ?> - <?= htmlspecialchars($job['salary_max']) ?> <?= htmlspecialchars($job['currency']) ?></p>
-                                <p><strong>Category:</strong> <?= htmlspecialchars($job['category_name']) ?></p>
-                                <p><strong>Expiry Date:</strong> <?= htmlspecialchars($job['expiry_date']) ?></p>
-                            </div>
-                            <form method="post" action="../includes/employee/save_job_process.php" class="unsave-job-btn">
-                                <input type="hidden" name="job_id" value="<?= $job['job_id'] ?>">
-                                <button type="submit" name="action" value="unsave" class="btn btn-outline-danger">Unsave</button>
-                            </form>
                         </div>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <div class="col-12 text-center">
+                        <p>You haven't saved anything yet.</p>
                     </div>
-                <?php endwhile; ?>
-            <?php else: ?>
-                <div class="col-12 text-center">
-                    <p>You haven’t saved anything yet.</p>
-                </div>
-            <?php endif; ?>
+                <?php endif; ?>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 </div>
 
 <script src="../fortest/js/jquery.min.js"></script>
