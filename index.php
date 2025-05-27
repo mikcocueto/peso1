@@ -527,7 +527,11 @@ $conn->close();
                                 <div class="job-type-badge">${job.employment_type}</div>
                             </div>
                             <div class="job-content">
-                                <h5 class="job-title">${job.title}</h5>
+                                <h5 class="job-title">
+                                    <a href="employee/emp_job_list.php?job_id=${job.job_id}" style="color: inherit; text-decoration: none;">
+                                        ${job.title}
+                                    </a>
+                                </h5>
                                 <p class="company-name">
                                     <i class="icon-building"></i> ${job.companyName}
                                 </p>

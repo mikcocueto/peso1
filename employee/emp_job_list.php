@@ -568,5 +568,26 @@ $jobs = $conn->query($query);
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="../includes/employee/js/emp_job_list.js"></script> <!-- Correctly include the external JS file -->
     <script src="../fortest/js/custom.js"></script>
+
+    <script>
+        // Add this new script to handle job selection from URL parameter
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const jobId = urlParams.get('job_id');
+            
+            if (jobId) {
+                // Find and click the job box with matching ID
+                const jobBox = document.getElementById(`job-${jobId}`);
+                if (jobBox) {
+                    // Add a small delay to ensure the page is fully loaded
+                    setTimeout(() => {
+                        jobBox.click();
+                        // Scroll the job box into view
+                        jobBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 100);
+                }
+            }
+        });
+    </script>
 </body>
 </html>
