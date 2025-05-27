@@ -4,8 +4,9 @@ session_start();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user_id = $_SESSION['user_id'];
-    $target_dir = "../../uploads/profile_pictures/";
+    $target_dir = "../../db/images/emp/pfp/";
     $target_file = $target_dir . basename($_FILES["profile_picture"]["name"]);
+    $file_name = basename($_FILES["profile_picture"]["name"]); // Extract only the file name
     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
     // Check if image file is a actual image or fake image
@@ -39,10 +40,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Try to upload file
     if (move_uploaded_file($_FILES["profile_picture"]["tmp_name"], $target_file)) {
-        // Update the database with the new profile picture path
-        $query = "UPDATE tbl_emp_info SET profile_picture = ? WHERE user_id = ?";
+        // Update the database with the new profile picture file name
+        $query = "UPDATE tbl_emp_info SET pfp_dir = ? WHERE user_id = ?";
         $stmt = $conn->prepare($query);
-        $stmt->bind_param("si", $target_file, $user_id);
+        $stmt->bind_param("si", $file_name, $user_id);
 
         if ($stmt->execute()) {
             $_SESSION['success_message'] = "Profile picture uploaded successfully.";
@@ -63,5 +64,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     exit();
 }
 
-$conn->close();
+
 ?>

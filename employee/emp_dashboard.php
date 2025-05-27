@@ -255,8 +255,28 @@ include '../includes/employee/emp_fetch_profile.php';
         <!-- Avatar -->
         <div class="col-md-4 text-center text-md-start">
 <div class="avatar bg-white shadow-sm rounded-circle d-inline-block" style="border: 3px solid blue;">
+  <img src="<?= htmlspecialchars($employee['pfp_dir'] ? '../db/images/emp/pfp/' . $employee['pfp_dir'] : 'https://ui-avatars.com/api/?name=' . urlencode($employee['firstName'] . ' ' . $employee['lastName']) . '&size=150') ?>" class="img-fluid rounded-circle" width="180" height="180" alt="Profile Photo">
+</div>
+<div class="mt-2">
+  <button class="btn btn-outline-primary btn-sm" onclick="openProfilePictureModal()">Edit Profile Picture</button>
+</div>
 
-  <img src="../fortest/images/person_1.jpg" class="img-fluid rounded-circle" width="180" height="180" alt="Profile Photo">
+<div id="profilePictureModal" class="modal">
+  <div class="modal-content">
+    <span class="close-button" onclick="closeProfilePictureModal()">&times;</span>
+    <h3>Edit Profile Picture</h3>
+    <form action="../includes/employee/emp_upload_profile_picture.php" method="POST" enctype="multipart/form-data">
+      <div class="mb-3 text-center">
+        <img src="<?= htmlspecialchars($employee['pfp_dir'] ? '../db/images/emp/pfp/' . $employee['pfp_dir'] : 'https://ui-avatars.com/api/?name=' . urlencode($employee['firstName'] . ' ' . $employee['lastName']) . '&size=150') ?>" class="img-fluid rounded-circle" width="150" height="150" alt="Current Profile Picture">
+      </div>
+      <div class="mb-3">
+        <label for="profile_picture" class="form-label">Upload New Profile Picture:</label>
+        <input type="file" class="form-control" name="profile_picture" id="profile_picture" accept="image/*" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Upload</button>
+      <button type="button" class="btn btn-secondary" onclick="closeProfilePictureModal()">Cancel</button>
+    </form>
+  </div>
 </div>
 
 
@@ -833,5 +853,13 @@ include '../includes/employee/emp_fetch_profile.php';
             document.body.appendChild(form);
             form.submit();
         }
+    }
+
+    function openProfilePictureModal() {
+        document.getElementById('profilePictureModal').style.display = 'block';
+    }
+
+    function closeProfilePictureModal() {
+        document.getElementById('profilePictureModal').style.display = 'none';
     }
 </script>
