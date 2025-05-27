@@ -2,6 +2,14 @@
 // Database connection
 include '../includes/db_connect.php'; // Make sure this file contains the database connection logic
 
+session_start();
+if (!isset($_SESSION["admin_id"])) {
+    header("Location: admin_login.php");
+    exit();
+}
+
+include "../includes/db_connect.php";
+
 // Fetch Total Jobs
 $totalJobsQuery = "SELECT COUNT(*) AS total_jobs FROM tbl_job_listing";
 $totalJobsResult = $conn->query($totalJobsQuery);
