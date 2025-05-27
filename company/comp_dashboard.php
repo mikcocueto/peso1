@@ -11,6 +11,8 @@ if (!isset($_SESSION['company_id'])) {
 $company_id = $_SESSION['company_id'];
 
 require "../includes/company/comp_dashboard_analytics.php";
+
+
 ?>
 <!DOCTYPE html>
 
@@ -321,10 +323,10 @@ require "../includes/company/comp_dashboard_analytics.php";
       const locationChart = new Chart(document.getElementById('locationChart'), {
         type: 'pie',
         data: {
-          labels: ['San Pablo', 'Calamba', 'Los Baños', 'Others'],
+          labels: <?php echo json_encode(array_keys($topCities)); ?>,
           datasets: [{
-            data: [40, 30, 20, 10],
-            backgroundColor: ['#f6c23e', '#36b9cc', '#4e73df', '#858796'] // Use brand colors
+            data: <?php echo json_encode(array_values($topCities)); ?>,
+            backgroundColor: ['#f6c23e', '#36b9cc', '#4e73df', '#858796', '#1cc88a']
           }]
         },
         options: {
@@ -333,11 +335,24 @@ require "../includes/company/comp_dashboard_analytics.php";
             tooltip: {
               callbacks: {
                 label: function (context) {
-                  const total = context.dataset.data.reduce((a, b) => a + b, 0);
                   const value = context.raw;
-                  const percentage = ((value / total) * 100).toFixed(2);
-                  return `${context.label}: ${value} (${percentage}%)`; // Custom tooltip
+                  const percentage = ((value / <?php echo $totalApplicants; ?>) * 100).toFixed(1);
+                  return `${context.label}: ${value} applicants (${percentage}%)`;
                 }
+              }
+            },
+            legend: {
+              position: 'right',
+              labels: {
+                boxWidth: 15,
+                padding: 15
+              }
+            },
+            title: {
+              display: true,
+              text: 'Applicant Distribution by City',
+              font: {
+                size: 16
               }
             }
           }

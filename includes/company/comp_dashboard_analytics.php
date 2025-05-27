@@ -29,7 +29,7 @@ for ($i = 11; $i >= 0; $i--) {
     $data[] = $monthly_applications[$month] ?? 0;
 }
 
-// Fetch company information
+//Fetch company info
 $company_query = "SELECT companyName, country, companyNumber, comp_logo_dir, firstName, lastName FROM tbl_comp_info WHERE company_id = ?";
 $stmt = $conn->prepare($company_query);
 $stmt->bind_param("i", $company_id);
@@ -38,7 +38,7 @@ $company_result = $stmt->get_result();
 $company_info = $company_result->fetch_assoc();
 $stmt->close();
 
-// Fetch job categories from the database
+// Fetch job categories from the database alangan
 $categories_result = $conn->query("SELECT category_id, category_name FROM tbl_job_category");
 $categories = [];
 while ($row = $categories_result->fetch_assoc()) {
@@ -216,6 +216,54 @@ while ($row = $age_result->fetch_assoc()) {
     $age_data[$row['age_range']] = $row['count'];
 }
 $stmt->close();
+
+// Get cities data from PSGC API
+$citiesJson = file_get_contents('https://psgc.gitlab.io/api/cities/');
+$cities = json_decode($citiesJson, true);
+
+// Query to get all applicants' addresses for this company's job listings
+$locationQuery = "SELECT DISTINCT e.address 
+                 FROM tbl_emp_info e 
+                 INNER JOIN tbl_job_application ja ON e.user_id = ja.emp_id 
+                 INNER JOIN tbl_job_listing jl ON ja.job_id = jl.job_id 
+                 WHERE jl.employer_id = ?";
+$stmt = $conn->prepare($locationQuery);
+$stmt->bind_param("i", $company_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Initialize array to store city counts
+$cityCounts = array();
+
+// Process each address
+while ($row = $result->fetch_assoc()) {
+    $address = strtolower($row['address']);
+    
+    // Check each city from PSGC data
+    foreach ($cities as $city) {
+        $cityName = strtolower($city['name']);
+        // Remove "City of" prefix if present
+        $cityName = str_replace('city of ', '', $cityName);
+        
+        if (strpos($address, $cityName) !== false) {
+            if (isset($cityCounts[$city['name']])) {
+                $cityCounts[$city['name']]++;
+            } else {
+                $cityCounts[$city['name']] = 1;
+            }
+            break; // Found a match, move to next address
+        }
+    }
+}
+
+// Sort cities by count in descending order
+arsort($cityCounts);
+
+// Take top 5 cities for better visualization
+$topCities = array_slice($cityCounts, 0, 5, true);
+
+// Calculate total applicants for percentage
+$totalApplicants = array_sum($cityCounts);
 
 // need separate table for tracking views
 // placeholder fr now
