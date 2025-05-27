@@ -94,7 +94,7 @@
           </form>
         </div>
       </div>
-
+      <!--
       <div class="card mb-4 fade-in">
         <div class="card-header bg-white">
           <h5 class="mb-0">System Preferences</h5>
@@ -118,7 +118,8 @@
           </form>
         </div>
       </div>
-
+      -->
+      <!--
       <div class="card mb-4 fade-in">
         <div class="card-header bg-white">
           <h5 class="mb-0">Notification Settings</h5>
@@ -141,6 +142,7 @@
           </form>
         </div>
       </div>
+      -->
     </main>
   </div>
 </div>

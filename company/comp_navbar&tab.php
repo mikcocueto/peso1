@@ -143,13 +143,15 @@ $notification_stmt->close();
     <nav class="tabs">
         <button class="hamburger-menu d-md-none" onclick="toggleHamburgerMenu()">☰</button>
         <div id="tabsContainer" class="tabs-container d-none d-md-flex">
-            <button class="tab active" data-tab="dashboard" onclick="switchTab('dashboard')">Dashboard</button>
-            <button class="tab" data-tab="jobs" onclick="switchTab('jobs')">Jobs</button>
-            <button class="tab" data-tab="candidates" onclick="switchTab('candidates')">Candidates</button>
-            <button class="tab" data-tab="post-job" onclick="switchTab('post-job')">Post a Job</button>
+            <?php
+                $current_page = basename($_SERVER['PHP_SELF']);
+            ?>
+            <button class="tab<?= $current_page === 'comp_dashboard.php' ? ' active' : '' ?>" data-tab="dashboard" onclick="switchTab('dashboard')">Dashboard</button>
+            <button class="tab<?= $current_page === 'comp_jobs.php' ? ' active' : '' ?>" data-tab="jobs" onclick="switchTab('jobs')">Jobs</button>
+            <a href="comp_candidates.php" class="tab<?= $current_page === 'comp_candidates.php' ? ' active' : '' ?>" data-tab="candidates">Candidates</a>
+            <button class="tab<?= $current_page === 'comp_post-job.php' ? ' active' : '' ?>" data-tab="post-job" onclick="switchTab('post-job')">Post a Job</button>
         </div>
     </nav>
-
     <style>
         .c_dash_navbar {
             background: #6c63ff;
@@ -197,6 +199,7 @@ $notification_stmt->close();
             font-weight: bold;
             cursor: pointer;
             color: #333;
+            /* No underline for inactive tabs */
         }
 
         .tab:hover {
@@ -207,6 +210,11 @@ $notification_stmt->close();
             color: #6c63ff;
             border-bottom: 2px solid #6c63ff;
         }
+
+        .tab[data-tab="candidates"] {
+            text-decoration: none !important;
+        }
+       
 
         .hamburger-menu {
             background: none;

@@ -281,7 +281,7 @@ $conn->close();
     </section>
 
     <!-- job preview -->
-    <section class="site-section">
+    <section class="site-section" id="job">
     <div class="container">
         <h2 class="text-center mb-4">Recent Job Listings</h2>
         <div class="row" id="recent-jobs-container" style="max-height: 400px; overflow-y: auto;">
@@ -455,18 +455,15 @@ $conn->close();
           <div class="col-6 col-md-3 mb-4 mb-md-0">
             <h3>Company</h3>
             <ul class="list-unstyled">
-              <li><a href="#">About Us</a></li>
-              <li><a href="#">Career</a></li>
-              <li><a href="#">Blog</a></li>
-              <li><a href="#">Resources</a></li>
+              <li><a href="#about">About Us</a></li>
+              <li><a href="#job">Career</a></li>
             </ul>
           </div>
           <div class="col-6 col-md-3 mb-4 mb-md-0">
             <h3>Support</h3>
             <ul class="list-unstyled">
               <li><a href="#">Support</a></li>
-              <li><a href="#">Privacy</a></li>
-              <li><a href="#">Terms of Service</a></li>
+              <li><a href="term&service.php">Terms of Service</a></li>
             </ul>
           </div>
           <div class="col-6 col-md-3 mb-4 mb-md-0">

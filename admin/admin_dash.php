@@ -131,7 +131,7 @@ $recentEmployersResult = $conn->query($recentEmployersQuery);
     </div>
 
     <!-- Main Content -->
-    <main class="col-md-10 ms-auto px-md-4 py-4 content">
+    <main class="col-md-10 ms-auto px-md-4 py-4 content" style="position:relative; z-index:1;">
       <!-- Dashboard Overview -->
       <h2 class="fs-3 mb-4">Dashboard Overview</h2>
       <div class="row g-4 mb-4">
@@ -173,9 +173,9 @@ $recentEmployersResult = $conn->query($recentEmployersQuery);
 
       <!-- Recent Job Postings Table -->
       <div class="card mb-4 fade-in">
-        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+        <div class="card-header bg-white d-flex justify-content-between align-items-center" style="z-index:2; position:relative;">
           <h5 class="mb-0">Recent Job Postings</h5>
-          <a href="../admin/admin_jobs.php"><button class="btn btn-sm btn-outline-primary">View All</button></a>
+          <a href="../admin/admin_jobs.php" class="btn btn-sm btn-outline-primary">View All</a>
         </div>
         <div class="card-body table-responsive">
           <table class="table table-striped table-hover">
@@ -186,7 +186,7 @@ $recentEmployersResult = $conn->query($recentEmployersQuery);
                 <th>Company</th>
                 <th>Status</th>
                 <th>Posted</th>
-                <th>Actions</th>
+                <!-- <th>Actions</th>  -->
               </tr>
             </thead>
             <tbody>
@@ -222,10 +222,10 @@ $recentEmployersResult = $conn->query($recentEmployersQuery);
                       <span class="badge <?php echo $statusClass; ?>"><?php echo htmlspecialchars($row['status']); ?></span>
                     </td>
                     <td><?php echo htmlspecialchars($row['posted_date']); ?></td>
-                    <td>
+                    <!--<td>
                       <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i> Edit</button>
                       <button class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i> Review</button>
-                    </td>
+                    </td> -->
                   </tr>
                 <?php endwhile; ?>
               <?php else: ?>
@@ -240,9 +240,9 @@ $recentEmployersResult = $conn->query($recentEmployersQuery);
 
       <!-- Recent Users Table -->
       <div class="card mb-4 fade-in">
-        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+        <div class="card-header bg-white d-flex justify-content-between align-items-center" style="z-index:2; position:relative;">
           <h5 class="mb-0">Recent User Signups</h5>
-          <a href="../admin/admin_users.php"><button class="btn btn-sm btn-outline-primary">Manage Users</button></a>
+          <a href="../admin/admin_users.php" class="btn btn-sm btn-outline-primary">Manage Users</a>
         </div>
         <div class="card-body table-responsive">
           <table class="table table-hover">
@@ -252,7 +252,7 @@ $recentEmployersResult = $conn->query($recentEmployersQuery);
                 <th>Name</th>
                 <th>Email</th>
                 <th>Joined</th>
-                <th>Actions</th>
+               <!-- <th>Actions</th> -->
               </tr>
             </thead>
             <tbody>
@@ -265,8 +265,10 @@ $recentEmployersResult = $conn->query($recentEmployersQuery);
                     <td><?php echo htmlspecialchars($row['emailAddress']); ?></td>
                     <td><?php echo htmlspecialchars(date('Y-m-d H:i:s', strtotime($row['create_timestamp']))); ?></td>
                     <td>
+                     <!-- 
                       <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i> Edit</button>
                       <button class="btn btn-sm btn-outline-danger"><i class="bi bi-person-x"></i> Ban</button>
+                      -->
                     </td>
                   </tr>
                 <?php endwhile; ?>
@@ -282,9 +284,9 @@ $recentEmployersResult = $conn->query($recentEmployersQuery);
 
       <!-- Recent Employer Signups Table -->
       <div class="card mb-4 fade-in">
-        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+        <div class="card-header bg-white d-flex justify-content-between align-items-center" style="z-index:2; position:relative;">
           <h5 class="mb-0">Recent Employer Signups</h5>
-          <a href="../admin/admin_companies.php"><button class="btn btn-sm btn-outline-primary">Manage Employers</button></a>
+          <a href="../admin/admin_companies.php" class="btn btn-sm btn-outline-primary">Manage Employers</a>
         </div>
         <div class="card-body table-responsive">
           <table class="table table-hover">
@@ -294,7 +296,7 @@ $recentEmployersResult = $conn->query($recentEmployersQuery);
                 <th>Company Name</th>
                 <th>Email</th>
                 <th>Joined</th>
-                <th>Actions</th>
+               <!--  <th>Actions</th>  -->
               </tr>
             </thead>
             <tbody>
@@ -306,10 +308,10 @@ $recentEmployersResult = $conn->query($recentEmployersQuery);
                     <td><?php echo htmlspecialchars($row['companyName']); ?></td>
                     <td><?php echo htmlspecialchars($row['emailAddress']); ?></td>
                     <td><?php echo htmlspecialchars(date('Y-m-d H:i:s', strtotime($row['create_time']))); ?></td>
-                    <td>
+                  <!--  <td>
                       <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i> Edit</button>
                       <button class="btn btn-sm btn-outline-danger"><i class="bi bi-person-x"></i> Ban</button>
-                    </td>
+                    </td> -->
                   </tr>
                 <?php endwhile; ?>
               <?php else: ?>
