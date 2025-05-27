@@ -239,7 +239,230 @@
               $userCounts[] = $row['user_count'];
           }
       }
+
+      // Get cities data from PSGC API
+      $citiesJson = file_get_contents('https://psgc.gitlab.io/api/cities/');
+      $cities = json_decode($citiesJson, true);
+
+      // Query to get all users' addresses
+      $userLocationQuery = "SELECT address FROM tbl_emp_info";
+      $userLocationResult = mysqli_query($conn, $userLocationQuery);
+
+      // Initialize array to store user city counts
+      $userCityCounts = array();
+
+      // Process each user address
+      while ($row = $userLocationResult->fetch_assoc()) {
+          $address = strtolower($row['address']);
+          
+          foreach ($cities as $city) {
+              $cityName = strtolower($city['name']);
+              $cityName = str_replace('city of ', '', $cityName);
+              
+              if (strpos($address, $cityName) !== false) {
+                  if (isset($userCityCounts[$city['name']])) {
+                      $userCityCounts[$city['name']]++;
+                  } else {
+                      $userCityCounts[$city['name']] = 1;
+                  }
+                  break;
+              }
+          }
+      }
+
+      // Sort user cities by count
+      arsort($userCityCounts);
+      $topUserCities = array_slice($userCityCounts, 0, 5, true);
+      $totalUsers = array_sum($userCityCounts);
+
+      // Query to get all job listings with coordinates
+      $jobLocationQuery = "SELECT jl.location, jc.coordinates 
+                          FROM tbl_job_listing jl 
+                          LEFT JOIN tbl_job_coordinates jc ON jl.coordinate_id = jc.id";
+      $jobLocationResult = mysqli_query($conn, $jobLocationQuery);
+
+      // Initialize array for job location counts
+      $jobLocationCounts = array();
+
+      // Process each job listing
+      while ($job = $jobLocationResult->fetch_assoc()) {
+          $location = strtolower($job['location']);
+          $cityFound = false;
+          
+          foreach ($cities as $city) {
+              $cityName = strtolower($city['name']);
+              $cityName = str_replace('city of ', '', $cityName);
+              
+              if (strpos($location, $cityName) !== false) {
+                  if (isset($jobLocationCounts[$city['name']])) {
+                      $jobLocationCounts[$city['name']]++;
+                  } else {
+                      $jobLocationCounts[$city['name']] = 1;
+                  }
+                  $cityFound = true;
+                  break;
+              }
+          }
+          
+          // If city not found in location field and coordinates exist, try to get city from coordinates
+          if (!$cityFound && !empty($job['coordinates'])) {
+              $coords = str_replace(['POINT(', ')'], '', $job['coordinates']);
+              list($longitude, $latitude) = explode(' ', $coords);
+              
+              // Use Nominatim API to get city name from coordinates
+              $geocodeUrl = "https://nominatim.openstreetmap.org/reverse?format=json&lat={$latitude}&lon={$longitude}&zoom=10";
+              $response = @file_get_contents($geocodeUrl);
+              if ($response) {
+                  $data = json_decode($response, true);
+                  if (isset($data['address']['city'])) {
+                      $cityName = $data['address']['city'];
+                      if (isset($jobLocationCounts[$cityName])) {
+                          $jobLocationCounts[$cityName]++;
+                      } else {
+                          $jobLocationCounts[$cityName] = 1;
+                      }
+                  }
+              }
+          }
+      }
+
+      // Sort job locations by count
+      arsort($jobLocationCounts);
+      $topJobLocations = array_slice($jobLocationCounts, 0, 5, true);
+      $totalJobs = array_sum($jobLocationCounts);
+
+      // Define all possible age ranges
+      $allAgeRanges = ['15-24', '25-34', '35-44', '45-54', '55-64', '65+'];
+      
+      // Query to get age distribution
+      $ageQuery = "SELECT 
+        CASE 
+          WHEN age BETWEEN 15 AND 24 THEN '15-24'
+          WHEN age BETWEEN 25 AND 34 THEN '25-34'
+          WHEN age BETWEEN 35 AND 44 THEN '35-44'
+          WHEN age BETWEEN 45 AND 54 THEN '45-54'
+          WHEN age BETWEEN 55 AND 64 THEN '55-64'
+          ELSE '65+'
+        END as age_range,
+        COUNT(*) as count
+        FROM tbl_emp_info
+        WHERE age IS NOT NULL
+        GROUP BY age_range
+        ORDER BY 
+          CASE age_range
+            WHEN '15-24' THEN 1
+            WHEN '25-34' THEN 2
+            WHEN '35-44' THEN 3
+            WHEN '45-54' THEN 4
+            WHEN '55-64' THEN 5
+            ELSE 6
+          END";
+      
+      $ageResult = mysqli_query($conn, $ageQuery);
+      
+      // Initialize arrays with all age ranges and zero counts
+      $ageRanges = $allAgeRanges;
+      $ageCounts = array_fill(0, count($allAgeRanges), 0);
+      
+      // Update counts for age ranges that have data
+      if ($ageResult && mysqli_num_rows($ageResult) > 0) {
+          while ($row = mysqli_fetch_assoc($ageResult)) {
+              $index = array_search($row['age_range'], $allAgeRanges);
+              if ($index !== false) {
+                  $ageCounts[$index] = $row['count'];
+              }
+          }
+      }
+
+      // Query to get age distribution of hired users
+      $hiredAgeQuery = "SELECT 
+        CASE 
+          WHEN e.age BETWEEN 15 AND 24 THEN '15-24'
+          WHEN e.age BETWEEN 25 AND 34 THEN '25-34'
+          WHEN e.age BETWEEN 35 AND 44 THEN '35-44'
+          WHEN e.age BETWEEN 45 AND 54 THEN '45-54'
+          WHEN e.age BETWEEN 55 AND 64 THEN '55-64'
+          ELSE '65+'
+        END as age_range,
+        COUNT(*) as count
+        FROM tbl_job_application ja
+        JOIN tbl_emp_info e ON ja.emp_id = e.user_id
+        WHERE ja.status = 'hired'
+        GROUP BY age_range
+        ORDER BY 
+          CASE age_range
+            WHEN '15-24' THEN 1
+            WHEN '25-34' THEN 2
+            WHEN '35-44' THEN 3
+            WHEN '45-54' THEN 4
+            WHEN '55-64' THEN 5
+            ELSE 6
+          END";
+      
+      $hiredAgeResult = mysqli_query($conn, $hiredAgeQuery);
+      
+      // Initialize arrays with all age ranges and zero counts for hired users
+      $hiredAgeRanges = $allAgeRanges;
+      $hiredAgeCounts = array_fill(0, count($allAgeRanges), 0);
+      
+      // Update counts for age ranges that have data
+      if ($hiredAgeResult && mysqli_num_rows($hiredAgeResult) > 0) {
+          while ($row = mysqli_fetch_assoc($hiredAgeResult)) {
+              $index = array_search($row['age_range'], $allAgeRanges);
+              if ($index !== false) {
+                  $hiredAgeCounts[$index] = $row['count'];
+              }
+          }
+      }
       ?>
+
+      <!-- City Distribution Cards -->
+      <div class="row g-4 mb-4">
+        <div class="col-md-6">
+          <div class="card fade-in">
+            <div class="card-header bg-white">
+              <h5 class="mb-0">User Distribution by City</h5>
+            </div>
+            <div class="card-body">
+              <canvas id="userCityChart" height="300"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card fade-in">
+            <div class="card-header bg-white">
+              <h5 class="mb-0">Job Listings Distribution by City</h5>
+            </div>
+            <div class="card-body">
+              <canvas id="jobCityChart" height="300"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Age Distribution Cards -->
+      <div class="row g-4 mb-4">
+        <div class="col-md-6">
+          <div class="card fade-in">
+            <div class="card-header bg-white">
+              <h5 class="mb-0">User Age Distribution</h5>
+            </div>
+            <div class="card-body">
+              <canvas id="ageChart" height="300"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card fade-in">
+            <div class="card-header bg-white">
+              <h5 class="mb-0">Hired Users Age Distribution</h5>
+            </div>
+            <div class="card-body">
+              <canvas id="hiredAgeChart" height="300"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
   </div>
 </div>
@@ -319,6 +542,174 @@
             text: 'Number of Users'
           },
           beginAtZero: true
+        }
+      }
+    }
+  });
+
+  // User City Distribution Chart
+  const userCityChart = new Chart(document.getElementById('userCityChart'), {
+    type: 'pie',
+    data: {
+      labels: <?php echo json_encode(array_keys($topUserCities)); ?>,
+      datasets: [{
+        data: <?php echo json_encode(array_values($topUserCities)); ?>,
+        backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b']
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              const value = context.raw;
+              const percentage = ((value / <?php echo $totalUsers; ?>) * 100).toFixed(1);
+              return `${context.label}: ${value} users (${percentage}%)`;
+            }
+          }
+        },
+        legend: {
+          position: 'right',
+          labels: {
+            boxWidth: 15,
+            padding: 15
+          }
+        }
+      }
+    }
+  });
+
+  // Job City Distribution Chart
+  const jobCityChart = new Chart(document.getElementById('jobCityChart'), {
+    type: 'pie',
+    data: {
+      labels: <?php echo json_encode(array_keys($topJobLocations)); ?>,
+      datasets: [{
+        data: <?php echo json_encode(array_values($topJobLocations)); ?>,
+        backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b']
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              const value = context.raw;
+              const percentage = ((value / <?php echo $totalJobs; ?>) * 100).toFixed(1);
+              return `${context.label}: ${value} jobs (${percentage}%)`;
+            }
+          }
+        },
+        legend: {
+          position: 'right',
+          labels: {
+            boxWidth: 15,
+            padding: 15
+          }
+        }
+      }
+    }
+  });
+
+  // Age Distribution Chart
+  const ageChart = new Chart(document.getElementById('ageChart'), {
+    type: 'bar',
+    data: {
+      labels: <?php echo json_encode($ageRanges); ?>,
+      datasets: [{
+        label: 'Number of Users',
+        data: <?php echo json_encode($ageCounts); ?>,
+        backgroundColor: '#4e73df',
+        borderColor: '#2e59d9',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          display: false
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              const value = context.raw;
+              const total = <?php echo array_sum($ageCounts); ?>;
+              const percentage = ((value / total) * 100).toFixed(1);
+              return `${value} users (${percentage}%)`;
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Number of Users'
+          },
+          ticks: {
+            stepSize: 1
+          }
+        },
+        x: {
+          title: {
+            display: true,
+            text: 'Age Range'
+          }
+        }
+      }
+    }
+  });
+
+  // Hired Users Age Distribution Chart
+  const hiredAgeChart = new Chart(document.getElementById('hiredAgeChart'), {
+    type: 'bar',
+    data: {
+      labels: <?php echo json_encode($hiredAgeRanges); ?>,
+      datasets: [{
+        label: 'Number of Hired Users',
+        data: <?php echo json_encode($hiredAgeCounts); ?>,
+        backgroundColor: '#1cc88a',
+        borderColor: '#13855c',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          display: false
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              const value = context.raw;
+              const total = <?php echo array_sum($hiredAgeCounts); ?>;
+              const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+              return `${value} hired users (${percentage}%)`;
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Number of Hired Users'
+          },
+          ticks: {
+            stepSize: 1
+          }
+        },
+        x: {
+          title: {
+            display: true,
+            text: 'Age Range'
+          }
         }
       }
     }
