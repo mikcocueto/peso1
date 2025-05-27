@@ -22,9 +22,25 @@ $search_title = isset($_GET['search_title']) ? $_GET['search_title'] : '';
 $search_category = isset($_GET['search_category']) ? $_GET['search_category'] : [];
 $search_type = isset($_GET['search_type']) ? $_GET['search_type'] : '';
 
-$query = "SELECT jl.job_id, jl.title, jl.employment_type, c.companyName, c.comp_logo_dir 
-          FROM tbl_job_listing jl 
-          JOIN tbl_comp_info c ON jl.employer_id = c.company_id 
+// Fetch user's category preferences
+$preferred_categories = [];
+$preferences_query = $conn->prepare("SELECT category_id FROM tbl_emp_category_preferences WHERE emp_id = ?");
+$preferences_query->bind_param("i", $user_id);
+$preferences_query->execute();
+$preferences_result = $preferences_query->get_result();
+while ($row = $preferences_result->fetch_assoc()) {
+    $preferred_categories[] = $row['category_id'];
+}
+$preferences_query->close();
+
+// Modify the job query to prioritize preferred categories
+$query = "SELECT jl.job_id, jl.title, jl.employment_type, c.companyName, c.comp_logo_dir,
+          CASE 
+              WHEN jl.category_id IN (" . implode(',', array_map('intval', $preferred_categories)) . ") THEN 1
+              ELSE 2
+          END AS relevance
+          FROM tbl_job_listing jl
+          JOIN tbl_comp_info c ON jl.employer_id = c.company_id
           WHERE jl.status = 'active'";
 
 if ($search_title) {
@@ -39,6 +55,9 @@ if (!empty($search_category)) {
 if ($search_type) {
     $query .= " AND jl.employment_type = '$search_type'";
 }
+
+// Add sorting by relevance and posted date
+$query .= " ORDER BY relevance, jl.posted_date DESC";
 
 $jobs = $conn->query($query);
 ?>
