@@ -219,29 +219,10 @@ function generateCandidateCard($candidate) {
     </style>
 </head>
 <body>
+<?php $active_tab = 'candidates'; include 'comp_navbar&tab.php'; ?>
     <div class="container-fluid py-4">
-        <!-- User Indicator -->
-        <div class="user-indicator">
-            <div class="profile-dropdown">
-                <button class="profile-btn" onclick="toggleProfileDropdown()">
-                    <i class="fas fa-user-circle" style="font-size: 1.5rem;"></i>
-                    <span class="company-name"><?php echo htmlspecialchars($company_info['companyName']); ?></span>
-                    <i class="fas fa-chevron-down" style="font-size: 0.8rem;"></i>
-                </button>
-                <div class="profile-dropdown-content" id="profileDropdown">
-                    <a href="comp_dashboard.php">
-                        <i class="fas fa-tachometer-alt"></i>
-                        Return to Dashboard
-                    </a>
-                    <div class="divider"></div>
-                    <a href="../includes/company/comp_logout.php" style="color: #dc3545;">
-                        <i class="fas fa-sign-out-alt"></i>
-                        Logout
-                    </a>
-                </div>
-            </div>
-        </div>
-
+        
+        
         <!-- Header Section -->
         <div class="header-section">
             <div class="header-left">

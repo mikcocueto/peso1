@@ -2,7 +2,7 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-require __DIR__ . '/../includes/db_connect.php'; // Use __DIR__ for an absolute path relative to this file
+require __DIR__ . '/../includes/db_connect.php';
 
 // Check if the user is logged in as a company
 if (!isset($_SESSION['company_id'])) {
@@ -79,7 +79,11 @@ $notification_stmt->close();
                 </div>
             </div>
             <div class="message-dropdown">
-                <i class="bx bx-chat" onclick="toggleMessage()"></i>
+            <!--
+            <i class="bx bx-chat" onclick="toggleMessage()"></i>
+            -->
+                <a href="comp_messages.php"><i class="bx bx-chat"></i></a>
+                <!--
                 <span class="message-badge">2</span>
                 <div class="message-content" id="messageContent">
                     <div class="message-header">
@@ -122,12 +126,13 @@ $notification_stmt->close();
                         <a href="comp_messages.php" class="view-all">View all messages</a>
                     </div>
                 </div>
+                        -->
             </div>
             <div class="dropdown">
                 <i class="bx bx-user" onclick="toggleDropdown()"></i>
                 <div class="dropdown-menu">
                     <a href="comp_profile.php">Profile</a>
-                    <a href="comp_change_password.php">Settings</a>
+                    <a href="comp_setting.php">Settings</a>
                     <a href="../includes/company/comp_logout.php">Logout</a>
                 </div>
             </div>
@@ -432,10 +437,11 @@ $notification_stmt->close();
             document.getElementById('notificationContent').classList.toggle('show');
         }
 
+        /*
         function toggleMessage() {
             document.getElementById('messageContent').classList.toggle('show');
         }
-
+ */
         // Close dropdowns when clicking outside
         window.onclick = function(event) {
             if (!event.target.matches('.bx-user')) {
@@ -452,12 +458,14 @@ $notification_stmt->close();
                     notificationContent.classList.remove('show');
                 }
             }
+            /*
             if (!event.target.matches('.bx-chat')) {
                 const messageContent = document.getElementById('messageContent');
                 if (messageContent.classList.contains('show')) {
                     messageContent.classList.remove('show');
                 }
             }
+            */
         }
 
         // Toggle hamburger menu
@@ -468,13 +476,7 @@ $notification_stmt->close();
 
         // Switch tabs
         function switchTab(tabName) {
-            const tabs = document.querySelectorAll('.tab');
-            tabs.forEach(tab => {
-                tab.classList.remove('active');
-                if (tab.dataset.tab === tabName) {
-                    tab.classList.add('active');
-                }
-            });
+            window.location.href = 'comp_dashboard.php?tab=' + tabName;
         }
 
         function markAllNotificationsRead() {

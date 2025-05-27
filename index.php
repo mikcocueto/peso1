@@ -206,6 +206,8 @@ $conn->close();
       html {
         scroll-behavior: smooth;
       }
+
+      
     </style>
   </head>
   <body id="top">
@@ -285,6 +287,8 @@ $conn->close();
         <div class="row" id="recent-jobs-container" style="max-height: 400px; overflow-y: auto;">
             <!-- Job listings will be dynamically loaded here -->
         </div>
+        <div class="text-center mt-4">
+            <a href="employee/emp_job_list.php" class="btn btn-primary btn-lg">View All Jobs</a>
     </div>
 </section>
 
@@ -335,7 +339,7 @@ $conn->close();
     <section id="about" class="site-section py-4 flex justify-center items-center min-h-screen">
     <div class="container bg-light p-5 d-flex flex-column flex-md-row align-items-center">
         <div class="col-md-6 mb-4 mb-md-0">
-            <h1 class="display-4 font-weight-bold mb-3">ABOUT US</h1>
+            <h1 class="display-4 font-weight-bold mb-3">About us</h1>
             <p style="color: #333; class=text-muted mb-3">The Public Employment Service Office (PESO) of San Pablo City is a government office dedicated to assisting job seekers and employers by providing employment services, 
               career counseling, and job placement opportunities. Our mission is to bridge the gap between job seekers and the labor market, ensuring a sustainable
                livelihood for the community.</p>
@@ -361,7 +365,7 @@ $conn->close();
         <div class="row text-center">
             <div class="col-md-4 mb-4">
                 <div class="card p-4">
-                    <img src="https://storage.googleapis.com/a1aa/image/-B1FBR_Shx4RkCN2nVEy4ksyaapLS-I4yXDpLzecEc4.jpg" class="card-img-top mx-auto" alt="Icon representing job search" style="width: 64px; height: 64px;">
+                    <img src="https://storage.googleapis.com/a1aa/image/-B1FBR_Shx4RkCN2nVEy4ksyaapLS-I4yXDpLzecEc4.jpg" class="card-img-top mx-auto" alt="Icon representing job search" style="width: 100px; height: 100px;">
                     <div class="card-body text-black">
                         <h5 class="card-title">1. Search a job</h5>
                         <p class="card-text">Visit PESO San Pablo City, explore job listings, and discover opportunities that align with your skills and career goals.</p>
@@ -370,17 +374,16 @@ $conn->close();
             </div>
             <div class="col-md-4 mb-4">
                 <div class="card p-4">
-                    <img src="https://storage.googleapis.com/a1aa/image/YIYYs-dEqsNdyJqJEfJLDAe1cON3DEbtamQpaM3pE04.jpg" class="card-img-top mx-auto" alt="Icon representing job application" style="width: 64px; height: 64px;">
+                    <img src="https://storage.googleapis.com/a1aa/image/YIYYs-dEqsNdyJqJEfJLDAe1cON3DEbtamQpaM3pE04.jpg" class="card-img-top mx-auto" alt="Icon representing job application" style="width: 100px; height: 100px;">
                     <div class="card-body text-black">
-                        <h5 class="card-title">2. Apply for job
-                        </h5>
+                        <h5 class="card-title">2. Apply for job</h5>
                         <p class="card-text">Register at PESO, submit your resume, get matched with job openings, and attend interviews or screenings.</p>
                     </div>
                 </div>
             </div>
             <div class="col-md-4 mb-4">
                 <div class="card p-4">
-                    <img src="https://storage.googleapis.com/a1aa/image/SPg_obwdygMCcsDWmQUBKKDLkSV4aF42IDTrT0c9R9g.jpg" class="card-img-top mx-auto" alt="Icon representing getting a job" style="width: 64px; height: 64px;">
+                    <img src="https://storage.googleapis.com/a1aa/image/SPg_obwdygMCcsDWmQUBKKDLkSV4aF42IDTrT0c9R9g.jpg" class="card-img-top mx-auto" alt="Icon representing getting a job" style="width: 100px; height: 100px;">
                     <div class="card-body text-black">
                         <h5 class="card-title">3. Get your job</h5>
                         <p class="card-text">Secure a job offer, complete requirements, and begin your career with PESO's guidance, ensuring a smooth transition into employment.</p>
@@ -405,7 +408,6 @@ $conn->close();
     </div>
   </div>
 </section>
-
     <section id="contacts" style="background: #6c63ff; color: #fff; padding: 50px 0; text-align: center;">
     <div style="max-width: 1100px; margin: auto; display: flex; flex-wrap: wrap; justify-content: space-between;">
         <div style="flex: 1; min-width: 500px; text-align: left; padding: 50px;">

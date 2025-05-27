@@ -10,87 +10,7 @@ if (!isset($_SESSION['company_id'])) {
 
 $company_id = $_SESSION['company_id'];
 
-// Fetch job categories from the database
-$categories_result = $conn->query("SELECT category_id, category_name FROM tbl_job_category");
-$categories = [];
-while ($row = $categories_result->fetch_assoc()) {
-    $categories[] = $row;
-}
-
-// Fetch company verification status from tbl_comp_info
-$verification_query = "SELECT company_verified FROM tbl_comp_info WHERE company_id = ?";
-$stmt = $conn->prepare($verification_query);
-$stmt->bind_param("i", $company_id);
-$stmt->execute();
-$verification_result = $stmt->get_result();
-$verification_status = $verification_result->fetch_assoc();
-$is_verified = $verification_status && $verification_status['company_verified'] == 1;
-$stmt->close();
-
-// Handle job search
-$search_query = isset($_GET['search']) ? '%' . $_GET['search'] . '%' : '%';
-$sort_by = isset($_GET['sort_by']) ? $_GET['sort_by'] : 'posted_date';
-$sort_order = isset($_GET['sort_order']) ? $_GET['sort_order'] : 'desc';
-
-$query = "SELECT jl.job_id, jl.title, jl.description, jl.posted_date, jl.expiry_date, jl.status,
-                 (SELECT COUNT(*) FROM tbl_job_application ja WHERE ja.job_id = jl.job_id AND ja.status = 'pending') AS pending_count,
-                 (SELECT COUNT(*) FROM tbl_job_application ja WHERE ja.job_id = jl.job_id AND ja.status = 'awaiting') AS awaiting_count,
-                 (SELECT COUNT(*) FROM tbl_job_application ja WHERE ja.job_id = jl.job_id AND ja.status = 'accepted') AS accepted_count
-          FROM tbl_job_listing jl 
-          WHERE jl.employer_id = ? AND jl.title LIKE ?";
-
-// Add sorting based on the sort_by parameter
-switch($sort_by) {
-    case 'title':
-        $query .= " ORDER BY jl.title " . ($sort_order === 'asc' ? 'ASC' : 'DESC');
-        break;
-    case 'posted_date':
-        $query .= " ORDER BY jl.posted_date " . ($sort_order === 'asc' ? 'ASC' : 'DESC');
-        break;
-    case 'expiry_date':
-        $query .= " ORDER BY jl.expiry_date " . ($sort_order === 'asc' ? 'ASC' : 'DESC');
-        break;
-    case 'pending_count':
-        $query .= " ORDER BY pending_count " . ($sort_order === 'asc' ? 'ASC' : 'DESC');
-        break;
-    default:
-        $query .= " ORDER BY jl.posted_date DESC";
-}
-
-$stmt = $conn->prepare($query);
-$stmt->bind_param("is", $company_id, $search_query);
-$stmt->execute();
-$result = $stmt->get_result();
-$jobs = $result->fetch_all(MYSQLI_ASSOC);
-$stmt->close();
-
-// Fetch jobs posted by the logged-in company for the dropdown
-$jobs_dropdown_query = "SELECT job_id, title FROM tbl_job_listing WHERE employer_id = ?";
-$stmt = $conn->prepare($jobs_dropdown_query);
-$stmt->bind_param("i", $company_id);
-$stmt->execute();
-$jobs_dropdown_result = $stmt->get_result();
-$jobs_dropdown = $jobs_dropdown_result->fetch_all(MYSQLI_ASSOC);
-$stmt->close();
-
-// Fetch candidate counts for all statuses
-$candidate_counts_query = "SELECT 
-    SUM(CASE WHEN ja.status = 'applied' THEN 1 ELSE 0 END) as applied_count,
-    SUM(CASE WHEN ja.status = 'awaiting' THEN 1 ELSE 0 END) as awaiting_count,
-    SUM(CASE WHEN ja.status = 'reviewed' THEN 1 ELSE 0 END) as reviewed_count,
-    SUM(CASE WHEN ja.status = 'contacted' THEN 1 ELSE 0 END) as contacted_count,
-    SUM(CASE WHEN ja.status = 'hired' THEN 1 ELSE 0 END) as hired_count,
-    SUM(CASE WHEN ja.status = 'rejected' THEN 1 ELSE 0 END) as rejected_count
-FROM tbl_job_application ja
-JOIN tbl_job_listing jl ON ja.job_id = jl.job_id
-WHERE jl.employer_id = ?";
-
-$stmt = $conn->prepare($candidate_counts_query);
-$stmt->bind_param("i", $company_id);
-$stmt->execute();
-$counts_result = $stmt->get_result();
-$candidate_counts = $counts_result->fetch_assoc();
-$stmt->close();
+require "../includes/company/comp_dashboard_analytics.php";
 ?>
 <!DOCTYPE html>
 
@@ -130,38 +50,34 @@ $stmt->close();
                         <table class="table table-borderless">
                             <tr>
                                 <td><i class="bx bx-building"></i> <strong>Company Name:</strong></td>
-                                <td>FDS Asya Philippines</td>
+                                <td><?php echo htmlspecialchars($company_info['companyName']); ?></td>
                             </tr>
                             <tr>
                                 <td><i class="bx bx-map"></i> <strong>Address:</strong></td>
-                                <td>San Pablo City, Philippines</td>
+                                <td><?php echo htmlspecialchars($company_info['country']); ?></td>
                             </tr>
                             <tr>
                                 <td><i class="bx bx-phone"></i> <strong>Hotline:</strong></td>
-                                <td>4444 444</td>
-                            </tr>
-                            <tr>
-                                <td><i class="bx bx-mobile"></i> <strong>Contact:</strong></td>
-                                <td>0912-345-6789</td>
+                                <td><?php echo htmlspecialchars($company_info['companyNumber']); ?></td>
                             </tr>
                             <tr>
                                 <td><i class="bx bx-user"></i> <strong>HR:</strong></td>
-                                <td>ggg shan khyle</td>
+                                <td><?php echo htmlspecialchars($company_info['firstName'] . ' ' . $company_info['lastName']); ?></td>
                             </tr>
                         </table>
                     </div>
                     <div class="text-center" style="width: 250px; padding-right: 10px;"> <!-- Increased width -->
-                        <img src="../assets/images/fds.jpg" class="img-fluid" alt="Company Logo" style="max-height: 350px; object-fit: contain;"> <!-- Increased max-height -->
+                        <img src="<?php echo htmlspecialchars($company_info['comp_logo_dir']); ?>" class="img-fluid" alt="Company Logo" style="max-height: 350px; object-fit: contain;"> <!-- Increased max-height -->
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Right Column: Recent Movement Chart -->
+        
         <div class="col-xl-6">
             <div class="card border-1 shadow-sm rounded-xl h-100"> <!-- Added h-100 to ensure consistent height -->
                 <div class="card-header">
-                    <h5 class="card-title mb-0">Recent Movement</h5>
+                    <h5 class="card-title mb-0">Application Movement</h5>
                 </div>
                 <div class="card-body">
                     <canvas id="lineChart"></canvas>
@@ -175,28 +91,48 @@ $stmt->close();
     const lineChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            labels: <?php echo json_encode($labels); ?>,
             datasets: [{
-                label: 'Monthly Data',
-                data: [10, 20, 15, 25, 30, 35, 40, 38, 32, 28, 22, 18],
-                borderColor: 'blue',
+                label: 'Monthly Applications',
+                data: <?php echo json_encode($data); ?>,
+                borderColor: '#4e73df',
+                backgroundColor: 'rgba(78, 115, 223, 0.05)',
                 borderWidth: 2,
-                fill: false
+                fill: true,
+                tension: 0.4
             }]
         },
         options: {
             responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false
+                }
+            },
             scales: {
                 x: {
+                    grid: {
+                        display: false
+                    },
                     title: {
                         display: true,
-                        text: 'Months'
+                        text: 'Month'
                     }
                 },
                 y: {
+                    beginAtZero: true,
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.05)'
+                    },
                     title: {
                         display: true,
-                        text: 'Value'
+                        text: 'Number of Applications'
                     }
                 }
             }
@@ -211,9 +147,11 @@ $stmt->close();
                 <div class="card-body text-center">
                     <i class="bx bx-user-circle text-primary" style="font-size: 2rem;"></i>
                     <h5 class="card-title mt-3">Applicants</h5>
-                    <h1 class="mt-2 mb-3" style="font-size: 2.5rem; font-weight: 700;">2,382</h1>
-                    <span class="badge bg-danger">-3.65%</span>
-                    <span class="text-muted">Since last week</span>
+                    <h1 class="mt-2 mb-3" style="font-size: 2.5rem; font-weight: 700;"><?php echo number_format($current_month_data['total_applications']); ?></h1>
+                    <span class="badge <?php echo $applications_change >= 0 ? 'bg-success' : 'bg-danger'; ?>">
+                        <?php echo ($applications_change >= 0 ? '+' : '') . number_format($applications_change, 2); ?>%
+                    </span>
+                    <span class="text-muted">Since last month</span>
                 </div>
             </div>
         </div>
@@ -222,9 +160,11 @@ $stmt->close();
                 <div class="card-body text-center">
                     <i class="bx bx-briefcase text-primary" style="font-size: 2rem;"></i>
                     <h5 class="card-title mt-3">Posted Jobs</h5>
-                    <h1 class="mt-2 mb-3" style="font-size: 2.5rem; font-weight: 700;">21,300</h1>
-                    <span class="badge bg-success">+6.65%</span>
-                    <span class="text-muted">Since last week</span>
+                    <h1 class="mt-2 mb-3" style="font-size: 2.5rem; font-weight: 700;"><?php echo number_format($current_month_data['total_jobs']); ?></h1>
+                    <span class="badge <?php echo $jobs_change >= 0 ? 'bg-success' : 'bg-danger'; ?>">
+                        <?php echo ($jobs_change >= 0 ? '+' : '') . number_format($jobs_change, 2); ?>%
+                    </span>
+                    <span class="text-muted">Since last month</span>
                 </div>
             </div>
         </div>
@@ -233,9 +173,11 @@ $stmt->close();
                 <div class="card-body text-center">
                     <i class="bx bx-group text-primary" style="font-size: 2rem;"></i>
                     <h5 class="card-title mt-3">Visitors</h5>
-                    <h1 class="mt-2 mb-3" style="font-size: 2.5rem; font-weight: 700;">14,212</h1>
-                    <span class="badge bg-success">+5.25%</span>
-                    <span class="text-muted">Since last week</span>
+                    <h1 class="mt-2 mb-3" style="font-size: 2.5rem; font-weight: 700;"><?php echo number_format($total_visitors); ?></h1>
+                    <span class="badge <?php echo $visitors_change >= 0 ? 'bg-success' : 'bg-danger'; ?>">
+                        <?php echo ($visitors_change >= 0 ? '+' : '') . number_format($visitors_change, 2); ?>%
+                    </span>
+                    <span class="text-muted">Since last month</span>
                 </div>
             </div>
         </div>
@@ -244,9 +186,11 @@ $stmt->close();
                 <div class="card-body text-center">
                     <i class="bx bx-check-circle text-primary" style="font-size: 2rem;"></i>
                     <h5 class="card-title mt-3">Hired Applicants</h5>
-                    <h1 class="mt-2 mb-3" style="font-size: 2.5rem; font-weight: 700;">64</h1>
-                    <span class="badge bg-danger">-2.25%</span>
-                    <span class="text-muted">Since last week</span>
+                    <h1 class="mt-2 mb-3" style="font-size: 2.5rem; font-weight: 700;"><?php echo number_format($current_month_data['total_hired']); ?></h1>
+                    <span class="badge <?php echo $hired_change >= 0 ? 'bg-success' : 'bg-danger'; ?>">
+                        <?php echo ($hired_change >= 0 ? '+' : '') . number_format($hired_change, 2); ?>%
+                    </span>
+                    <span class="text-muted">Since last month</span>
                 </div>
             </div>
         </div>
@@ -328,10 +272,17 @@ $stmt->close();
       const ageChart = new Chart(document.getElementById('ageChart'), {
         type: 'bar',
         data: {
-          labels: ['18-24', '25-34', '35-44', '45-54', '55+'],
+          labels: ['15-17', '18-24', '25-34', '35-44', '45-54', '55+'],
           datasets: [{
             label: 'Applicants',
-            data: [30, 45, 15, 7, 3],
+            data: [
+              <?php echo $age_data['15-17'] ?? 0; ?>,
+              <?php echo $age_data['18-24'] ?? 0; ?>,
+              <?php echo $age_data['25-34'] ?? 0; ?>,
+              <?php echo $age_data['35-44'] ?? 0; ?>,
+              <?php echo $age_data['45-54'] ?? 0; ?>,
+              <?php echo $age_data['55+'] ?? 0; ?>
+            ],
             backgroundColor: '#1cc88a' // Use brand color
           }]
         },
@@ -341,8 +292,26 @@ $stmt->close();
             tooltip: {
               callbacks: {
                 label: function (context) {
-                  return `${context.label}: ${context.raw} applicants`; // Custom tooltip
+                  const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                  const value = context.raw;
+                  const percentage = total > 0 ? ((value / total) * 100).toFixed(2) : 0;
+                  return `${context.label}: ${value} applicants (${percentage}%)`; // Custom tooltip with percentage
                 }
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'Number of Applicants'
+              }
+            },
+            x: {
+              title: {
+                display: true,
+                text: 'Age Range'
               }
             }
           }
@@ -1097,7 +1066,7 @@ $stmt->close();
                 const notificationDropdown = document.querySelector('.notification-dropdown');
                 const notificationContent = document.getElementById('notificationContent');
                 
-                if (!notificationDropdown.contains(event.target) && notificationContent.classList.contains('show')) {
+                if (notificationDropdown && notificationContent && !notificationDropdown.contains(event.target) && notificationContent.classList.contains('show')) {
                     notificationContent.classList.remove('show');
                 }
             });
@@ -1128,7 +1097,7 @@ $stmt->close();
                 const messageDropdown = document.querySelector('.message-dropdown');
                 const messageContent = document.getElementById('messageContent');
                 
-                if (!messageDropdown.contains(event.target) && messageContent.classList.contains('show')) {
+                if (messageDropdown && messageContent && !messageDropdown.contains(event.target) && messageContent.classList.contains('show')) {
                     messageContent.classList.remove('show');
                 }
             });
